@@ -1,8 +1,8 @@
-import { ApiEndpoints } from '~/query/constants/api.ts';
-import { ApiGroupNames } from '~/query/constants/api-group-names.ts';
-import { EndpointNames } from '~/query/constants/endpoint-names.ts';
-import { Tags } from '~/query/constants/tags.ts';
-import { apiSlice } from '~/query/create-api.ts';
+import { ApiEndpoints } from '~/shared/query/constants/api.ts';
+import { ApiGroupNames } from '~/shared/query/constants/api-group-names.ts';
+import { EndpointNames } from '~/shared/query/constants/endpoint-names.ts';
+import { Tags } from '~/shared/query/constants/tags.ts';
+import { apiSlice } from '~/shared/query/create-api.ts';
 
 export const postsApiSlice = apiSlice
     .enhanceEndpoints({

@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { apiSlice } from '~/query/create-api';
+import { apiSlice } from '~/shared/query/create-api';
 
 import appReducer, { appSlice } from './app-slice';
 const isProduction = false;
