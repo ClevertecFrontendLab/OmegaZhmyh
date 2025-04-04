@@ -21,28 +21,39 @@ interface SearchPanelProps {
 
 export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
     <Container maxWidth={696}>
-        <Heading marginTop='32px' textAlign='center'>
-            {title}
-        </Heading>
+        <Heading textAlign='center'>{title}</Heading>
         {desc ? (
-            <Text color='blackAlpha.600' textAlign='center'>
+            <Text color='blackAlpha.600' marginTop='12px' textAlign='center'>
                 {desc}
             </Text>
         ) : null}
-        <Container maxWidth={518} marginTop='32px'>
+        <Container maxWidth={518} marginTop='32px' padding={0}>
             <Flex justifyContent='center' gap={3}>
-                <IconButton aria-label='Search database' icon={<img src={FilterIcon} />} />
+                <IconButton
+                    aria-label='Search database'
+                    variant='outline'
+                    icon={<img src={FilterIcon} />}
+                />
                 <InputGroup>
-                    <Input placeholder='Название или ингредиент...' />
+                    <Input
+                        color='lime.800'
+                        fontSize='18'
+                        placeholder='Название или ингредиент...'
+                        _placeholder={{ color: 'lime.800' }}
+                    />
                     <InputRightElement>
-                        <IconButton aria-label='Search database' icon={<SearchIcon />} />
+                        <IconButton
+                            aria-label='Search database'
+                            variant='ghost'
+                            icon={<SearchIcon />}
+                        />
                     </InputRightElement>
                 </InputGroup>
             </Flex>
-            <Flex gap={4} marginTop={4} marginBottom={4}>
+            <Flex gap={4} marginTop={4} marginBottom={4} display={{ base: 'none', lg: 'flex' }}>
                 <Flex gap={3} flexGrow={1} paddingLeft='8px' alignItems='center'>
                     <Text style={{ textWrap: 'nowrap' }}>Исключить мои аллергены</Text>
-                    <Switch />
+                    <Switch colorScheme='lime' />
                 </Flex>
                 <Select placeholder='Выберите из списка'>
                     <option value='option1'>Option 1</option>

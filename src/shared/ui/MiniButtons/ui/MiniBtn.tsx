@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
 interface MiniBtnProps {
     value?: number;
@@ -6,10 +6,7 @@ interface MiniBtnProps {
 }
 
 export const MiniBtn = ({ value = 0, icon }: MiniBtnProps) => (
-    <Flex gap={1.5}>
-        <img src={icon} />
-        <Text color='lime.600' fontWeight='semibold'>
-            {value}
-        </Text>
-    </Flex>
+    <Button leftIcon={<img src={icon} />} colorScheme='lime' variant='ghost' size='xs'>
+        {value}
+    </Button>
 );

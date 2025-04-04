@@ -1,13 +1,38 @@
-import { Box, Container } from '@chakra-ui/react';
+import { Flex, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { useEffect, useRef, useState } from 'react';
 
-import { RecipeCard } from '~/entities/RecipeCard';
-import RecipeImg from '~/shared/assets/recipe_img/Spaghetti Roll.jpg';
+import { NavbarConfig } from '~/shared/store/config';
 
-export const MainPage = () => (
-    <Container height='calc(100vh - var(--header-height))' overflow='auto'>
-        <Box height='1800px' width='100%' background='lime.600'>
-            MainPage
-            <RecipeCard img={RecipeImg} />
-        </Box>
-    </Container>
-);
+export const MainPage = () => {
+    const tabsRef = useRef<HTMLDivElement>(null);
+    const [panelHeight, setPanelHeight] = useState('auto');
+
+    useEffect(() => {
+        if (tabsRef.current) {
+            const { top } = tabsRef.current.getBoundingClientRect();
+            const calculatedHeight = `calc(100vh - ${top}px)`;
+            setPanelHeight(calculatedHeight);
+        }
+    }, []);
+    return (
+        <Flex>
+            <Tabs>
+                <TabList>
+                    {NavbarConfig['Веганская кухня'].tabsLinks.map((item) => (
+                        <Tab>{item.tab}</Tab>
+                    ))}
+                </TabList>
+
+                <TabPanels>
+                    <TabPanel ref={tabsRef} height={panelHeight} overflow='auto'>
+                        <SimpleGrid
+                            columns={{ base: 1, lg: 2 }}
+                            columnGap='24px'
+                            rowGap='16px'
+                        ></SimpleGrid>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+        </Flex>
+    );
+};
