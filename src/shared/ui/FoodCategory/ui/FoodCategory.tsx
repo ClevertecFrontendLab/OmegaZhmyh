@@ -25,7 +25,12 @@ export const FoodCategory = () =>
         'Напитки',
     ].map((item) => (
         <AccordionItem key={item}>
-            <AccordionButton bgColor='lime.100' padding='12px 8px' gap='12px' fontSize='md'>
+            <AccordionButton
+                padding='12px 8px'
+                gap='12px'
+                fontSize='md'
+                _expanded={{ backgroundColor: 'lime.100' }}
+            >
                 <img src={VeganKitchenIcon} alt={item} />
                 <Text flex='1' textAlign='left'>
                     {item}
