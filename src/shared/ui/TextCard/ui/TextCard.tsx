@@ -1,6 +1,6 @@
 import { Button, Grid, Text } from '@chakra-ui/react';
 
-import { kitchenIcons, KitchenTagType } from '~/shared/types/KitchenIcons';
+import { kitchenIcons, KitchenTagType } from '~/shared/ui/KitchenIcons';
 interface TextCardProps {
     icon: KitchenTagType;
     text: string;
@@ -9,12 +9,20 @@ interface TextCardProps {
 export const TextCard = (props: TextCardProps) => {
     const { text, icon } = props;
     return (
-        <Grid templateColumns='auto 1fr auto' gap={2} alignItems='center'>
+        <Grid
+            templateColumns='auto 1fr auto'
+            gap={2}
+            alignItems='center'
+            padding={{ xl: '12px 24px', base: '10px 12px' }}
+            border='1px solid'
+            borderColor='blackAlpha.200'
+            borderRadius='8px'
+        >
             <img src={kitchenIcons[icon]}></img>
-            <Text fontWeight='medium' noOfLines={1}>
+            <Text fontWeight='medium' fontSize='lg' noOfLines={1}>
                 {text}
             </Text>
-            <Button variant='outline' colorScheme='lime'>
+            <Button size={{ base: 'sm' }} variant='outline' colorScheme='lime'>
                 Готовить
             </Button>
         </Grid>

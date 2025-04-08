@@ -21,7 +21,9 @@ interface SearchPanelProps {
 
 export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
     <Container maxWidth={696}>
-        <Heading textAlign='center'>{title}</Heading>
+        <Heading textAlign='center' fontSize='5xl'>
+            {title}
+        </Heading>
         {desc ? (
             <Text color='blackAlpha.600' marginTop='12px' textAlign='center'>
                 {desc}
@@ -33,8 +35,9 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                     aria-label='Search database'
                     variant='outline'
                     icon={<img src={FilterIcon} />}
+                    borderColor='blackAlpha.600'
                 />
-                <InputGroup>
+                <InputGroup borderColor='blackAlpha.600'>
                     <Input
                         color='lime.800'
                         fontSize='18'

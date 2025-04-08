@@ -25,4 +25,3 @@ export const kitchenIcons = {
     Соусы: SaucesIcon,
     Напитки: DrinksIcon,
 };
-export type KitchenTagType = keyof typeof kitchenIcons;

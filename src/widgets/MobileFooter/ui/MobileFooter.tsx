@@ -1,16 +1,16 @@
-import { Search2Icon } from '@chakra-ui/icons';
-import { Flex, IconButton } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+
+import { MobileTabs } from '~/shared/ui/MobileTabs';
 
 export const MobileFooter = () => (
     <Flex
         height='var(--mobile-footer-height)'
         width='100%'
         bgColor='lime.50'
-        display={{ base: 'flex', md: 'none' }}
+        display={{ base: 'flex', lg: 'none' }}
+        justify='space-around'
+        align='center'
     >
-        <IconButton aria-label='Главная'></IconButton>
-        <IconButton aria-label='Поиск' icon={<Search2Icon />}></IconButton>
-        <IconButton aria-label='Записать'></IconButton>
-        <IconButton aria-label='Мой профиль'></IconButton>
+        <MobileTabs />
     </Flex>
 );

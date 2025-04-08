@@ -1,1 +1,1 @@
-export { MostTenderPage } from './ui/MostTenderPage.tsx';
+export { MostTenderPage } from './ui/MostTenderPage.js';

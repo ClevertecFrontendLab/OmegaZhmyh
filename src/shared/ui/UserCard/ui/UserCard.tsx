@@ -1,16 +1,21 @@
 import { Avatar, Box, Flex, Heading, Text } from '@chakra-ui/react';
 
-import AvatarImg from '../assets/avatar.png';
+import { AvatarImages, AvatarImagesType } from '../../AvatarImages';
 
-export const UserCard = ({ ...props }) => (
-    <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap' {...props}>
-        <Avatar name='Segun Adebayo' src={AvatarImg} />
+export interface UserCardProps {
+    userName: string;
+    accountName: string;
+    avatarImg: AvatarImagesType;
+}
 
+export const UserCard = ({ userName, accountName, avatarImg }: UserCardProps) => (
+    <Flex flex='1' gap='4' alignItems='center' flexWrap='nowrap'>
+        <Avatar name={userName} src={AvatarImages[avatarImg]} />
         <Box>
-            <Heading size='sm' fontWeight='500'>
-                Екатерина Константинопольская
+            <Heading size='sm' fontWeight='500' noOfLines={1}>
+                {userName}
             </Heading>
-            <Text color='blackAlpha.700'>@bake_and_pie</Text>
+            <Text color='blackAlpha.700'>{accountName}</Text>
         </Box>
     </Flex>
 );

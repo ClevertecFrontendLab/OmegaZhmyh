@@ -1,10 +1,10 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, GridProps, SimpleGrid } from '@chakra-ui/react';
 
 import { TextCard } from '~/shared/ui/TextCard';
 import { TextTagCard } from '~/shared/ui/TextTagCard';
 import { TextTagCardProps } from '~/shared/ui/TextTagCard/ui/TextTagCard';
 
-interface RelevantKitchenProps {
+interface RelevantKitchenProps extends GridProps {
     title: string;
     description: string;
     card1: TextTagCardProps;
@@ -15,59 +15,48 @@ interface RelevantKitchenProps {
 }
 
 export const RelevantKitchen = (props: RelevantKitchenProps) => {
-    const { title, description, card1, card2, miniCardText1, miniCardText2, miniCardText3 } = props;
+    const {
+        title,
+        description,
+        card1,
+        card2,
+        miniCardText1,
+        miniCardText2,
+        miniCardText3,
+        ...othersProps
+    } = props;
     return (
         <Grid
-            templateColumns={{ base: '1fr', sm: '1fr 1fr 2fr' }}
-            templateAreas={{
-                lg: `"title title desc" 
-            "Card1 Card2 TextCard1" 
-            "Card1 Card2 TextCard2" 
-            "Card1 Card2 TextCard3"`,
-                md: `"title desc desc" 
-            "Card1 Card2 TextCard1" 
-            "Card1 Card2 TextCard2" 
-            "Card1 Card2 TextCard3"`,
-                sm: `"title title title" 
-            "desc desc desc" 
-            "Card1 Card2 TextCard1" 
-            "Card1 Card2 TextCard2" 
-            "Card1 Card2 TextCard3"`,
-                base: `"title" 
-            "desc" 
-            "Card1" 
-            "Card2"
-            "TextCard1"
-            "TextCard2"
-            "TextCard3"`,
-            }}
-            alignItems='center'
-            gap={6}
-            padding=''
+            templateColumns={{ base: '1fr', md: '1fr 1fr 1fr', xl: '1fr 1fr 2fr' }}
+            gap={{ base: 4, xl: 6 }}
+            paddingTop='24px'
+            borderTop='1px solid'
+            borderColor='blackAlpha.200'
+            {...othersProps}
         >
-            <GridItem area='title' fontSize='5xl'>
+            <GridItem fontSize='5xl' lineHeight='none' colSpan={{ base: 1, md: 3, lg: 1, xl: 2 }}>
                 {title}
             </GridItem>
-            <GridItem area='desc' fontSize='md' color='blackAlpha.600'>
+            <GridItem
+                fontSize='md'
+                colSpan={{ base: 1, md: 3, lg: 2, xl: 1 }}
+                color='blackAlpha.600'
+            >
                 {description}
             </GridItem>
 
-            <GridItem area='Card1'>
+            <GridItem>
                 <TextTagCard {...card1} />
             </GridItem>
-            <GridItem area='Card2'>
+            <GridItem>
                 <TextTagCard {...card2} />
             </GridItem>
 
-            <GridItem area='TextCard1'>
+            <SimpleGrid columns={1} gap={3}>
                 <TextCard text={miniCardText1} icon='Детские блюда' />
-            </GridItem>
-            <GridItem area='TextCard2'>
                 <TextCard text={miniCardText2} icon='Национальные' />
-            </GridItem>
-            <GridItem area='TextCard3'>
                 <TextCard text={miniCardText3} icon='Веганская кухня' />
-            </GridItem>
+            </SimpleGrid>
         </Grid>
     );
 };

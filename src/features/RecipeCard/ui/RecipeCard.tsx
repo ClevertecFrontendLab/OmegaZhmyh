@@ -7,44 +7,48 @@ import {
     HStack,
     IconButton,
     Image,
+    SystemProps,
     Text,
     VStack,
 } from '@chakra-ui/react';
 
-import { KitchenTag, KitchenTagType } from '~/entities/KitchenTag';
+import { KitchenTag } from '~/entities/KitchenTag';
 import { Recomendation } from '~/entities/Recomendation';
 import BookmarkIcon from '~/shared/assets/btn-icons/bookmark-icon.svg';
 import KitchenIcon from '~/shared/assets/kitchen_icons/national.svg';
-import RecipeImg from '~/shared/assets/recipe_img/Spaghetti Roll.jpg';
+import { KitchenTagType } from '~/shared/types/KitchenTagType';
+import { DishesImages, DishesImagesType } from '~/shared/ui/DishesImages';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
-export interface TRecipe {
-    title?: string;
-    description?: string;
-    tagType?: KitchenTagType;
+export interface RecipeCardType {
+    title: string;
+    description: string;
+    tagType: KitchenTagType;
     recomendationLabel?: string;
     recomendationIcon?: string;
-    image?: string;
+    image?: DishesImagesType;
     likeCount?: number;
     repostCount?: number;
+    direction?: SystemProps['flexDirection'];
 }
 
-export const RecipeCard = (recipe: TRecipe) => {
+export const RecipeCard = (recipe: RecipeCardType) => {
     const {
         title = 'Лапша с курицей и шафраном',
         description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae sunt, eaque fugit provident minima vel quaerat dolor voluptatem quos rem atque eum, veniam asperiores odit, beatae laudantium? Iure, iste possimus.',
         recomendationLabel,
-        image = RecipeImg,
+        image = 'SpaghettiRollImg',
         likeCount = 0,
         repostCount = 0,
         tagType = 'Национальные',
+        direction = 'row',
     } = recipe;
     return (
-        <Card direction='row' variant='outline'>
+        <Card direction={direction} variant='outline'>
             <Box position='relative'>
                 <Image
                     objectFit='cover'
-                    src={image}
+                    src={DishesImages[image]}
                     alt='Caffe Latte'
                     maxW={{ base: '158px', lg: '346px' }}
                 />

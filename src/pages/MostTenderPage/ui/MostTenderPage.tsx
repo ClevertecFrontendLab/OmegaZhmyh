@@ -1,3 +1,58 @@
-import { Container } from '@chakra-ui/react';
+import { Button, Flex, SimpleGrid } from '@chakra-ui/react';
 
-export const MostTenderPage = () => <Container>MostTenderPage</Container>;
+import { RecipeCard } from '~/features/RecipeCard';
+import { RelevantKitchen } from '~/widgets/RelevantKitchen';
+import { SearchPanel } from '~/widgets/SearchPanel';
+
+import { MostTenderCardList } from '../model/MostTenderCardList';
+
+export const MostTenderPage = () => (
+    <Flex
+        justifyContent='center'
+        direction='column'
+        padding='32px 24px 0 24px'
+        style={{ scrollbarGutter: 'stable' }}
+    >
+        <SearchPanel title='Самое сочное' />
+        <SimpleGrid columns={{ base: 1, xl: 2, lg: 1, md: 2 }} columnGap='24px' rowGap='16px'>
+            {MostTenderCardList.map((cardInfo) => (
+                <RecipeCard
+                    image={cardInfo.image}
+                    repostCount={cardInfo.repostCount}
+                    likeCount={cardInfo.likeCount}
+                    tagType={cardInfo.tagType}
+                    recomendationLabel={cardInfo.recomendationLabel}
+                    title={cardInfo.title}
+                    description={cardInfo.description}
+                />
+            ))}
+        </SimpleGrid>
+        <Button display='block' margin='0 auto' marginTop='16px' bgColor='lime.400' color='black'>
+            Загрузить еще
+        </Button>
+        <RelevantKitchen
+            marginTop='40px'
+            title='Веганская кухня'
+            description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
+            card1={{
+                title: 'Картошка, тушенная с болгарским перцем и фасолью в томатном соусе',
+                description:
+                    'Картошка, тушенная с болгарским перцем, фасолью, морковью и луком, -  вариант сытного блюда на каждый день. Фасоль в данном случае заменяет мясо, делая рагу сытным и питательным. Чтобы сократить время  приготовления, возьмём консервированную фасоль. Блюдо хоть и простое, но в полной мере наполнено ароматами и имеет выразительный вкус за счёт  добавления томатной пасты.',
+                tagType: 'Вторые блюда',
+                likeCount: 1,
+                repostCount: 1,
+            }}
+            card2={{
+                title: 'Капустные котлеты',
+                description:
+                    'Капустные котлеты по этому рецепту получаются необычайно пышными и  невероятно вкусными. Мягкий вкус и лёгкая пряная нотка наверняка помогут сделать эти чудесные котлеты из капусты одним из ваших любимых овощных  блюд.',
+                tagType: 'Вторые блюда',
+                likeCount: 2,
+                repostCount: 1,
+            }}
+            miniCardText1='Стейк для вегетарианцев'
+            miniCardText2='Котлеты из гречки и фасоли'
+            miniCardText3='Сырный суп с лапшой и брокколи'
+        />
+    </Flex>
+);

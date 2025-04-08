@@ -1,7 +1,8 @@
 import { TagProps } from '@chakra-ui/react';
 
-import { kitchenIcons, KitchenTagType } from '~/shared/types/KitchenIcons';
+import { KitchenTagType } from '~/shared/types/KitchenTagType';
 import { CardTag } from '~/shared/ui/CardTag';
+import { kitchenIcons } from '~/shared/ui/KitchenIcons';
 
 interface KitchenTagProps extends TagProps {
     type: KitchenTagType;

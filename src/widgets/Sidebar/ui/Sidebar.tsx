@@ -7,7 +7,10 @@ export const Sidebar = () => (
     <Flex
         flexDirection='column'
         justifyContent='space-between'
+        alignItems='end'
         display={{ base: 'none', lg: 'flex' }}
+        width='280px'
+        flexShrink={0}
     >
         <Flex
             width={208}
@@ -19,9 +22,9 @@ export const Sidebar = () => (
             top={0}
             gap={6}
         >
-            <BookmarkBtn />
-            <LikeBtn />
-            <RepostBtn />
+            <BookmarkBtn value={185} />
+            <LikeBtn value={589} />
+            <RepostBtn value={587} />
         </Flex>
         <Center
             width={208}

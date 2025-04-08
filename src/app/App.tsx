@@ -4,6 +4,7 @@ import { Flex } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
 import { MainPage } from '~/pages/MainPage';
+import { MostTenderPage } from '~/pages/MostTenderPage';
 import { VeganCuisinePage } from '~/pages/VeganCuisinePage';
 import { Header } from '~/widgets/Header';
 import { MobileFooter } from '~/widgets/MobileFooter/';
@@ -20,12 +21,19 @@ function App() {
                     flexDirection='column'
                     flexGrow={1}
                     maxW={{ lg: '1380px', md: '880px' }}
-                    height='calc(100vh - var(--header-height))'
+                    height={{
+                        base: 'calc(100vh - var(--header-height) - var(--mobile-footer-height))',
+                        lg: 'calc(100vh - var(--header-height))',
+                    }}
                     overflow='auto'
                 >
                     <Routes>
                         <Route path='/' element={<MainPage />} />
-                        <Route path='/Веганская кухня/Закуски' element={<VeganCuisinePage />} />
+                        <Route
+                            path='/Веганская кухня/Вторые блюда'
+                            element={<VeganCuisinePage />}
+                        />
+                        <Route path='/Самое сочное' element={<MostTenderPage />} />
                     </Routes>
                 </Flex>
                 <Sidebar />
