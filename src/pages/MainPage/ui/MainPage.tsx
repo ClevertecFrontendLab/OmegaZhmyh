@@ -1,5 +1,5 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
 
 import { CookingBlog } from '~/entities/CookingBlog';
 import { RecipeCard } from '~/features/RecipeCard';
@@ -12,20 +12,18 @@ import { MainCardList } from '../model/MainCardList';
 //import { MostTenderCardList } from '../model/MostTenderCardList';
 
 export const MainPage = () => (
-    <Flex
-        justifyContent='center'
-        direction='column'
-        padding='32px 24px 0 24px'
-        style={{ scrollbarGutter: 'stable' }}
-    >
-        <SearchPanel title='Самое сочное' />
+    <Box>
+        <SearchPanel title='Приятного аппетита!' />
         <NewRecipes />
         <SimpleGrid
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
             columnGap='24px'
-            rowGap='16px'
-            mt={10}
+            rowGap={{ base: '12px', md: '16px' }}
+            mt={{ base: '32px' }}
         >
+            <Text fontSize={{ base: '2xl' }} fontWeight={{ base: 'medium' }}>
+                Самое сочное
+            </Text>
             {MainCardList.map((cardInfo) => (
                 <RecipeCard
                     image={cardInfo.image}
@@ -37,20 +35,36 @@ export const MainPage = () => (
                     description={cardInfo.description}
                 />
             ))}
+            <Button
+                color='black'
+                bgColor='lime.400'
+                size='md'
+                rightIcon={<ArrowForwardIcon />}
+                justifySelf='center'
+            >
+                Вся подборка
+            </Button>
         </SimpleGrid>
-        <Box bgColor='lime.300' padding={{ lg: '24px', base: '12px' }} mt={10} borderRadius={16}>
+        <Box bgColor='lime.300' padding={{ lg: '24px', base: '12px' }} mt='32px' borderRadius={16}>
             <Flex justifyContent='space-between'>
-                <Heading fontWeight='normal'>Кулинарные блоги</Heading>
+                <Text fontSize={{ base: '2xl' }} fontWeight='medium' lineHeight='32px'>
+                    Кулинарные блоги
+                </Text>
                 <Button
                     rightIcon={<ArrowForwardIcon />}
                     variant='ghost'
                     fontSize='xl'
                     fontWeight='semibold'
+                    display={{ base: 'none', md: 'block' }}
                 >
                     Все авторы
                 </Button>
             </Flex>
-            <Flex gap={4} marginTop={6}>
+            <Flex
+                gap={{ base: '12px', md: '16px' }}
+                marginTop={{ base: '12px', md: '24px' }}
+                flexDirection={{ base: 'column', md: 'row' }}
+            >
                 <CookingBlog
                     userName='Елена Высоцкая'
                     accountName='@elenapovar'
@@ -69,6 +83,15 @@ export const MainPage = () => (
                     avatarImg='CatherineConstantinopleImg'
                     text='Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.'
                 />
+                <Button
+                    rightIcon={<ArrowForwardIcon />}
+                    variant='ghost'
+                    fontSize='xl'
+                    fontWeight='semibold'
+                    display={{ base: 'block', md: 'none' }}
+                >
+                    Все авторы
+                </Button>
             </Flex>
         </Box>
         <RelevantKitchen
@@ -95,5 +118,5 @@ export const MainPage = () => (
             miniCardText2='Котлеты из гречки и фасоли'
             miniCardText3='Сырный суп с лапшой и брокколи'
         />
-    </Flex>
+    </Box>
 );

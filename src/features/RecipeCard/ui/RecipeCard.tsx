@@ -24,6 +24,7 @@ export interface RecipeCardType {
     title: string;
     description: string;
     tagType: KitchenTagType;
+    tagColor?: string;
     recomendationLabel?: string;
     recomendationIcon?: string;
     image?: DishesImagesType;
@@ -42,18 +43,21 @@ export const RecipeCard = (recipe: RecipeCardType) => {
         repostCount = 0,
         tagType = 'Национальные',
         direction = 'row',
+        tagColor,
     } = recipe;
     return (
-        <Card direction={direction} variant='outline'>
+        <Card direction={direction} variant='outline' overflow='hidden' borderRadius='8px'>
             <Box position='relative'>
                 <Image
                     objectFit='cover'
                     src={DishesImages[image]}
                     alt='Caffe Latte'
-                    maxW={{ base: '158px', lg: '346px' }}
+                    width={{ base: '158px', lg: '346px' }}
+                    height={{ base: '128px', lg: '244px' }}
                 />
                 <KitchenTag
                     type={tagType}
+                    color={tagColor}
                     position='absolute'
                     left='8px'
                     top='8px'
@@ -71,21 +75,26 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                 ) : null}
             </Box>
 
-            <CardBody>
+            <CardBody padding={{ base: '8px 8px 4px 8px' }}>
                 <VStack
                     spacing={{ lg: 6 }}
                     align='stretch'
                     justifyContent='space-between'
                     height='100%'
                 >
-                    <HStack spacing={8.5} justifyContent='space-between'>
-                        <KitchenTag type={tagType} display={{ lg: 'flex', base: 'none' }} />
-                        <HStack spacing={2}>
-                            <BookmarkBtn value={repostCount} />
-                            <LikeBtn value={likeCount} />
-                        </HStack>
-                    </HStack>
                     <Box>
+                        <HStack spacing={8.5} justifyContent='space-between'>
+                            <KitchenTag
+                                type={tagType}
+                                color={tagColor}
+                                display={{ lg: 'flex', base: 'none' }}
+                            />
+                            <HStack spacing={2}>
+                                <BookmarkBtn value={repostCount} />
+                                <LikeBtn value={likeCount} />
+                            </HStack>
+                        </HStack>
+
                         <Heading
                             fontSize={{ lg: 'xl', base: 'md' }}
                             fontWeight='medium'

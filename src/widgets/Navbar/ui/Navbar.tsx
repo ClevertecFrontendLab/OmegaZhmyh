@@ -1,29 +1,62 @@
-import { Accordion, Box, Button, Stack, Text } from '@chakra-ui/react';
+import {
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel,
+    Box,
+    Button,
+    Stack,
+    Tab,
+    TabList,
+    Tabs,
+    Text,
+} from '@chakra-ui/react';
+import { Link } from 'react-router';
 
 import ExitIcon from '~/shared/assets/exit-icon.svg';
-import { FoodCategory } from '~/shared/ui/FoodCategory';
+import { NavbarConfig } from '~/shared/store/config';
 
 export const Navbar = ({ ...props }) => (
     <Box
         width='256px'
+        top='var(--header-height)'
         height='calc(100vh - var(--header-height))'
         paddingTop='24px'
         boxShadow='0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'
         display={{ base: 'none', lg: 'block' }}
+        position='fixed'
         {...props}
     >
-        <Accordion
-            allowMultiple
-            height='calc(100vh - var(--header-height) - var(--footer-left-height) - 24px)'
-            paddingTop='10px'
-            paddingLeft='10px'
-            overflow='auto'
-            style={{ scrollbarGutter: 'stable' }}
-            clipPath='inset(0 round 12px)'
-            boxShadow='0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-        >
-            <FoodCategory />
+        <Accordion variant='navbar' allowMultiple>
+            {Object.keys(NavbarConfig).map((tabName) => (
+                <AccordionItem key={tabName}>
+                    <Link to={NavbarConfig[tabName].link}>
+                        <AccordionButton
+                            data-test-id={tabName === 'Веганская кухня' ? 'vegan-cuisine' : null}
+                        >
+                            <img src={NavbarConfig[tabName].icon} alt={tabName} />
+                            <Text flex='1' textAlign='left'>
+                                {tabName}
+                            </Text>
+                            <AccordionIcon />
+                        </AccordionButton>
+                    </Link>
+                    <AccordionPanel>
+                        <Tabs variant='navbar' colorScheme='lime'>
+                            <TabList>
+                                {NavbarConfig[tabName].tabsLinks.map(({ tab, link }, index) => (
+                                    <Link to={link}>
+                                        <Tab key={index}>{tab}</Tab>
+                                    </Link>
+                                ))}
+                            </TabList>
+                        </Tabs>
+                    </AccordionPanel>
+                </AccordionItem>
+            ))}
         </Accordion>
+
         <Stack height='var(--footer-left-height)' paddingX='24px' spacing={4} align='start'>
             <Text fontSize='xs' color='blackAlpha.400'>
                 Версия программы 03.25

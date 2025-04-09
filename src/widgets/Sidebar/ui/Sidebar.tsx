@@ -10,7 +10,11 @@ export const Sidebar = () => (
         alignItems='end'
         display={{ base: 'none', lg: 'flex' }}
         width='280px'
+        height='calc(100vh - var(--header-height))'
         flexShrink={0}
+        position='fixed'
+        top='var(--header-height)'
+        right={0}
     >
         <Flex
             width={208}

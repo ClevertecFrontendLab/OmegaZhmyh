@@ -1,6 +1,6 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import {
-    Container,
+    Box,
     Flex,
     Heading,
     IconButton,
@@ -20,8 +20,8 @@ interface SearchPanelProps {
 }
 
 export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
-    <Container maxWidth={696}>
-        <Heading textAlign='center' fontSize='5xl'>
+    <Box marginTop={{ base: '16px' }}>
+        <Heading textAlign='center' fontSize={{ base: '2xl', md: '5xl' }}>
             {title}
         </Heading>
         {desc ? (
@@ -29,20 +29,22 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                 {desc}
             </Text>
         ) : null}
-        <Container maxWidth={518} marginTop='32px' padding={0}>
+        <Box maxWidth={518} marginTop={{ base: '16px', md: '32px' }} padding={0}>
             <Flex justifyContent='center' gap={3}>
                 <IconButton
                     aria-label='Search database'
+                    size={{ base: 'sm' }}
                     variant='outline'
                     icon={<img src={FilterIcon} />}
                     borderColor='blackAlpha.600'
                 />
-                <InputGroup borderColor='blackAlpha.600'>
+                <InputGroup borderColor='blackAlpha.600' size={{ base: 'sm' }}>
                     <Input
                         color='lime.800'
                         fontSize='18'
+                        borderRadius={4}
                         placeholder='Название или ингредиент...'
-                        _placeholder={{ color: 'lime.800' }}
+                        _placeholder={{ color: 'lime.800', fontSize: 'md' }}
                     />
                     <InputRightElement>
                         <IconButton
@@ -64,6 +66,6 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                     <option value='option3'>Option 3</option>
                 </Select>
             </Flex>
-        </Container>
-    </Container>
+        </Box>
+    </Box>
 );

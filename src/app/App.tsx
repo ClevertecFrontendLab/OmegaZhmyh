@@ -1,6 +1,6 @@
 import './App.css';
 
-import { Flex } from '@chakra-ui/react';
+import { Container, Flex } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
 import { MainPage } from '~/pages/MainPage';
@@ -17,15 +17,10 @@ function App() {
             <Header />
             <Flex justifyContent={{ base: 'center', lg: 'space-between' }}>
                 <Navbar flexShrink={0} />
-                <Flex
-                    flexDirection='column'
-                    flexGrow={1}
-                    maxW={{ lg: '1380px', md: '880px' }}
-                    height={{
-                        base: 'calc(100vh - var(--header-height) - var(--mobile-footer-height))',
-                        lg: 'calc(100vh - var(--header-height))',
-                    }}
-                    overflow='auto'
+                <Container
+                    marginTop={{ base: 'var(--mobile-header-height)', md: 'var(--header-height)' }}
+                    marginBottom={{ base: 'var(--mobile-footer-height)', md: '0' }}
+                    overflow='hidden'
                 >
                     <Routes>
                         <Route path='/' element={<MainPage />} />
@@ -35,7 +30,7 @@ function App() {
                         />
                         <Route path='/Самое сочное' element={<MostTenderPage />} />
                     </Routes>
-                </Flex>
+                </Container>
                 <Sidebar />
             </Flex>
             <MobileFooter />

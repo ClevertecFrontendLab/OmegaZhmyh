@@ -1,16 +1,24 @@
-import { Flex } from '@chakra-ui/react';
+import { EditIcon, Search2Icon } from '@chakra-ui/icons';
+import { TabList, Tabs } from '@chakra-ui/react';
 
-import { MobileTabs } from '~/shared/ui/MobileTabs';
+import AvatarImg from '~/shared/assets/avatar.png';
+import { BsHouse } from '~/shared/ui/Icons';
 
-export const MobileFooter = () => (
-    <Flex
-        height='var(--mobile-footer-height)'
-        width='100%'
-        bgColor='lime.50'
-        display={{ base: 'flex', lg: 'none' }}
-        justify='space-around'
-        align='center'
-    >
-        <MobileTabs />
-    </Flex>
-);
+import { createIconTab } from '../lib/createIconTab';
+
+export const MobileFooter = () => {
+    const MainTab = createIconTab(BsHouse);
+    const SearchTab = createIconTab(Search2Icon);
+    const EditTab = createIconTab(EditIcon);
+    const AvatarTab = createIconTab(AvatarImg);
+    return (
+        <Tabs variant='mobileFooter' data-test-id='footer' colorScheme='lime'>
+            <TabList>
+                <MainTab>Главная</MainTab>
+                <SearchTab>Поиск</SearchTab>
+                <EditTab>Записать</EditTab>
+                <AvatarTab>Мой профиль</AvatarTab>
+            </TabList>
+        </Tabs>
+    );
+};

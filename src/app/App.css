@@ -1,5 +1,6 @@
 :root {
     --header-height: 80px;
+    --mobile-header-height: 64px;
     --footer-left-height: 144px;
     --mobile-footer-height: 84px;
 }

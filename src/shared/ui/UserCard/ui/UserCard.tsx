@@ -10,7 +10,7 @@ export interface UserCardProps {
 
 export const UserCard = ({ userName, accountName, avatarImg }: UserCardProps) => (
     <Flex flex='1' gap='4' alignItems='center' flexWrap='nowrap'>
-        <Avatar name={userName} src={AvatarImages[avatarImg]} />
+        <Avatar name={userName} size={{ base: 'sm', md: 'md' }} src={AvatarImages[avatarImg]} />
         <Box>
             <Heading size='sm' fontWeight='500' noOfLines={1}>
                 {userName}

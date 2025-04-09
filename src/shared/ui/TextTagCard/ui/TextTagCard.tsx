@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, Heading, HStack, Image, SystemProps, Text } from '@chakra-ui/react';
+import { Box, Card, CardBody, HStack, Image, Text } from '@chakra-ui/react';
 
 import { KitchenTag } from '~/entities/KitchenTag';
 import { KitchenTagType } from '~/shared/types/KitchenTagType';
@@ -12,8 +12,8 @@ export interface TextTagCardProps {
     tagType: KitchenTagType;
     likeCount: number;
     repostCount: number;
-    direction?: SystemProps['flexDirection'];
     image?: DishesImagesType;
+    tagColor?: string;
 }
 
 export const TextTagCard = (recipe: TextTagCardProps) => {
@@ -23,38 +23,57 @@ export const TextTagCard = (recipe: TextTagCardProps) => {
         tagType = 'Национальные',
         likeCount,
         repostCount,
-        direction = 'column',
         image,
+        tagColor,
     } = recipe;
     return (
-        <Card
-            height='100%'
-            border='1px solid'
-            borderColor='blackAlpha.200'
-            borderRadius='8px'
-            flexDirection={direction}
-            overflow='hidden'
-        >
-            {image ? <Image src={DishesImages[image]} maxH='230px' /> : null}
+        <Card border='1px solid' borderColor='blackAlpha.200' borderRadius='8px' overflow='hidden'>
+            {image ? (
+                <>
+                    <KitchenTag
+                        type={tagType}
+                        color={tagColor}
+                        position='absolute'
+                        left='8px'
+                        top='8px'
+                        display={{ base: 'flex', md: 'none' }}
+                    />
+                    <Image
+                        src={DishesImages[image]}
+                        width={{ base: '158px' }}
+                        height={{ base: '128px' }}
+                    />
+                </>
+            ) : null}
             <CardBody
-                padding={{ lg: '24px', base: '12px' }}
+                padding={{ base: '8px', lg: '24px' }}
                 display='flex'
                 flexDirection='column'
-                gap={6}
+                gap={{ base: 2, md: 6 }}
                 alignItems='stretch'
                 justifyContent='space-between'
             >
                 <Box>
-                    <Heading fontSize='xl' fontWeight='medium' noOfLines={1}>
+                    <Text fontSize={{ base: 'md', md: 'xl' }} fontWeight='medium' noOfLines={2}>
                         {title}
-                    </Heading>
+                    </Text>
 
-                    <Text marginTop='1.5' noOfLines={3} fontSize='sm' height={{ lg: '64px' }}>
+                    <Text
+                        marginTop='1.5'
+                        noOfLines={3}
+                        fontSize='sm'
+                        height={{ lg: '64px' }}
+                        display={{ base: 'none', md: 'flex' }}
+                    >
                         {description}
                     </Text>
                 </Box>
                 <HStack spacing={8.5} justifyContent='space-between'>
-                    <KitchenTag type={tagType} />
+                    <KitchenTag
+                        type={tagType}
+                        color={tagColor}
+                        display={{ base: 'none', md: 'flex' }}
+                    />
                     <HStack spacing={{ base: 0, lg: 2 }}>
                         {repostCount ? <BookmarkBtn value={repostCount} /> : null}
                         {likeCount ? <LikeBtn value={likeCount} /> : null}
