@@ -15,8 +15,8 @@ import {
 import { KitchenTag } from '~/entities/KitchenTag';
 import { Recomendation } from '~/entities/Recomendation';
 import BookmarkIcon from '~/shared/assets/btn-icons/bookmark-icon.svg';
-import KitchenIcon from '~/shared/assets/kitchen_icons/national.svg';
 import { KitchenTagType } from '~/shared/types/KitchenTagType';
+import { AvatarImagesType } from '~/shared/ui/AvatarImages';
 import { DishesImages, DishesImagesType } from '~/shared/ui/DishesImages';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
@@ -26,7 +26,7 @@ export interface RecipeCardType {
     tagType: KitchenTagType;
     tagColor?: string;
     recomendationLabel?: string;
-    recomendationIcon?: string;
+    recomendationIcon?: AvatarImagesType;
     image?: DishesImagesType;
     likeCount?: number;
     repostCount?: number;
@@ -38,6 +38,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
         title = 'Лапша с курицей и шафраном',
         description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae sunt, eaque fugit provident minima vel quaerat dolor voluptatem quos rem atque eum, veniam asperiores odit, beatae laudantium? Iure, iste possimus.',
         recomendationLabel,
+        recomendationIcon = 'AlexCookImg',
         image = 'SpaghettiRollImg',
         likeCount = 0,
         repostCount = 0,
@@ -65,7 +66,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                 />
                 {recomendationLabel ? (
                     <Recomendation
-                        avatar={KitchenIcon}
+                        avatar={recomendationIcon}
                         userName={recomendationLabel}
                         position='absolute'
                         left='24px'
@@ -75,7 +76,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                 ) : null}
             </Box>
 
-            <CardBody padding={{ base: '8px 8px 4px 8px' }}>
+            <CardBody padding={{ base: '8px 8px 4px 8px', lg: '20px 24px' }}>
                 <VStack
                     spacing={{ lg: 6 }}
                     align='stretch'
@@ -96,6 +97,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                         </HStack>
 
                         <Heading
+                            marginTop={{ lg: '24px' }}
                             fontSize={{ lg: 'xl', base: 'md' }}
                             fontWeight='medium'
                             noOfLines={{ lg: 1, base: 2 }}
@@ -116,7 +118,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             display={{ lg: 'block', base: 'none' }}
                             variant='outline'
                             color='blackAlpha.800'
-                            backgroundColor='blackAlpha.100'
+                            backgroundColor='whiteAlpha.100'
                             borderColor='blackAlpha.600'
                             leftIcon={<img src={BookmarkIcon} />}
                         >
@@ -127,7 +129,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             display={{ lg: 'none', base: 'flex' }}
                             variant='outline'
                             color='blackAlpha.800'
-                            backgroundColor='blackAlpha.100'
+                            backgroundColor='whiteAlpha.100'
                             borderColor='blackAlpha.600'
                             icon={<img src={BookmarkIcon} />}
                             aria-label='Сохранить'

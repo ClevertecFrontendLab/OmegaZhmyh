@@ -4,9 +4,9 @@ import { RecipeCard } from '~/features/RecipeCard';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
-import { MostTenderCardList } from '../model/MostTenderCardList';
+import { JuiciestCardList } from '../model/JuiciestCardList';
 
-export const MostTenderPage = () => (
+export const JuiciestPage = () => (
     <Flex
         justifyContent='center'
         direction='column'
@@ -15,7 +15,7 @@ export const MostTenderPage = () => (
     >
         <SearchPanel title='Самое сочное' />
         <SimpleGrid columns={{ base: 1, xl: 2, lg: 1, md: 2 }} columnGap='24px' rowGap='16px'>
-            {MostTenderCardList.map((cardInfo) => (
+            {JuiciestCardList.map((cardInfo) => (
                 <RecipeCard
                     image={cardInfo.image}
                     repostCount={cardInfo.repostCount}

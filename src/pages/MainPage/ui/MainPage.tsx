@@ -1,5 +1,6 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { Link } from 'react-router';
 
 import { CookingBlog } from '~/entities/CookingBlog';
 import { RecipeCard } from '~/features/RecipeCard';
@@ -15,15 +16,30 @@ export const MainPage = () => (
     <Box>
         <SearchPanel title='Приятного аппетита!' />
         <NewRecipes />
+        <Flex justifyContent='space-between' alignItems='end' mt={{ base: '32px' }}>
+            <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight={{ base: 'medium' }}>
+                Самое сочное
+            </Text>
+            <Link to='/Juiciest'>
+                <Button
+                    display={{ base: 'none', lg: 'flex' }}
+                    color='black'
+                    bgColor='lime.400'
+                    size='md'
+                    fontWeight='semibold'
+                    rightIcon={<ArrowForwardIcon />}
+                    justifySelf='center'
+                >
+                    Вся подборка
+                </Button>
+            </Link>
+        </Flex>
         <SimpleGrid
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
             columnGap='24px'
-            rowGap={{ base: '12px', md: '16px' }}
-            mt={{ base: '32px' }}
+            rowGap={{ base: '12px', md: '14px' }}
+            mt={{ base: '12px' }}
         >
-            <Text fontSize={{ base: '2xl' }} fontWeight={{ base: 'medium' }}>
-                Самое сочное
-            </Text>
             {MainCardList.map((cardInfo) => (
                 <RecipeCard
                     image={cardInfo.image}
@@ -31,21 +47,27 @@ export const MainPage = () => (
                     likeCount={cardInfo.likeCount}
                     tagType={cardInfo.tagType}
                     recomendationLabel={cardInfo.recomendationLabel}
+                    recomendationIcon={cardInfo.recomendationIcon}
                     title={cardInfo.title}
                     description={cardInfo.description}
                 />
             ))}
+        </SimpleGrid>
+        <Link to='/Juiciest'>
             <Button
+                display={{ base: 'flex', lg: 'none' }}
+                margin='12px auto 0 auto'
                 color='black'
                 bgColor='lime.400'
+                fontWeight='semibold'
                 size='md'
                 rightIcon={<ArrowForwardIcon />}
                 justifySelf='center'
             >
                 Вся подборка
             </Button>
-        </SimpleGrid>
-        <Box bgColor='lime.300' padding={{ lg: '24px', base: '12px' }} mt='32px' borderRadius={16}>
+        </Link>
+        <Box bgColor='lime.300' padding={{ base: '12px', lg: '24px' }} mt='32px' borderRadius={16}>
             <Flex justifyContent='space-between'>
                 <Text fontSize={{ base: '2xl' }} fontWeight='medium' lineHeight='32px'>
                     Кулинарные блоги
@@ -55,14 +77,14 @@ export const MainPage = () => (
                     variant='ghost'
                     fontSize='xl'
                     fontWeight='semibold'
-                    display={{ base: 'none', md: 'block' }}
+                    display={{ base: 'none', lg: 'block' }}
                 >
                     Все авторы
                 </Button>
             </Flex>
             <Flex
-                gap={{ base: '12px', md: '16px' }}
-                marginTop={{ base: '12px', md: '24px' }}
+                gap={{ base: '12px', lg: '16px' }}
+                marginTop={{ base: '12px', lg: '24px' }}
                 flexDirection={{ base: 'column', md: 'row' }}
             >
                 <CookingBlog
@@ -83,16 +105,17 @@ export const MainPage = () => (
                     avatarImg='CatherineConstantinopleImg'
                     text='Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.'
                 />
-                <Button
-                    rightIcon={<ArrowForwardIcon />}
-                    variant='ghost'
-                    fontSize='xl'
-                    fontWeight='semibold'
-                    display={{ base: 'block', md: 'none' }}
-                >
-                    Все авторы
-                </Button>
             </Flex>
+            <Button
+                display={{ base: 'block', lg: 'none' }}
+                margin={{ base: '12px auto 0 auto' }}
+                rightIcon={<ArrowForwardIcon />}
+                variant='ghost'
+                fontSize='xl'
+                fontWeight='semibold'
+            >
+                Все авторы
+            </Button>
         </Box>
         <RelevantKitchen
             marginTop='40px'

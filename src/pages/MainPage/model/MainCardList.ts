@@ -18,6 +18,8 @@ export const MainCardList: CardType[] = [
         title: 'Пряная ветчина по итальянски',
         description:
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
+        recomendationLabel: 'Елена Высоцкая',
+        recomendationIcon: 'ElenaVysotskayaImg',
     },
     {
         image: 'NoodlesImg',
@@ -27,6 +29,8 @@ export const MainCardList: CardType[] = [
         title: 'Лапша с курицей и шафраном',
         description:
             'Такая картошечка украсит любой семейный обед! Все будут в полном  восторге, очень вкусно! Аромат чеснока, хрустящая корочка на картошечке - просто объедение! Отличная идея для обеда или ужина, готовится просто!',
+        recomendationLabel: 'Alex Cook',
+        recomendationIcon: 'AlexCookImg',
     },
     {
         image: 'TomYangImg',

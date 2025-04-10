@@ -13,8 +13,6 @@ export const KitchenTag = (props: KitchenTagProps) => {
     const { type, color = 'lime.50', ...otherProps } = props;
     return (
         <CardTag
-            minW='129px'
-            maxW='146px'
             padding={{ base: '0 4px', lg: '0 8px' }}
             bgColor={color}
             icon={kitchenIcons[type]}

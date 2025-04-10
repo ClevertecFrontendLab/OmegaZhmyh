@@ -21,26 +21,27 @@ export const Header = () => (
         paddingX='16px'
         backgroundColor='lime.50'
         alignItems='center'
-        justifyContent='space-between'
+        justifyContent={{ base: 'space-between', lg: 'start' }}
         top={0}
         position='fixed'
         data-test-id='header'
+        zIndex='overlay'
     >
-        <Image src={MobileLogo} display={{ base: 'block', sm: 'none' }} />
-        <Image src={Logo} display={{ base: 'none', sm: 'block' }} />
-        <Breadcrumb marginLeft={32} display={{ base: 'none', md: 'block' }}>
+        <Image src={MobileLogo} display={{ base: 'block', md: 'none' }} />
+        <Image src={Logo} display={{ base: 'none', md: 'block' }} />
+        <Breadcrumb marginLeft={32} display={{ base: 'none', lg: 'block' }}>
             <BreadcrumbItem>
                 <BreadcrumbLink href='#'>Главная</BreadcrumbLink>
             </BreadcrumbItem>
         </Breadcrumb>
-        <Box pos='absolute' right='80px' display={{ base: 'none', md: 'flex' }}>
+        <Box pos='absolute' right='80px' display={{ base: 'none', lg: 'flex' }}>
             <UserCard
                 accountName='@bake_and_pie'
                 avatarImg='CatherineConstantinopleImg2'
                 userName='Екатерина Константинопольская'
             />
         </Box>
-        <Flex gap={{ base: 2, sm: 4 }}>
+        <Flex gap={{ base: 2, sm: 4 }} display={{ base: 'flex', lg: 'none' }}>
             <Flex alignItems='center' justifyContent='space-between'>
                 <BookmarkBtn value={185} />
                 <RepostBtn value={587} />

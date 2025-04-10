@@ -10,7 +10,7 @@ export const CardTag = (props: CardTag) => {
     return (
         <Tag {...otherProps}>
             <img src={icon} width='16px' height='16px' />
-            <TagLabel>{label}</TagLabel>
+            <TagLabel marginLeft={{ base: '2px', lg: '8px' }}>{label}</TagLabel>
         </Tag>
     );
 };

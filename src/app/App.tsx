@@ -3,8 +3,8 @@ import './App.css';
 import { Container, Flex } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
+import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
-import { MostTenderPage } from '~/pages/MostTenderPage';
 import { VeganCuisinePage } from '~/pages/VeganCuisinePage';
 import { Header } from '~/widgets/Header';
 import { MobileFooter } from '~/widgets/MobileFooter/';
@@ -19,7 +19,9 @@ function App() {
                 <Navbar flexShrink={0} />
                 <Container
                     marginTop={{ base: 'var(--mobile-header-height)', md: 'var(--header-height)' }}
-                    marginBottom={{ base: 'var(--mobile-footer-height)', md: '0' }}
+                    paddingBottom={{ base: 'var(--mobile-footer-height)', lg: '0' }}
+                    maxW={{ base: 'container.sm', md: 'container.md', lg: 'container.lg' }}
+                    padding={{ lg: 0 }}
                     overflow='hidden'
                 >
                     <Routes>
@@ -28,7 +30,7 @@ function App() {
                             path='/Веганская кухня/Вторые блюда'
                             element={<VeganCuisinePage />}
                         />
-                        <Route path='/Самое сочное' element={<MostTenderPage />} />
+                        <Route path='/Juiciest' element={<JuiciestPage />} />
                     </Routes>
                 </Container>
                 <Sidebar />

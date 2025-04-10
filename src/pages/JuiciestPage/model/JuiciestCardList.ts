@@ -1,6 +1,6 @@
 import { CardType } from '~/shared/types/CardListType';
 
-export const MostTenderCardList: CardType[] = [
+export const JuiciestCardList: CardType[] = [
     {
         image: 'NoodlesImg',
         repostCount: 124,

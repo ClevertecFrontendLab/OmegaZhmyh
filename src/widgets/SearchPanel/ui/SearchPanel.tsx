@@ -1,6 +1,5 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import {
-    Box,
     Flex,
     Heading,
     IconButton,
@@ -20,8 +19,8 @@ interface SearchPanelProps {
 }
 
 export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
-    <Box marginTop={{ base: '16px' }}>
-        <Heading textAlign='center' fontSize={{ base: '2xl', md: '5xl' }}>
+    <Flex marginTop={{ base: '16px' }} flexDirection='column' alignItems='center'>
+        <Heading textAlign='center' fontSize={{ base: '2xl', lg: '5xl' }}>
             {title}
         </Heading>
         {desc ? (
@@ -29,22 +28,28 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                 {desc}
             </Text>
         ) : null}
-        <Box maxWidth={518} marginTop={{ base: '16px', md: '32px' }} padding={0}>
-            <Flex justifyContent='center' gap={3}>
+        <Flex
+            marginTop={{ base: '16px', lg: '32px' }}
+            padding={0}
+            flexDirection='column'
+            width={{ base: '100%', md: '450px', lg: '520px' }}
+        >
+            <Flex gap={3}>
                 <IconButton
                     aria-label='Search database'
-                    size={{ base: 'sm' }}
+                    width={{ base: '32px', lg: '48px' }}
+                    height={{ base: '32px', lg: '48px' }}
                     variant='outline'
                     icon={<img src={FilterIcon} />}
                     borderColor='blackAlpha.600'
                 />
-                <InputGroup borderColor='blackAlpha.600' size={{ base: 'sm' }}>
+                <InputGroup borderColor='blackAlpha.600' size={{ base: 'sm', lg: 'lg' }}>
                     <Input
                         color='lime.800'
-                        fontSize='18'
+                        fontSize='18px'
                         borderRadius={4}
                         placeholder='Название или ингредиент...'
-                        _placeholder={{ color: 'lime.800', fontSize: 'md' }}
+                        _placeholder={{ color: 'lime.800', fontSize: { md: '14px', lg: '18px' } }}
                     />
                     <InputRightElement>
                         <IconButton
@@ -57,7 +62,9 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
             </Flex>
             <Flex gap={4} marginTop={4} marginBottom={4} display={{ base: 'none', lg: 'flex' }}>
                 <Flex gap={3} flexGrow={1} paddingLeft='8px' alignItems='center'>
-                    <Text style={{ textWrap: 'nowrap' }}>Исключить мои аллергены</Text>
+                    <Text style={{ textWrap: 'nowrap' }} fontWeight='medium'>
+                        Исключить мои аллергены
+                    </Text>
                     <Switch colorScheme='lime' />
                 </Flex>
                 <Select placeholder='Выберите из списка'>
@@ -66,6 +73,6 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                     <option value='option3'>Option 3</option>
                 </Select>
             </Flex>
-        </Box>
-    </Box>
+        </Flex>
+    </Flex>
 );

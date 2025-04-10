@@ -36,25 +36,29 @@ export const TextTagCard = (recipe: TextTagCardProps) => {
                         position='absolute'
                         left='8px'
                         top='8px'
-                        display={{ base: 'flex', md: 'none' }}
+                        display={{ base: 'flex', lg: 'none' }}
                     />
                     <Image
                         src={DishesImages[image]}
-                        width={{ base: '158px' }}
-                        height={{ base: '128px' }}
+                        width={{ base: '158px', lg: '277px' }}
+                        height={{ base: '128px', lg: '230px' }}
                     />
                 </>
             ) : null}
             <CardBody
-                padding={{ base: '8px', lg: '24px' }}
+                padding={{ base: '8px', xl: '24px' }}
                 display='flex'
                 flexDirection='column'
-                gap={{ base: 2, md: 6 }}
+                gap={{ base: 2, lg: 6 }}
                 alignItems='stretch'
                 justifyContent='space-between'
             >
                 <Box>
-                    <Text fontSize={{ base: 'md', md: 'xl' }} fontWeight='medium' noOfLines={2}>
+                    <Text
+                        fontSize={{ base: 'md', lg: 'xl' }}
+                        fontWeight='medium'
+                        noOfLines={{ base: 2, lg: 1 }}
+                    >
                         {title}
                     </Text>
 
@@ -63,7 +67,7 @@ export const TextTagCard = (recipe: TextTagCardProps) => {
                         noOfLines={3}
                         fontSize='sm'
                         height={{ lg: '64px' }}
-                        display={{ base: 'none', md: 'flex' }}
+                        display={{ base: 'none', lg: 'flex' }}
                     >
                         {description}
                     </Text>
@@ -72,7 +76,7 @@ export const TextTagCard = (recipe: TextTagCardProps) => {
                     <KitchenTag
                         type={tagType}
                         color={tagColor}
-                        display={{ base: 'none', md: 'flex' }}
+                        display={{ base: 'none', lg: 'flex' }}
                     />
                     <HStack spacing={{ base: 0, lg: 2 }}>
                         {repostCount ? <BookmarkBtn value={repostCount} /> : null}

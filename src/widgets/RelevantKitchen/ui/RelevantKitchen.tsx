@@ -34,11 +34,11 @@ export const RelevantKitchen = (props: RelevantKitchenProps) => {
             /* paddingTop={{ base: '8px', md: '24px' }} */
             borderTop='1px solid'
             borderColor='blackAlpha.200'
-            paddingBottom={{ base: '16px' }}
+            padding={{ base: '8px 0 16px 0', lg: '24px 0 0 0' }}
             {...othersProps}
         >
             <GridItem
-                fontSize={{ base: '2xl', md: '5xl' }}
+                fontSize={{ base: '2xl', lg: '4xl' }}
                 fontWeight='medium'
                 colSpan={{ base: 1, md: 3, lg: 1, xl: 2 }}
                 lineHeight={{ base: '32px' }}
@@ -55,12 +55,8 @@ export const RelevantKitchen = (props: RelevantKitchenProps) => {
                 {description}
             </GridItem>
 
-            <GridItem marginTop='4px'>
-                <TextTagDecsCard {...card1} />
-            </GridItem>
-            <GridItem>
-                <TextTagDecsCard {...card2} />
-            </GridItem>
+            <TextTagDecsCard {...card1} />
+            <TextTagDecsCard {...card2} />
 
             <SimpleGrid columns={1} gap={3}>
                 <TextCard text={miniCardText1} icon='Детские блюда' />
