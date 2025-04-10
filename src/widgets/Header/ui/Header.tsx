@@ -19,6 +19,7 @@ export const Header = () => (
         position='fixed'
         data-test-id='header'
         zIndex='overlay'
+        as='header'
     >
         <Image src={MobileLogo} display={{ base: 'block', md: 'none' }} />
         <Image src={Logo} display={{ base: 'none', md: 'block' }} />

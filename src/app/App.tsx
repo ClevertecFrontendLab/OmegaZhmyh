@@ -18,6 +18,7 @@ function App() {
             <Flex justifyContent={{ base: 'center', lg: 'space-between' }}>
                 <Navbar flexShrink={0} />
                 <Container
+                    as='main'
                     marginTop={{ base: 'var(--mobile-header-height)', md: 'var(--header-height)' }}
                     paddingBottom={{ base: 'var(--mobile-footer-height)', lg: '0' }}
                     maxW={{
@@ -27,7 +28,6 @@ function App() {
                         xl: 'container.xl',
                     }}
                     padding={{ lg: 0 }}
-                    overflow='hidden'
                 >
                     <Routes>
                         <Route path='/' element={<MainPage />} />

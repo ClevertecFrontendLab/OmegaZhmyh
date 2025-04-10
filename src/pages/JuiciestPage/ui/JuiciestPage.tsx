@@ -27,7 +27,14 @@ export const JuiciestPage = () => (
                 />
             ))}
         </SimpleGrid>
-        <Button display='block' margin='0 auto' marginTop='16px' bgColor='lime.400' color='black'>
+        <Button
+            display='block'
+            margin='0 auto'
+            marginTop='16px'
+            bgColor='lime.400'
+            color='black'
+            _hover={{ bgColor: 'lime.50' }}
+        >
             Загрузить еще
         </Button>
         <RelevantKitchen

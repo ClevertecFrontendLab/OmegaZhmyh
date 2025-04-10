@@ -12,7 +12,7 @@ export const MobileFooter = () => {
     const EditTab = createIconTab(EditIcon);
     const AvatarTab = createIconTab(AvatarImg);
     return (
-        <Tabs variant='mobileFooter' data-test-id='footer' colorScheme='lime'>
+        <Tabs variant='mobileFooter' data-test-id='footer' colorScheme='lime' as='footer'>
             <TabList>
                 <MainTab>Главная</MainTab>
                 <SearchTab>Поиск</SearchTab>

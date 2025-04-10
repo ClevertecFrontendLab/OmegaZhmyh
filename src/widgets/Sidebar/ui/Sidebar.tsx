@@ -15,6 +15,7 @@ export const Sidebar = () => (
         position='fixed'
         top='var(--header-height)'
         right={0}
+        as='aside'
     >
         <Flex
             width={208}

@@ -28,6 +28,7 @@ export const TextTagDecsCard = (recipe: TextTagDecsCardProps) => {
             borderColor='blackAlpha.200'
             borderRadius='8px'
             flexDirection='column'
+            justifyContent='space-between'
             padding='12px'
         >
             <Box>

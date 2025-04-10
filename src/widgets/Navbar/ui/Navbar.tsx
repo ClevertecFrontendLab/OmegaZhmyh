@@ -26,6 +26,7 @@ export const Navbar = ({ ...props }) => (
         boxShadow='0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'
         display={{ base: 'none', lg: 'block' }}
         position='fixed'
+        as='nav'
         {...props}
     >
         <Accordion variant='navbar' allowMultiple>
@@ -34,6 +35,8 @@ export const Navbar = ({ ...props }) => (
                     <AccordionButton
                         as={Link}
                         to='/Vegan-cuisine/Main-courses'
+                        _expanded={{ bg: 'lime.100', fontWeight: 'bold' }}
+                        _hover={{ bg: 'lime.50' }}
                         data-test-id={tabName === 'Веганская кухня' ? 'vegan-cuisine' : null}
                     >
                         <img src={NavbarConfig[tabName].icon} alt={tabName} />
@@ -46,7 +49,12 @@ export const Navbar = ({ ...props }) => (
                         <Tabs variant='navbar' colorScheme='lime'>
                             <TabList>
                                 {NavbarConfig[tabName].tabsLinks.map(({ tab }, index) => (
-                                    <Tab key={index} as={Link} to='/Vegan-cuisine/Main-courses'>
+                                    <Tab
+                                        key={index}
+                                        _hover={{ bg: 'lime.50' }}
+                                        as={Link}
+                                        to='/Vegan-cuisine/Main-courses'
+                                    >
                                         {tab}
                                     </Tab>
                                 ))}
@@ -57,7 +65,13 @@ export const Navbar = ({ ...props }) => (
             ))}
         </Accordion>
 
-        <Stack height='var(--footer-left-height)' paddingX='24px' spacing={4} align='start'>
+        <Stack
+            height='var(--footer-left-height)'
+            paddingX='24px'
+            spacing={4}
+            align='start'
+            as='footer'
+        >
             <Text fontSize='xs' color='blackAlpha.400'>
                 Версия программы 03.25
             </Text>

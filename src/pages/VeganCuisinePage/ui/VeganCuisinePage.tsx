@@ -27,7 +27,7 @@ export const VeganCuisinePage = () => (
             title='Веганская кухня'
             desc='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
         />
-        <Tabs colorScheme='lime'>
+        <Tabs colorScheme='lime' defaultIndex={2}>
             <TabList justifyContent='center' whiteSpace='nowrap' overflow='hidden'>
                 {NavbarConfig['Веганская кухня'].tabsLinks.map((item) => (
                     <Tab>{item.tab}</Tab>
@@ -35,6 +35,8 @@ export const VeganCuisinePage = () => (
             </TabList>
 
             <TabPanels>
+                <TabPanel></TabPanel>
+                <TabPanel></TabPanel>
                 <TabPanel>
                     <SimpleGrid
                         columns={{ base: 1, xl: 2, lg: 1, md: 2 }}

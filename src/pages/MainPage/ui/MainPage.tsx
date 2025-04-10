@@ -10,8 +10,6 @@ import { SearchPanel } from '~/widgets/SearchPanel';
 
 import { MainCardList } from '../model/MainCardList';
 
-//import { MostTenderCardList } from '../model/MostTenderCardList';
-
 export const MainPage = () => (
     <Box>
         <SearchPanel title='Приятного аппетита!' />
@@ -33,6 +31,7 @@ export const MainPage = () => (
                         fontWeight='semibold'
                         rightIcon={<ArrowForwardIcon />}
                         justifySelf='center'
+                        _hover={{ bgColor: 'lime.50' }}
                     >
                         Вся подборка
                     </Button>
@@ -73,6 +72,7 @@ export const MainPage = () => (
                     size='md'
                     rightIcon={<ArrowForwardIcon />}
                     justifySelf='center'
+                    _hover={{ bgColor: 'lime.50' }}
                 >
                     Вся подборка
                 </Button>
@@ -89,6 +89,7 @@ export const MainPage = () => (
                     fontSize='xl'
                     fontWeight='semibold'
                     display={{ base: 'none', lg: 'block' }}
+                    _hover={{ bgColor: 'lime.50' }}
                 >
                     Все авторы
                 </Button>
@@ -124,6 +125,7 @@ export const MainPage = () => (
                 variant='ghost'
                 fontSize='xl'
                 fontWeight='semibold'
+                _hover={{ bgColor: 'lime:50' }}
             >
                 Все авторы
             </Button>

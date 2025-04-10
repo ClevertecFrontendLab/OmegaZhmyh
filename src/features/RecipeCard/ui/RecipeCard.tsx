@@ -142,6 +142,8 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             color='white'
                             backgroundColor='blackAlpha.900'
                             borderColor='blackAlpha.200'
+                            border='1px solid black'
+                            _hover={{ color: 'black', bgColor: 'white' }}
                         >
                             Готовить
                         </Button>

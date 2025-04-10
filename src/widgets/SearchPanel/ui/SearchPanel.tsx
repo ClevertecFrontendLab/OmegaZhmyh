@@ -46,6 +46,7 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                 <InputGroup borderColor='blackAlpha.600' size={{ base: 'sm', lg: 'lg' }}>
                     <Input
                         color='lime.800'
+                        focusBorderColor='lime.300'
                         fontSize='18px'
                         borderRadius={4}
                         placeholder='Название или ингредиент...'
@@ -67,10 +68,16 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                     </Text>
                     <Switch colorScheme='lime' />
                 </Flex>
-                <Select placeholder='Выберите из списка'>
-                    <option value='option1'>Option 1</option>
-                    <option value='option2'>Option 2</option>
-                    <option value='option3'>Option 3</option>
+                <Select placeholder='Выберите из списка' focusBorderColor='lime.300'>
+                    <option value='option1'>Молочные продукты</option>
+                    <option value='option2'>Яйцо</option>
+                    <option value='option3'>Рыба</option>
+                    <option value='option4'>Моллюски</option>
+                    <option value='option5'>Орехи</option>
+                    <option value='option6'>Томат (помидор)</option>
+                    <option value='option7'>Цитрусовые</option>
+                    <option value='option8'>Клубника (ягоды)</option>
+                    <option value='option9'>Шоколад</option>
                 </Select>
             </Flex>
         </Flex>
