@@ -40,7 +40,8 @@ export const TextTagCard = (recipe: TextTagCardProps) => {
                     />
                     <Image
                         src={DishesImages[image]}
-                        width={{ base: '158px', lg: '277px' }}
+                        //width={{ base: '158px', lg: '277px' }}
+                        width='100%'
                         height={{ base: '128px', lg: '230px' }}
                     />
                 </>

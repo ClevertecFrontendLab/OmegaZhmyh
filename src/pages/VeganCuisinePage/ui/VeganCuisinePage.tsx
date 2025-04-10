@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 
 import { RecipeCard } from '~/features/RecipeCard';
-import { NavbarConfig } from '~/shared/store/config';
+import { NavbarConfig } from '~/shared/store/routes';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 

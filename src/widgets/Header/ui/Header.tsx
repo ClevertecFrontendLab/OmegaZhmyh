@@ -1,18 +1,11 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
-import {
-    Box,
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    Flex,
-    IconButton,
-    Image,
-} from '@chakra-ui/react';
+import { Box, Flex, IconButton, Image } from '@chakra-ui/react';
 
 import Logo from '~/shared/assets/logo.svg';
 import MobileLogo from '~/shared/assets/mobile-logo.svg';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 import { UserCard } from '~/shared/ui/UserCard';
+import { AppBreadcrumb } from '~/widgets/AppBreadcrumb';
 
 export const Header = () => (
     <Flex
@@ -29,11 +22,7 @@ export const Header = () => (
     >
         <Image src={MobileLogo} display={{ base: 'block', md: 'none' }} />
         <Image src={Logo} display={{ base: 'none', md: 'block' }} />
-        <Breadcrumb marginLeft={32} display={{ base: 'none', lg: 'block' }}>
-            <BreadcrumbItem>
-                <BreadcrumbLink href='#'>Главная</BreadcrumbLink>
-            </BreadcrumbItem>
-        </Breadcrumb>
+        <AppBreadcrumb marginLeft={32} display={{ base: 'none', lg: 'block' }} />
         <Box pos='absolute' right='80px' display={{ base: 'none', lg: 'flex' }}>
             <UserCard
                 accountName='@bake_and_pie'

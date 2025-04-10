@@ -20,19 +20,24 @@ export const MainPage = () => (
             <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight={{ base: 'medium' }}>
                 Самое сочное
             </Text>
-            <Link to='/Juiciest'>
-                <Button
-                    display={{ base: 'none', lg: 'flex' }}
-                    color='black'
-                    bgColor='lime.400'
-                    size='md'
-                    fontWeight='semibold'
-                    rightIcon={<ArrowForwardIcon />}
-                    justifySelf='center'
-                >
-                    Вся подборка
-                </Button>
-            </Link>
+            <Box
+                display={{ base: 'none', lg: 'flex' }}
+                visibility={{ base: 'hidden', lg: 'visible' }}
+                data-test-id='juiciest-link'
+            >
+                <Link to='/Juiciest'>
+                    <Button
+                        color='black'
+                        bgColor='lime.400'
+                        size='md'
+                        fontWeight='semibold'
+                        rightIcon={<ArrowForwardIcon />}
+                        justifySelf='center'
+                    >
+                        Вся подборка
+                    </Button>
+                </Link>
+            </Box>
         </Flex>
         <SimpleGrid
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
@@ -53,20 +58,26 @@ export const MainPage = () => (
                 />
             ))}
         </SimpleGrid>
-        <Link to='/Juiciest'>
-            <Button
-                display={{ base: 'flex', lg: 'none' }}
-                margin='12px auto 0 auto'
-                color='black'
-                bgColor='lime.400'
-                fontWeight='semibold'
-                size='md'
-                rightIcon={<ArrowForwardIcon />}
-                justifySelf='center'
-            >
-                Вся подборка
-            </Button>
-        </Link>
+        <Box
+            display={{ base: 'none', lg: 'flex' }}
+            visibility={{ base: 'visible', lg: 'hidden' }}
+            data-test-id='juiciest-link-mobile'
+        >
+            <Link to='/Juiciest'>
+                <Button
+                    display={{ base: 'flex', lg: 'none' }}
+                    margin='12px auto 0 auto'
+                    color='black'
+                    bgColor='lime.400'
+                    fontWeight='semibold'
+                    size='md'
+                    rightIcon={<ArrowForwardIcon />}
+                    justifySelf='center'
+                >
+                    Вся подборка
+                </Button>
+            </Link>
+        </Box>
         <Box bgColor='lime.300' padding={{ base: '12px', lg: '24px' }} mt='32px' borderRadius={16}>
             <Flex justifyContent='space-between'>
                 <Text fontSize={{ base: '2xl' }} fontWeight='medium' lineHeight='32px'>

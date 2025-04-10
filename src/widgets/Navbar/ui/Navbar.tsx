@@ -15,7 +15,7 @@ import {
 import { Link } from 'react-router';
 
 import ExitIcon from '~/shared/assets/exit-icon.svg';
-import { NavbarConfig } from '~/shared/store/config';
+import { NavbarConfig } from '~/shared/store/routes';
 
 export const Navbar = ({ ...props }) => (
     <Box
@@ -31,24 +31,24 @@ export const Navbar = ({ ...props }) => (
         <Accordion variant='navbar' allowMultiple>
             {Object.keys(NavbarConfig).map((tabName) => (
                 <AccordionItem key={tabName}>
-                    <Link to={NavbarConfig[tabName].link}>
-                        <AccordionButton
-                            data-test-id={tabName === 'Веганская кухня' ? 'vegan-cuisine' : null}
-                        >
-                            <img src={NavbarConfig[tabName].icon} alt={tabName} />
-                            <Text flex='1' textAlign='left'>
-                                {tabName}
-                            </Text>
-                            <AccordionIcon />
-                        </AccordionButton>
-                    </Link>
+                    <AccordionButton
+                        as={Link}
+                        to='/Vegan-cuisine/Main-courses'
+                        data-test-id={tabName === 'Веганская кухня' ? 'vegan-cuisine' : null}
+                    >
+                        <img src={NavbarConfig[tabName].icon} alt={tabName} />
+                        <Text flex='1' textAlign='left'>
+                            {tabName}
+                        </Text>
+                        <AccordionIcon />
+                    </AccordionButton>
                     <AccordionPanel>
                         <Tabs variant='navbar' colorScheme='lime'>
                             <TabList>
-                                {NavbarConfig[tabName].tabsLinks.map(({ tab, link }, index) => (
-                                    <Link to={link}>
-                                        <Tab key={index}>{tab}</Tab>
-                                    </Link>
+                                {NavbarConfig[tabName].tabsLinks.map(({ tab }, index) => (
+                                    <Tab key={index} as={Link} to='/Vegan-cuisine/Main-courses'>
+                                        {tab}
+                                    </Tab>
                                 ))}
                             </TabList>
                         </Tabs>
