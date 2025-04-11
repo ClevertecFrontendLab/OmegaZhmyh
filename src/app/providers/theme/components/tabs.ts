@@ -63,9 +63,14 @@ const mobileFooterVariant = definePartsStyle((props) => {
     return {
         tab: {
             width: '90px',
+            height: '100%',
             flexDirection: 'column',
             alignItems: 'center',
             padding: '0',
+            _selected: {
+                background:
+                    'radial-gradient(62.52% 62.51% at 48.89% 39.5%, #c4ff61 0%, rgba(255, 255, 255, 0) 70%);',
+            },
         },
         tablist: {
             width: '100%',

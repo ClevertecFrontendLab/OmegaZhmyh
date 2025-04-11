@@ -14,7 +14,12 @@ export const JuiciestPage = () => (
         style={{ scrollbarGutter: 'stable' }}
     >
         <SearchPanel title='Самое сочное' />
-        <SimpleGrid columns={{ base: 1, xl: 2, lg: 1, md: 2 }} columnGap='24px' rowGap='16px'>
+        <SimpleGrid
+            marginTop='32px'
+            columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
+            columnGap='24px'
+            rowGap='16px'
+        >
             {JuiciestCardList.map((cardInfo) => (
                 <RecipeCard
                     image={cardInfo.image}

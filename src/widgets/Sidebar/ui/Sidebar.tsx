@@ -44,6 +44,7 @@ export const Sidebar = () => (
                 isRound={true}
                 size='lg'
                 icon={<EditIcon color='lime.50' />}
+                _hover={{}}
             ></IconButton>
         </Center>
     </Flex>
