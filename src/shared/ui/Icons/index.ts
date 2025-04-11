@@ -1,1 +1,1 @@
-export { AvatarIcon, BsHouse } from './ui/Icons';
+export { AvatarIcon, BsFilter, BsHouse } from './ui/Icons';

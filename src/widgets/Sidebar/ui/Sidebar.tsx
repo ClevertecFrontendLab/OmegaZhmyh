@@ -1,5 +1,5 @@
 import { EditIcon } from '@chakra-ui/icons';
-import { Center, Flex, IconButton } from '@chakra-ui/react';
+import { Center, Flex, IconButton, Text } from '@chakra-ui/react';
 
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 
@@ -36,7 +36,8 @@ export const Sidebar = () => (
             height={208}
             right={0}
             bottom={0}
-            background='radial-gradient(50% 50% at 50% 50%, #c4ff61 0%, rgba(255, 255, 255, 0) 100%);'
+            flexDirection='column'
+            background='radial-gradient(50% 50% at 50% 42%, #c4ff61 0%, rgba(255, 255, 255, 0) 100%);'
         >
             <IconButton
                 aria-label='EditIcon'
@@ -46,6 +47,9 @@ export const Sidebar = () => (
                 icon={<EditIcon color='lime.50' />}
                 _hover={{}}
             ></IconButton>
+            <Text marginTop='12px' color='blackAlpha.700' fontSize='xs'>
+                Записать рецепт
+            </Text>
         </Center>
     </Flex>
 );

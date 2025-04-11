@@ -11,7 +11,7 @@ import {
     Text,
 } from '@chakra-ui/react';
 
-import FilterIcon from '~/shared/assets/filter-icon.svg';
+import { BsFilter } from '~/shared/ui/Icons';
 
 interface SearchPanelProps {
     title: string;
@@ -40,7 +40,7 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                     minWidth={{ base: '32px', lg: '48px' }}
                     height={{ base: '32px', lg: '48px' }}
                     variant='outline'
-                    icon={<img src={FilterIcon} />}
+                    icon={<BsFilter boxSize={{ base: '14px', lg: '24px' }} />}
                     borderColor='blackAlpha.600'
                 />
                 <InputGroup borderColor='blackAlpha.600' size={{ base: 'sm', lg: 'lg' }}>
