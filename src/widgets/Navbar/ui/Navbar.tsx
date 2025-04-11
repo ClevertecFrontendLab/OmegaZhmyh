@@ -15,7 +15,7 @@ import {
 import { Link } from 'react-router';
 
 import ExitIcon from '~/shared/assets/exit-icon.svg';
-import { NavbarConfig } from '~/shared/store/routes';
+import { NavbarConfig } from '~/shared/config/tabTitles';
 
 export const Navbar = ({ ...props }) => (
     <Box

@@ -8,7 +8,7 @@ import {
 
 import { NavbarTabs } from '~/shared/ui/NavbarTabs';
 
-import { NavbarConfig } from '../../../store/routes';
+import { NavbarConfig } from '../../../config/tabTitles';
 
 export const FoodCategory = () =>
     Object.keys(NavbarConfig).map((tabName) => (
