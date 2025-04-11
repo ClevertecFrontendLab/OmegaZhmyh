@@ -37,7 +37,7 @@ const navbarVariant = definePartsStyle((props) => {
                 left: -3,
                 background: 'lime.50',
             },
-            _selected: {
+            _activeLink: {
                 fontWeight: 'bold',
                 '&::before': {
                     width: 2,

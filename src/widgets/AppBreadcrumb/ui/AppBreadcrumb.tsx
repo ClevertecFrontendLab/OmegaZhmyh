@@ -11,7 +11,7 @@ export const AppBreadcrumb = (props: AppBreadcrumbProps) => {
     const pathNameMap: { [key: string]: string } = {
         'Vegan-cuisine': 'Веганская кухня',
         Juiciest: 'Самое сочное',
-        'Main-courses': 'Воторые блюда',
+        'Main-courses': 'Вторые блюда',
     };
 
     return (

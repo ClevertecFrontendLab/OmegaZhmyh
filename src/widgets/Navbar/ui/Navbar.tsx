@@ -12,7 +12,7 @@ import {
     Tabs,
     Text,
 } from '@chakra-ui/react';
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 
 import ExitIcon from '~/shared/assets/exit-icon.svg';
 import { NavbarConfig } from '~/shared/config/tabTitles';
@@ -48,12 +48,12 @@ export const Navbar = ({ ...props }) => (
                     <AccordionPanel>
                         <Tabs variant='navbar' colorScheme='lime'>
                             <TabList>
-                                {NavbarConfig[tabName].tabsLinks.map(({ tab }, index) => (
+                                {NavbarConfig[tabName].tabsLinks.map(({ tab, link }, index) => (
                                     <Tab
                                         key={index}
                                         _hover={{ bg: 'lime.50' }}
-                                        as={Link}
-                                        to='/Vegan-cuisine/Main-courses'
+                                        as={NavLink}
+                                        to={link}
                                     >
                                         {tab}
                                     </Tab>
