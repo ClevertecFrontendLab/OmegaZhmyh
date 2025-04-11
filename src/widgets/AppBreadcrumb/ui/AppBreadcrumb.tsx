@@ -30,7 +30,9 @@ export const AppBreadcrumb = (props: AppBreadcrumbProps) => {
                 return (
                     <BreadcrumbItem key={name}>
                         {isLast ? (
-                            <BreadcrumbLink color='black'>{displayName}</BreadcrumbLink>
+                            <BreadcrumbLink color='black' fontWeight='medium'>
+                                {displayName}
+                            </BreadcrumbLink>
                         ) : (
                             <BreadcrumbLink color='blackAlpha.700' as={Link} to={routeTo}>
                                 {displayName}

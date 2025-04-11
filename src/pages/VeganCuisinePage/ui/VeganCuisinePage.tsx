@@ -20,17 +20,17 @@ export const VeganCuisinePage = () => (
     <Flex
         justifyContent='center'
         direction='column'
-        padding='32px 24px 0 24px'
+        paddingTop='32px'
         style={{ scrollbarGutter: 'stable' }}
     >
         <SearchPanel
             title='Веганская кухня'
             desc='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
         />
-        <Tabs colorScheme='lime' defaultIndex={2}>
+        <Tabs colorScheme='lime' defaultIndex={2} marginTop='32px'>
             <TabList justifyContent='center' whiteSpace='nowrap' overflow='hidden'>
                 {NavbarConfig['Веганская кухня'].tabsLinks.map((item) => (
-                    <Tab>{item.tab}</Tab>
+                    <Tab key={item.tab}>{item.tab}</Tab>
                 ))}
             </TabList>
 
@@ -45,6 +45,7 @@ export const VeganCuisinePage = () => (
                     >
                         {VeganCardList.map((cardInfo) => (
                             <RecipeCard
+                                key={cardInfo.title}
                                 image={cardInfo.image}
                                 repostCount={cardInfo.repostCount}
                                 likeCount={cardInfo.likeCount}

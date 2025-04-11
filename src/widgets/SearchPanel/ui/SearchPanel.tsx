@@ -37,7 +37,7 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
             <Flex gap={3}>
                 <IconButton
                     aria-label='Search database'
-                    width={{ base: '32px', lg: '48px' }}
+                    minWidth={{ base: '32px', lg: '48px' }}
                     height={{ base: '32px', lg: '48px' }}
                     variant='outline'
                     icon={<img src={FilterIcon} />}

@@ -46,6 +46,7 @@ export const MainPage = () => (
         >
             {MainCardList.map((cardInfo) => (
                 <RecipeCard
+                    key={cardInfo.title}
                     image={cardInfo.image}
                     repostCount={cardInfo.repostCount}
                     likeCount={cardInfo.likeCount}
@@ -57,14 +58,14 @@ export const MainPage = () => (
                 />
             ))}
         </SimpleGrid>
-        <Box
-            display={{ base: 'none', lg: 'flex' }}
+        <Flex
+            display={{ base: 'flex', lg: 'none' }}
             visibility={{ base: 'visible', lg: 'hidden' }}
+            justifyContent='center'
             data-test-id='juiciest-link-mobile'
         >
             <Link to='/Juiciest'>
                 <Button
-                    display={{ base: 'flex', lg: 'none' }}
                     margin='12px auto 0 auto'
                     color='black'
                     bgColor='lime.400'
@@ -77,7 +78,7 @@ export const MainPage = () => (
                     Вся подборка
                 </Button>
             </Link>
-        </Box>
+        </Flex>
         <Box bgColor='lime.300' padding={{ base: '12px', lg: '24px' }} mt='32px' borderRadius={16}>
             <Flex justifyContent='space-between'>
                 <Text fontSize={{ base: '2xl' }} fontWeight='medium' lineHeight='32px'>
@@ -88,7 +89,7 @@ export const MainPage = () => (
                     variant='ghost'
                     fontSize='xl'
                     fontWeight='semibold'
-                    display={{ base: 'none', lg: 'block' }}
+                    display={{ base: 'none', lg: 'flex' }}
                     _hover={{ bgColor: 'lime.50' }}
                 >
                     Все авторы
@@ -119,7 +120,7 @@ export const MainPage = () => (
                 />
             </Flex>
             <Button
-                display={{ base: 'block', lg: 'none' }}
+                display={{ base: 'flex', lg: 'none' }}
                 margin={{ base: '12px auto 0 auto' }}
                 rightIcon={<ArrowForwardIcon />}
                 variant='ghost'

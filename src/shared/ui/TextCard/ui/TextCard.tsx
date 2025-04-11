@@ -20,7 +20,13 @@ export const TextCard = (props: TextCardProps) => {
             borderRadius='8px'
         >
             <img src={kitchenIcons[icon]}></img>
-            <Text fontWeight='medium' fontSize='lg' noOfLines={1}>
+            <Text
+                fontWeight='medium'
+                fontSize='lg'
+                noOfLines={1}
+                wordBreak='break-all'
+                style={{ wordWrap: 'break-word' }}
+            >
                 {text}
             </Text>
             <Button size={{ base: 'sm' }} variant='outline' colorScheme='lime'>

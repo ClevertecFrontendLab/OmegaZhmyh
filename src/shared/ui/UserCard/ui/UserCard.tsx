@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
 
 import { AvatarImages, AvatarImagesType } from '../../AvatarImages';
 
@@ -9,12 +9,19 @@ export interface UserCardProps {
 }
 
 export const UserCard = ({ userName, accountName, avatarImg }: UserCardProps) => (
-    <Flex flex='1' gap='4' alignItems='center' flexWrap='nowrap'>
+    <Flex flex='1' gap={{ base: 2, lg: 3 }} alignItems='center' flexWrap='nowrap'>
         <Avatar name={userName} size={{ base: 'sm', md: 'md' }} src={AvatarImages[avatarImg]} />
         <Box>
-            <Heading size='sm' fontWeight='500' noOfLines={1}>
+            <Text
+                fontWeight='500'
+                fontSize={{ base: 'md', lg: 'lg' }}
+                display='inline'
+                noOfLines={1}
+                wordBreak='break-all'
+                style={{ wordWrap: 'break-word' }}
+            >
                 {userName}
-            </Heading>
+            </Text>
             <Text color='blackAlpha.700'>{accountName}</Text>
         </Box>
     </Flex>

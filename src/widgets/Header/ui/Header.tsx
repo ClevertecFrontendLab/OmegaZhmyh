@@ -1,5 +1,6 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, Image } from '@chakra-ui/react';
+import { Link } from 'react-router';
 
 import Logo from '~/shared/assets/logo.svg';
 import MobileLogo from '~/shared/assets/mobile-logo.svg';
@@ -21,8 +22,10 @@ export const Header = () => (
         zIndex='overlay'
         as='header'
     >
-        <Image src={MobileLogo} display={{ base: 'block', md: 'none' }} />
-        <Image src={Logo} display={{ base: 'none', md: 'block' }} />
+        <Link to='/'>
+            <Image src={MobileLogo} display={{ base: 'block', md: 'none' }} />
+            <Image src={Logo} display={{ base: 'none', md: 'block' }} />
+        </Link>
         <AppBreadcrumb marginLeft={32} display={{ base: 'none', lg: 'block' }} />
         <Box pos='absolute' right='80px' display={{ base: 'none', lg: 'flex' }}>
             <UserCard
