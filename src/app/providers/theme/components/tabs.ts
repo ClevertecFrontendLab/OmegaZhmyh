@@ -5,22 +5,18 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
     tabsAnatomy.keys,
 );
 
-const baseStyle = definePartsStyle((props) => {
-    const { colorScheme: c } = props;
-    return {
-        tablist: {
-            color: `${c}.800`,
-            fontSize: 'md',
-            fontWeight: 'medium',
-        },
-        tabpanel: {
-            padding: '24px 0 40px 0',
-        },
-    };
-});
+const baseStyle = definePartsStyle(() => ({
+    tablist: {
+        fontSize: 'md',
+        fontWeight: 'medium',
+    },
+    tabpanel: {
+        padding: '24px 0 40px 0',
+    },
+}));
 
 const navbarVariant = definePartsStyle((props) => {
-    const { colorScheme: c } = props; // extract colorScheme from component props
+    const { colorScheme: c } = props;
 
     return {
         tab: {
@@ -32,16 +28,16 @@ const navbarVariant = definePartsStyle((props) => {
             _before: {
                 content: '""',
                 position: 'absolute',
-                height: 6,
-                width: 1,
-                left: -3,
-                background: 'lime.50',
+                height: '28px',
+                width: '1px',
+                left: '-11px',
+                background: `${c}.300`,
             },
             _activeLink: {
                 fontWeight: 'bold',
                 '&::before': {
-                    width: 2,
-                    left: -4,
+                    width: '8px',
+                    left: '-18px',
                     background: `${c}.300`,
                     transition: 'width 0.2s, left 0.2s',
                 },
@@ -88,9 +84,32 @@ const mobileFooterVariant = definePartsStyle((props) => {
     };
 });
 
+const veganNavTabsVariant = definePartsStyle((props) => {
+    const { colorScheme: c } = props; // extract colorScheme from component props
+
+    return {
+        tab: {
+            borderBottom: '1px solid',
+            borderColor: 'blackAlpha.200',
+            _selected: {
+                borderBottom: '2px solid',
+                color: `${c}.600`,
+                borderColor: `${c}.600`,
+            },
+        },
+        tablist: {
+            justifyContent: 'center',
+            whiteSpace: 'nowrap',
+            color: `${c}.800`,
+            border: 'none',
+        },
+    };
+});
+
 const variants = {
     navbar: navbarVariant,
     mobileFooter: mobileFooterVariant,
+    veganNavTabs: veganNavTabsVariant,
 };
 // export the component theme
 export const tabsTheme = defineMultiStyleConfig({ baseStyle, variants });

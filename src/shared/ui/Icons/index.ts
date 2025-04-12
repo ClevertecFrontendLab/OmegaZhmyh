@@ -1,1 +1,9 @@
-export { AvatarIcon, BsFilter, BsHouse } from './ui/Icons';
+export {
+    AvatarIcon,
+    BsArrowLeft,
+    BsArrowRight,
+    BsFilter,
+    BsHouse,
+    BsPencil,
+    BsSearch,
+} from './ui/Icons';

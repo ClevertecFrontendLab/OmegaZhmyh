@@ -24,15 +24,21 @@ export const TextTagDecsCard = (recipe: TextTagDecsCardProps) => {
     } = recipe;
     return (
         <Flex
-            border='1px solid'
-            borderColor='blackAlpha.200'
+            outline='1px solid'
+            outlineColor='blackAlpha.200'
             borderRadius='8px'
             flexDirection='column'
             justifyContent='space-between'
-            padding='12px'
+            padding={{ base: '12px', lg: '16px', xl: '24px' }}
         >
             <Box>
-                <Text fontSize={{ base: 'md', md: 'xl' }} fontWeight='medium' noOfLines={1}>
+                <Text
+                    fontSize={{ base: 'md', lg: 'xl' }}
+                    fontWeight='medium'
+                    noOfLines={1}
+                    wordBreak='break-all'
+                    style={{ wordWrap: 'break-word' }}
+                >
                     {title}
                 </Text>
 

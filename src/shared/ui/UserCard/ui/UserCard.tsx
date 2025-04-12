@@ -10,7 +10,7 @@ export interface UserCardProps {
 
 export const UserCard = ({ userName, accountName, avatarImg }: UserCardProps) => (
     <Flex flex='1' gap={{ base: 2, lg: 3 }} alignItems='center' flexWrap='nowrap'>
-        <Avatar name={userName} size={{ base: 'sm', md: 'md' }} src={AvatarImages[avatarImg]} />
+        <Avatar name={userName} size={{ base: 'sm', lg: 'md' }} src={AvatarImages[avatarImg]} />
         <Box>
             <Text
                 fontWeight='500'
@@ -22,7 +22,9 @@ export const UserCard = ({ userName, accountName, avatarImg }: UserCardProps) =>
             >
                 {userName}
             </Text>
-            <Text color='blackAlpha.700'>{accountName}</Text>
+            <Text color='blackAlpha.700' fontSize={{ base: 'xs', lg: 'sm' }}>
+                {accountName}
+            </Text>
         </Box>
     </Flex>
 );

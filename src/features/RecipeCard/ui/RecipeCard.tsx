@@ -76,7 +76,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                 ) : null}
             </Box>
 
-            <CardBody padding={{ base: '8px 8px 4px 8px', lg: '20px 24px' }}>
+            <CardBody padding={{ base: '8px 8px 4px 24px', lg: '20px 24px' }}>
                 <VStack
                     spacing={{ lg: 6 }}
                     align='stretch'
@@ -102,11 +102,19 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             fontWeight='medium'
                             noOfLines={{ lg: 1, base: 2 }}
                             flexGrow={{ lg: '0', base: '1' }}
+                            wordBreak='break-all'
+                            style={{ wordWrap: 'break-word' }}
                         >
                             {title}
                         </Heading>
                         <Box display={{ lg: 'block', base: 'none' }}>
-                            <Text marginTop='1.5' noOfLines={3} fontSize='sm'>
+                            <Text
+                                marginTop='1.5'
+                                noOfLines={3}
+                                fontSize='sm'
+                                wordBreak='break-all'
+                                style={{ wordWrap: 'break-word' }}
+                            >
                                 {description}
                             </Text>
                         </Box>

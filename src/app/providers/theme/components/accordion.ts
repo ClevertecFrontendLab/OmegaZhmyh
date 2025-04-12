@@ -14,6 +14,7 @@ const navbarVariant = definePartsStyle((props) => {
         },
         container: {
             border: 'none',
+            paddingRight: '4px',
         },
         button: {
             padding: '12px 8px',
@@ -25,27 +26,11 @@ const navbarVariant = definePartsStyle((props) => {
         },
         root: {
             allowMultiple: true,
-            height: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 24px)',
-            paddingTop: '10px',
+            minHeight: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 35px)',
+            maxHeight: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 34px)',
             paddingLeft: '10px',
             overflow: 'auto',
-            style: { scrollbarGutter: 'stable' },
-            clipPath: 'inset(0 round 12px)',
-            boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-            '&::-webkit-scrollbar-button': {
-                backgroundColor: 'rgba(0, 0, 0, 0)',
-            },
-            '&::-webkit-scrollbar-track': {
-                backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                borderRadius: '8px',
-            },
-            '&::-webkit-scrollbar-thumb': {
-                backgroundColor: 'rgba(0, 0, 0, 0.16)',
-                borderRadius: '8px',
-            },
-            '&::-webkit-scrollbar': {
-                width: '8px',
-            },
+            scrollbarGutter: 'stable',
         },
     };
 });

@@ -11,10 +11,14 @@ import { SearchPanel } from '~/widgets/SearchPanel';
 import { MainCardList } from '../model/MainCardList';
 
 export const MainPage = () => (
-    <Box>
+    <Box paddingX={{ base: '16px', md: '24px', lg: '9px' }}>
         <SearchPanel title='Приятного аппетита!' />
         <NewRecipes />
-        <Flex justifyContent='space-between' alignItems='end' mt={{ base: '32px' }}>
+        <Flex
+            justifyContent='space-between'
+            alignItems='end'
+            marginTop={{ base: '32px', lg: '40px' }}
+        >
             <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight={{ base: 'medium' }}>
                 Самое сочное
             </Text>
@@ -40,8 +44,8 @@ export const MainPage = () => (
         </Flex>
         <SimpleGrid
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
-            columnGap='24px'
-            rowGap={{ base: '12px', md: '14px' }}
+            columnGap={{ base: '16px', xl: '24px' }}
+            rowGap={{ base: '12px', md: '16px', xl: '24px' }}
             mt={{ base: '12px' }}
         >
             {MainCardList.map((cardInfo) => (
@@ -79,7 +83,12 @@ export const MainPage = () => (
                 </Button>
             </Link>
         </Flex>
-        <Box bgColor='lime.300' padding={{ base: '12px', lg: '24px' }} mt='32px' borderRadius={16}>
+        <Box
+            bgColor='lime.300'
+            padding={{ base: '12px', lg: '24px' }}
+            marginTop={{ base: '32px', lg: '40px' }}
+            borderRadius={16}
+        >
             <Flex justifyContent='space-between'>
                 <Text fontSize={{ base: '2xl' }} fontWeight='medium' lineHeight='32px'>
                     Кулинарные блоги
@@ -152,8 +161,11 @@ export const MainPage = () => (
                 repostCount: 1,
             }}
             miniCardText1='Стейк для вегетарианцев'
+            miniCardIcon1='Вторые блюда'
             miniCardText2='Котлеты из гречки и фасоли'
+            miniCardIcon2='Вторые блюда'
             miniCardText3='Сырный суп с лапшой и брокколи'
+            miniCardIcon3='Первые блюда'
         />
     </Box>
 );

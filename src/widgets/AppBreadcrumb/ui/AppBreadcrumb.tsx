@@ -17,7 +17,11 @@ export const AppBreadcrumb = (props: AppBreadcrumbProps) => {
     return (
         <Breadcrumb separator={<ChevronRightIcon />} {...props}>
             <BreadcrumbItem>
-                <BreadcrumbLink as={Link} to='/'>
+                <BreadcrumbLink
+                    as={Link}
+                    to='/'
+                    color={pathnames.length > 0 ? 'blackAlpha.700' : 'black'}
+                >
                     Главная
                 </BreadcrumbLink>
             </BreadcrumbItem>
@@ -30,9 +34,7 @@ export const AppBreadcrumb = (props: AppBreadcrumbProps) => {
                 return (
                     <BreadcrumbItem key={name}>
                         {isLast ? (
-                            <BreadcrumbLink color='black' fontWeight='medium'>
-                                {displayName}
-                            </BreadcrumbLink>
+                            <BreadcrumbLink color='black'>{displayName}</BreadcrumbLink>
                         ) : (
                             <BreadcrumbLink color='blackAlpha.700' as={Link} to={routeTo}>
                                 {displayName}

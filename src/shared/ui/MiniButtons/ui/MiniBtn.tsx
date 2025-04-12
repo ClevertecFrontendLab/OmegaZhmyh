@@ -1,17 +1,18 @@
-import { Button } from '@chakra-ui/react';
+import { Button, ButtonProps } from '@chakra-ui/react';
 
-interface MiniBtnProps {
+export interface MiniBtnProps extends ButtonProps {
     value?: number;
     icon: string;
 }
 
-export const MiniBtn = ({ value = 0, icon }: MiniBtnProps) => (
+export const MiniBtn = ({ value = 0, icon, size = 'xs', ...othersProps }: MiniBtnProps) => (
     <Button
         leftIcon={<img src={icon} />}
         colorScheme='lime'
         variant='ghost'
-        size='xs'
+        size={size}
         padding='6px 4px'
+        {...othersProps}
     >
         {value}
     </Button>

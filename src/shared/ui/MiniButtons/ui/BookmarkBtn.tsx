@@ -1,11 +1,11 @@
 import BookmarkIcon from '~/shared/assets/btn-icons/bookmark-icon.svg';
 
-import { MiniBtn } from './MiniBtn';
+import { MiniBtn, MiniBtnProps } from './MiniBtn';
 
-interface BookmarkBtnProps {
+interface BookmarkBtnProps extends Omit<MiniBtnProps, 'icon'> {
     value?: number;
 }
 
-export const BookmarkBtn = ({ value = 0 }: BookmarkBtnProps) => (
-    <MiniBtn icon={BookmarkIcon} value={value} />
+export const BookmarkBtn = ({ value = 0, ...othersProps }: BookmarkBtnProps) => (
+    <MiniBtn value={value} {...othersProps} icon={BookmarkIcon} />
 );

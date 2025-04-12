@@ -15,14 +15,14 @@ export const TextCard = (props: TextCardProps) => {
             gap={2}
             alignItems='center'
             padding={{ xl: '12px 24px', base: '10px 12px' }}
-            border='1px solid'
-            borderColor='blackAlpha.200'
+            outline='1px solid'
+            outlineColor='blackAlpha.200'
             borderRadius='8px'
         >
             <img src={kitchenIcons[icon]}></img>
             <Text
                 fontWeight='medium'
-                fontSize='lg'
+                fontSize={{ base: 'md', lg: 'lg' }}
                 noOfLines={1}
                 wordBreak='break-all'
                 style={{ wordWrap: 'break-word' }}

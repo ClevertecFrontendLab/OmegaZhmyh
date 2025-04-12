@@ -19,12 +19,12 @@ interface SearchPanelProps {
 }
 
 export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
-    <Flex marginTop={{ base: '16px' }} flexDirection='column' alignItems='center'>
+    <Flex marginTop={{ base: '16px', lg: '32px' }} flexDirection='column' alignItems='center'>
         <Heading textAlign='center' fontSize={{ base: '2xl', lg: '5xl' }}>
             {title}
         </Heading>
         {desc ? (
-            <Text color='blackAlpha.600' marginTop='12px' textAlign='center'>
+            <Text color='blackAlpha.600' marginTop='12px' textAlign='center' maxWidth='696px'>
                 {desc}
             </Text>
         ) : null}
@@ -47,7 +47,7 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                     <Input
                         color='lime.800'
                         focusBorderColor='lime.300'
-                        fontSize='18px'
+                        fontSize={{ base: '14px', lg: '18px' }}
                         borderRadius={4}
                         placeholder='Название или ингредиент...'
                         _placeholder={{ color: 'lime.800', fontSize: { md: '14px', lg: '18px' } }}
@@ -68,7 +68,11 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                     </Text>
                     <Switch colorScheme='lime' />
                 </Flex>
-                <Select placeholder='Выберите из списка' focusBorderColor='lime.300'>
+                <Select
+                    placeholder='Выберите из списка'
+                    focusBorderColor='lime.300'
+                    color='blackAlpha.700'
+                >
                     <option value='option1'>Молочные продукты</option>
                     <option value='option2'>Яйцо</option>
                     <option value='option3'>Рыба</option>

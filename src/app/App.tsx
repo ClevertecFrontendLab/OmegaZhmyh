@@ -27,7 +27,8 @@ function App() {
                         lg: 'container.lg',
                         xl: 'container.xl',
                     }}
-                    padding={{ lg: 0 }}
+                    paddingX='0'
+                    overflow='hidden'
                 >
                     <Routes>
                         <Route path='/' element={<MainPage />} />

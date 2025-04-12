@@ -10,14 +10,14 @@ export const JuiciestPage = () => (
     <Flex
         justifyContent='center'
         direction='column'
-        paddingTop='32px'
         style={{ scrollbarGutter: 'stable' }}
+        paddingX={{ base: '16px', md: '24px', lg: '9px' }}
     >
         <SearchPanel title='Самое сочное' />
         <SimpleGrid
             marginTop='32px'
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
-            columnGap='24px'
+            columnGap={{ base: '16px', lg: '24px' }}
             rowGap='16px'
         >
             {JuiciestCardList.map((cardInfo) => (
@@ -44,7 +44,7 @@ export const JuiciestPage = () => (
             Загрузить еще
         </Button>
         <RelevantKitchen
-            marginTop='40px'
+            marginTop={{ base: '32px', lg: '40px' }}
             title='Веганская кухня'
             description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
             card1={{
@@ -64,8 +64,11 @@ export const JuiciestPage = () => (
                 repostCount: 1,
             }}
             miniCardText1='Стейк для вегетарианцев'
+            miniCardIcon1='Вторые блюда'
             miniCardText2='Котлеты из гречки и фасоли'
+            miniCardIcon2='Вторые блюда'
             miniCardText3='Сырный суп с лапшой и брокколи'
+            miniCardIcon3='Первые блюда'
         />
     </Flex>
 );

@@ -1,15 +1,14 @@
-import { EditIcon, Search2Icon } from '@chakra-ui/icons';
 import { TabList, Tabs } from '@chakra-ui/react';
 
 import AvatarImg from '~/shared/assets/avatar.png';
-import { BsHouse } from '~/shared/ui/Icons';
+import { BsHouse, BsPencil, BsSearch } from '~/shared/ui/Icons';
 
 import { createIconTab } from '../lib/createIconTab';
 
 export const MobileFooter = () => {
     const MainTab = createIconTab(BsHouse);
-    const SearchTab = createIconTab(Search2Icon);
-    const EditTab = createIconTab(EditIcon);
+    const SearchTab = createIconTab(BsSearch);
+    const EditTab = createIconTab(BsPencil);
     const AvatarTab = createIconTab(AvatarImg);
     return (
         <Tabs variant='mobileFooter' data-test-id='footer' colorScheme='lime' as='footer'>

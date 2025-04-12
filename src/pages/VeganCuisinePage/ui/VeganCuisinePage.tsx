@@ -20,15 +20,15 @@ export const VeganCuisinePage = () => (
     <Flex
         justifyContent='center'
         direction='column'
-        paddingTop='32px'
         style={{ scrollbarGutter: 'stable' }}
+        paddingX={{ base: '16px', md: '24px', lg: '9px' }}
     >
         <SearchPanel
             title='Веганская кухня'
             desc='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
         />
-        <Tabs colorScheme='lime' defaultIndex={2} marginTop='32px'>
-            <TabList justifyContent='center' whiteSpace='nowrap' overflow='hidden'>
+        <Tabs variant='veganNavTabs' colorScheme='lime' defaultIndex={2} marginTop='32px'>
+            <TabList>
                 {NavbarConfig['Веганская кухня'].tabsLinks.map((item) => (
                     <Tab key={item.tab}>{item.tab}</Tab>
                 ))}
@@ -40,7 +40,7 @@ export const VeganCuisinePage = () => (
                 <TabPanel>
                     <SimpleGrid
                         columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
-                        columnGap='24px'
+                        columnGap={{ base: '16px', lg: '24px' }}
                         rowGap='16px'
                     >
                         {VeganCardList.map((cardInfo) => (
@@ -87,9 +87,12 @@ export const VeganCuisinePage = () => (
                 likeCount: 2,
                 repostCount: 1,
             }}
-            miniCardText1='Домашние сырные палочки'
-            miniCardText2='Панкейки'
-            miniCardText3='Воздушное банановое печенье на сковороде'
+            miniCardText1='Стейк для вегетарианцев'
+            miniCardIcon1='Вторые блюда'
+            miniCardText2='Котлеты из гречки и фасоли'
+            miniCardIcon2='Вторые блюда'
+            miniCardText3='Сырный суп с лапшой и брокколи'
+            miniCardIcon3='Первые блюда'
         />
     </Flex>
 );

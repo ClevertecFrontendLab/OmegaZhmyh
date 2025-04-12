@@ -11,7 +11,7 @@ import { AppBreadcrumb } from '~/widgets/AppBreadcrumb';
 export const Header = () => (
     <Flex
         width='100%'
-        height={{ base: 'var(--mobile-header-height)', md: 'var(--header-height)' }}
+        height={{ base: 'var(--mobile-header-height)', lg: 'var(--header-height)' }}
         paddingX='16px'
         backgroundColor='lime.50'
         alignItems='center'

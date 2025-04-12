@@ -47,7 +47,7 @@ export const TextTagCard = (recipe: TextTagCardProps) => {
                 </>
             ) : null}
             <CardBody
-                padding={{ base: '8px', xl: '24px' }}
+                padding={{ base: '8px 8px 4px 8px', xl: '16px 24px 20px 24px' }}
                 display='flex'
                 flexDirection='column'
                 gap={{ base: 2, lg: 6 }}

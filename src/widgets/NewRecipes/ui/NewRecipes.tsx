@@ -1,41 +1,19 @@
-import { ArrowBackIcon, ArrowForwardIcon } from '@chakra-ui/icons';
-import { Box, Grid, IconButton, Text } from '@chakra-ui/react';
+import { Box, Grid, Text } from '@chakra-ui/react';
 
+import { ArrowLeftBtn, ArrowRightBtn } from '~/shared/ui/IconButtons';
 import { TextTagCard } from '~/shared/ui/TextTagCard';
 
 export const NewRecipes = () => (
-    <Box marginTop='30px'>
+    <Box marginTop={{ base: '32px', lg: '40px' }}>
         <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight='medium'>
             Новые рецепты
         </Text>
         <Box position='relative'>
-            <IconButton
-                top='50%'
-                left='-8px'
-                transform='translateY(-50%)'
-                aria-label='corousel back'
-                icon={<ArrowBackIcon />}
-                position='absolute'
-                bgColor='black'
-                color='lime.50'
-                zIndex='tooltip'
-            />
-            <IconButton
-                top='50%'
-                right='-8px'
-                transform='translateY(-50%)'
-                aria-label='corousel forward'
-                icon={<ArrowForwardIcon />}
-                position='absolute'
-                bgColor='black'
-                color='lime.50'
-                zIndex='tooltip'
-            />
             <Grid
-                gap={3}
-                templateRows='1fr'
+                gap={{ base: '12px', xl: '24px' }}
+                templateRows={{ base: '220px', lg: '402px', xl: '414px' }}
                 marginTop={{ base: '12px' }}
-                autoColumns={{ base: '158px', xl: '322px', lg: '277px' }}
+                autoColumns={{ base: '158px', lg: '277px', xl: '322px' }}
                 autoFlow='column'
                 overflow='hidden'
             >
@@ -85,6 +63,8 @@ export const NewRecipes = () => (
                     image='GarlicPotatoImg'
                 />
             </Grid>
+            <ArrowLeftBtn />
+            <ArrowRightBtn />
         </Box>
     </Box>
 );

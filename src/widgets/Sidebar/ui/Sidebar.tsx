@@ -1,6 +1,6 @@
-import { EditIcon } from '@chakra-ui/icons';
 import { Center, Flex, IconButton, Text } from '@chakra-ui/react';
 
+import { BsPencil } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 
 export const Sidebar = () => (
@@ -27,9 +27,9 @@ export const Sidebar = () => (
             top={0}
             gap={6}
         >
-            <BookmarkBtn value={185} />
-            <LikeBtn value={589} />
-            <RepostBtn value={587} />
+            <BookmarkBtn value={185} size={{ base: 'xs', lg: 'md' }} />
+            <LikeBtn value={589} size={{ base: 'xs', lg: 'md' }} />
+            <RepostBtn value={587} size={{ base: 'xs', lg: 'md' }} />
         </Flex>
         <Center
             width={208}
@@ -44,7 +44,7 @@ export const Sidebar = () => (
                 background='black'
                 isRound={true}
                 size='lg'
-                icon={<EditIcon color='lime.50' />}
+                icon={<BsPencil boxSize='24px' color='lime.50' />}
                 _hover={{}}
             ></IconButton>
             <Text marginTop='12px' color='blackAlpha.700' fontSize='xs'>

@@ -23,7 +23,7 @@ const theme = extendTheme({
             500: '#88d90d',
             600: '#2DB100',
             700: '#4a7801',
-            800: '#2b4800',
+            800: '#134B00',
             900: '#0b1900',
         },
     },
@@ -36,9 +36,7 @@ const theme = extendTheme({
     },
     sizes: {
         container: {
-            sm: '360px',
-            md: '768px',
-            lg: '880px',
+            lg: '896px',
             xl: '1360px',
         },
     },
