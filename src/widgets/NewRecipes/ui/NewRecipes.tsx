@@ -1,6 +1,6 @@
 import { Box, Grid, Text } from '@chakra-ui/react';
 
-import { ArrowLeftBtn, ArrowRightBtn } from '~/shared/ui/IconButtons';
+import { BsArrowLeft, BsArrowRight } from '~/shared/ui/Icons';
 import { TextTagCard } from '~/shared/ui/TextTagCard';
 
 export const NewRecipes = () => (
@@ -63,8 +63,8 @@ export const NewRecipes = () => (
                     image='GarlicPotatoImg'
                 />
             </Grid>
-            <ArrowLeftBtn />
-            <ArrowRightBtn />
+            <BsArrowLeft />
+            <BsArrowRight />
         </Box>
     </Box>
 );

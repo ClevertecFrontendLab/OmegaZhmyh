@@ -1,13 +1,11 @@
-export {
-    AvatarIcon,
-    BsAlarm,
-    BsArrowLeft,
-    BsArrowRight,
-    BsBookmarkHeart,
-    BsEmojiHeartEyes,
-    BsFilter,
-    BsHouse,
-    BsPencil,
-    BsPeopleFill,
-    BsSearch,
-} from './ui/Icons';
+export { AvatarIcon } from './ui/AvatarIcon';
+export { BsAlarm } from './ui/BsAlarm';
+export { BsArrowLeft } from './ui/BsArrowLeft';
+export { BsArrowRight } from './ui/BsArrowRight';
+export { BsBookmarkHeart } from './ui/BsBookmarkHeart';
+export { BsEmojiHeartEyes } from './ui/BsEmojiHeartEyes';
+export { BsFilter } from './ui/BsFilter';
+export { BsHouse } from './ui/BsHouse';
+export { BsPencil } from './ui/BsPencil';
+export { BsPeopleFill } from './ui/BsPeopleFill';
+export { BsSearch } from './ui/BsSearch';
