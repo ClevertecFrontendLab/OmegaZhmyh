@@ -1,6 +1,6 @@
-import { Button, Flex, SimpleGrid } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 
-import { RecipeCard } from '~/features/RecipeCard';
+import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
@@ -14,25 +14,13 @@ export const JuiciestPage = () => (
         paddingX={{ base: '16px', md: '24px', lg: '9px' }}
     >
         <SearchPanel title='Самое сочное' />
-        <SimpleGrid
+        <RecipeCardList
+            cardList={JuiciestCardList}
             marginTop='32px'
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
             columnGap={{ base: '16px', lg: '24px' }}
             rowGap='16px'
-        >
-            {JuiciestCardList.map((cardInfo) => (
-                <RecipeCard
-                    key={cardInfo.title}
-                    image={cardInfo.image}
-                    repostCount={cardInfo.repostCount}
-                    likeCount={cardInfo.likeCount}
-                    tagType={cardInfo.tagType}
-                    recomendationLabel={cardInfo.recomendationLabel}
-                    title={cardInfo.title}
-                    description={cardInfo.description}
-                />
-            ))}
-        </SimpleGrid>
+        />
         <Button
             display='block'
             margin='0 auto'

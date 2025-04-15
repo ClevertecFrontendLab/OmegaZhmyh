@@ -1,7 +1,7 @@
 import { Box, Card, CardBody, HStack, Image, Text } from '@chakra-ui/react';
 
-import { KitchenTag } from '~/entities/KitchenTag';
 import { KitchenTagType } from '~/shared/types/KitchenTagType';
+import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
 import { DishesImages, DishesImagesType } from '../../DishesImages';

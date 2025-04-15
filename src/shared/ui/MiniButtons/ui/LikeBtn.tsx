@@ -1,5 +1,4 @@
-import LikeIcon from '~/shared/assets/btn-icons/like-icon-2.svg';
-
+import { BsEmojiHeartEyes } from '../../Icons';
 import { MiniBtn, MiniBtnProps } from './MiniBtn';
 
 interface LikeBtnProps extends Omit<MiniBtnProps, 'icon'> {
@@ -7,5 +6,5 @@ interface LikeBtnProps extends Omit<MiniBtnProps, 'icon'> {
 }
 
 export const LikeBtn = ({ value = 0, ...othersProps }: LikeBtnProps) => (
-    <MiniBtn {...othersProps} icon={LikeIcon} value={value} />
+    <MiniBtn {...othersProps} icon={<BsEmojiHeartEyes color='black' />} value={value} />
 );

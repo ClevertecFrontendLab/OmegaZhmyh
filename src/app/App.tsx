@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router';
 
 import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
+import { RecipePage } from '~/pages/RecipePage';
 import { VeganCuisinePage } from '~/pages/VeganCuisinePage';
 import { Header } from '~/widgets/Header';
 import { MobileFooter } from '~/widgets/MobileFooter/';
@@ -33,6 +34,7 @@ function App() {
                     <Routes>
                         <Route path='/' element={<MainPage />} />
                         <Route path='/Vegan-cuisine/Main-courses' element={<VeganCuisinePage />} />
+                        <Route path='/Vegan-cuisine/Main-courses/*' element={<RecipePage />} />
                         <Route path='/Vegan-cuisine' element={<VeganCuisinePage />} />
                         <Route path='/Juiciest' element={<JuiciestPage />} />
                     </Routes>

@@ -1,16 +1,7 @@
-import {
-    Button,
-    Flex,
-    SimpleGrid,
-    Tab,
-    TabList,
-    TabPanel,
-    TabPanels,
-    Tabs,
-} from '@chakra-ui/react';
+import { Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
-import { RecipeCard } from '~/features/RecipeCard';
 import { NavbarConfig } from '~/shared/config/tabTitles';
+import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
@@ -38,24 +29,12 @@ export const VeganCuisinePage = () => (
                 <TabPanel></TabPanel>
                 <TabPanel></TabPanel>
                 <TabPanel>
-                    <SimpleGrid
+                    <RecipeCardList
+                        cardList={VeganCardList}
                         columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
                         columnGap={{ base: '16px', lg: '24px' }}
                         rowGap='16px'
-                    >
-                        {VeganCardList.map((cardInfo) => (
-                            <RecipeCard
-                                key={cardInfo.title}
-                                image={cardInfo.image}
-                                repostCount={cardInfo.repostCount}
-                                likeCount={cardInfo.likeCount}
-                                tagType={cardInfo.tagType}
-                                recomendationLabel={cardInfo.recomendationLabel}
-                                title={cardInfo.title}
-                                description={cardInfo.description}
-                            />
-                        ))}
-                    </SimpleGrid>
+                    />
                     <Button
                         display='block'
                         margin='0 auto'

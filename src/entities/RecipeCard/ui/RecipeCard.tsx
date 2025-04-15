@@ -11,14 +11,15 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
+import { Link } from 'react-router';
 
-import { KitchenTag } from '~/entities/KitchenTag';
-import { Recomendation } from '~/entities/Recomendation';
-import BookmarkIcon from '~/shared/assets/btn-icons/bookmark-icon.svg';
 import { KitchenTagType } from '~/shared/types/KitchenTagType';
 import { AvatarImagesType } from '~/shared/ui/AvatarImages';
 import { DishesImages, DishesImagesType } from '~/shared/ui/DishesImages';
+import { BsBookmarkHeart } from '~/shared/ui/Icons';
+import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
+import { Recomendation } from '~/shared/ui/Recomendation';
 
 export interface RecipeCardType {
     title: string;
@@ -128,7 +129,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             color='blackAlpha.800'
                             backgroundColor='whiteAlpha.100'
                             borderColor='blackAlpha.600'
-                            leftIcon={<img src={BookmarkIcon} />}
+                            leftIcon={<BsBookmarkHeart />}
                         >
                             Сохранить
                         </Button>
@@ -139,7 +140,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             color='blackAlpha.800'
                             backgroundColor='whiteAlpha.100'
                             borderColor='blackAlpha.600'
-                            icon={<img src={BookmarkIcon} />}
+                            icon={<BsBookmarkHeart />}
                             aria-label='Сохранить'
                         >
                             Сохранить
@@ -152,6 +153,8 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             borderColor='blackAlpha.200'
                             border='1px solid black'
                             _hover={{ color: 'black', bgColor: 'white' }}
+                            as={Link}
+                            to='/Vegan-cuisine/Main-courses/1'
                         >
                             Готовить
                         </Button>

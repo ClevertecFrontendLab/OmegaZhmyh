@@ -1,10 +1,10 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
 import { CookingBlog } from '~/entities/CookingBlog';
-import { RecipeCard } from '~/features/RecipeCard';
 import { NewRecipes } from '~/widgets/NewRecipes';
+import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
@@ -42,26 +42,13 @@ export const MainPage = () => (
                 </Link>
             </Box>
         </Flex>
-        <SimpleGrid
+        <RecipeCardList
+            cardList={MainCardList}
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
             columnGap={{ base: '16px', xl: '24px' }}
             rowGap={{ base: '12px', md: '16px', xl: '24px' }}
             mt={{ base: '12px' }}
-        >
-            {MainCardList.map((cardInfo) => (
-                <RecipeCard
-                    key={cardInfo.title}
-                    image={cardInfo.image}
-                    repostCount={cardInfo.repostCount}
-                    likeCount={cardInfo.likeCount}
-                    tagType={cardInfo.tagType}
-                    recomendationLabel={cardInfo.recomendationLabel}
-                    recomendationIcon={cardInfo.recomendationIcon}
-                    title={cardInfo.title}
-                    description={cardInfo.description}
-                />
-            ))}
-        </SimpleGrid>
+        />
         <Flex
             display={{ base: 'flex', lg: 'none' }}
             visibility={{ base: 'visible', lg: 'hidden' }}
