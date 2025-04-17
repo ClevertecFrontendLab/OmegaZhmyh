@@ -1,6 +1,6 @@
 import { SimpleGrid, SimpleGridProps } from '@chakra-ui/react';
 
-import { RecipeCard } from '~/entities/RecipeCard';
+import { RecipeCard } from '~/entities/Recipe';
 import { CardType } from '~/shared/types/CardListType';
 
 interface RecipeCardListProps extends SimpleGridProps {

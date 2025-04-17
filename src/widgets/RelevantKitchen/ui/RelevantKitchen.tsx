@@ -1,11 +1,8 @@
 import { Grid, GridItem, GridProps, SimpleGrid } from '@chakra-ui/react';
 
+import { TextCard } from '~/entities/Recipe/ui/TextCard';
+import { TextTagDecsCard, TextTagDecsCardProps } from '~/entities/Recipe/ui/TextTagDecsCard';
 import { KitchenTagType } from '~/shared/types/KitchenTagType';
-import { TextCard } from '~/shared/ui/TextCard';
-import {
-    TextTagDecsCard,
-    TextTagDecsCardProps,
-} from '~/shared/ui/TextTagDecsCard/ui/TextTagDecsCard';
 
 interface RelevantKitchenProps extends GridProps {
     title: string;

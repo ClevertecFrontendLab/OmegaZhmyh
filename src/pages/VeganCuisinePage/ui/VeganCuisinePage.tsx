@@ -1,4 +1,5 @@
 import { Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { NavLink } from 'react-router';
 
 import { NavbarConfig } from '~/shared/config/tabTitles';
 import { RecipeCardList } from '~/widgets/RecipeCardList';
@@ -21,7 +22,9 @@ export const VeganCuisinePage = () => (
         <Tabs variant='veganNavTabs' colorScheme='lime' defaultIndex={2} marginTop='32px'>
             <TabList>
                 {NavbarConfig['Веганская кухня'].tabsLinks.map((item) => (
-                    <Tab key={item.tab}>{item.tab}</Tab>
+                    <Tab key={item.tab} as={NavLink} to={item.link}>
+                        {item.tab}
+                    </Tab>
                 ))}
             </TabList>
 

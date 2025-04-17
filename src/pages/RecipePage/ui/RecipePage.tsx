@@ -1,144 +1,114 @@
 import {
     Box,
     Button,
-    Card,
-    CardBody,
+    Container,
+    Flex,
     Grid,
     Heading,
     HStack,
     Image,
-    NumberInput,
-    Square,
-    Table,
-    TableContainer,
     Tag,
     TagLabel,
     TagLeftIcon,
-    Tbody,
-    Td,
     Text,
-    Th,
-    Thead,
-    Tr,
     VStack,
 } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
+import { getRecipes } from '~/shared/store/recipe/recipeSlice';
 import { DishesImages } from '~/shared/ui/DishesImages';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
 import { KitchenTag } from '~/shared/ui/KitchenTag';
-import { UserCard } from '~/shared/ui/UserCard';
+import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { NewRecipes } from '~/widgets/NewRecipes';
 
-/* interface RecipePageProps {
-    className?: string;
-} */
+import { AuthorCard } from './AuthorCard';
+import { CookingSteps } from './CookingSteps';
+import { IngredientsList } from './IngredientsList';
+import { Nutrients } from './Nutrients/';
 
-// eslint-disable-next-line arrow-body-style
 export const RecipePage = () => {
-    const image = DishesImages['SpaghettiRollImg'];
+    const { id } = useParams();
+    const recipe = useSelector(getRecipes).filter((recipe) => recipe.id === Number(id))[0];
+
+    const {
+        title,
+        description,
+        time,
+        image = DishesImages['SpaghettiRollImg'],
+        category,
+        nutritionValue,
+        ingredients,
+        likes,
+        bookmarks,
+        steps,
+    } = recipe;
     return (
         <>
-            <Grid templateColumns='5fr 7fr' gap='24px'>
-                <Image src={image} width='410px' />
-                <VStack>
-                    <HStack>
-                        <KitchenTag type='Вторые блюда' />
-                        <KitchenTag type='Национальные' />
-                        <KitchenTag type='Детские блюда' />
-                    </HStack>
-                    <Heading>Лапша с курицей и шафраном</Heading>
-                    <Text>
-                        Как раз после праздников, когда мясные продукты еще остались, но никто их
-                        уже не хочет, время варить солянку.
-                    </Text>
-                    <HStack>
+            <Grid templateColumns='5fr 7fr' gap='24px' marginTop={{ base: '16px', lg: '56px' }}>
+                <Image
+                    src={image}
+                    objectFit='cover'
+                    borderRadius='8px'
+                    overflow='hidden'
+                    width={{ base: '328px', md: '232px', lg: '353px', xl: '553px' }}
+                    height={{ base: '224px', lg: '410px' }}
+                />
+                <VStack alignItems='stretch' justifyContent='space-between' gap={0}>
+                    <Box>
+                        <HStack justifyContent='space-between'>
+                            <HStack>
+                                {category.map((category) => (
+                                    <KitchenTag category={category} />
+                                ))}
+                            </HStack>
+                            <HStack spacing={{ base: 0, lg: 2 }}>
+                                <BookmarkBtn
+                                    value={bookmarks}
+                                    visibility={bookmarks ? 'visible' : 'hidden'}
+                                />
+                                <LikeBtn value={likes} visibility={likes ? 'visible' : 'hidden'} />
+                            </HStack>
+                        </HStack>
+                        <Heading fontSize={{ base: '2xl', lg: '5xl' }} marginTop='32px'>
+                            {title}
+                        </Heading>
+                        <Text marginTop={{ base: '16px', lg: '24px' }}>{description}</Text>
+                    </Box>
+                    <HStack alignItems='end' justifyContent='space-between'>
                         <Tag>
-                            <TagLeftIcon as={BsAlarm}></TagLeftIcon>
-                            <TagLabel>20 минут</TagLabel>
+                            <TagLeftIcon as={BsAlarm} boxSize={{ lg: '16px' }}></TagLeftIcon>
+                            <TagLabel>{time}</TagLabel>
                         </Tag>
-                        <Button leftIcon={<BsEmojiHeartEyes />}>Оценить рецепт</Button>
-                        <Button leftIcon={<BsBookmarkHeart />}>Сохранить в закладки</Button>
+                        <Flex gap={{ base: '12px', xl: '16px' }}>
+                            <Button
+                                size='lg'
+                                variant='outline'
+                                colorScheme='black'
+                                leftIcon={<BsEmojiHeartEyes />}
+                            >
+                                Оценить рецепт
+                            </Button>
+                            <Button
+                                size='lg'
+                                color='black'
+                                bgColor='lime.400'
+                                leftIcon={<BsBookmarkHeart />}
+                            >
+                                Сохранить в закладки
+                            </Button>
+                        </Flex>
                     </HStack>
                 </VStack>
             </Grid>
-            <VStack>
-                <Text>* Калорийность на 1 порцию</Text>
-                <HStack>
-                    <Square>
-                        <VStack>
-                            <Text>калорийность</Text>
-                            <Text>358</Text>
-                            <Text>ККАЛ</Text>
-                        </VStack>
-                    </Square>
-                    <Square>
-                        <VStack>
-                            <Text>белки</Text>
-                            <Text>23</Text>
-                            <Text>ГРАММ</Text>
-                        </VStack>
-                    </Square>
-                    <Square>
-                        <VStack>
-                            <Text>жиры</Text>
-                            <Text>20</Text>
-                            <Text>ГРАММ</Text>
-                        </VStack>
-                    </Square>
-                    <Square>
-                        <VStack>
-                            <Text>углеводы</Text>
-                            <Text>23</Text>
-                            <Text>ГРАММ</Text>
-                        </VStack>
-                    </Square>
-                </HStack>
-                <TableContainer>
-                    <Table variant='striped' colorScheme='teal'>
-                        <Thead>
-                            <Tr>
-                                <Th>ИНГРЕДИЕНТЫ</Th>
-                                <Th isNumeric>
-                                    ПОРЦИЙ
-                                    <NumberInput />
-                                </Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <Tr>
-                                <Td>зелёного лука</Td>
-                                <Td isNumeric>25.4</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>репчатого лука</Td>
-                                <Td isNumeric>30.48</Td>
-                            </Tr>
-                            <Tr>
-                                <Td>чеснока</Td>
-                                <Td isNumeric>0.91444</Td>
-                            </Tr>
-                        </Tbody>
-                    </Table>
-                </TableContainer>
-                <Text>Шаги приготовления</Text>
-                <Card>
-                    <Image src={image} />
-                    <CardBody>
-                        <Tag>Шаг 1</Tag>
-                        <Text>
-                            Зелёный лук нарезать на 1 см. кружочки. Лук и чеснок на мелкие кубики.{' '}
-                        </Text>
-                    </CardBody>
-                </Card>
-                <Box>
-                    <UserCard
-                        accountName='@serge25'
-                        avatarImg='AlexCookImg'
-                        userName='Сергей Разумов'
-                    />
-                </Box>
-                <NewRecipes />
-            </VStack>
+            <Container maxWidth='668px' marginTop={{ base: '24px', lg: '40px' }}>
+                <Nutrients nutritionValue={nutritionValue} />
+                <IngredientsList ingredients={ingredients} />
+                <CookingSteps steps={steps} />
+                <AuthorCard />
+            </Container>
+            <NewRecipes />
         </>
     );
 };

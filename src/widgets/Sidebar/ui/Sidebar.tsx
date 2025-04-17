@@ -9,7 +9,7 @@ export const Sidebar = () => (
         justifyContent='space-between'
         alignItems='end'
         display={{ base: 'none', lg: 'flex' }}
-        width='280px'
+        width='var(--sidebar-width)'
         height='calc(100vh - var(--header-height))'
         flexShrink={0}
         position='fixed'

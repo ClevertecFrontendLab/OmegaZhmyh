@@ -1,7 +1,7 @@
 import { Icon } from '@chakra-ui/react';
 
 export const BsBookmarkHeart = ({ ...props }) => (
-    <Icon viewBox='0 0 16 16' {...props}>
+    <Icon viewBox='0 0 12 12' {...props}>
         <path
             fillRule='evenodd'
             clipRule='evenodd'

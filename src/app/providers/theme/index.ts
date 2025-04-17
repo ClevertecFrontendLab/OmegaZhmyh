@@ -3,6 +3,7 @@ import { extendTheme } from '@chakra-ui/react';
 import { accordionTheme } from './components/accordion';
 import { cardTheme } from './components/card';
 import { switchTheme } from './components/switch';
+import { tableTheme } from './components/table';
 import { tabsTheme } from './components/tabs';
 
 const theme = extendTheme({
@@ -11,6 +12,7 @@ const theme = extendTheme({
         Tabs: tabsTheme,
         Switch: switchTheme,
         Accordion: accordionTheme,
+        Table: tableTheme,
     },
     colors: {
         lime: {
@@ -33,11 +35,12 @@ const theme = extendTheme({
         md: '768px',
         lg: '1440px',
         xl: '1920px',
+        '2xl': '1920px',
     },
     sizes: {
         container: {
             lg: '896px',
-            xl: '1360px',
+            xl: '1376px',
         },
     },
 });

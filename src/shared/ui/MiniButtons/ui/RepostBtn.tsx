@@ -2,7 +2,7 @@ import { BsPeopleFill } from '../../Icons';
 import { MiniBtn, MiniBtnProps } from './MiniBtn';
 
 interface RepostBtnProps extends Omit<MiniBtnProps, 'icon'> {
-    value?: number;
+    value: number;
 }
 
 export const RepostBtn = ({ value = 0, ...othersProps }: RepostBtnProps) => (

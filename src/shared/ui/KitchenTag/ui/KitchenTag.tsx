@@ -1,23 +1,28 @@
-import { TagProps } from '@chakra-ui/react';
+import { Tag, TagLabel, TagProps } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
-import { KitchenTagType } from '~/shared/types/KitchenTagType';
-import { CardTag } from '~/shared/ui/CardTag';
 import { kitchenIcons } from '~/shared/ui/KitchenIcons';
 
+import { getCategoryLabel } from '../../../store/category/getCategoryLabel';
+
 interface KitchenTagProps extends TagProps {
-    type: KitchenTagType;
+    category: string;
     color?: string;
 }
 
 export const KitchenTag = (props: KitchenTagProps) => {
-    const { type, color = 'lime.50', ...otherProps } = props;
+    const { category, color = 'lime.50', ...otherProps } = props;
+    const categoryLabels = useSelector(getCategoryLabel);
     return (
-        <CardTag
-            padding={{ base: '0 4px', lg: '0 8px' }}
-            bgColor={color}
-            icon={kitchenIcons[type]}
-            label={type}
-            {...otherProps}
-        />
+        <Tag padding={{ base: '0 4px', lg: '0 8px' }} bgColor={color} {...otherProps}>
+            <img
+                src={kitchenIcons[category] || kitchenIcons['snacks']}
+                width='16px'
+                height='16px'
+            />
+            <TagLabel marginLeft={{ base: '2px', lg: '8px' }} fontSize='sm' fontWeight='normal'>
+                {categoryLabels[category] || category}
+            </TagLabel>
+        </Tag>
     );
 };

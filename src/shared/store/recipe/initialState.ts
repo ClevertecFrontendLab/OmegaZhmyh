@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { RecipeType } from '~/shared/types/Recipe';
+import { DishesImages } from '~/shared/ui/DishesImages';
+import { step1Img, step2Img, step3Img, step4Img } from '~/shared/ui/StepsImages';
 
-import { RecipeType } from '../types/Recipe';
-
-const initialState: RecipeType[] = [
+export const initialState: RecipeType[] = [
     {
         id: 0,
         title: 'Картошка, тушенная с болгарским перцем и фасолью в томатном соусе',
@@ -10,7 +10,7 @@ const initialState: RecipeType[] = [
             'Картошка, тушенная с болгарским перцем, фасолью, морковью и луком, - вариант сытного блюда на каждый день. Фасоль в данном случае заменяет мясо, делая рагу сытным и питательным. Чтобы сократить время приготовления, возьмём консервированную фасоль. Блюдо хоть и простое, но в полной мере наполнено ароматами и имеет выразительный вкус за счёт добавления томатной пасты.',
         category: ['vegan', 'second-dish'],
         subcategory: ['snacks', 'vegetables'],
-        image: 'путь к изображению в вашем проекте',
+        image: DishesImages['PotatoImg'],
         bookmarks: 85,
         likes: 152,
         date: new Date('2025-02-28T00:00:00Z'),
@@ -29,22 +29,22 @@ const initialState: RecipeType[] = [
             {
                 stepNumber: 1,
                 description: 'Нарезать картошку и перец.',
-                image: 'url',
+                image: step1Img,
             },
             {
                 stepNumber: 2,
                 description: 'Обжарить лук до золотистого цвета.',
-                image: 'url',
+                image: step2Img,
             },
             {
                 stepNumber: 3,
                 description: 'Добавить картошку, перец и фасоль, залить соусом.',
-                image: 'url',
+                image: step3Img,
             },
             {
                 stepNumber: 4,
                 description: 'Тушить на медленном огне 30 минут.',
-                image: 'url',
+                image: step4Img,
             },
         ],
         meat: '',
@@ -348,9 +348,3 @@ const initialState: RecipeType[] = [
         ],
     },
 ];
-
-export const recipeSlice = createSlice({
-    name: 'recipes',
-    initialState,
-    reducers: {},
-});

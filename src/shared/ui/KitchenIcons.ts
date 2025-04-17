@@ -11,17 +11,17 @@ import SecondDishesIcon from '~/shared/assets/kitchen_icons/second_dishes.svg';
 import SnackIcon from '~/shared/assets/kitchen_icons/snack.svg';
 import VeganCuisineIcon from '~/shared/assets/kitchen_icons/vegan_cuisine.svg';
 
-export const kitchenIcons = {
-    Салаты: SaladsIcon,
-    Закуски: SnackIcon,
+export const kitchenIcons: { [key: string]: string } = {
+    salads: SaladsIcon,
+    snacks: SnackIcon,
     'Первые блюда': FirstCoursesIcon,
-    'Вторые блюда': SecondDishesIcon,
+    'second-dish': SecondDishesIcon,
     'Десерты, выпечка': DessertIcon,
     'Блюда на гриле': GrilledDishesIcon,
-    'Веганская кухня': VeganCuisineIcon,
+    vegan: VeganCuisineIcon,
     'Детские блюда': ChildrensMealIcon,
     'Лечебное питание': ClinicalNutritionIcon,
-    Национальные: NationalIcon,
+    national: NationalIcon,
     Соусы: SaucesIcon,
     Напитки: DrinksIcon,
 };

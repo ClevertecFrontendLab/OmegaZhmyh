@@ -36,14 +36,13 @@ export interface RecipeCardType {
 
 export const RecipeCard = (recipe: RecipeCardType) => {
     const {
-        title = 'Лапша с курицей и шафраном',
-        description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae sunt, eaque fugit provident minima vel quaerat dolor voluptatem quos rem atque eum, veniam asperiores odit, beatae laudantium? Iure, iste possimus.',
+        title = 'Заголовок',
+        description = 'Описание',
         recomendationLabel,
         recomendationIcon = 'AlexCookImg',
         image = 'SpaghettiRollImg',
         likeCount = 0,
         repostCount = 0,
-        tagType = 'Национальные',
         direction = 'row',
         tagColor,
     } = recipe;
@@ -58,7 +57,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                     height={{ base: '128px', lg: '244px' }}
                 />
                 <KitchenTag
-                    type={tagType}
+                    category='Воторое блюдо'
                     color={tagColor}
                     position='absolute'
                     left='8px'
@@ -87,7 +86,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                     <Box>
                         <HStack spacing={8.5} justifyContent='space-between'>
                             <KitchenTag
-                                type={tagType}
+                                category='Воторое блюдо'
                                 color={tagColor}
                                 display={{ lg: 'flex', base: 'none' }}
                             />

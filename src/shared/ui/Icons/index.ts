@@ -8,4 +8,5 @@ export { BsFilter } from './ui/BsFilter';
 export { BsHouse } from './ui/BsHouse';
 export { BsPencil } from './ui/BsPencil';
 export { BsPeopleFill } from './ui/BsPeopleFill';
+export { BsPersonPlusFill } from './ui/BsPersonPlusFill';
 export { BsSearch } from './ui/BsSearch';

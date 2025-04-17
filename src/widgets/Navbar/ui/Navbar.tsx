@@ -13,14 +13,16 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router';
 
 import ExitIcon from '~/shared/assets/exit-icon.svg';
-import { NavbarConfig } from '~/shared/config/tabTitles';
+import { getCategores } from '~/shared/store/category/categorySlice';
 
 export const Navbar = ({ ...props }) => {
     const accordionRef = useRef<HTMLDivElement>(null);
     const [hasOverflow, setHasOverflow] = useState(false);
+    const categores = useSelector(getCategores);
 
     useEffect(() => {
         if (!accordionRef.current) return;
@@ -41,7 +43,7 @@ export const Navbar = ({ ...props }) => {
 
     return (
         <Box
-            width='260px'
+            width='var(--navbar-width)'
             top='var(--header-height)'
             height='calc(100vh - var(--header-height))'
             paddingTop='24px'
@@ -62,36 +64,33 @@ export const Navbar = ({ ...props }) => {
                         : ''
                 }
             >
-                <Accordion ref={accordionRef} variant='navbar' allowMultiple>
-                    {Object.keys(NavbarConfig).map((tabName) => (
-                        <AccordionItem key={tabName}>
+                <Accordion ref={accordionRef} variant='navbar'>
+                    {Object.keys(categores).map((categoryName) => (
+                        <AccordionItem key={categoryName}>
                             <AccordionButton
                                 as={Link}
-                                to='/Vegan-cuisine/Main-courses'
+                                to={`/${categoryName}/${categores[categoryName].subcategory[0].name}`}
                                 _expanded={{ bg: 'lime.100', fontWeight: 'bold' }}
                                 _hover={{ bg: 'lime.50' }}
-                                data-test-id={
-                                    tabName === 'Веганская кухня' ? 'vegan-cuisine' : null
-                                }
                             >
-                                <img src={NavbarConfig[tabName].icon} alt={tabName} />
+                                <img src={categores[categoryName].icon} alt={categoryName} />
                                 <Text flex='1' textAlign='left'>
-                                    {tabName}
+                                    {categores[categoryName].label}
                                 </Text>
                                 <AccordionIcon />
                             </AccordionButton>
                             <AccordionPanel>
                                 <Tabs variant='navbar' colorScheme='lime' color='black'>
                                     <TabList>
-                                        {NavbarConfig[tabName].tabsLinks.map(
-                                            ({ tab, link }, index) => (
+                                        {categores[categoryName].subcategory.map(
+                                            ({ name, label }) => (
                                                 <Tab
-                                                    key={index}
+                                                    key={name}
                                                     _hover={{ bg: 'lime.50' }}
                                                     as={NavLink}
-                                                    to={link}
+                                                    to={`/${categoryName}/${name}`}
                                                 >
-                                                    {tab}
+                                                    {label}
                                                 </Tab>
                                             ),
                                         )}
