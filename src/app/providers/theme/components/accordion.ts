@@ -26,8 +26,8 @@ const navbarVariant = definePartsStyle((props) => {
         },
         root: {
             allowMultiple: true,
-            minHeight: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 35px)',
-            maxHeight: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 34px)',
+            //minHeight: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 35px)',
+            //maxHeight: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 34px)',
             paddingLeft: '10px',
             overflow: 'auto',
             scrollbarGutter: 'stable',

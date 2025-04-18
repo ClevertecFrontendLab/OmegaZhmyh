@@ -7,17 +7,14 @@ import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
 import { RecipePage } from '~/pages/RecipePage';
 import { VeganCuisinePage } from '~/pages/VeganCuisinePage';
-import { Header } from '~/widgets/Header';
-import { MobileFooter } from '~/widgets/MobileFooter/';
-import { Navbar } from '~/widgets/Navbar';
-import { Sidebar } from '~/widgets/Sidebar';
+import { BurgerMenu, Header, MobileFooter, NavBar, Sidebar } from '~/widgets/Layout';
 
 function App() {
     return (
         <>
             <Header />
             <Flex justifyContent={{ base: 'center', lg: 'space-between' }}>
-                <Navbar flexShrink={0} />
+                <NavBar flexShrink={0} />
                 <Container
                     as='main'
                     marginTop={{ base: 'var(--mobile-header-height)', md: 'var(--header-height)' }}
@@ -39,6 +36,7 @@ function App() {
                     </Routes>
                 </Container>
                 <Sidebar />
+                <BurgerMenu />
             </Flex>
             <MobileFooter />
         </>
