@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { kitchenIcons } from '~/shared/ui/KitchenIcons';
 
-import { getCategoryLabel } from '../../../store/category/getCategoryLabel';
+import { selectCategoryLabels } from '../../../../entities/Category/model/selectors/selectCategoryLabels';
 
 interface KitchenTagProps extends TagProps {
     category: string;
@@ -12,7 +12,7 @@ interface KitchenTagProps extends TagProps {
 
 export const KitchenTag = (props: KitchenTagProps) => {
     const { category, color = 'lime.50', ...otherProps } = props;
-    const categoryLabels = useSelector(getCategoryLabel);
+    const categoryLabels = useSelector(selectCategoryLabels);
     return (
         <Tag padding={{ base: '0 4px', lg: '0 8px' }} bgColor={color} {...otherProps}>
             <img

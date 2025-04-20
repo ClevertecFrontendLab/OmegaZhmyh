@@ -3,7 +3,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbProps } from '@ch
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
-import { getCategoryLabel } from '~/shared/store/category/getCategoryLabel';
+import { selectCategoryLabels } from '~/entities/Category/model/selectors/selectCategoryLabels';
 
 interface AppBreadcrumbProps extends BreadcrumbProps {}
 
@@ -11,7 +11,7 @@ export const AppBreadcrumb = (props: AppBreadcrumbProps) => {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
 
-    const pathNameMap = useSelector(getCategoryLabel);
+    const pathNameMap = useSelector(selectCategoryLabels);
 
     return (
         <Breadcrumb separator={<ChevronRightIcon />} {...props}>

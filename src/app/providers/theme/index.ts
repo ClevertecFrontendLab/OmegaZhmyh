@@ -2,6 +2,8 @@ import { extendTheme } from '@chakra-ui/react';
 
 import { accordionTheme } from './components/accordion';
 import { cardTheme } from './components/card';
+import { checkboxTheme } from './components/checkbox';
+import { menuTheme } from './components/menu';
 import { switchTheme } from './components/switch';
 import { tableTheme } from './components/table';
 import { tabsTheme } from './components/tabs';
@@ -13,6 +15,8 @@ const theme = extendTheme({
         Switch: switchTheme,
         Accordion: accordionTheme,
         Table: tableTheme,
+        Checkbox: checkboxTheme,
+        Menu: menuTheme,
     },
     colors: {
         lime: {

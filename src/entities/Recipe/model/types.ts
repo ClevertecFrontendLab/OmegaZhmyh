@@ -1,3 +1,5 @@
+export type RecipesState = RecipeType[];
+
 export interface RecipeType {
     id: number;
     title: string;
@@ -7,7 +9,7 @@ export interface RecipeType {
     image: string;
     bookmarks: number;
     likes: number;
-    date: Date;
+    date: string;
     time: string;
     portions?: number;
     nutritionValue: NutritionValueType;

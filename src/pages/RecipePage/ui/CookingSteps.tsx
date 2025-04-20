@@ -1,6 +1,6 @@
 import { Card, CardBody, Flex, Image, Tag, Text } from '@chakra-ui/react';
 
-import { StepType } from '~/shared/types/Recipe';
+import { StepType } from '~/entities/Recipe/model/types';
 
 interface CookingStepsProps {
     steps: StepType[];

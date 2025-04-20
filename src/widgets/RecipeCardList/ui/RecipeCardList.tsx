@@ -1,26 +1,25 @@
 import { SimpleGrid, SimpleGridProps } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 import { RecipeCard } from '~/entities/Recipe';
-import { CardType } from '~/shared/types/CardListType';
+import { selectFilteredRecipes } from '~/features/recipe-filters';
 
-interface RecipeCardListProps extends SimpleGridProps {
-    cardList: CardType[];
-}
+interface RecipeCardListProps extends SimpleGridProps {}
 
-export const RecipeCardList = ({ cardList, ...gridProps }: RecipeCardListProps) => (
-    <SimpleGrid {...gridProps}>
-        {cardList.map((cardInfo) => (
-            <RecipeCard
-                key={cardInfo.title}
-                image={cardInfo.image}
-                repostCount={cardInfo.repostCount}
-                likeCount={cardInfo.likeCount}
-                tagType={cardInfo.tagType}
-                recomendationLabel={cardInfo.recomendationLabel}
-                recomendationIcon={cardInfo.recomendationIcon}
-                title={cardInfo.title}
-                description={cardInfo.description}
-            />
-        ))}
-    </SimpleGrid>
-);
+export const RecipeCardList = ({ ...gridProps }: RecipeCardListProps) => {
+    const recipes = useSelector(selectFilteredRecipes);
+    return (
+        <SimpleGrid {...gridProps}>
+            {recipes.map((recipeInfo) => (
+                <RecipeCard
+                    key={recipeInfo.title}
+                    image={recipeInfo.image}
+                    repostCount={recipeInfo.bookmarks}
+                    likeCount={recipeInfo.likes}
+                    title={recipeInfo.title}
+                    description={recipeInfo.description}
+                />
+            ))}
+        </SimpleGrid>
+    );
+};

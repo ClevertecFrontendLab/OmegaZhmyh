@@ -14,7 +14,7 @@ import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router';
 
-import { getCategores } from '~/shared/store/category/categorySlice';
+import { selectAllCategories } from '~/entities/Category/';
 
 import { useOverflow } from '../lib/useOverflow';
 
@@ -24,7 +24,7 @@ interface NavMenuProps {
 
 export const NavMenu = (props: NavMenuProps) => {
     const { isMobile = false } = props;
-    const categores = useSelector(getCategores);
+    const categores = useSelector(selectAllCategories);
 
     const accordionRef = useRef<HTMLDivElement>(null);
     const hasOverflow = useOverflow(accordionRef);

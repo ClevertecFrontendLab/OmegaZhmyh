@@ -6,10 +6,6 @@ export const recipeSlice = createSlice({
     name: 'recipes',
     initialState,
     reducers: {},
-    selectors: {
-        getRecipes: (state) => state,
-    },
 });
 
-export type RecipeState = ReturnType<typeof recipeSlice.reducer>;
-export const { getRecipes } = recipeSlice.selectors;
+export const { reducer: recipeReducer } = recipeSlice;

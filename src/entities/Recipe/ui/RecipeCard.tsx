@@ -13,9 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
-import { KitchenTagType } from '~/shared/types/KitchenTagType';
 import { AvatarImagesType } from '~/shared/ui/AvatarImages';
-import { DishesImages, DishesImagesType } from '~/shared/ui/DishesImages';
 import { BsBookmarkHeart } from '~/shared/ui/Icons';
 import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
@@ -24,11 +22,10 @@ import { Recomendation } from '~/shared/ui/Recomendation';
 export interface RecipeCardType {
     title: string;
     description: string;
-    tagType: KitchenTagType;
     tagColor?: string;
     recomendationLabel?: string;
     recomendationIcon?: AvatarImagesType;
-    image?: DishesImagesType;
+    image?: string;
     likeCount?: number;
     repostCount?: number;
     direction?: SystemProps['flexDirection'];
@@ -51,7 +48,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
             <Box position='relative'>
                 <Image
                     objectFit='cover'
-                    src={DishesImages[image]}
+                    src={image}
                     alt='Caffe Latte'
                     width={{ base: '158px', lg: '346px' }}
                     height={{ base: '128px', lg: '244px' }}

@@ -1,6 +1,6 @@
 import { SimpleGrid, Text } from '@chakra-ui/react';
 
-import { NutritionValueType } from '~/shared/types/Recipe';
+import { NutritionValueType } from '~/entities/Recipe/model/types';
 
 import { Nutrient } from './Nutrient';
 

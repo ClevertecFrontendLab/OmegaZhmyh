@@ -16,7 +16,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { getRecipes } from '~/shared/store/recipe/recipeSlice';
+import { selectAllRecipes } from '~/entities/Recipe/';
 import { DishesImages } from '~/shared/ui/DishesImages';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
 import { KitchenTag } from '~/shared/ui/KitchenTag';
@@ -30,7 +30,7 @@ import { Nutrients } from './Nutrients/';
 
 export const RecipePage = () => {
     const { id } = useParams();
-    const recipe = useSelector(getRecipes).filter((recipe) => recipe.id === Number(id))[0];
+    const recipe = useSelector(selectAllRecipes).filter((recipe) => recipe.id === Number(id))[0];
 
     const {
         title,

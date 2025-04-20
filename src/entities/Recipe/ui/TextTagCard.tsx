@@ -1,7 +1,7 @@
 import { Box, Card, CardBody, HStack, Image, LinkOverlay, Text } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
-import { RecipeType } from '~/shared/types/Recipe';
+import { RecipeType } from '~/entities/Recipe/model/types';
 import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
