@@ -1,5 +1,6 @@
 import CabbageCutletsImg from '~/shared/assets/recipe_img/Cabbage_cutlets.jpg';
 import GarlicPotatoImg from '~/shared/assets/recipe_img/garlic_potato.jpg';
+import GrechkaImg from '~/shared/assets/recipe_img/grechka.jpg';
 import HamImg from '~/shared/assets/recipe_img/ham.jpg';
 import LasagnaImg from '~/shared/assets/recipe_img/lasagna.jpg';
 import MeatballImg from '~/shared/assets/recipe_img/meatball.jpg';
@@ -28,5 +29,6 @@ export const DishesImages = {
     SaladImg,
     PancakesRollImg,
     MushroomSaladImg,
+    GrechkaImg,
 };
 export type DishesImagesType = keyof typeof DishesImages;

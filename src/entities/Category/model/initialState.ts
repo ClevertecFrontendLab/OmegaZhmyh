@@ -16,6 +16,11 @@ import { categoryShema } from './types';
 export const initialState: categoryShema = {
     currentCategory: '',
     categoryList: {
+        juiciest: {
+            icon: '',
+            label: 'Самое сочное',
+            subcategory: [],
+        },
         salads: {
             icon: SaladIcon,
             label: 'Салаты',

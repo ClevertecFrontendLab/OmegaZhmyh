@@ -17,6 +17,7 @@ export const SlidePrevButton = () => {
             bgColor='black'
             zIndex={10}
             visibility={{ base: 'hidden', lg: 'visible' }}
+            data-test-id='carousel-back'
         />
     );
 };

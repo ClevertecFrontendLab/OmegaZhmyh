@@ -347,4 +347,51 @@ export const initialState: RecipesState = [
             },
         ],
     },
+    {
+        id: 9,
+        title: 'Гречка с грибами и луком в сливочном соусе',
+        description:
+            'Гречка, тушённая с шампиньонами, луком и сливочным соусом, — простое, но очень вкусное и сытное блюдо. Грибы придают блюду насыщенный аромат, а сливочный соус делает его нежным и гармоничным. Отличный вариант для ужина в будний день или лёгкого обеда.',
+        category: ['vegetarian', 'second-dish'],
+        subcategory: ['grains', 'mushrooms'],
+        image: DishesImages['GrechkaImg'],
+        bookmarks: 92,
+        likes: 178,
+        date: '2025-03-15T00:00:00Z',
+        time: '35 минут',
+        portions: 2,
+        nutritionValue: { calories: 320, proteins: 10, fats: 12, carbohydrates: 45 },
+        ingredients: [
+            { title: 'гречка', count: 200, measureUnit: 'г' },
+            { title: 'шампиньоны', count: 250, measureUnit: 'г' },
+            { title: 'лук', count: 1, measureUnit: 'шт.' },
+            { title: 'сливочный соус', count: 150, measureUnit: 'мл' },
+            { title: 'сливочное масло', count: 30, measureUnit: 'г' },
+            { title: 'соль, перец', count: 0, measureUnit: 'по вкусу' },
+        ],
+        steps: [
+            {
+                stepNumber: 1,
+                description: 'Отварить гречку до готовности.',
+                image: step1Img,
+            },
+            {
+                stepNumber: 2,
+                description: 'Обжарить лук на сливочном масле до прозрачности.',
+                image: step2Img,
+            },
+            {
+                stepNumber: 3,
+                description: 'Добавить нарезанные грибы и жарить до золотистого цвета.',
+                image: step3Img,
+            },
+            {
+                stepNumber: 4,
+                description: 'Влить сливочный соус, добавить гречку и тушить 5-7 минут.',
+                image: step4Img,
+            },
+        ],
+        meat: '',
+        side: 'buckwheat',
+    },
 ];

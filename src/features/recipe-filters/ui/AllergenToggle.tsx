@@ -1,7 +1,7 @@
 import { Flex, Switch, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectIsExcluding } from '../model/selectors/selectIsExcluding';
+import { selectIsExcluding } from '../model/selectors/alergens/selectIsExcluding';
 import { toggleAllergenExcluding } from '../model/slice';
 
 interface AllergenToggleProps {}
@@ -21,6 +21,7 @@ export const AllergenToggle = (_props: AllergenToggleProps) => {
                 colorScheme='lime'
                 isChecked={isExcluding}
                 onChange={toggleAllergenExcludingHandler}
+                data-test-id='allergens-switcher-filter'
             />
         </Flex>
     );

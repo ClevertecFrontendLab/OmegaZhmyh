@@ -18,9 +18,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { BsPlusCircleFill } from '~/shared/ui/Icons';
 
-import { selectCustomAllergen } from '../model/selectors/selectCustomAllergen';
-import { selectIsExcluding } from '../model/selectors/selectIsExcluding';
-import { selectSelectedAllergens } from '../model/selectors/selectSelectedAllergens';
+import { selectCustomAllergen } from '../model/selectors/alergens/selectCustomAllergen';
+import { selectIsExcluding } from '../model/selectors/alergens/selectIsExcluding';
+import { selectSelectedAllergens } from '../model/selectors/alergens/selectSelectedAllergens';
 import { addCustomAllergen, setCustomAllergenInput, toggleAllergen } from '../model/slice';
 
 const ALLERGEN_OPTIONS = [
@@ -41,13 +41,13 @@ export const AllergenSelect = () => {
     const selectedAllergens = useSelector(selectSelectedAllergens);
     const customAllergen = useSelector(selectCustomAllergen);
 
-    const toggleAllergenHandler = (allergen: string) => dispatch(toggleAllergen(allergen));
-    const setCustomAllergenInputHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
+    const onToggleAllergen = (allergen: string) => dispatch(toggleAllergen(allergen));
+    const onSetCustomAllergenInput = (e: React.ChangeEvent<HTMLInputElement>) =>
         dispatch(setCustomAllergenInput(e.target.value));
-    const addCustomAllergenHandler = () => dispatch(addCustomAllergen());
+    const onAddCustomAllergen = () => dispatch(addCustomAllergen());
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            addCustomAllergenHandler();
+            addCustomAllergen();
         }
     };
 
@@ -67,6 +67,7 @@ export const AllergenSelect = () => {
                     color='lime.700'
                     borderColor='lime.300'
                     _disabled={{ borderColor: 'blackAlpha.200', color: 'blackAlpha.700' }}
+                    data-test-id='allergens-menu-button-filter'
                 >
                     <Flex gap='8px' flexWrap='wrap'>
                         {selectedAllergens.length ? (
@@ -85,8 +86,9 @@ export const AllergenSelect = () => {
                         <MenuItem
                             as={Checkbox}
                             isChecked={selectedAllergens.includes(option)}
-                            onChange={() => toggleAllergenHandler(option)}
+                            onChange={() => onToggleAllergen(option)}
                             bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
+                            data-test-id={`allergen-${index}`}
                         >
                             {option}
                         </MenuItem>
@@ -94,19 +96,21 @@ export const AllergenSelect = () => {
                     <MenuGroup>
                         <InputGroup padding='8px 8px 8px 24px' alignItems='center' gap='8px'>
                             <Input
-                                onChange={setCustomAllergenInputHandler}
+                                onChange={onSetCustomAllergenInput}
                                 onKeyDown={handleKeyDown}
                                 placeholder='Другой аллерген'
                                 value={customAllergen}
                                 size='sm'
+                                data-test-id='add-other-allergen'
                             />
                             <IconButton
-                                onClick={addCustomAllergenHandler}
+                                onClick={onAddCustomAllergen}
                                 aria-label='123'
                                 color='lime.800'
                                 size='xs'
                                 variant='ghost'
                                 icon={<BsPlusCircleFill color='lime.600' />}
+                                data-test-id='add-allergen-button'
                             />
                         </InputGroup>
                     </MenuGroup>

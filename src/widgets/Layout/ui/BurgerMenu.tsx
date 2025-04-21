@@ -1,12 +1,12 @@
 import { Flex } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-import { isBurgerOpen } from '../model/slice';
+import { selectIsBurgerOpen } from '../model/selectors/selectIsBurgerOpen';
 import { NavFooter } from './NavFooter';
 import { NavMenu } from './NavMenu';
 
 export const BurgerMenu = () => {
-    const isOpen = useSelector(isBurgerOpen);
+    const isOpen = useSelector(selectIsBurgerOpen);
     return (
         <Flex
             flexDirection='column'
@@ -22,7 +22,9 @@ export const BurgerMenu = () => {
             borderRadius='0 0 12px 12px'
             display={{ base: 'flex', lg: 'none' }}
             position='fixed'
+            zIndex='overlay'
             as='nav'
+            data-test-id='nav'
         >
             <NavMenu isMobile={true} />
             <NavFooter />

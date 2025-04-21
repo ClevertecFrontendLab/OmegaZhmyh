@@ -42,39 +42,47 @@ export const NavMenu = (props: NavMenuProps) => {
                     : ''
             }
         >
-            <Accordion ref={accordionRef} variant='navbar' maxHeight='100%' allowToggle>
-                {Object.keys(categores).map((categoryName) => (
-                    <AccordionItem key={categoryName}>
-                        <AccordionButton
-                            as={Link}
-                            to={`/${categoryName}/${categores[categoryName].subcategory[0].name}`}
-                            _expanded={{ bg: 'lime.100', fontWeight: 'bold' }}
-                            _hover={{ bg: 'lime.50' }}
-                        >
-                            <img src={categores[categoryName].icon} alt={categoryName} />
-                            <Text flex='1' textAlign='left'>
-                                {categores[categoryName].label}
-                            </Text>
-                            <AccordionIcon />
-                        </AccordionButton>
-                        <AccordionPanel>
-                            <Tabs variant='navbar' colorScheme='lime' color='black'>
-                                <TabList>
-                                    {categores[categoryName].subcategory.map(({ name, label }) => (
-                                        <Tab
-                                            key={name}
-                                            _hover={{ bg: 'lime.50' }}
-                                            as={NavLink}
-                                            to={`/${categoryName}/${name}`}
-                                        >
-                                            {label}
-                                        </Tab>
-                                    ))}
-                                </TabList>
-                            </Tabs>
-                        </AccordionPanel>
-                    </AccordionItem>
-                ))}
+            <Accordion ref={accordionRef} variant='navbar' maxHeight='100%' allowMultiple>
+                {Object.keys(categores).map((categoryName) => {
+                    if (categores[categoryName].subcategory.length === 0) return null;
+                    return (
+                        <AccordionItem key={categoryName}>
+                            <AccordionButton
+                                as={Link}
+                                to={`/${categoryName}/${categores[categoryName].subcategory[0].name}`}
+                                _expanded={{ bg: 'lime.100', fontWeight: 'bold' }}
+                                _hover={{ bg: 'lime.50' }}
+                                data-test-id={
+                                    categoryName == 'vegan' && isMobile ? 'vegan-cuisine' : ''
+                                }
+                            >
+                                <img src={categores[categoryName].icon} alt={categoryName} />
+                                <Text flex='1' textAlign='left'>
+                                    {categores[categoryName].label}
+                                </Text>
+                                <AccordionIcon />
+                            </AccordionButton>
+                            <AccordionPanel>
+                                <Tabs variant='navbar' colorScheme='lime' color='black'>
+                                    <TabList>
+                                        {categores[categoryName].subcategory.map(
+                                            ({ name, label }) => (
+                                                <Tab
+                                                    key={name}
+                                                    _hover={{ bg: 'lime.50' }}
+                                                    as={NavLink}
+                                                    to={`/${categoryName}/${name}`}
+                                                >
+                                                    {label}
+                                                </Tab>
+                                            ),
+                                        )}
+                                    </TabList>
+                                </Tabs>
+                            </AccordionPanel>
+                        </AccordionItem>
+                    );
+                })}
             </Accordion>
         </Box>
     );

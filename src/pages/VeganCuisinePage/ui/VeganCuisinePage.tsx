@@ -1,7 +1,7 @@
 import { Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router';
+import { NavLink, useParams } from 'react-router';
 
 import { setCurrentCategory } from '~/entities/Category';
 import { NavbarConfig } from '~/shared/config/tabTitles';
@@ -9,17 +9,16 @@ import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
-const CURRENT_CATEGORY = 'vegan';
-
 export const VeganCuisinePage = () => {
     const dispatch = useDispatch();
+    const params = useParams<{ category: string; subcategory: string }>();
 
     useEffect(() => {
-        dispatch(setCurrentCategory(CURRENT_CATEGORY));
+        dispatch(setCurrentCategory(params.category ?? ''));
         return () => {
             dispatch(setCurrentCategory(''));
         };
-    }, [dispatch]);
+    }, [dispatch, params]);
 
     return (
         <Flex

@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     Drawer,
     DrawerBody,
     DrawerCloseButton,
@@ -29,10 +30,15 @@ export const AppDrawer = () => {
     const onCloseHandler = () => dispatch(toggleIsOpenDrawer());
 
     return (
-        <Drawer isOpen={isDrawerOpen} onClose={onCloseHandler} size={{ base: 'xs', lg: 'sm' }}>
+        <Drawer
+            isOpen={isDrawerOpen}
+            onClose={onCloseHandler}
+            size={{ base: 'xs', lg: 'sm' }}
+            data-test-id='filter-drawer'
+        >
             <DrawerOverlay />
             <DrawerContent>
-                <DrawerCloseButton>
+                <DrawerCloseButton data-test-id='close-filter-drawer'>
                     <BsFillXCircleFill />
                 </DrawerCloseButton>
 
@@ -48,7 +54,10 @@ export const AppDrawer = () => {
                     </Box>
                 </DrawerBody>
 
-                <DrawerFooter borderTopWidth='1px'></DrawerFooter>
+                <DrawerFooter borderTopWidth='1px'>
+                    <Button data-test-id='clear-filter-button'>Очистить фильтр</Button>
+                    <Button data-test-id='find-recipe-button'>Найти рецепт</Button>
+                </DrawerFooter>
             </DrawerContent>
         </Drawer>
     );

@@ -1,12 +1,16 @@
-import { Box, Card, CardBody, HStack, Image, LinkOverlay, Text } from '@chakra-ui/react';
+import { Box, Card, CardBody, Highlight, HStack, Image, LinkOverlay, Text } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import { RecipeType } from '~/entities/Recipe/model/types';
 import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
+import { selectRecipeQuery } from '../model/selectors/selectRecipeQuery';
+
 export const TextTagCard = (recipe: RecipeType) => {
     const { bookmarks, category, description, image, likes, title } = recipe;
+    const searchQuery = useSelector(selectRecipeQuery);
     return (
         <Card
             border='1px solid'
@@ -44,7 +48,9 @@ export const TextTagCard = (recipe: RecipeType) => {
                         fontWeight='medium'
                         noOfLines={{ base: 2, lg: 1 }}
                     >
-                        {title}
+                        <Highlight query={searchQuery} styles={{ bgColor: 'lime.150' }}>
+                            {title}
+                        </Highlight>
                     </LinkOverlay>
 
                     <Text

@@ -15,6 +15,7 @@ export const FilterGroup = ({ activeFilters, filters, onChangeFilter }: FilterGr
             <Checkbox
                 isChecked={activeFilters.includes(filter)}
                 onChange={() => onChangeFilter(filter)}
+                data-test-id={`checkbox-${filter.toLocaleLowerCase()}`}
             >
                 {filter}
             </Checkbox>

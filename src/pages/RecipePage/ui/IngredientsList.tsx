@@ -49,19 +49,20 @@ export const IngredientsList = ({ ingredients }: IngredientsListProps) => {
                             >
                                 <NumberInputField />
                                 <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
+                                    <NumberIncrementStepper data-test-id='increment-stepper' />
+                                    <NumberDecrementStepper data-test-id='decrement-stepper' />
                                 </NumberInputStepper>
                             </NumberInput>
                         </Th>
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {ingredients.map(({ title, count, measureUnit }) => (
+                    {ingredients.map(({ title, count, measureUnit }, i) => (
                         <Tr>
                             <Td fontWeight='medium'>{title}</Td>
                             <Td
                                 isNumeric
+                                data-test-id={`ingredient-quantity-${i}`}
                             >{`${count ? count * numberOfServings : ''} ${measureUnit}`}</Td>
                         </Tr>
                     ))}

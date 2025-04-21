@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import { categorySlice } from '~/entities/Category/model/slice';
+import { recipeSlice } from '~/entities/Recipe/model/slice';
 import { filterReducer } from '~/features/recipe-filters';
 import { apiSlice } from '~/shared/query/create-api';
 import { drawerReducer } from '~/widgets/Drawer';
 import { layoutSlice } from '~/widgets/Layout/model/slice';
 
-import { categorySlice } from '../../entities/Category/model/slice';
-import { recipeSlice } from '../../entities/Recipe/model/slice';
 import appReducer, { appSlice } from './app-slice';
 
 const isProduction = false;

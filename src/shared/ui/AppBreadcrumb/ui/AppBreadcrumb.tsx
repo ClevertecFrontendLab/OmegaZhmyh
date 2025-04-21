@@ -3,7 +3,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbProps } from '@ch
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
-import { selectCategoryLabels } from '~/entities/Category/model/selectors/selectCategoryLabels';
+import { selectCategoryLabels } from '~/entities/Category/';
 
 interface AppBreadcrumbProps extends BreadcrumbProps {}
 

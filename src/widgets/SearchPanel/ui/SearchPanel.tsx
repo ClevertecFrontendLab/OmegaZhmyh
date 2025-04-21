@@ -1,7 +1,7 @@
 import { Flex, Heading, Text } from '@chakra-ui/react';
 
 import { AllergenSelect, AllergenToggle } from '~/features/recipe-filters';
-import { SearchInput } from '~/features/search';
+import { SearchInput } from '~/features/recipe-filters';
 import { AppDrawer } from '~/widgets/Drawer';
 
 import { DrawerToggle } from './AppDrawerToggle';

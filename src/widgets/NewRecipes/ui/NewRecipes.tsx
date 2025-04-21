@@ -6,12 +6,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { TextTagCard } from '~/entities/Recipe/ui/TextTagCard';
 
-import { getNewRecipeSelector } from '../model/getNewRecipeSelector';
+import { selectNewFiltredRecipes } from '../model/selectors/selectNewFiltredRecipes';
 import { SlideNextButton } from './SlideNextButton';
 import { SlidePrevButton } from './SlidePrevButton';
 
 export const NewRecipes = () => {
-    const newRecipes = useSelector(getNewRecipeSelector);
+    const newRecipes = useSelector(selectNewFiltredRecipes);
 
     const slideWidth = useBreakpointValue({ base: '158px', lg: '277px', xl: '322px' });
     const slideGap = useBreakpointValue({ base: '12px', xl: '24px' });
@@ -26,10 +26,15 @@ export const NewRecipes = () => {
                     loop={true}
                     spaceBetween={slideGap}
                     style={{ padding: '0 8px' }}
+                    data-test-id='carousel'
                 >
-                    {newRecipes.map((recipe) => (
+                    {newRecipes.map((recipe, i) => (
                         <LinkBox>
-                            <SwiperSlide key={recipe.id} style={{ maxWidth: slideWidth }}>
+                            <SwiperSlide
+                                key={recipe.id}
+                                style={{ maxWidth: slideWidth }}
+                                data-test-id={`carousel-card-${i}`}
+                            >
                                 <TextTagCard {...recipe} />
                             </SwiperSlide>
                         </LinkBox>

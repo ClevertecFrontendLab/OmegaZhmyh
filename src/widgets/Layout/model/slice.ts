@@ -19,11 +19,8 @@ export const layoutSlice = createSlice({
             state.isBurgerOpen = false;
         },
     },
-    selectors: {
-        isBurgerOpen: (state) => state.isBurgerOpen,
-    },
+    selectors: {},
 });
 
 export const { toggleBurger, closeBurger } = layoutSlice.actions;
-export const { isBurgerOpen } = layoutSlice.selectors;
 export default layoutSlice.reducer;

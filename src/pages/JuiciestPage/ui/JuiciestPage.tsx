@@ -4,8 +4,6 @@ import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
-import { JuiciestCardList } from '../model/JuiciestCardList';
-
 export const JuiciestPage = () => (
     <Flex
         justifyContent='center'
@@ -15,7 +13,6 @@ export const JuiciestPage = () => (
     >
         <SearchPanel title='Самое сочное' />
         <RecipeCardList
-            cardList={JuiciestCardList}
             marginTop='32px'
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
             columnGap={{ base: '16px', lg: '24px' }}

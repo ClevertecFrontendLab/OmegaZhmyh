@@ -1,10 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { selectCurrentCategory } from '~/entities/Category';
-import { selectAllRecipes } from '~/entities/Recipe/model/selectors/selectAllRecipes';
+import { selectAllRecipes } from '~/entities/Recipe';
 
+import { selectSelectedAllergens } from './alergens/selectSelectedAllergens';
 import { selectMeatTypesFilters } from './selectMeatTypesFilters';
-import { selectSelectedAllergens } from './selectSelectedAllergens';
 import { selectSideDishesFilters } from './selectSideDishesFilters';
 
 export const selectFilteredRecipes = createSelector(

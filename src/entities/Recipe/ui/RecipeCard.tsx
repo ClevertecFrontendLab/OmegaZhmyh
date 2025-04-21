@@ -4,6 +4,7 @@ import {
     Card,
     CardBody,
     Heading,
+    Highlight,
     HStack,
     IconButton,
     Image,
@@ -11,6 +12,7 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import { AvatarImagesType } from '~/shared/ui/AvatarImages';
@@ -19,7 +21,10 @@ import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { Recomendation } from '~/shared/ui/Recomendation';
 
+import { selectRecipeQuery } from '../model/selectors/selectRecipeQuery';
+
 export interface RecipeCardType {
+    id: number;
     title: string;
     description: string;
     tagColor?: string;
@@ -33,6 +38,7 @@ export interface RecipeCardType {
 
 export const RecipeCard = (recipe: RecipeCardType) => {
     const {
+        id,
         title = 'Заголовок',
         description = 'Описание',
         recomendationLabel,
@@ -43,6 +49,8 @@ export const RecipeCard = (recipe: RecipeCardType) => {
         direction = 'row',
         tagColor,
     } = recipe;
+    const searchQuery = useSelector(selectRecipeQuery);
+
     return (
         <Card direction={direction} variant='outline' overflow='hidden' borderRadius='8px'>
             <Box position='relative'>
@@ -102,7 +110,9 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             wordBreak='break-all'
                             style={{ wordWrap: 'break-word' }}
                         >
-                            {title}
+                            <Highlight query={searchQuery} styles={{ bgColor: 'lime.150' }}>
+                                {title}
+                            </Highlight>
                         </Heading>
                         <Box display={{ lg: 'block', base: 'none' }}>
                             <Text
@@ -151,6 +161,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             _hover={{ color: 'black', bgColor: 'white' }}
                             as={Link}
                             to='/Vegan-cuisine/Main-courses/1'
+                            data-test-id={`card-link-${id}`}
                         >
                             Готовить
                         </Button>

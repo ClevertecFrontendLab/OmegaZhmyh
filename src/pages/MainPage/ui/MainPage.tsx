@@ -8,8 +8,6 @@ import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
-import { MainCardList } from '../model/MainCardList';
-
 export const MainPage = () => (
     <Box paddingX={{ base: '16px', md: '24px', lg: '9px' }}>
         <SearchPanel title='Приятного аппетита!' />
@@ -27,7 +25,7 @@ export const MainPage = () => (
                 visibility={{ base: 'hidden', lg: 'visible' }}
                 data-test-id='juiciest-link'
             >
-                <Link to='/Juiciest'>
+                <Link to='/juiciest'>
                     <Button
                         color='black'
                         bgColor='lime.400'
@@ -43,7 +41,6 @@ export const MainPage = () => (
             </Box>
         </Flex>
         <RecipeCardList
-            cardList={MainCardList}
             columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
             columnGap={{ base: '16px', xl: '24px' }}
             rowGap={{ base: '12px', md: '16px', xl: '24px' }}
@@ -55,7 +52,7 @@ export const MainPage = () => (
             justifyContent='center'
             data-test-id='juiciest-link-mobile'
         >
-            <Link to='/Juiciest'>
+            <Link to='/juiciest'>
                 <Button
                     margin='12px auto 0 auto'
                     color='black'

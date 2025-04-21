@@ -6,10 +6,20 @@ export interface AllergenState {
     customAllergen: string;
 }
 
+export interface SearchState {
+    searchQuery: string;
+    activeSearchQuery: string;
+    isSearchAvailable: boolean;
+    isSearchActive: boolean;
+}
+
 export interface FiltersState {
     meatTypes: string[];
     sideDishes: string[];
     allergens: AllergenState;
+    search: SearchState;
+    categories: string[];
+    subcategories: string[];
 }
 
 const initialState: FiltersState = {
@@ -20,6 +30,14 @@ const initialState: FiltersState = {
         selectedAllergens: [],
         customAllergen: '',
     },
+    search: {
+        searchQuery: '',
+        activeSearchQuery: '',
+        isSearchAvailable: false,
+        isSearchActive: false,
+    },
+    categories: [],
+    subcategories: [],
 };
 
 const toggleFilter = (filters: string[], targetFilter: string) => {
@@ -34,6 +52,18 @@ export const filtersSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
+        toggleCategory(state, action: PayloadAction<string>) {
+            toggleFilter(state.categories, action.payload);
+        },
+        resetCategories(state) {
+            state.categories = [];
+        },
+        toggleSubcategory(state, action: PayloadAction<string>) {
+            toggleFilter(state.subcategories, action.payload);
+        },
+        resetSubcategories(state) {
+            state.subcategories = [];
+        },
         toggleMeatType(state, action: PayloadAction<string>) {
             const meatType = action.payload;
             if (state.meatTypes.includes(meatType)) {
@@ -76,6 +106,20 @@ export const filtersSlice = createSlice({
         removeAllergen(state, action: PayloadAction<string>) {
             state.allergens.selectedAllergens.filter((a) => a !== action.payload);
         },
+        setSearchQuery(state, action: PayloadAction<string>) {
+            state.search.searchQuery = action.payload;
+            state.search.isSearchAvailable = action.payload.length >= 3;
+        },
+        setSearchActive(state) {
+            if (state.search.isSearchAvailable) {
+                state.search.activeSearchQuery = state.search.searchQuery;
+                state.search.isSearchActive = true;
+            }
+        },
+        resetSearch(state) {
+            state.search.activeSearchQuery = '';
+            state.search.isSearchActive = false;
+        },
     },
 });
 
@@ -85,7 +129,15 @@ export const {
     setCustomAllergenInput,
     toggleAllergen,
     toggleAllergenExcluding,
+    resetSearch,
+    setSearchQuery,
+    setSearchActive,
+    resetCategories,
+    resetSubcategories,
+    toggleCategory,
+    toggleMeatType,
+    toggleSideDishe,
+    toggleSubcategory,
 } = filtersSlice.actions;
 
-export const { toggleMeatType, toggleSideDishe } = filtersSlice.actions;
 export const { reducer: filterReducer } = filtersSlice;

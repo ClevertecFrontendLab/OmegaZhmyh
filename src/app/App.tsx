@@ -28,11 +28,13 @@ function App() {
                 >
                     <Routes>
                         <Route path='/' element={<MainPage />} />
-                        <Route path='/vegan' element={<Navigate to='/vegan/snacks' replace />} />
-                        <Route path='/vegan/*' element={<VeganCuisinePage />} />
+                        <Route
+                            path='/:category'
+                            element={<Navigate to='/:category/:subcategory' replace />}
+                        />
+                        <Route path='/:category/:subcategory' element={<VeganCuisinePage />} />
                         <Route path='/:category/:subcategory/:id' element={<RecipePage />} />
-                        <Route path='/vegan' element={<VeganCuisinePage />} />
-                        <Route path='/Juiciest' element={<JuiciestPage />} />
+                        <Route path='/juiciest' element={<JuiciestPage />} />
                     </Routes>
                 </Container>
                 <Sidebar />

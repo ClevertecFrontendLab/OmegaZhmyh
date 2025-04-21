@@ -1,6 +1,6 @@
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, Image } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import Logo from '~/shared/assets/logo.svg';
@@ -9,10 +9,12 @@ import { AppBreadcrumb } from '~/shared/ui/AppBreadcrumb';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 import { UserCard } from '~/shared/ui/UserCard';
 
+import { selectIsBurgerOpen } from '../model/selectors/selectIsBurgerOpen';
 import { toggleBurger } from '../model/slice';
 
 export const Header = () => {
     const dispatch = useDispatch();
+    const isBurgerOpen = useSelector(selectIsBurgerOpen);
 
     return (
         <Flex
@@ -52,7 +54,18 @@ export const Header = () => {
                     size='lg'
                     variant='ghost'
                     icon={<HamburgerIcon boxSize={5} />}
+                    display={isBurgerOpen ? 'none' : 'inline-flex'}
                     onClick={() => dispatch(toggleBurger())}
+                    data-test-id='hamburger-icon'
+                />
+                <IconButton
+                    aria-label='Search database'
+                    size='lg'
+                    variant='ghost'
+                    display={isBurgerOpen ? 'inline-flex' : 'none'}
+                    icon={<CloseIcon boxSize={5} />}
+                    onClick={() => dispatch(toggleBurger())}
+                    data-test-id='close-icon'
                 />
             </Flex>
         </Flex>

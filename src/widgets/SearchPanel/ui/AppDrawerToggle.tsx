@@ -16,6 +16,7 @@ export const DrawerToggle = () => {
             variant='outline'
             icon={<BsFilter boxSize={{ base: '14px', lg: '24px' }} />}
             borderColor='blackAlpha.600'
+            data-test-id='filter-button'
         />
     );
 };
