@@ -1,10 +1,9 @@
-import { Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { Button, Flex, Link } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router';
 
-import { setCurrentCategory } from '~/entities/Category';
-import { NavbarConfig } from '~/shared/config/tabTitles';
+import { selectAllCategories, setPageCategory, setPageSubcategory } from '~/entities/Category';
 import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
@@ -12,11 +11,14 @@ import { SearchPanel } from '~/widgets/SearchPanel';
 export const VeganCuisinePage = () => {
     const dispatch = useDispatch();
     const params = useParams<{ category: string; subcategory: string }>();
+    const { category: pageCategory = '' } = params;
+    const categories = useSelector(selectAllCategories);
 
     useEffect(() => {
-        dispatch(setCurrentCategory(params.category ?? ''));
+        dispatch(setPageCategory(params.category ?? ''));
+        dispatch(setPageSubcategory(params.subcategory ?? ''));
         return () => {
-            dispatch(setCurrentCategory(''));
+            dispatch(setPageCategory(''));
         };
     }, [dispatch, params]);
 
@@ -31,36 +33,47 @@ export const VeganCuisinePage = () => {
                 title='Веганская кухня'
                 desc='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
             />
-            <Tabs variant='veganNavTabs' colorScheme='lime' defaultIndex={2} marginTop='32px'>
-                <TabList>
-                    {NavbarConfig['Веганская кухня'].tabsLinks.map((item) => (
-                        <Tab key={item.tab} as={NavLink} to={item.link}>
-                            {item.tab}
-                        </Tab>
-                    ))}
-                </TabList>
-
-                <TabPanels>
-                    <TabPanel></TabPanel>
-                    <TabPanel></TabPanel>
-                    <TabPanel>
-                        <RecipeCardList
-                            columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
-                            columnGap={{ base: '16px', lg: '24px' }}
-                            rowGap='16px'
-                        />
-                        <Button
-                            display='block'
-                            margin='0 auto'
-                            marginTop='16px'
-                            bgColor='lime.400'
-                            color='black'
-                        >
-                            Загрузить еще
-                        </Button>
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
+            <Flex justifyContent='center'>
+                {categories[pageCategory].subcategory.map((sbc) => (
+                    <Link
+                        key={sbc.name}
+                        as={NavLink}
+                        to={`/${pageCategory}/${sbc.name}`}
+                        display='flex'
+                        padding='8px 16px'
+                        whiteSpace='nowrap'
+                        alignItems='center'
+                        justifyContent='center'
+                        color='lime.800'
+                        borderBottom='1px solid'
+                        borderColor='blackAlpha.200'
+                        fontSize='md'
+                        fontWeight='medium'
+                        marginTop='32px'
+                        _activeLink={{
+                            borderBottom: '2px solid',
+                            color: 'lime.600',
+                            borderColor: 'lime.600',
+                        }}
+                    >
+                        {sbc.label}
+                    </Link>
+                ))}
+            </Flex>
+            <RecipeCardList
+                columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
+                columnGap={{ base: '16px', lg: '24px' }}
+                rowGap='16px'
+            />
+            <Button
+                display='block'
+                margin='0 auto'
+                marginTop='16px'
+                bgColor='lime.400'
+                color='black'
+            >
+                Загрузить еще
+            </Button>
             <RelevantKitchen
                 title='Десерты, выпечка'
                 description='Без них невозможно представить себе ни современную, ни традиционную кулинарию. Пироги и печенья, блины, пончики, вареники и, конечно, хлеб — рецепты изделий из теста многообразны и невероятно популярны.'

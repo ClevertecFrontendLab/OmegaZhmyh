@@ -34,7 +34,7 @@ function App() {
                         />
                         <Route path='/:category/:subcategory' element={<VeganCuisinePage />} />
                         <Route path='/:category/:subcategory/:id' element={<RecipePage />} />
-                        <Route path='/juiciest' element={<JuiciestPage />} />
+                        <Route path='/the-juiciest' element={<JuiciestPage />} />
                     </Routes>
                 </Container>
                 <Sidebar />

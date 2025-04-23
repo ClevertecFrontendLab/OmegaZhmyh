@@ -22,33 +22,25 @@ import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { Recomendation } from '~/shared/ui/Recomendation';
 
 import { selectRecipeQuery } from '../model/selectors/selectRecipeQuery';
+import { RecipeType } from '../model/types';
 
 export interface RecipeCardType {
-    id: number;
-    title: string;
-    description: string;
+    recipe: RecipeType;
     tagColor?: string;
     recomendationLabel?: string;
     recomendationIcon?: AvatarImagesType;
-    image?: string;
-    likeCount?: number;
-    repostCount?: number;
     direction?: SystemProps['flexDirection'];
 }
 
-export const RecipeCard = (recipe: RecipeCardType) => {
+export const RecipeCard = (props: RecipeCardType) => {
     const {
-        id,
-        title = 'Заголовок',
-        description = 'Описание',
         recomendationLabel,
         recomendationIcon = 'AlexCookImg',
-        image = 'SpaghettiRollImg',
-        likeCount = 0,
-        repostCount = 0,
         direction = 'row',
         tagColor,
-    } = recipe;
+        recipe,
+    } = props;
+    const { bookmarks, category, description, id, image, likes, subcategory, title } = recipe;
     const searchQuery = useSelector(selectRecipeQuery);
 
     return (
@@ -96,8 +88,8 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                                 display={{ lg: 'flex', base: 'none' }}
                             />
                             <HStack spacing={2}>
-                                <BookmarkBtn value={repostCount} />
-                                <LikeBtn value={likeCount} />
+                                <BookmarkBtn value={bookmarks} />
+                                <LikeBtn value={likes} />
                             </HStack>
                         </HStack>
 
@@ -160,7 +152,7 @@ export const RecipeCard = (recipe: RecipeCardType) => {
                             border='1px solid black'
                             _hover={{ color: 'black', bgColor: 'white' }}
                             as={Link}
-                            to='/Vegan-cuisine/Main-courses/1'
+                            to={`/${category[0]}/${subcategory[0]}/${id}`}
                             data-test-id={`card-link-${id}`}
                         >
                             Готовить

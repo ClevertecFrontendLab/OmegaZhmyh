@@ -52,9 +52,7 @@ export const NavMenu = (props: NavMenuProps) => {
                                 to={`/${categoryName}/${categores[categoryName].subcategory[0].name}`}
                                 _expanded={{ bg: 'lime.100', fontWeight: 'bold' }}
                                 _hover={{ bg: 'lime.50' }}
-                                data-test-id={
-                                    categoryName == 'vegan' && isMobile ? 'vegan-cuisine' : ''
-                                }
+                                data-test-id={categoryName == 'vegan' ? 'vegan-cuisine' : ''}
                             >
                                 <img src={categores[categoryName].icon} alt={categoryName} />
                                 <Text flex='1' textAlign='left'>

@@ -21,13 +21,13 @@ export const Header = () => {
             width='100%'
             height={{ base: 'var(--mobile-header-height)', lg: 'var(--header-height)' }}
             paddingX='16px'
-            backgroundColor='lime.50'
+            backgroundColor={isBurgerOpen ? 'white' : 'lime.50'}
             alignItems='center'
             justifyContent={{ base: 'space-between', lg: 'start' }}
             top={0}
             position='fixed'
             data-test-id='header'
-            zIndex='overlay'
+            zIndex='popover'
             as='header'
         >
             <Link to='/'>
@@ -48,25 +48,25 @@ export const Header = () => {
                     <RepostBtn value={587} />
                     <LikeBtn value={589} />
                 </Flex>
-
-                <IconButton
-                    aria-label='Search database'
-                    size='lg'
-                    variant='ghost'
-                    icon={<HamburgerIcon boxSize={5} />}
-                    display={isBurgerOpen ? 'none' : 'inline-flex'}
-                    onClick={() => dispatch(toggleBurger())}
-                    data-test-id='hamburger-icon'
-                />
-                <IconButton
-                    aria-label='Search database'
-                    size='lg'
-                    variant='ghost'
-                    display={isBurgerOpen ? 'inline-flex' : 'none'}
-                    icon={<CloseIcon boxSize={5} />}
-                    onClick={() => dispatch(toggleBurger())}
-                    data-test-id='close-icon'
-                />
+                {isBurgerOpen ? (
+                    <IconButton
+                        aria-label='Search database'
+                        size='lg'
+                        variant='ghost'
+                        icon={<CloseIcon boxSize={5} />}
+                        onClick={() => dispatch(toggleBurger())}
+                        data-test-id='close-icon'
+                    />
+                ) : (
+                    <IconButton
+                        aria-label='Search database'
+                        size='lg'
+                        variant='ghost'
+                        icon={<HamburgerIcon boxSize={5} />}
+                        onClick={() => dispatch(toggleBurger())}
+                        data-test-id='hamburger-icon'
+                    />
+                )}
             </Flex>
         </Flex>
     );

@@ -11,12 +11,13 @@ import SecondDishesIcon from '~/shared/assets/kitchen_icons/second_dishes.svg';
 import SnackIcon from '~/shared/assets/kitchen_icons/snack.svg';
 import VeganIcon from '~/shared/assets/kitchen_icons/vegan_cuisine.svg';
 
-import { categoryShema } from './types';
+import { categoryState } from './types';
 
-export const initialState: categoryShema = {
-    currentCategory: '',
+export const initialState: categoryState = {
+    pageCategory: '',
+    pageSubategory: '',
     categoryList: {
-        juiciest: {
+        'the-juiciest': {
             icon: '',
             label: 'Самое сочное',
             subcategory: [],

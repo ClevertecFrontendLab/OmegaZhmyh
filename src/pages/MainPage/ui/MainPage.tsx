@@ -25,7 +25,7 @@ export const MainPage = () => (
                 visibility={{ base: 'hidden', lg: 'visible' }}
                 data-test-id='juiciest-link'
             >
-                <Link to='/juiciest'>
+                <Link to='/the-juiciest'>
                     <Button
                         color='black'
                         bgColor='lime.400'
@@ -52,7 +52,7 @@ export const MainPage = () => (
             justifyContent='center'
             data-test-id='juiciest-link-mobile'
         >
-            <Link to='/juiciest'>
+            <Link to='/the-juiciest'>
                 <Button
                     margin='12px auto 0 auto'
                     color='black'

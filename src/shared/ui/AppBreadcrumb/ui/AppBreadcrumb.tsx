@@ -14,7 +14,7 @@ export const AppBreadcrumb = (props: AppBreadcrumbProps) => {
     const pathNameMap = useSelector(selectCategoryLabels);
 
     return (
-        <Breadcrumb separator={<ChevronRightIcon />} {...props}>
+        <Breadcrumb separator={<ChevronRightIcon />} data-test-id='breadcrumbs' {...props}>
             <BreadcrumbItem>
                 <BreadcrumbLink
                     as={Link}

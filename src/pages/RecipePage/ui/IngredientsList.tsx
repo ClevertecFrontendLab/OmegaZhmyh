@@ -18,10 +18,11 @@ import { useState } from 'react';
 import { IngredientType } from '~/entities/Recipe/model/types';
 
 interface IngredientsListProps {
+    portions?: number;
     ingredients: IngredientType[];
 }
 
-export const IngredientsList = ({ ingredients }: IngredientsListProps) => {
+export const IngredientsList = ({ ingredients, portions = 1 }: IngredientsListProps) => {
     const [numberOfServings, setNumberOfServings] = useState(1);
     return (
         <TableContainer marginTop={{ base: '24px', lg: '40px' }}>
@@ -63,7 +64,7 @@ export const IngredientsList = ({ ingredients }: IngredientsListProps) => {
                             <Td
                                 isNumeric
                                 data-test-id={`ingredient-quantity-${i}`}
-                            >{`${count ? count * numberOfServings : ''} ${measureUnit}`}</Td>
+                            >{`${count ? (count / portions) * numberOfServings : ''} ${measureUnit}`}</Td>
                         </Tr>
                     ))}
                 </Tbody>

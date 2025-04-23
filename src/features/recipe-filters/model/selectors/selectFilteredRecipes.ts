@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { selectCurrentCategory } from '~/entities/Category';
+import { selectPageCategory, selectPageSubcategory } from '~/entities/Category';
 import { selectAllRecipes } from '~/entities/Recipe';
 
 import { selectSelectedAllergens } from './alergens/selectSelectedAllergens';
@@ -13,22 +13,25 @@ export const selectFilteredRecipes = createSelector(
         selectMeatTypesFilters,
         selectSelectedAllergens,
         selectSideDishesFilters,
-        selectCurrentCategory,
+        selectPageCategory,
+        selectPageSubcategory,
     ],
-    (recipes, meatFilters, selectedAllergens, sideDishesFilters, currentCategory) => {
+    (recipes, meatFilters, selectedAllergens, sideDishesFilters, pageCategory, pageSubcategory) => {
         const filtredrecipes = recipes.filter((recipe) => {
             const includeAllergen = recipe.ingredients.some((ingredient) =>
                 selectedAllergens.includes(ingredient.title),
             );
             const includeFiltredMeat = recipe.meat && meatFilters.includes(recipe.meat);
             const includeFiltredSideDishes = recipe.side && sideDishesFilters.includes(recipe.side);
-            const isInCurrentCategory =
-                recipe.category.includes(currentCategory) || currentCategory === '';
+            const isInPageCategory = recipe.category.includes(pageCategory) || pageCategory === '';
+            const isInPageSubcategory =
+                recipe.subcategory.includes(pageSubcategory) || pageSubcategory === '';
             if (
                 includeAllergen ||
                 includeFiltredMeat ||
                 includeFiltredSideDishes ||
-                !isInCurrentCategory
+                !isInPageCategory ||
+                !isInPageSubcategory
             ) {
                 return false;
             }

@@ -40,6 +40,7 @@ export const RecipePage = () => {
         category,
         nutritionValue,
         ingredients,
+        portions,
         likes,
         bookmarks,
         steps,
@@ -104,7 +105,7 @@ export const RecipePage = () => {
             </Grid>
             <Container maxWidth='668px' marginTop={{ base: '24px', lg: '40px' }}>
                 <Nutrients nutritionValue={nutritionValue} />
-                <IngredientsList ingredients={ingredients} />
+                <IngredientsList ingredients={ingredients} portions={portions} />
                 <CookingSteps steps={steps} />
                 <AuthorCard />
             </Container>

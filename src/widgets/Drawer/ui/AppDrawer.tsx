@@ -30,19 +30,20 @@ export const AppDrawer = () => {
     const onCloseHandler = () => dispatch(toggleIsOpenDrawer());
 
     return (
-        <Drawer
-            isOpen={isDrawerOpen}
-            onClose={onCloseHandler}
-            size={{ base: 'xs', lg: 'sm' }}
-            data-test-id='filter-drawer'
-        >
+        <Drawer isOpen={isDrawerOpen} onClose={onCloseHandler} size={{ base: 'xs', lg: 'sm' }}>
             <DrawerOverlay />
             <DrawerContent>
                 <DrawerCloseButton data-test-id='close-filter-drawer'>
                     <BsFillXCircleFill />
                 </DrawerCloseButton>
 
-                <DrawerBody as={Flex} flexDirection='column' justifyContent='start' gap='24px'>
+                <DrawerBody
+                    as={Flex}
+                    flexDirection='column'
+                    justifyContent='start'
+                    gap='24px'
+                    data-test-id='filter-drawer'
+                >
                     <Text marginBottom='16px' fontSize='2xl' fontWeight='bold'>
                         Фильтр
                     </Text>

@@ -3,6 +3,7 @@ import { extendTheme } from '@chakra-ui/react';
 import { accordionTheme } from './components/accordion';
 import { cardTheme } from './components/card';
 import { checkboxTheme } from './components/checkbox';
+import { drawerTheme } from './components/drawer';
 import { menuTheme } from './components/menu';
 import { switchTheme } from './components/switch';
 import { tableTheme } from './components/table';
@@ -17,6 +18,7 @@ const theme = extendTheme({
         Table: tableTheme,
         Checkbox: checkboxTheme,
         Menu: menuTheme,
+        Drawer: drawerTheme,
     },
     colors: {
         lime: {

@@ -84,14 +84,14 @@ const mobileFooterVariant = definePartsStyle((props) => {
     };
 });
 
-const veganNavTabsVariant = definePartsStyle((props) => {
+const subcategoryTabsVariant = definePartsStyle((props) => {
     const { colorScheme: c } = props; // extract colorScheme from component props
 
     return {
         tab: {
             borderBottom: '1px solid',
             borderColor: 'blackAlpha.200',
-            _selected: {
+            _activeLink: {
                 borderBottom: '2px solid',
                 color: `${c}.600`,
                 borderColor: `${c}.600`,
@@ -109,7 +109,7 @@ const veganNavTabsVariant = definePartsStyle((props) => {
 const variants = {
     navbar: navbarVariant,
     mobileFooter: mobileFooterVariant,
-    veganNavTabs: veganNavTabsVariant,
+    subcategoryNavTabs: subcategoryTabsVariant,
 };
 // export the component theme
 export const tabsTheme = defineMultiStyleConfig({ baseStyle, variants });

@@ -1,5 +1,6 @@
-export interface categoryShema {
-    currentCategory: string;
+export interface categoryState {
+    pageCategory: string;
+    pageSubategory: string;
     categoryList: {
         [key: string]: {
             icon: string;

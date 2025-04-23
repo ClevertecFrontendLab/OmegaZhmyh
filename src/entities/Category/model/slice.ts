@@ -6,11 +6,14 @@ export const categorySlice = createSlice({
     name: 'category',
     initialState,
     reducers: {
-        setCurrentCategory(state, action: PayloadAction<string>) {
-            state.currentCategory = action.payload;
+        setPageCategory(state, action: PayloadAction<string>) {
+            state.pageCategory = action.payload;
+        },
+        setPageSubcategory(state, action: PayloadAction<string>) {
+            state.pageSubategory = action.payload;
         },
     },
 });
 
-export const { setCurrentCategory } = categorySlice.actions;
+export const { setPageCategory, setPageSubcategory } = categorySlice.actions;
 export const { reducer: categoryReducer } = categorySlice;
