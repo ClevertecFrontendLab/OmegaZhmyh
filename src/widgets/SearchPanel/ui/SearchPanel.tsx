@@ -40,8 +40,8 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => (
                 zIndex='dropdown'
                 display={{ base: 'none', lg: 'flex' }}
             >
-                <AllergenToggle />
-                <AllergenSelect />
+                <AllergenToggle data-test-id='allergens-switcher' />
+                <AllergenSelect data-test-id='allergens-menu-button' />
             </Flex>
         </Flex>
     </Flex>

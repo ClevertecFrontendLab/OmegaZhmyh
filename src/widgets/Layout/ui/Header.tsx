@@ -27,7 +27,7 @@ export const Header = () => {
             top={0}
             position='fixed'
             data-test-id='header'
-            zIndex='popover'
+            zIndex='modal'
             as='header'
         >
             <Link to='/'>

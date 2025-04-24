@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { FilterGroup } from '~/shared/ui/FilterGroup';
 
-import { selectMeatTypesFilters } from '../model/selectors/selectMeatTypesFilters';
+import { selectMeatTypesFilters } from '../model/selectors/drawerFilters/selectMeatTypesFilters';
 import { toggleMeatType } from '../model/slice';
 
 const MEAT_TYPES = ['Курица', 'Свинина', 'Говядина', 'Индейка', 'Утка'];

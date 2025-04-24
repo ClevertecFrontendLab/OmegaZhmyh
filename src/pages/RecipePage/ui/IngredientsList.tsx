@@ -23,7 +23,7 @@ interface IngredientsListProps {
 }
 
 export const IngredientsList = ({ ingredients, portions = 1 }: IngredientsListProps) => {
-    const [numberOfServings, setNumberOfServings] = useState(1);
+    const [numberOfServings, setNumberOfServings] = useState(portions);
     return (
         <TableContainer marginTop={{ base: '24px', lg: '40px' }}>
             <Table variant='striped' colorScheme='blackAlpha'>

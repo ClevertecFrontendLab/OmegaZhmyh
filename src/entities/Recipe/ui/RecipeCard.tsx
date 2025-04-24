@@ -54,7 +54,7 @@ export const RecipeCard = (props: RecipeCardType) => {
                     height={{ base: '128px', lg: '244px' }}
                 />
                 <KitchenTag
-                    category='Воторое блюдо'
+                    category={category[0]}
                     color={tagColor}
                     position='absolute'
                     left='8px'
@@ -83,7 +83,7 @@ export const RecipeCard = (props: RecipeCardType) => {
                     <Box>
                         <HStack spacing={8.5} justifyContent='space-between'>
                             <KitchenTag
-                                category='Воторое блюдо'
+                                category={category[0]}
                                 color={tagColor}
                                 display={{ lg: 'flex', base: 'none' }}
                             />

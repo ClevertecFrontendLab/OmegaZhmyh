@@ -18,10 +18,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { BsPlusCircleFill } from '~/shared/ui/Icons';
 
-import { selectCustomAllergen } from '../model/selectors/alergens/selectCustomAllergen';
-import { selectIsExcluding } from '../model/selectors/alergens/selectIsExcluding';
-import { selectSelectedAllergens } from '../model/selectors/alergens/selectSelectedAllergens';
-import { addCustomAllergen, setCustomAllergenInput, toggleAllergen } from '../model/slice';
+import { selectDrawerAllergens } from '../model/selectors/drawerFilters/alergens/selectDrawerAllergens';
+import { selectDrawerCustomAllergen } from '../model/selectors/drawerFilters/alergens/selectDrawerCustomAllergen';
+import { selectIsDrawerExcluding } from '../model/selectors/drawerFilters/alergens/selectIsDrawerExcluding';
+import {
+    addDrawerCustomAllergen,
+    setDrawerCustomAllergenInput,
+    toggleDrawerAllergen,
+} from '../model/slice';
 
 const ALLERGEN_OPTIONS = [
     'Молочные продукты',
@@ -35,19 +39,19 @@ const ALLERGEN_OPTIONS = [
     'Шоколад',
 ];
 
-export const AllergenSelect = () => {
+export const DrawerAllergenSelect = () => {
     const dispatch = useDispatch();
-    const isExcluding = useSelector(selectIsExcluding);
-    const selectedAllergens = useSelector(selectSelectedAllergens);
-    const customAllergen = useSelector(selectCustomAllergen);
+    const isExcluding = useSelector(selectIsDrawerExcluding);
+    const selectedAllergens = useSelector(selectDrawerAllergens);
+    const customAllergen = useSelector(selectDrawerCustomAllergen);
 
-    const onToggleAllergen = (allergen: string) => dispatch(toggleAllergen(allergen));
+    const onToggleAllergen = (allergen: string) => dispatch(toggleDrawerAllergen(allergen));
     const onSetCustomAllergenInput = (e: React.ChangeEvent<HTMLInputElement>) =>
-        dispatch(setCustomAllergenInput(e.target.value));
-    const onAddCustomAllergen = () => dispatch(addCustomAllergen());
+        dispatch(setDrawerCustomAllergenInput(e.target.value));
+    const onAddCustomAllergen = () => dispatch(addDrawerCustomAllergen());
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
-            addCustomAllergen();
+            addDrawerCustomAllergen();
         }
     };
 
@@ -67,7 +71,7 @@ export const AllergenSelect = () => {
                     color='lime.700'
                     borderColor='lime.300'
                     _disabled={{ borderColor: 'blackAlpha.200', color: 'blackAlpha.700' }}
-                    data-test-id='allergens-menu-button'
+                    data-test-id='allergens-menu-button-filter'
                 >
                     <Flex gap='8px' flexWrap='wrap'>
                         {selectedAllergens.length ? (

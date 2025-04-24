@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { FilterGroup } from '~/shared/ui/FilterGroup';
 
-import { selectSideDishesFilters } from '../model/selectors/selectSideDishesFilters';
+import { selectSideDishesFilters } from '../model/selectors/drawerFilters/selectSideDishesFilters';
 import { toggleSideDishe } from '../model/slice';
 
 const SIDE_DISHES = [

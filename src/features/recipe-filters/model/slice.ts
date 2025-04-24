@@ -13,22 +13,35 @@ export interface SearchState {
     isSearchActive: boolean;
 }
 
-export interface FiltersState {
+export interface DrawerState {
+    isActive: boolean;
+    isAvailable: boolean;
     meatTypes: string[];
     sideDishes: string[];
-    allergens: AllergenState;
-    search: SearchState;
     categories: string[];
-    subcategories: string[];
+    authors: string[];
+    allergens: AllergenState;
+}
+
+export interface FiltersState {
+    drawerFilters: DrawerState;
+    search: SearchState;
+    allergens: AllergenState;
 }
 
 const initialState: FiltersState = {
-    meatTypes: [],
-    sideDishes: [],
-    allergens: {
-        isExcluding: false,
-        selectedAllergens: [],
-        customAllergen: '',
+    drawerFilters: {
+        isActive: false,
+        isAvailable: false,
+        meatTypes: [],
+        sideDishes: [],
+        allergens: {
+            isExcluding: false,
+            selectedAllergens: [],
+            customAllergen: '',
+        },
+        categories: [],
+        authors: [],
     },
     search: {
         searchQuery: '',
@@ -36,44 +49,93 @@ const initialState: FiltersState = {
         isSearchAvailable: false,
         isSearchActive: false,
     },
-    categories: [],
-    subcategories: [],
+    allergens: {
+        isExcluding: false,
+        selectedAllergens: [],
+        customAllergen: '',
+    },
 };
 
 const toggleFilter = (filters: string[], targetFilter: string) => {
     if (filters.includes(targetFilter)) {
-        filters = filters.filter((f) => f !== targetFilter);
+        filters.splice(0, filters.length, ...filters.filter((f) => f !== targetFilter));
     } else {
         filters.push(targetFilter);
     }
 };
+
+const findFiltersAvailable = (drawerFilters: DrawerState) =>
+    drawerFilters.meatTypes.length +
+        drawerFilters.sideDishes.length +
+        drawerFilters.allergens.selectedAllergens.length +
+        drawerFilters.categories.length +
+        drawerFilters.authors.length >=
+    1;
 
 export const filtersSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
         toggleCategory(state, action: PayloadAction<string>) {
-            toggleFilter(state.categories, action.payload);
+            toggleFilter(state.drawerFilters.categories, action.payload);
+            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
         },
-        resetCategories(state) {
-            state.categories = [];
-        },
-        toggleSubcategory(state, action: PayloadAction<string>) {
-            toggleFilter(state.subcategories, action.payload);
-        },
-        resetSubcategories(state) {
-            state.subcategories = [];
+        toggleAuthor(state, action: PayloadAction<string>) {
+            toggleFilter(state.drawerFilters.authors, action.payload);
+            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
         },
         toggleMeatType(state, action: PayloadAction<string>) {
-            const meatType = action.payload;
-            if (state.meatTypes.includes(meatType)) {
-                state.meatTypes = state.meatTypes.filter((m) => m !== meatType);
-            } else {
-                state.meatTypes.push(meatType);
-            }
+            toggleFilter(state.drawerFilters.meatTypes, action.payload);
+            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
         },
         toggleSideDishe(state, action: PayloadAction<string>) {
-            toggleFilter(state.sideDishes, action.payload);
+            toggleFilter(state.drawerFilters.sideDishes, action.payload);
+            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+        },
+        toggleDrawerAllergenExcluding(state) {
+            state.drawerFilters.allergens.isExcluding = !state.drawerFilters.allergens.isExcluding;
+            if (!state.drawerFilters.allergens.isExcluding) {
+                state.drawerFilters.allergens.selectedAllergens = [];
+            }
+        },
+        toggleDrawerAllergen(state, action: PayloadAction<string>) {
+            toggleFilter(state.drawerFilters.allergens.selectedAllergens, action.payload);
+            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+        },
+        setDrawerCustomAllergenInput(state, action: PayloadAction<string>) {
+            state.drawerFilters.allergens.customAllergen = action.payload;
+        },
+        addDrawerCustomAllergen(state) {
+            if (
+                state.drawerFilters.allergens.customAllergen.trim() &&
+                !state.drawerFilters.allergens.selectedAllergens.includes(
+                    state.drawerFilters.allergens.customAllergen,
+                )
+            ) {
+                state.drawerFilters.allergens.selectedAllergens.push(
+                    state.drawerFilters.allergens.customAllergen,
+                );
+                state.drawerFilters.allergens.customAllergen = '';
+            }
+            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+        },
+        setDrawerFiltersActive(state) {
+            if (state.drawerFilters.isAvailable) {
+                state.drawerFilters.isActive = true;
+                state.allergens = { ...state.drawerFilters.allergens };
+            }
+        },
+        resetDrawerFilters(state) {
+            state.drawerFilters.isActive = false;
+            state.drawerFilters.categories = [];
+            state.drawerFilters.authors = [];
+            state.drawerFilters.meatTypes = [];
+            state.drawerFilters.sideDishes = [];
+            state.drawerFilters.allergens = {
+                isExcluding: false,
+                customAllergen: '',
+                selectedAllergens: [],
+            };
         },
         toggleAllergenExcluding(state) {
             state.allergens.isExcluding = !state.allergens.isExcluding;
@@ -82,14 +144,7 @@ export const filtersSlice = createSlice({
             }
         },
         toggleAllergen(state, action: PayloadAction<string>) {
-            const allergen = action.payload;
-            if (state.allergens.selectedAllergens.includes(allergen)) {
-                state.allergens.selectedAllergens = state.allergens.selectedAllergens.filter(
-                    (a) => a !== allergen,
-                );
-            } else {
-                state.allergens.selectedAllergens.push(allergen);
-            }
+            toggleFilter(state.allergens.selectedAllergens, action.payload);
         },
         setCustomAllergenInput(state, action: PayloadAction<string>) {
             state.allergens.customAllergen = action.payload;
@@ -102,9 +157,6 @@ export const filtersSlice = createSlice({
                 state.allergens.selectedAllergens.push(state.allergens.customAllergen);
                 state.allergens.customAllergen = '';
             }
-        },
-        removeAllergen(state, action: PayloadAction<string>) {
-            state.allergens.selectedAllergens.filter((a) => a !== action.payload);
         },
         setSearchQuery(state, action: PayloadAction<string>) {
             state.search.searchQuery = action.payload;
@@ -125,19 +177,22 @@ export const filtersSlice = createSlice({
 
 export const {
     addCustomAllergen,
-    removeAllergen,
     setCustomAllergenInput,
     toggleAllergen,
     toggleAllergenExcluding,
     resetSearch,
     setSearchQuery,
     setSearchActive,
-    resetCategories,
-    resetSubcategories,
     toggleCategory,
     toggleMeatType,
     toggleSideDishe,
-    toggleSubcategory,
+    addDrawerCustomAllergen,
+    resetDrawerFilters,
+    setDrawerCustomAllergenInput,
+    setDrawerFiltersActive,
+    toggleAuthor,
+    toggleDrawerAllergen,
+    toggleDrawerAllergenExcluding,
 } = filtersSlice.actions;
 
 export const { reducer: filterReducer } = filtersSlice;
