@@ -81,7 +81,7 @@ export const AllergenSelect = () => {
                         )}
                     </Flex>
                 </MenuButton>
-                <MenuList>
+                <MenuList data-test-id='allergens-menu'>
                     {ALLERGEN_OPTIONS.map((option, index) => (
                         <MenuItem
                             as={Checkbox}

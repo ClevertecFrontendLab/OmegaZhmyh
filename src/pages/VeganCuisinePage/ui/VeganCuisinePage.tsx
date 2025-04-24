@@ -34,11 +34,17 @@ export const VeganCuisinePage = () => {
                 desc='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
             />
             <Flex justifyContent='center'>
-                {categories[pageCategory].subcategory.map((sbc) => (
+                {categories[pageCategory].subcategory.map((sbc, i) => (
                     <Link
                         key={sbc.name}
                         as={NavLink}
                         to={`/${pageCategory}/${sbc.name}`}
+                        data-test-id={`tab-${sbc.name}-${i}`}
+                        {...(location.pathname === `/${pageCategory}/${sbc.name}`
+                            ? {
+                                  'aria-selected': true,
+                              }
+                            : { 'aria-selected': false })}
                         display='flex'
                         padding='8px 16px'
                         whiteSpace='nowrap'

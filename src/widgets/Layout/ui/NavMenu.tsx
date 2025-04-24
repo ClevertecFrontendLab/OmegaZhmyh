@@ -70,9 +70,19 @@ export const NavMenu = (props: NavMenuProps) => {
                                                     _hover={{ bg: 'lime.50' }}
                                                     as={NavLink}
                                                     to={`/${categoryName}/${name}`}
-                                                >
-                                                    {label}
-                                                </Tab>
+                                                    children={({ isActive }) => (
+                                                        <Box
+                                                            as='span'
+                                                            {...(isActive
+                                                                ? {
+                                                                      'data-test-id': `${name}-active`,
+                                                                  }
+                                                                : {})}
+                                                        >
+                                                            {label}
+                                                        </Box>
+                                                    )}
+                                                ></Tab>
                                             ),
                                         )}
                                     </TabList>
