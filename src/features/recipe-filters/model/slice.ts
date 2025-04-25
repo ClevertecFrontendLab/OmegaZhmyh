@@ -136,6 +136,7 @@ export const filtersSlice = createSlice({
 
         resetDrawerFilters(state) {
             state.drawerUIState = structuredClone(drawerInitialState);
+            state.drawerFilters = structuredClone(drawerInitialState);
             state.allergens = { ...allergenInitialState };
         },
 

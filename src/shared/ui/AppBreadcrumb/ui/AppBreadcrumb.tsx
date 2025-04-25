@@ -10,7 +10,6 @@ interface AppBreadcrumbProps extends BreadcrumbProps {}
 export const AppBreadcrumb = (props: AppBreadcrumbProps) => {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
-
     const pathNameMap = useSelector(selectCategoryLabels);
 
     return (

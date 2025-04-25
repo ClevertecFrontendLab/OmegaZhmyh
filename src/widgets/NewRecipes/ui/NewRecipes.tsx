@@ -29,7 +29,7 @@ export const NewRecipes = () => {
                     data-test-id='carousel'
                 >
                     {newRecipes.map((recipe, i) => (
-                        <LinkBox>
+                        <LinkBox key={recipe.id}>
                             <SwiperSlide
                                 key={recipe.id}
                                 style={{ maxWidth: slideWidth }}

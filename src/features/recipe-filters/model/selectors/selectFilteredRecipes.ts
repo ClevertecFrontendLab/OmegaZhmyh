@@ -40,7 +40,9 @@ export const selectFilteredRecipes = createSelector(
                 recipe.subcategory.includes(pageSubcategory) || pageSubcategory === '';
 
             const includeAllergen = recipe.ingredients.some((ingredient) =>
-                selectedAllergens.includes(ingredient.title),
+                selectedAllergens.some((selAllergen) =>
+                    ingredient.title.includes(selAllergen.toLocaleLowerCase()),
+                ),
             );
 
             const includeFiltredCategory = categoryFilters.some((filter) =>

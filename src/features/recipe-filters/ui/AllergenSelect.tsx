@@ -8,8 +8,6 @@ import {
     InputGroup,
     Menu,
     MenuButton,
-    MenuGroup,
-    MenuItem,
     MenuList,
     Tag,
     Text,
@@ -48,8 +46,8 @@ export const AllergenSelect = () => {
         dispatch(setCustomAllergenInput(e.target.value));
     const onAddCustomAllergen = () => dispatch(addCustomAllergen());
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            addCustomAllergen();
+        if (e.code === 'Enter') {
+            dispatch(addCustomAllergen());
         }
     };
 
@@ -74,7 +72,12 @@ export const AllergenSelect = () => {
                     <Flex gap='8px' flexWrap='wrap'>
                         {selectedAllergens.length ? (
                             selectedAllergens.map((allergen) => (
-                                <Tag variant='outline' colorScheme='lime' color='lime.600'>
+                                <Tag
+                                    key={allergen}
+                                    variant='outline'
+                                    colorScheme='lime'
+                                    color='lime.600'
+                                >
                                     {allergen}
                                 </Tag>
                             ))
@@ -84,18 +87,18 @@ export const AllergenSelect = () => {
                     </Flex>
                 </MenuButton>
                 <MenuList data-test-id='allergens-menu'>
-                    {ALLERGEN_OPTIONS.map(({ label, name }, index) => (
-                        <MenuItem
-                            as={Checkbox}
-                            isChecked={selectedAllergens.includes(name)}
-                            onChange={() => onToggleAllergen(name)}
-                            bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
-                            data-test-id={!isDrawerOpen ? `allergen-${index}` : ''}
-                        >
-                            {label}
-                        </MenuItem>
-                    ))}
-                    <MenuGroup>
+                    <Flex flexDirection='column'>
+                        {ALLERGEN_OPTIONS.map(({ label, name }, index) => (
+                            <Checkbox
+                                key={name}
+                                isChecked={selectedAllergens.includes(name)}
+                                onChange={() => onToggleAllergen(name)}
+                                bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
+                                data-test-id={!isDrawerOpen ? `allergen-${index}` : ''}
+                            >
+                                {label}
+                            </Checkbox>
+                        ))}
                         <InputGroup padding='8px 8px 8px 24px' alignItems='center' gap='8px'>
                             <Input
                                 onChange={onSetCustomAllergenInput}
@@ -115,7 +118,7 @@ export const AllergenSelect = () => {
                                 data-test-id={!isDrawerOpen ? 'add-allergen-button' : ''}
                             />
                         </InputGroup>
-                    </MenuGroup>
+                    </Flex>
                 </MenuList>
             </Menu>
         </>

@@ -11,7 +11,7 @@ export const RecipeCardList = ({ ...gridProps }: RecipeCardListProps) => {
     return (
         <SimpleGrid {...gridProps}>
             {recipes.map((recipeInfo, i) => (
-                <Box data-test-id={`food-card-${i}`}>
+                <Box key={recipeInfo.id} data-test-id={`food-card-${i}`}>
                     <RecipeCard recipe={recipeInfo} />
                 </Box>
             ))}

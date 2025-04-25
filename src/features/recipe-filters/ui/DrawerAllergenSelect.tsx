@@ -52,8 +52,8 @@ export const DrawerAllergenSelect = () => {
         dispatch(setDrawerCustomAllergenInput(e.target.value));
     const onAddCustomAllergen = () => dispatch(addDrawerCustomAllergen());
     const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter') {
-            addDrawerCustomAllergen();
+        if (e.code === 'Enter') {
+            dispatch(addDrawerCustomAllergen());
         }
     };
 
@@ -78,7 +78,12 @@ export const DrawerAllergenSelect = () => {
                     <Flex gap='8px' flexWrap='wrap'>
                         {selectedAllergens.length ? (
                             selectedAllergens.map((allergen) => (
-                                <Tag variant='outline' colorScheme='lime' color='lime.600'>
+                                <Tag
+                                    key={allergen}
+                                    variant='outline'
+                                    colorScheme='lime'
+                                    color='lime.600'
+                                >
                                     {allergen}
                                 </Tag>
                             ))
@@ -91,6 +96,7 @@ export const DrawerAllergenSelect = () => {
                     {ALLERGEN_OPTIONS.map((option, index) => (
                         <MenuItem
                             as={Checkbox}
+                            key={option}
                             isChecked={selectedAllergens.includes(option)}
                             onChange={() => onToggleAllergen(option)}
                             bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
