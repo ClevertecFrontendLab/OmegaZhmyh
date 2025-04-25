@@ -4,37 +4,35 @@ import { selectPageCategory, selectPageSubcategory } from '~/entities/Category';
 import { selectAllRecipes } from '~/entities/Recipe';
 
 import { selectSelectedAllergens } from './alergens/selectSelectedAllergens';
-import { selectDrawerAllergens } from './drawerFilters/alergens/selectDrawerAllergens';
-import { selectAuthorsFilter } from './drawerFilters/selectAuthorsFilter';
-import { selectCategoryFilter } from './drawerFilters/selectCategoryFilter';
-import { selectIsFiltersActive } from './drawerFilters/selectIsFiltersActive';
-import { selectMeatTypesFilters } from './drawerFilters/selectMeatTypesFilters';
-import { selectSideDishesFilters } from './drawerFilters/selectSideDishesFilters';
+import { selectAllDrawerFilters } from './drawerFilters/selectAllDrawerFilters';
 
 export const selectFilteredRecipes = createSelector(
     [
         selectAllRecipes,
         selectPageCategory,
         selectPageSubcategory,
-        selectIsFiltersActive,
-        selectCategoryFilter,
-        selectAuthorsFilter,
-        selectMeatTypesFilters,
-        selectSideDishesFilters,
-        selectDrawerAllergens,
         selectSelectedAllergens,
+        selectAllDrawerFilters,
     ],
     (
         allRecipes,
         pageCategory,
         pageSubcategory,
-        isFiltersActive,
+        selectedAllergens,
+        /* isFiltersActive,
         categoryFilters,
         _authorsFilters,
         meatFilters,
         sideDishesFilters,
-        drawerAllergens,
-        selectedAllergens,
+        drawerAllergens, */
+        {
+            allergens: drawerAllergens,
+            authors: _authorsFilters,
+            categories: categoryFilters,
+            isActive: isFiltersActive,
+            meatTypes: meatFilters,
+            sideDishes: sideDishesFilters,
+        },
     ) => {
         const filtredrecipes = allRecipes.filter((recipe) => {
             const isInPageCategory = recipe.category.includes(pageCategory) || pageCategory === '';
@@ -45,21 +43,27 @@ export const selectFilteredRecipes = createSelector(
                 selectedAllergens.includes(ingredient.title),
             );
 
-            const includeFiltredCategory = recipe.category.some((category) =>
-                categoryFilters.includes(category),
+            const includeFiltredCategory = categoryFilters.some((filter) =>
+                recipe.category.includes(filter),
             );
             //const includeFiltredAuthors = recipe.authors.some((author) => authorsFilters.includes(author));
-            const includeFiltredMeat = recipe.meat && meatFilters.includes(recipe.meat);
-            const includeFiltredSideDishes = recipe.side && sideDishesFilters.includes(recipe.side);
+            const includeFiltredMeat = meatFilters.length
+                ? recipe.meat && meatFilters.includes(recipe.meat)
+                : true;
+            const includeFiltredSideDishes = sideDishesFilters.length
+                ? recipe.side && sideDishesFilters.includes(recipe.side)
+                : true;
             const includeDrawerAllergen = recipe.ingredients.some((ingredient) =>
-                drawerAllergens.includes(ingredient.title),
+                drawerAllergens.selectedAllergens.includes(ingredient.title),
             );
 
             if (!isFiltersActive) {
                 return !includeAllergen && isInPageCategory && isInPageSubcategory;
             }
             return (
-                (includeFiltredCategory || includeFiltredMeat || includeFiltredSideDishes) &&
+                includeFiltredCategory &&
+                includeFiltredMeat &&
+                includeFiltredSideDishes &&
                 !includeDrawerAllergen
             );
         });

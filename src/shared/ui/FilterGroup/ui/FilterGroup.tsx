@@ -1,7 +1,7 @@
 import { Checkbox, Text, VStack } from '@chakra-ui/react';
 
 interface FilterGroupProps {
-    filters: string[];
+    filters: { label: string; name: string }[];
     activeFilters: string[];
     onChangeFilter: (filter: string) => void;
 }
@@ -11,13 +11,13 @@ export const FilterGroup = ({ activeFilters, filters, onChangeFilter }: FilterGr
         <Text fontSize='md' fontWeight='medium'>
             Тип мяса:
         </Text>
-        {filters.map((filter) => (
+        {filters.map(({ name, label }) => (
             <Checkbox
-                isChecked={activeFilters.includes(filter)}
-                onChange={() => onChangeFilter(filter)}
-                data-test-id={`checkbox-${filter.toLocaleLowerCase()}`}
+                isChecked={activeFilters.includes(name)}
+                onChange={() => onChangeFilter(name)}
+                data-test-id={`checkbox-${label.toLocaleLowerCase()}`}
             >
-                {filter}
+                {label}
             </Checkbox>
         ))}
     </VStack>

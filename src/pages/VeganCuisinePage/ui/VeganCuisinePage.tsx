@@ -19,6 +19,7 @@ export const VeganCuisinePage = () => {
         dispatch(setPageSubcategory(params.subcategory ?? ''));
         return () => {
             dispatch(setPageCategory(''));
+            dispatch(setPageSubcategory(''));
         };
     }, [dispatch, params]);
 

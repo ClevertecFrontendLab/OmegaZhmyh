@@ -6,14 +6,14 @@ import { selectSideDishesFilters } from '../model/selectors/drawerFilters/select
 import { toggleSideDishe } from '../model/slice';
 
 const SIDE_DISHES = [
-    'Картошка',
-    'Гречка',
-    'Паста',
-    'Спагетти',
-    'Рис',
-    'Капуста',
-    'Фасоль',
-    'Другие овощи',
+    { label: 'Картошка', name: 'potatoes' },
+    { label: 'Гречка', name: 'buckwheat' },
+    { label: 'Паста', name: 'pasta' },
+    { label: 'Спагетти', name: 'spaghetti' },
+    { label: 'Рис', name: 'rice' },
+    { label: 'Капуста', name: 'cabbage' },
+    { label: 'Фасоль', name: 'bean' },
+    { label: 'Другие овощи', name: 'Другие овощи' },
 ];
 
 export const SideDishesFilters = () => {

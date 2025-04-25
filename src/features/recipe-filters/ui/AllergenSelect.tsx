@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BsPlusCircleFill } from '~/shared/ui/Icons';
+import { selectIsDrawerOpen } from '~/widgets/Drawer';
 
 import { selectCustomAllergen } from '../model/selectors/alergens/selectCustomAllergen';
 import { selectIsExcluding } from '../model/selectors/alergens/selectIsExcluding';
@@ -24,15 +25,15 @@ import { selectSelectedAllergens } from '../model/selectors/alergens/selectSelec
 import { addCustomAllergen, setCustomAllergenInput, toggleAllergen } from '../model/slice';
 
 const ALLERGEN_OPTIONS = [
-    'Молочные продукты',
-    'Яйцо',
-    'Моллюски',
-    'Рыба',
-    'Орехи',
-    'Томат (помидор)',
-    'Цитрусовые',
-    'Клубника (ягоды)',
-    'Шоколад',
+    { label: 'Молочные продукты', name: 'моло' },
+    { label: 'Яйцо', name: 'яйцо' },
+    { label: 'Моллюски', name: '' },
+    { label: 'Рыба', name: 'рыб' },
+    { label: 'Орехи', name: 'орех' },
+    { label: 'Томат (помидор)', name: 'томат' },
+    { label: 'Цитрусовые', name: 'цитрус' },
+    { label: 'Клубника (ягоды)', name: 'клубни' },
+    { label: 'Шоколад', name: 'шоколад' },
 ];
 
 export const AllergenSelect = () => {
@@ -40,6 +41,7 @@ export const AllergenSelect = () => {
     const isExcluding = useSelector(selectIsExcluding);
     const selectedAllergens = useSelector(selectSelectedAllergens);
     const customAllergen = useSelector(selectCustomAllergen);
+    const isDrawerOpen = useSelector(selectIsDrawerOpen);
 
     const onToggleAllergen = (allergen: string) => dispatch(toggleAllergen(allergen));
     const onSetCustomAllergenInput = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -82,15 +84,15 @@ export const AllergenSelect = () => {
                     </Flex>
                 </MenuButton>
                 <MenuList data-test-id='allergens-menu'>
-                    {ALLERGEN_OPTIONS.map((option, index) => (
+                    {ALLERGEN_OPTIONS.map(({ label, name }, index) => (
                         <MenuItem
                             as={Checkbox}
-                            isChecked={selectedAllergens.includes(option)}
-                            onChange={() => onToggleAllergen(option)}
+                            isChecked={selectedAllergens.includes(name)}
+                            onChange={() => onToggleAllergen(name)}
                             bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
-                            data-test-id={`allergen-${index}`}
+                            data-test-id={!isDrawerOpen ? `allergen-${index}` : ''}
                         >
-                            {option}
+                            {label}
                         </MenuItem>
                     ))}
                     <MenuGroup>
@@ -101,7 +103,7 @@ export const AllergenSelect = () => {
                                 placeholder='Другой аллерген'
                                 value={customAllergen}
                                 size='sm'
-                                data-test-id='add-other-allergen'
+                                data-test-id={!isDrawerOpen ? 'add-other-allergen' : ''}
                             />
                             <IconButton
                                 onClick={onAddCustomAllergen}
@@ -110,7 +112,7 @@ export const AllergenSelect = () => {
                                 size='xs'
                                 variant='ghost'
                                 icon={<BsPlusCircleFill color='lime.600' />}
-                                data-test-id='add-allergen-button'
+                                data-test-id={!isDrawerOpen ? 'add-allergen-button' : ''}
                             />
                         </InputGroup>
                     </MenuGroup>

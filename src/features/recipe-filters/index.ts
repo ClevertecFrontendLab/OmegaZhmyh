@@ -10,6 +10,7 @@ export { selectIsFiltersAvailable } from './model/selectors/drawerFilters/select
 export { selectMeatTypesFilters } from './model/selectors/drawerFilters/selectMeatTypesFilters';
 export { selectSideDishesFilters } from './model/selectors/drawerFilters/selectSideDishesFilters';
 export { selectActiveSearchQuery } from './model/selectors/search/selectActiveSearchQuery';
+export { selectAllFilters } from './model/selectors/selectAllFilters';
 export { selectSerchedRecipes } from './model/selectors/selectSerchedRecipes';
 export { filterReducer } from './model/slice';
 export {

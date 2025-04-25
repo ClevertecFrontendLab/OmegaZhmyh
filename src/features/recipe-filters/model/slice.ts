@@ -25,35 +25,37 @@ export interface DrawerState {
 
 export interface FiltersState {
     drawerFilters: DrawerState;
+    drawerUIState: DrawerState;
     search: SearchState;
     allergens: AllergenState;
 }
 
+const allergenInitialState: AllergenState = {
+    isExcluding: false,
+    selectedAllergens: [],
+    customAllergen: '',
+};
+
+const drawerInitialState: DrawerState = {
+    isActive: false,
+    isAvailable: false,
+    meatTypes: [],
+    sideDishes: [],
+    allergens: structuredClone(allergenInitialState),
+    categories: [],
+    authors: [],
+};
+
 const initialState: FiltersState = {
-    drawerFilters: {
-        isActive: false,
-        isAvailable: false,
-        meatTypes: [],
-        sideDishes: [],
-        allergens: {
-            isExcluding: false,
-            selectedAllergens: [],
-            customAllergen: '',
-        },
-        categories: [],
-        authors: [],
-    },
+    drawerFilters: structuredClone(drawerInitialState),
+    drawerUIState: structuredClone(drawerInitialState),
     search: {
         searchQuery: '',
         activeSearchQuery: '',
         isSearchAvailable: false,
         isSearchActive: false,
     },
-    allergens: {
-        isExcluding: false,
-        selectedAllergens: [],
-        customAllergen: '',
-    },
+    allergens: structuredClone(allergenInitialState),
 };
 
 const toggleFilter = (filters: string[], targetFilter: string) => {
@@ -77,66 +79,66 @@ export const filtersSlice = createSlice({
     initialState,
     reducers: {
         toggleCategory(state, action: PayloadAction<string>) {
-            toggleFilter(state.drawerFilters.categories, action.payload);
-            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+            toggleFilter(state.drawerUIState.categories, action.payload);
+            state.drawerUIState.isAvailable = findFiltersAvailable(state.drawerUIState);
         },
+
         toggleAuthor(state, action: PayloadAction<string>) {
-            toggleFilter(state.drawerFilters.authors, action.payload);
-            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+            toggleFilter(state.drawerUIState.authors, action.payload);
+            state.drawerUIState.isAvailable = findFiltersAvailable(state.drawerUIState);
         },
+
         toggleMeatType(state, action: PayloadAction<string>) {
-            toggleFilter(state.drawerFilters.meatTypes, action.payload);
-            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+            toggleFilter(state.drawerUIState.meatTypes, action.payload);
+            state.drawerUIState.isAvailable = findFiltersAvailable(state.drawerUIState);
         },
+
         toggleSideDishe(state, action: PayloadAction<string>) {
-            toggleFilter(state.drawerFilters.sideDishes, action.payload);
-            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+            toggleFilter(state.drawerUIState.sideDishes, action.payload);
+            state.drawerUIState.isAvailable = findFiltersAvailable(state.drawerUIState);
         },
+
         toggleDrawerAllergenExcluding(state) {
-            state.drawerFilters.allergens.isExcluding = !state.drawerFilters.allergens.isExcluding;
-            if (!state.drawerFilters.allergens.isExcluding) {
-                state.drawerFilters.allergens.selectedAllergens = [];
+            state.drawerUIState.allergens.isExcluding = !state.drawerUIState.allergens.isExcluding;
+            if (!state.drawerUIState.allergens.isExcluding) {
+                state.drawerUIState.allergens.selectedAllergens = [];
             }
         },
         toggleDrawerAllergen(state, action: PayloadAction<string>) {
-            toggleFilter(state.drawerFilters.allergens.selectedAllergens, action.payload);
-            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+            toggleFilter(state.drawerUIState.allergens.selectedAllergens, action.payload);
+            state.drawerUIState.isAvailable = findFiltersAvailable(state.drawerUIState);
         },
         setDrawerCustomAllergenInput(state, action: PayloadAction<string>) {
-            state.drawerFilters.allergens.customAllergen = action.payload;
+            state.drawerUIState.allergens.customAllergen = action.payload;
         },
         addDrawerCustomAllergen(state) {
             if (
-                state.drawerFilters.allergens.customAllergen.trim() &&
-                !state.drawerFilters.allergens.selectedAllergens.includes(
-                    state.drawerFilters.allergens.customAllergen,
+                state.drawerUIState.allergens.customAllergen.trim() &&
+                !state.drawerUIState.allergens.selectedAllergens.includes(
+                    state.drawerUIState.allergens.customAllergen,
                 )
             ) {
-                state.drawerFilters.allergens.selectedAllergens.push(
-                    state.drawerFilters.allergens.customAllergen,
+                state.drawerUIState.allergens.selectedAllergens.push(
+                    state.drawerUIState.allergens.customAllergen,
                 );
-                state.drawerFilters.allergens.customAllergen = '';
+                state.drawerUIState.allergens.customAllergen = '';
             }
-            state.drawerFilters.isAvailable = findFiltersAvailable(state.drawerFilters);
+            state.drawerUIState.isAvailable = findFiltersAvailable(state.drawerUIState);
         },
+
         setDrawerFiltersActive(state) {
-            if (state.drawerFilters.isAvailable) {
-                state.drawerFilters.isActive = true;
-                state.allergens = { ...state.drawerFilters.allergens };
+            if (state.drawerUIState.isAvailable) {
+                state.drawerUIState.isActive = true;
+                state.drawerFilters = state.drawerUIState;
+                state.drawerUIState = structuredClone(drawerInitialState);
             }
         },
+
         resetDrawerFilters(state) {
-            state.drawerFilters.isActive = false;
-            state.drawerFilters.categories = [];
-            state.drawerFilters.authors = [];
-            state.drawerFilters.meatTypes = [];
-            state.drawerFilters.sideDishes = [];
-            state.drawerFilters.allergens = {
-                isExcluding: false,
-                customAllergen: '',
-                selectedAllergens: [],
-            };
+            state.drawerUIState = structuredClone(drawerInitialState);
+            state.allergens = { ...allergenInitialState };
         },
+
         toggleAllergenExcluding(state) {
             state.allergens.isExcluding = !state.allergens.isExcluding;
             if (!state.allergens.isExcluding) {
@@ -158,6 +160,7 @@ export const filtersSlice = createSlice({
                 state.allergens.customAllergen = '';
             }
         },
+
         setSearchQuery(state, action: PayloadAction<string>) {
             state.search.searchQuery = action.payload;
             state.search.isSearchAvailable = action.payload.length >= 3;

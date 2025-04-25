@@ -8,6 +8,7 @@ import {
     DrawerFooter,
     DrawerOverlay,
     Flex,
+    Tag,
     Text,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,19 +18,21 @@ import {
     DrawerAllergenSelect,
     DrawerAllergenToggle,
     MeatFilters,
+    selectAllFilters,
     selectIsFiltersAvailable,
     SideDishesFilters,
 } from '~/features/recipe-filters';
 import { resetDrawerFilters, setDrawerFiltersActive } from '~/features/recipe-filters/model/slice';
 import { BsFillXCircleFill } from '~/shared/ui/Icons';
 
-import { selectIsDrawerOpen } from '../model/selectors';
+import { selectIsDrawerOpen } from '../model/selectIsDrawerOpen';
 import { toggleIsOpenDrawer } from '../model/slice';
 
 export const AppDrawer = () => {
     const dispatch = useDispatch();
     const isDrawerOpen = useSelector(selectIsDrawerOpen);
     const isFindRecipeAvailable = useSelector(selectIsFiltersAvailable);
+    const allFilters = useSelector(selectAllFilters);
 
     const onCloseHandler = () => dispatch(toggleIsOpenDrawer());
 
@@ -58,6 +61,11 @@ export const AppDrawer = () => {
                         <DrawerAllergenToggle />
                         <DrawerAllergenSelect />
                     </Box>
+                    <Flex flexWrap='wrap'>
+                        {allFilters.map((filter) => (
+                            <Tag data-test-id='filter-tag'>{filter}</Tag>
+                        ))}
+                    </Flex>
                 </DrawerBody>
 
                 <DrawerFooter borderTopWidth='1px'>
@@ -69,7 +77,10 @@ export const AppDrawer = () => {
                     </Button>
                     <Button
                         data-test-id='find-recipe-button'
-                        onClick={() => dispatch(setDrawerFiltersActive())}
+                        onClick={() => {
+                            dispatch(setDrawerFiltersActive());
+                            onCloseHandler();
+                        }}
                         isDisabled={!isFindRecipeAvailable}
                         pointerEvents={isFindRecipeAvailable ? 'auto' : 'none'}
                     >

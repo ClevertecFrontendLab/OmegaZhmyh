@@ -42,7 +42,7 @@ export const CategorySelect = () => {
                     {categoryFilters.length ? (
                         categoryFilters.map((f) => (
                             <Tag variant='outline' colorScheme='lime' color='lime.600'>
-                                {f}
+                                {allCategories[f]}
                             </Tag>
                         ))
                     ) : (
@@ -51,11 +51,11 @@ export const CategorySelect = () => {
                 </Flex>
             </MenuButton>
             <MenuList>
-                {Object.entries(allCategories).map(([_name, label], index) => (
+                {Object.entries(allCategories).map(([name, label], index) => (
                     <MenuItem
                         as={Checkbox}
-                        isChecked={categoryFilters.includes(label)}
-                        onChange={() => dispatch(toggleCategory(label))}
+                        isChecked={categoryFilters.includes(name)}
+                        onChange={() => dispatch(toggleCategory(name))}
                         bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
                         data-test-id={`checkbox-${label.toLocaleLowerCase()}`}
                     >

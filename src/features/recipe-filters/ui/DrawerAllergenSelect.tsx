@@ -17,6 +17,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BsPlusCircleFill } from '~/shared/ui/Icons';
+import { selectIsDrawerOpen } from '~/widgets/Drawer';
 
 import { selectDrawerAllergens } from '../model/selectors/drawerFilters/alergens/selectDrawerAllergens';
 import { selectDrawerCustomAllergen } from '../model/selectors/drawerFilters/alergens/selectDrawerCustomAllergen';
@@ -44,6 +45,7 @@ export const DrawerAllergenSelect = () => {
     const isExcluding = useSelector(selectIsDrawerExcluding);
     const selectedAllergens = useSelector(selectDrawerAllergens);
     const customAllergen = useSelector(selectDrawerCustomAllergen);
+    const isDrawerOpen = useSelector(selectIsDrawerOpen);
 
     const onToggleAllergen = (allergen: string) => dispatch(toggleDrawerAllergen(allergen));
     const onSetCustomAllergenInput = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -92,7 +94,7 @@ export const DrawerAllergenSelect = () => {
                             isChecked={selectedAllergens.includes(option)}
                             onChange={() => onToggleAllergen(option)}
                             bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
-                            data-test-id={`allergen-${index}`}
+                            data-test-id={isDrawerOpen ? `allergen-${index}` : ''}
                         >
                             {option}
                         </MenuItem>
@@ -105,7 +107,7 @@ export const DrawerAllergenSelect = () => {
                                 placeholder='Другой аллерген'
                                 value={customAllergen}
                                 size='sm'
-                                data-test-id='add-other-allergen'
+                                data-test-id={isDrawerOpen ? 'add-other-allergen' : ''}
                             />
                             <IconButton
                                 onClick={onAddCustomAllergen}
@@ -114,7 +116,7 @@ export const DrawerAllergenSelect = () => {
                                 size='xs'
                                 variant='ghost'
                                 icon={<BsPlusCircleFill color='lime.600' />}
-                                data-test-id='add-allergen-button'
+                                data-test-id={isDrawerOpen ? 'add-allergen-button' : ''}
                             />
                         </InputGroup>
                     </MenuGroup>
