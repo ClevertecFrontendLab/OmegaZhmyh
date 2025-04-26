@@ -34,7 +34,11 @@ export const Header = () => {
                 <Image src={MobileLogo} display={{ base: 'block', md: 'none' }} />
                 <Image src={Logo} display={{ base: 'none', md: 'block' }} />
             </Link>
-            <AppBreadcrumb marginLeft={32} display={{ base: 'none', lg: 'block' }} />
+            <AppBreadcrumb
+                isMobile={false}
+                marginLeft={32}
+                display={{ base: 'none', lg: 'block' }}
+            />
             <Box pos='absolute' right='80px' display={{ base: 'none', lg: 'flex' }}>
                 <UserCard
                     accountName='@bake_and_pie'

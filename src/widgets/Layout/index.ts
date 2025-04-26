@@ -1,3 +1,4 @@
+export { closeBurger } from './model/slice';
 export { BurgerMenu } from './ui/BurgerMenu';
 export { Header } from './ui/Header';
 export { MobileFooter } from './ui/MobileFooter';

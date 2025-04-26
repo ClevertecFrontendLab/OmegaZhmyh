@@ -3,8 +3,8 @@ import { extendTheme } from '@chakra-ui/react';
 import { accordionTheme } from './components/accordion';
 import { cardTheme } from './components/card';
 import { checkboxTheme } from './components/checkbox';
-import { drawerTheme } from './components/drawer';
 import { menuTheme } from './components/menu';
+import { modalTheme } from './components/modal';
 import { switchTheme } from './components/switch';
 import { tableTheme } from './components/table';
 import { tabsTheme } from './components/tabs';
@@ -18,7 +18,7 @@ const theme = extendTheme({
         Table: tableTheme,
         Checkbox: checkboxTheme,
         Menu: menuTheme,
-        Drawer: drawerTheme,
+        Modal: modalTheme,
     },
     colors: {
         lime: {

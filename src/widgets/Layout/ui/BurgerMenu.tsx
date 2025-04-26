@@ -1,4 +1,4 @@
-import { Drawer, DrawerBody, DrawerContent, DrawerOverlay, Flex } from '@chakra-ui/react';
+import { Flex, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppBreadcrumb } from '~/shared/ui/AppBreadcrumb';
@@ -13,18 +13,16 @@ export const BurgerMenu = () => {
     const isOpen = useSelector(selectIsBurgerOpen);
     const onCloseHandler = () => dispatch(closeBurger());
     return (
-        <Drawer isOpen={isOpen} onClose={onCloseHandler} variant='burger'>
-            <DrawerOverlay />
-            <DrawerContent>
-                <DrawerBody bgColor='rgba(0, 0, 0, 0)'>
+        <Modal isOpen={isOpen} onClose={onCloseHandler} variant='burger'>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalBody bgColor='rgba(0, 0, 0, 0)'>
                     <Flex
                         flexDirection='column'
                         justifyContent='space-between'
                         width='344px'
-                        top='var(--header-height)'
                         right='9px'
-                        height='60%'
-                        marginTop='var(--mobile-header-height)'
+                        height={{ base: '652px', md: '896px' }}
                         paddingTop='24px'
                         paddingRight='4px'
                         boxShadow='0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12)'
@@ -34,12 +32,12 @@ export const BurgerMenu = () => {
                         as='nav'
                         data-test-id='nav'
                     >
-                        <AppBreadcrumb />
+                        <AppBreadcrumb isMobile={true} />
                         <NavMenu isMobile={true} />
                         <NavFooter />
                     </Flex>
-                </DrawerBody>
-            </DrawerContent>
-        </Drawer>
+                </ModalBody>
+            </ModalContent>
+        </Modal>
     );
 };

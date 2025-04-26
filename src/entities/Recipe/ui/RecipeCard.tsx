@@ -30,6 +30,7 @@ export interface RecipeCardType {
     recomendationLabel?: string;
     recomendationIcon?: AvatarImagesType;
     direction?: SystemProps['flexDirection'];
+    cardLink: number;
 }
 
 export const RecipeCard = (props: RecipeCardType) => {
@@ -39,6 +40,7 @@ export const RecipeCard = (props: RecipeCardType) => {
         direction = 'row',
         tagColor,
         recipe,
+        cardLink,
     } = props;
     const { bookmarks, category, description, id, image, likes, subcategory, title } = recipe;
     const searchQuery = useSelector(selectRecipeQuery);
@@ -153,7 +155,7 @@ export const RecipeCard = (props: RecipeCardType) => {
                             _hover={{ color: 'black', bgColor: 'white' }}
                             as={Link}
                             to={`/${category[0]}/${subcategory[0]}/${id}`}
-                            data-test-id={`card-link-${id}`}
+                            data-test-id={`card-link-${cardLink}`}
                         >
                             Готовить
                         </Button>
