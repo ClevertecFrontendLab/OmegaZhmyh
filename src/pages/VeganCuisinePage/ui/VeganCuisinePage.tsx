@@ -24,12 +24,7 @@ export const VeganCuisinePage = () => {
     }, [dispatch, params]);
 
     return (
-        <Flex
-            justifyContent='center'
-            direction='column'
-            style={{ scrollbarGutter: 'stable' }}
-            paddingX={{ base: '16px', md: '24px', lg: '9px' }}
-        >
+        <Flex justifyContent='center' direction='column' style={{ scrollbarGutter: 'stable' }}>
             <SearchPanel
                 title='Веганская кухня'
                 desc='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'

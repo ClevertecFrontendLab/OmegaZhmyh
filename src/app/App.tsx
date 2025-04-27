@@ -24,7 +24,7 @@ function App() {
                         xl: 'container.xl',
                         lg: 'calc(100% - var(--navbar-width) - var(--sidebar-width))',
                     }}
-                    paddingX={{ base: '16px', md: '20px', lg: '0' }}
+                    paddingX={{ base: '16px', md: '20px' }}
                     overflow='hidden'
                 >
                     <Routes>

@@ -13,8 +13,10 @@ import { SlidePrevButton } from './SlidePrevButton';
 export const NewRecipes = () => {
     const newRecipes = useSelector(selectNewFiltredRecipes);
 
-    const slideWidth = useBreakpointValue({ base: '158px', lg: '277px', xl: '322px' });
-    const slideGap = useBreakpointValue({ base: '12px', xl: '24px' });
+    const slideWidth = useBreakpointValue({ base: '153px', lg: '277px', xl: '322px' });
+    const slideGap = useBreakpointValue({ base: '10px', xl: '24px' });
+    const sliderOverflow = useBreakpointValue({ base: 'visible', md: 'hidden' });
+
     return (
         <Box marginTop={{ base: '32px', lg: '40px' }}>
             <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight='medium'>
@@ -25,7 +27,7 @@ export const NewRecipes = () => {
                     slidesPerView='auto'
                     loop={true}
                     spaceBetween={slideGap}
-                    style={{ padding: '0 8px' }}
+                    style={{ padding: '0', overflow: sliderOverflow }}
                     data-test-id='carousel'
                 >
                     {newRecipes.map((recipe, i) => (

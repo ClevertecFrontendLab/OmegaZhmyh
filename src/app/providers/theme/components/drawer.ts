@@ -13,11 +13,6 @@ const drawer = definePartsStyle({
         justifyContent: 'end',
         gap: '8px',
     },
-    body: {
-        '::-webkit-scrollbar': {
-            width: '0px',
-        },
-    },
 });
 
 export const drawerTheme = defineMultiStyleConfig({

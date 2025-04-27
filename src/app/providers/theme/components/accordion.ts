@@ -29,6 +29,9 @@ const navbarVariant = definePartsStyle((props) => {
             paddingLeft: '10px',
             overflow: 'auto',
             scrollbarGutter: 'stable',
+            '::-webkit-scrollbar': {
+                width: { base: '0px', lg: '8px' },
+            },
         },
     };
 });

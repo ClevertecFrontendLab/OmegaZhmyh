@@ -5,12 +5,7 @@ import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
 export const JuiciestPage = () => (
-    <Flex
-        justifyContent='center'
-        direction='column'
-        style={{ scrollbarGutter: 'stable' }}
-        paddingX={{ base: '16px', md: '24px', lg: '9px' }}
-    >
+    <Flex justifyContent='center' direction='column' style={{ scrollbarGutter: 'stable' }}>
         <SearchPanel title='Самое сочное' />
         <RecipeCardList
             marginTop='32px'

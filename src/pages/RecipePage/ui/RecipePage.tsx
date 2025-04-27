@@ -48,7 +48,6 @@ export const RecipePage = () => {
         <>
             <Flex
                 flexDirection={{ base: 'column', md: 'row' }}
-                /* templateColumns='5fr 7fr' */
                 gap={{ base: '16px', lg: '24px' }}
                 marginTop={{ base: '16px', lg: '56px' }}
             >

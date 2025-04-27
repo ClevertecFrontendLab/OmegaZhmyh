@@ -5,7 +5,6 @@ import {
     DrawerBody,
     DrawerCloseButton,
     DrawerContent,
-    DrawerFooter,
     DrawerOverlay,
     Flex,
     Tag,
@@ -47,7 +46,7 @@ export const AppDrawer = () => {
             variant='drawer'
         >
             <DrawerOverlay />
-            <DrawerContent padding='32px' transitionDuration='100ms'>
+            <DrawerContent padding='32px 8px 16px 16px' transitionDuration='100ms'>
                 <DrawerCloseButton data-test-id='close-filter-drawer'>
                     <BsFillXCircleFill boxSize='24px' />
                 </DrawerCloseButton>
@@ -57,6 +56,7 @@ export const AppDrawer = () => {
                     flexDirection='column'
                     justifyContent='start'
                     padding={0}
+                    paddingRight='8px'
                     gap={{ base: '16px', lg: '24px' }}
                     data-test-id='filter-drawer'
                 >
@@ -71,7 +71,13 @@ export const AppDrawer = () => {
                         <DrawerAllergenToggle />
                         <DrawerAllergenSelect />
                     </Box>
-                    <Flex flexWrap='wrap' gap='8px'>
+                    <Flex
+                        flexWrap='wrap'
+                        gap='8px'
+                        minHeight='112px'
+                        alignItems='start'
+                        alignContent='start'
+                    >
                         {allFilters.map((filter) => (
                             <Tag
                                 key={filter}
@@ -84,39 +90,38 @@ export const AppDrawer = () => {
                             </Tag>
                         ))}
                     </Flex>
+                    <Flex gap='8px'>
+                        <Button
+                            data-test-id='clear-filter-button'
+                            onClick={() => dispatch(resetDrawerFilters())}
+                            variant='outline'
+                            color='blackAlpha.800'
+                            backgroundColor='whiteAlpha.100'
+                            borderColor='blackAlpha.600'
+                            size={{ base: 'sm', lg: 'lg' }}
+                        >
+                            Очистить фильтр
+                        </Button>
+                        <Button
+                            data-test-id='find-recipe-button'
+                            onClick={() => {
+                                dispatch(setDrawerFiltersActive());
+                                onCloseHandler();
+                            }}
+                            isDisabled={!isFindRecipeAvailable}
+                            pointerEvents={isFindRecipeAvailable ? 'auto' : 'none'}
+                            variant='solid'
+                            color='white'
+                            backgroundColor='blackAlpha.900'
+                            borderColor='blackAlpha.200'
+                            border='1px solid black'
+                            size={{ base: 'sm', lg: 'lg' }}
+                            _hover={{ color: 'black', bgColor: 'white' }}
+                        >
+                            Найти рецепт
+                        </Button>
+                    </Flex>
                 </DrawerBody>
-
-                <DrawerFooter>
-                    <Button
-                        data-test-id='clear-filter-button'
-                        onClick={() => dispatch(resetDrawerFilters())}
-                        variant='outline'
-                        color='blackAlpha.800'
-                        backgroundColor='whiteAlpha.100'
-                        borderColor='blackAlpha.600'
-                        size={{ base: 'sm', lg: 'lg' }}
-                    >
-                        Очистить фильтр
-                    </Button>
-                    <Button
-                        data-test-id='find-recipe-button'
-                        onClick={() => {
-                            dispatch(setDrawerFiltersActive());
-                            onCloseHandler();
-                        }}
-                        isDisabled={!isFindRecipeAvailable}
-                        pointerEvents={isFindRecipeAvailable ? 'auto' : 'none'}
-                        variant='solid'
-                        color='white'
-                        backgroundColor='blackAlpha.900'
-                        borderColor='blackAlpha.200'
-                        border='1px solid black'
-                        size={{ base: 'sm', lg: 'lg' }}
-                        _hover={{ color: 'black', bgColor: 'white' }}
-                    >
-                        Найти рецепт
-                    </Button>
-                </DrawerFooter>
             </DrawerContent>
         </Drawer>
     );

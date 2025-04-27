@@ -15,6 +15,9 @@ const burger = definePartsStyle({
     },
     body: {
         padding: '0',
+        '::-webkit-scrollbar': {
+            width: '0px',
+        },
     },
 });
 
