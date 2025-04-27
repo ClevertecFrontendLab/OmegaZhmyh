@@ -1,12 +1,13 @@
 import './App.css';
 
 import { Container, Flex } from '@chakra-ui/react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 
 import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
 import { RecipePage } from '~/pages/RecipePage';
 import { VeganCuisinePage } from '~/pages/VeganCuisinePage';
+import { CategoryRedirect } from '~/shared/ui/CategoryRedirect';
 import { BurgerMenu, Header, MobileFooter, NavBar, Sidebar } from '~/widgets/Layout';
 
 function App() {
@@ -17,21 +18,18 @@ function App() {
                 <NavBar flexShrink={0} />
                 <Container
                     as='main'
-                    marginTop={{ base: 'var(--mobile-header-height)', md: 'var(--header-height)' }}
+                    marginTop={{ base: 'var(--mobile-header-height)', lg: 'var(--header-height)' }}
                     paddingBottom={{ base: 'var(--mobile-footer-height)', lg: '0' }}
                     maxW={{
                         xl: 'container.xl',
                         lg: 'calc(100% - var(--navbar-width) - var(--sidebar-width))',
                     }}
-                    paddingX='0'
+                    paddingX={{ base: '16px', md: '20px', lg: '0' }}
                     overflow='hidden'
                 >
                     <Routes>
                         <Route path='/' element={<MainPage />} />
-                        <Route
-                            path='/:category'
-                            element={<Navigate to='/:category/:subcategory' replace />}
-                        />
+                        <Route path='/:category' element={<CategoryRedirect />} />
                         <Route path='/:category/:subcategory' element={<VeganCuisinePage />} />
                         <Route path='/:category/:subcategory/:id' element={<RecipePage />} />
                         <Route path='/the-juiciest' element={<JuiciestPage />} />

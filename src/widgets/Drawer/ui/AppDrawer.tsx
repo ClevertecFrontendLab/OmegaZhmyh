@@ -14,6 +14,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+    AuthorSelect,
     CategorySelect,
     DrawerAllergenSelect,
     DrawerAllergenToggle,
@@ -22,6 +23,7 @@ import {
     selectIsFiltersAvailable,
     SideDishesFilters,
 } from '~/features/recipe-filters';
+import { selectAllFiltersLabels } from '~/features/recipe-filters/model/selectors/selectAllFiltersLabels';
 import { resetDrawerFilters, setDrawerFiltersActive } from '~/features/recipe-filters/model/slice';
 import { BsFillXCircleFill } from '~/shared/ui/Icons';
 
@@ -33,45 +35,66 @@ export const AppDrawer = () => {
     const isDrawerOpen = useSelector(selectIsDrawerOpen);
     const isFindRecipeAvailable = useSelector(selectIsFiltersAvailable);
     const allFilters = useSelector(selectAllFilters);
+    const labels = useSelector(selectAllFiltersLabels);
 
     const onCloseHandler = () => dispatch(toggleIsOpenDrawer());
 
     return (
-        <Drawer isOpen={isDrawerOpen} onClose={onCloseHandler} size={{ base: 'xs', lg: 'sm' }}>
+        <Drawer
+            isOpen={isDrawerOpen}
+            onClose={onCloseHandler}
+            size={{ base: 'xs', lg: 'sm' }}
+            variant='drawer'
+        >
             <DrawerOverlay />
-            <DrawerContent>
+            <DrawerContent padding='32px' transitionDuration='100ms'>
                 <DrawerCloseButton data-test-id='close-filter-drawer'>
-                    <BsFillXCircleFill />
+                    <BsFillXCircleFill boxSize='24px' />
                 </DrawerCloseButton>
 
                 <DrawerBody
                     as={Flex}
                     flexDirection='column'
                     justifyContent='start'
-                    gap='24px'
+                    padding={0}
+                    gap={{ base: '16px', lg: '24px' }}
                     data-test-id='filter-drawer'
                 >
                     <Text marginBottom='16px' fontSize='2xl' fontWeight='bold'>
                         Фильтр
                     </Text>
                     <CategorySelect />
+                    <AuthorSelect />
                     <MeatFilters />
                     <SideDishesFilters />
                     <Box>
                         <DrawerAllergenToggle />
                         <DrawerAllergenSelect />
                     </Box>
-                    <Flex flexWrap='wrap'>
+                    <Flex flexWrap='wrap' gap='8px'>
                         {allFilters.map((filter) => (
-                            <Tag data-test-id='filter-tag'>{filter}</Tag>
+                            <Tag
+                                key={filter}
+                                variant='outline'
+                                colorScheme='lime'
+                                color='lime.600'
+                                data-test-id='filter-tag'
+                            >
+                                {labels[filter]}
+                            </Tag>
                         ))}
                     </Flex>
                 </DrawerBody>
 
-                <DrawerFooter borderTopWidth='1px'>
+                <DrawerFooter>
                     <Button
                         data-test-id='clear-filter-button'
                         onClick={() => dispatch(resetDrawerFilters())}
+                        variant='outline'
+                        color='blackAlpha.800'
+                        backgroundColor='whiteAlpha.100'
+                        borderColor='blackAlpha.600'
+                        size={{ base: 'sm', lg: 'lg' }}
                     >
                         Очистить фильтр
                     </Button>
@@ -83,6 +106,13 @@ export const AppDrawer = () => {
                         }}
                         isDisabled={!isFindRecipeAvailable}
                         pointerEvents={isFindRecipeAvailable ? 'auto' : 'none'}
+                        variant='solid'
+                        color='white'
+                        backgroundColor='blackAlpha.900'
+                        borderColor='blackAlpha.200'
+                        border='1px solid black'
+                        size={{ base: 'sm', lg: 'lg' }}
+                        _hover={{ color: 'black', bgColor: 'white' }}
                     >
                         Найти рецепт
                     </Button>

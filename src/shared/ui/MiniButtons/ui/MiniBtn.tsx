@@ -11,7 +11,7 @@ export const MiniBtn = ({ value = 0, icon, size = 'xs', ...othersProps }: MiniBt
         colorScheme='lime'
         variant='ghost'
         size={size}
-        padding='6px 4px'
+        padding='4px 8px'
         {...othersProps}
     >
         {value}

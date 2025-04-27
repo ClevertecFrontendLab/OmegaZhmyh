@@ -13,7 +13,7 @@ export const DrawerAllergenToggle = (_props: AllergenToggleProps) => {
     const toggleAllergenExcludingHandler = () => dispatch(toggleDrawerAllergenExcluding());
 
     return (
-        <Flex gap={3} flexGrow={1} paddingLeft='8px' minHeight='40px' alignItems='center'>
+        <Flex gap={3} flexGrow={1} minHeight='40px' alignItems='center'>
             <Text style={{ textWrap: 'nowrap' }} fontWeight='medium'>
                 Исключить мои аллергены
             </Text>

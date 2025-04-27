@@ -20,7 +20,13 @@ export const KitchenTag = (props: KitchenTagProps) => {
                 width='16px'
                 height='16px'
             />
-            <TagLabel marginLeft={{ base: '2px', lg: '8px' }} fontSize='sm' fontWeight='normal'>
+            <TagLabel
+                marginLeft={{ base: '2px', lg: '8px' }}
+                fontSize='sm'
+                fontWeight='normal'
+                wordBreak='break-all'
+                style={{ wordWrap: 'break-word' }}
+            >
                 {categoryLabels[category] || category}
             </TagLabel>
         </Tag>

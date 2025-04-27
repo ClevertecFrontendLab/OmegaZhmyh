@@ -15,12 +15,14 @@ export { selectSerchedRecipes } from './model/selectors/selectSerchedRecipes';
 export { filterReducer } from './model/slice';
 export {
     addCustomAllergen,
+    setCountSearchedRecipes,
     setCustomAllergenInput,
     setDrawerFiltersActive,
     toggleAllergen,
     toggleAllergenExcluding,
     toggleCategory,
 } from './model/slice';
+export { AuthorSelect } from './ui/AuthorSelect';
 export { CategorySelect } from './ui/CategorySelect';
 export { MeatFilters } from './ui/MeatFilters';
 export { SideDishesFilters } from './ui/SideDishesFilters';

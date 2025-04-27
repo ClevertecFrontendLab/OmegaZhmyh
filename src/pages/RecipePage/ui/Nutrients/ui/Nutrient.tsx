@@ -1,4 +1,4 @@
-import { Square, Text, VStack } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 
 interface NutrientProps {
     title: string;
@@ -9,24 +9,39 @@ interface NutrientProps {
 export const Nutrient = (nutrient: NutrientProps) => {
     const { title, value, measureUnit } = nutrient;
     return (
-        <Square
-            padding='16px'
+        <SimpleGrid
+            columns={{ base: 3, md: 1 }}
+            alignItems='center'
+            justifyItems='center'
+            height={{ base: '64px', md: '136px' }}
+            padding={{ base: '16px 12px', md: '16px 16px' }}
             border='1px solid'
             borderColor='blackAlpha.200'
             borderRadius='16px'
             bgColor='white'
+            gap={{ base: '4px', md: '12px' }}
         >
-            <VStack gap={0}>
-                <Text color='blackAlpha.600' fontSize='sm'>
-                    {title}
-                </Text>
-                <Text color='lime.800' fontSize='4xl' fontWeight='medium'>
-                    {value}
-                </Text>
-                <Text color='blackAlpha.900' fontSize='sm' fontWeight='semibold'>
-                    {measureUnit}
-                </Text>
-            </VStack>
-        </Square>
+            <Text
+                color='blackAlpha.600'
+                fontSize='sm'
+                justifySelf={{ base: 'start', md: 'center' }}
+            >
+                {title}
+            </Text>
+            <Box
+                color='lime.800'
+                fontSize={{ base: '2xl', md: '4xl' }}
+                lineHeight={1}
+                fontWeight='medium'
+                justifySelf={{ base: 'end', md: 'center' }}
+                width={{ base: '60px', md: 'auto' }}
+                textAlign='center'
+            >
+                {value}
+            </Box>
+            <Text color='blackAlpha.900' fontSize={{ base: 'xs', md: 'sm' }} fontWeight='semibold'>
+                {measureUnit}
+            </Text>
+        </SimpleGrid>
     );
 };

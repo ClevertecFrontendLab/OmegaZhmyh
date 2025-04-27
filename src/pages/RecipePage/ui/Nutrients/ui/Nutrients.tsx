@@ -1,4 +1,4 @@
-import { SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 
 import { NutritionValueType } from '~/entities/Recipe/model/types';
 
@@ -11,10 +11,10 @@ interface NutrientsProps {
 export const Nutrients = ({ nutritionValue }: NutrientsProps) => {
     const { calories, carbohydrates, fats, proteins } = nutritionValue;
     return (
-        <>
+        <Box marginTop={{ base: '24px', lg: '40px' }}>
             <Text>* Калорийность на 1 порцию</Text>
             <SimpleGrid
-                columns={4}
+                columns={{ base: 1, md: 4 }}
                 gap={{ base: '12px', xl: '24px' }}
                 marginTop={{ base: '12px', md: '20px' }}
             >
@@ -23,6 +23,6 @@ export const Nutrients = ({ nutritionValue }: NutrientsProps) => {
                 <Nutrient title='жиры' value={fats} measureUnit='ГРАММ' />
                 <Nutrient title='углеводы' value={carbohydrates} measureUnit='ГРАММ' />
             </SimpleGrid>
-        </>
+        </Box>
     );
 };

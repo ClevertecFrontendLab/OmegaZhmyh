@@ -20,7 +20,7 @@ export const NewRecipes = () => {
             <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight='medium'>
                 Новые рецепты
             </Text>
-            <Box position='relative'>
+            <Box position='relative' marginTop={{ base: '12px', lg: '24px' }}>
                 <Swiper
                     slidesPerView='auto'
                     loop={true}

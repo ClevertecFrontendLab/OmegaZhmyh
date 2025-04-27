@@ -1,14 +1,15 @@
 import { Grid, GridItem, GridProps, SimpleGrid } from '@chakra-ui/react';
 
+import { ShortRecipeType } from '~/entities/Recipe';
 import { TextCard } from '~/entities/Recipe/ui/TextCard';
-import { TextTagDecsCard, TextTagDecsCardProps } from '~/entities/Recipe/ui/TextTagDecsCard';
+import { TextTagDecsCard } from '~/entities/Recipe/ui/TextTagDecsCard';
 import { KitchenTagType } from '~/shared/types/KitchenTagType';
 
 interface RelevantKitchenProps extends GridProps {
     title: string;
     description: string;
-    card1: TextTagDecsCardProps;
-    card2: TextTagDecsCardProps;
+    recipe1: ShortRecipeType;
+    recipe2: ShortRecipeType;
     miniCardText1: string;
     miniCardIcon1: KitchenTagType;
     miniCardText2: string;
@@ -21,8 +22,8 @@ export const RelevantKitchen = (props: RelevantKitchenProps) => {
     const {
         title,
         description,
-        card1,
-        card2,
+        recipe1,
+        recipe2,
         miniCardText1,
         miniCardIcon1,
         miniCardText2,
@@ -59,8 +60,8 @@ export const RelevantKitchen = (props: RelevantKitchenProps) => {
                 {description}
             </GridItem>
 
-            <TextTagDecsCard {...card1} />
-            <TextTagDecsCard {...card2} />
+            <TextTagDecsCard recipe={recipe1} />
+            <TextTagDecsCard recipe={recipe2} />
 
             <SimpleGrid columns={1} gap={{ base: '12px' }}>
                 <TextCard text={miniCardText1} icon={miniCardIcon1} />

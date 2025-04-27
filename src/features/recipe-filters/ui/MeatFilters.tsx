@@ -24,6 +24,7 @@ export const MeatFilters = () => {
             activeFilters={meatFilters}
             filters={MEAT_TYPES}
             onChangeFilter={onChangeMeatFilter}
+            title='Тип мяса:'
         />
     );
 };

@@ -18,7 +18,7 @@ export const CookingSteps = ({ steps }: CookingStepsProps) => (
         </Text>
         <Flex flexDirection='column' gap='20px'>
             {steps.map(({ image, stepNumber, description }) => (
-                <Card direction='row' overflow='hidden'>
+                <Card direction='row' overflow='hidden' key={stepNumber}>
                     {image ? (
                         <Image
                             src={image}
@@ -26,7 +26,7 @@ export const CookingSteps = ({ steps }: CookingStepsProps) => (
                             height={{ base: '128px', lg: '244px' }}
                         />
                     ) : null}
-                    <CardBody>
+                    <CardBody padding={{ base: '8px', lg: '24px' }}>
                         <Tag>Шаг {stepNumber}</Tag>
                         <Text marginTop={{ base: '12px', lg: '16px' }}>{description}</Text>
                     </CardBody>

@@ -45,9 +45,9 @@ export const selectFilteredRecipes = createSelector(
                 ),
             );
 
-            const includeFiltredCategory = categoryFilters.some((filter) =>
-                recipe.category.includes(filter),
-            );
+            const includeFiltredCategory = categoryFilters.length
+                ? categoryFilters.some((filter) => recipe.category.includes(filter))
+                : true;
             //const includeFiltredAuthors = recipe.authors.some((author) => authorsFilters.includes(author));
             const includeFiltredMeat = meatFilters.length
                 ? recipe.meat && meatFilters.includes(recipe.meat)
@@ -55,9 +55,11 @@ export const selectFilteredRecipes = createSelector(
             const includeFiltredSideDishes = sideDishesFilters.length
                 ? recipe.side && sideDishesFilters.includes(recipe.side)
                 : true;
-            const includeDrawerAllergen = recipe.ingredients.some((ingredient) =>
-                drawerAllergens.selectedAllergens.includes(ingredient.title),
-            );
+            const includeDrawerAllergen = drawerAllergens.selectedAllergens.length
+                ? recipe.ingredients.some((ingredient) =>
+                      drawerAllergens.selectedAllergens.includes(ingredient.title),
+                  )
+                : false;
 
             if (!isFiltersActive) {
                 return !includeAllergen && isInPageCategory && isInPageSubcategory;

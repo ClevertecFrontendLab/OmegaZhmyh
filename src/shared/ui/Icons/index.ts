@@ -9,6 +9,7 @@ export { BsFillXCircleFill } from './ui/BsFillXCircleFill';
 export { BsFilter } from './ui/BsFilter';
 export { BsHouse } from './ui/BsHouse';
 export { BsPencil } from './ui/BsPencil';
+export { BsPeople } from './ui/BsPeople';
 export { BsPeopleFill } from './ui/BsPeopleFill';
 export { BsPersonPlusFill } from './ui/BsPersonPlusFill';
 export { BsPlusCircleFill } from './ui/BsPlusCircleFill';

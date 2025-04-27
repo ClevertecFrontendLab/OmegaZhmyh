@@ -1,4 +1,4 @@
-import { Flex, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppBreadcrumb } from '~/shared/ui/AppBreadcrumb';
@@ -15,7 +15,7 @@ export const BurgerMenu = () => {
     return (
         <Modal isOpen={isOpen} onClose={onCloseHandler} variant='burger'>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent transitionDuration='100ms'>
                 <ModalBody bgColor='rgba(0, 0, 0, 0)'>
                     <Flex
                         flexDirection='column'
@@ -32,7 +32,9 @@ export const BurgerMenu = () => {
                         as='nav'
                         data-test-id='nav'
                     >
-                        <AppBreadcrumb isMobile={true} />
+                        <Box paddingX='20px'>
+                            <AppBreadcrumb isMobile={true} />
+                        </Box>
                         <NavMenu isMobile={true} />
                         <NavFooter />
                     </Flex>

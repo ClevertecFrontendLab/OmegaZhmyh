@@ -28,25 +28,24 @@ export const CategorySelect = () => {
                 as={Button}
                 rightIcon={<ChevronDownIcon />}
                 variant='outline'
-                width='234px'
+                width='100%'
                 height='none'
                 paddingY='10px'
                 minHeight='40px'
                 fontSize='md'
-                color='lime.700'
-                borderColor='lime.300'
-                _disabled={{ borderColor: 'blackAlpha.200', color: 'blackAlpha.700' }}
+                color='blackAlpha.700'
+                borderColor='blackAlpha.200'
                 data-test-id='filter-menu-button-категория'
             >
                 <Flex gap='8px' flexWrap='wrap'>
                     {categoryFilters.length ? (
                         categoryFilters.map((f) => (
-                            <Tag variant='outline' colorScheme='lime' color='lime.600'>
+                            <Tag variant='outline' colorScheme='lime' color='lime.600' key={f}>
                                 {allCategories[f]}
                             </Tag>
                         ))
                     ) : (
-                        <Text>Выберите из списка</Text>
+                        <Text>Категория</Text>
                     )}
                 </Flex>
             </MenuButton>
@@ -58,6 +57,7 @@ export const CategorySelect = () => {
                         onChange={() => dispatch(toggleCategory(name))}
                         bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
                         data-test-id={`checkbox-${label.toLocaleLowerCase()}`}
+                        key={name}
                     >
                         {label}
                     </MenuItem>

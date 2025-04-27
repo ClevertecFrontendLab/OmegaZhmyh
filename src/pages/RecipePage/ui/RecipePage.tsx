@@ -3,7 +3,6 @@ import {
     Button,
     Container,
     Flex,
-    Grid,
     Heading,
     HStack,
     Image,
@@ -47,23 +46,27 @@ export const RecipePage = () => {
     } = recipe;
     return (
         <>
-            <Grid templateColumns='5fr 7fr' gap='24px' marginTop={{ base: '16px', lg: '56px' }}>
+            <Flex
+                flexDirection={{ base: 'column', md: 'row' }}
+                /* templateColumns='5fr 7fr' */
+                gap={{ base: '16px', lg: '24px' }}
+                marginTop={{ base: '16px', lg: '56px' }}
+            >
                 <Image
                     src={image}
                     objectFit='cover'
                     borderRadius='8px'
-                    overflow='hidden'
                     width={{ base: '328px', md: '232px', lg: '353px', xl: '553px' }}
                     height={{ base: '224px', lg: '410px' }}
                 />
-                <VStack alignItems='stretch' justifyContent='space-between' gap={0}>
+                <VStack alignItems='stretch' justifyContent='space-between' gap='0'>
                     <Box>
-                        <HStack justifyContent='space-between'>
-                            <HStack>
+                        <HStack justifyContent='space-between' alignItems='start'>
+                            <Flex gap='8px' flexDirection={{ base: 'column', md: 'row' }}>
                                 {category.map((category) => (
-                                    <KitchenTag category={category} />
+                                    <KitchenTag category={category} key={category} />
                                 ))}
-                            </HStack>
+                            </Flex>
                             <HStack spacing={{ base: 0, lg: 2 }}>
                                 <BookmarkBtn
                                     value={bookmarks}
@@ -72,19 +75,29 @@ export const RecipePage = () => {
                                 <LikeBtn value={likes} visibility={likes ? 'visible' : 'hidden'} />
                             </HStack>
                         </HStack>
-                        <Heading fontSize={{ base: '2xl', lg: '5xl' }} marginTop='32px'>
+                        <Heading
+                            fontSize={{ base: '2xl', lg: '5xl' }}
+                            marginTop='32px'
+                            noOfLines={2}
+                        >
                             {title}
                         </Heading>
                         <Text marginTop={{ base: '16px', lg: '24px' }}>{description}</Text>
                     </Box>
-                    <HStack alignItems='end' justifyContent='space-between'>
+                    <Flex
+                        marginTop='24px'
+                        flexDirection={{ base: 'column', md: 'row' }}
+                        gap='12px'
+                        alignItems={{ base: 'start', md: 'end' }}
+                        justifyContent='space-between'
+                    >
                         <Tag>
                             <TagLeftIcon as={BsAlarm} boxSize={{ lg: '16px' }}></TagLeftIcon>
                             <TagLabel>{time}</TagLabel>
                         </Tag>
                         <Flex gap={{ base: '12px', xl: '16px' }}>
                             <Button
-                                size='lg'
+                                size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
                                 variant='outline'
                                 colorScheme='black'
                                 leftIcon={<BsEmojiHeartEyes />}
@@ -92,7 +105,7 @@ export const RecipePage = () => {
                                 Оценить рецепт
                             </Button>
                             <Button
-                                size='lg'
+                                size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
                                 color='black'
                                 bgColor='lime.400'
                                 leftIcon={<BsBookmarkHeart />}
@@ -100,11 +113,19 @@ export const RecipePage = () => {
                                 Сохранить в закладки
                             </Button>
                         </Flex>
-                    </HStack>
+                    </Flex>
                 </VStack>
-            </Grid>
-            <Container maxWidth='668px' marginTop={{ base: '24px', lg: '40px' }}>
+            </Flex>
+            <Container
+                maxWidth={{ base: '100%', lg: '578px', xl: '668px' }}
+                paddingX={{ base: '0px' }}
+            >
                 <Nutrients nutritionValue={nutritionValue} />
+            </Container>
+            <Container
+                maxWidth={{ base: '100%', md: '604px', lg: '578px', xl: '668px' }}
+                paddingX={{ base: '0px' }}
+            >
                 <IngredientsList ingredients={ingredients} portions={portions} />
                 <CookingSteps steps={steps} />
                 <AuthorCard />

@@ -1,26 +1,22 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 
-import { KitchenTagType } from '~/shared/types/KitchenTagType';
 import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
+import { ShortRecipeType } from '../model/types';
+
 export interface TextTagDecsCardProps {
-    title: string;
-    description: string;
-    tagType: KitchenTagType;
-    likeCount: number;
-    repostCount: number;
+    recipe: ShortRecipeType;
     tagColor?: string;
 }
 
-export const TextTagDecsCard = (recipe: TextTagDecsCardProps) => {
+export const TextTagDecsCard = ({ recipe, tagColor }: TextTagDecsCardProps) => {
     const {
         title = 'Лапша с курицей и шафраном',
         description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae sunt, eaque fugit provident minima vel quaerat dolor voluptatem quos rem atque eum, veniam asperiores odit, beatae laudantium? Iure, iste possimus.',
-        tagType = 'Национальные',
-        likeCount,
-        repostCount,
-        tagColor,
+        bookmarks,
+        category,
+        likes,
     } = recipe;
     return (
         <Flex
@@ -47,10 +43,10 @@ export const TextTagDecsCard = (recipe: TextTagDecsCardProps) => {
                 </Text>
             </Box>
             <HStack spacing={8.5} justifyContent='space-between' marginTop='24px'>
-                <KitchenTag type={tagType} color={tagColor} />
+                <KitchenTag category={category[0]} color={tagColor} />
                 <HStack spacing={{ base: 0, lg: 2 }}>
-                    {repostCount ? <BookmarkBtn value={repostCount} /> : null}
-                    {likeCount ? <LikeBtn value={likeCount} /> : null}
+                    {bookmarks ? <BookmarkBtn value={bookmarks} /> : null}
+                    {likes ? <LikeBtn value={likes} /> : null}
                 </HStack>
             </HStack>
         </Flex>

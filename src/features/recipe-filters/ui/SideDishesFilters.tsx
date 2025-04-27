@@ -27,6 +27,7 @@ export const SideDishesFilters = () => {
             activeFilters={sideDishesFilters}
             filters={SIDE_DISHES}
             onChangeFilter={onChangeSideDishesFilter}
+            title='Тип гарнира:'
         />
     );
 };

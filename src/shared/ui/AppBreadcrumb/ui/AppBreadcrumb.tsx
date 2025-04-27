@@ -9,7 +9,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
-import { selectCategoryLabels } from '~/entities/Category/';
+import { selectAllCategories } from '~/entities/Category/';
 import { selectAllRecipes } from '~/entities/Recipe';
 import { closeBurger } from '~/widgets/Layout';
 
@@ -20,7 +20,7 @@ interface AppBreadcrumbProps extends BreadcrumbProps {
 export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps) => {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
-    const pathNameMap = useSelector(selectCategoryLabels);
+    const categorys = useSelector(selectAllCategories);
     const allRecipes = useSelector(selectAllRecipes);
     const isMobileResolution = useBreakpointValue({ base: true, lg: false });
     const dispatch = useDispatch();
@@ -31,7 +31,8 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
 
     return (
         <Breadcrumb
-            separator={<ChevronRightIcon />}
+            listProps={{ flexWrap: 'wrap' }}
+            separator={<ChevronRightIcon color='blackAlpha.700' />}
             data-test-id={
                 isMobile && isMobileResolution
                     ? 'breadcrumbs'
@@ -52,18 +53,39 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
                 </BreadcrumbLink>
             </BreadcrumbItem>
 
-            {pathnames.map((name, index) => {
+            {pathnames.map((name, index, [category, _subcategory, _recipe]) => {
                 const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
                 const isLast = index === pathnames.length - 1;
-                const displayName =
-                    index == 2
-                        ? allRecipes.find((recipe) => recipe.id == +name)?.title
-                        : pathNameMap[name];
+                let displayName: string;
+
+                switch (index) {
+                    case 0:
+                        displayName = categorys[name].label;
+                        break;
+                    case 1:
+                        displayName =
+                            categorys[category].subcategory.find((sub) => sub.name == name)
+                                ?.label ?? name;
+                        break;
+                    case 2:
+                        displayName =
+                            allRecipes.find((recipe) => recipe.id == +name)?.title ?? name;
+                        break;
+                    default:
+                        displayName = name;
+                        break;
+                }
 
                 return (
-                    <BreadcrumbItem key={name}>
+                    <BreadcrumbItem whiteSpace='nowrap' key={name}>
                         {isLast ? (
-                            <BreadcrumbLink color='black' onClick={onBreadcrumbClick}>
+                            <BreadcrumbLink
+                                color='black'
+                                maxW='200px'
+                                overflow='hidden'
+                                textOverflow='ellipsis'
+                                onClick={onBreadcrumbClick}
+                            >
                                 {displayName}
                             </BreadcrumbLink>
                         ) : (

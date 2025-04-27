@@ -19,6 +19,11 @@ export interface RecipeType {
     side?: string;
 }
 
+export type ShortRecipeType = Pick<
+    RecipeType,
+    'title' | 'description' | 'category' | 'likes' | 'bookmarks'
+>;
+
 export interface NutritionValueType {
     calories: number;
     proteins: number;

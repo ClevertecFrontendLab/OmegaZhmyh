@@ -34,7 +34,7 @@ export const VeganCuisinePage = () => {
                 title='Веганская кухня'
                 desc='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
             />
-            <Flex justifyContent='center'>
+            <Flex justifyContent='center' flexWrap='wrap' marginTop='32px'>
                 {categories[pageCategory].subcategory.map((sbc, i) => (
                     <Link
                         key={sbc.name}
@@ -56,7 +56,6 @@ export const VeganCuisinePage = () => {
                         borderColor='blackAlpha.200'
                         fontSize='md'
                         fontWeight='medium'
-                        marginTop='32px'
                         _activeLink={{
                             borderBottom: '2px solid',
                             color: 'lime.600',
@@ -68,6 +67,7 @@ export const VeganCuisinePage = () => {
                 ))}
             </Flex>
             <RecipeCardList
+                marginTop='24px'
                 columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
                 columnGap={{ base: '16px', lg: '24px' }}
                 rowGap='16px'
@@ -84,21 +84,21 @@ export const VeganCuisinePage = () => {
             <RelevantKitchen
                 title='Десерты, выпечка'
                 description='Без них невозможно представить себе ни современную, ни традиционную кулинарию. Пироги и печенья, блины, пончики, вареники и, конечно, хлеб — рецепты изделий из теста многообразны и невероятно популярны.'
-                card1={{
+                recipe1={{
                     title: 'Бананово-молочное желе',
                     description:
                         'Молочное желе – это просто, вкусно и полезно, ведь для его приготовления в качестве основы используется молоко.',
-                    tagType: 'Детские блюда',
-                    likeCount: 1,
-                    repostCount: 1,
+                    category: ['Детские блюда'],
+                    likes: 1,
+                    bookmarks: 1,
                 }}
-                card2={{
+                recipe2={{
                     title: 'Нежный сливочно-сырный крем для кексов',
                     description:
                         'Сливочно-сырным кремом можно украсить кексы, либо другую выпечку, а также этим кремом можно наполнить заварные пирожные.',
-                    tagType: 'Детские блюда',
-                    likeCount: 2,
-                    repostCount: 1,
+                    category: ['Детские блюда'],
+                    likes: 2,
+                    bookmarks: 1,
                 }}
                 miniCardText1='Стейк для вегетарианцев'
                 miniCardIcon1='Вторые блюда'

@@ -1,20 +1,6 @@
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import {
-    Button,
-    Checkbox,
-    Flex,
-    IconButton,
-    Input,
-    InputGroup,
-    Menu,
-    MenuButton,
-    MenuList,
-    Tag,
-    Text,
-} from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { BsPlusCircleFill } from '~/shared/ui/Icons';
+import { MultiSelect } from '~/shared/ui/MultiSelect';
 import { selectIsDrawerOpen } from '~/widgets/Drawer';
 
 import { selectCustomAllergen } from '../model/selectors/alergens/selectCustomAllergen';
@@ -52,75 +38,17 @@ export const AllergenSelect = () => {
     };
 
     return (
-        <>
-            <Menu closeOnSelect={false}>
-                <MenuButton
-                    as={Button}
-                    isDisabled={!isExcluding}
-                    rightIcon={<ChevronDownIcon />}
-                    variant='outline'
-                    width='234px'
-                    height='none'
-                    paddingY='10px'
-                    minHeight='40px'
-                    fontSize='md'
-                    color='lime.700'
-                    borderColor='lime.300'
-                    _disabled={{ borderColor: 'blackAlpha.200', color: 'blackAlpha.700' }}
-                    data-test-id='allergens-menu-button'
-                >
-                    <Flex gap='8px' flexWrap='wrap'>
-                        {selectedAllergens.length ? (
-                            selectedAllergens.map((allergen) => (
-                                <Tag
-                                    key={allergen}
-                                    variant='outline'
-                                    colorScheme='lime'
-                                    color='lime.600'
-                                >
-                                    {allergen}
-                                </Tag>
-                            ))
-                        ) : (
-                            <Text>Выберите из списка</Text>
-                        )}
-                    </Flex>
-                </MenuButton>
-                <MenuList data-test-id='allergens-menu'>
-                    <Flex flexDirection='column'>
-                        {ALLERGEN_OPTIONS.map(({ label, name }, index) => (
-                            <Checkbox
-                                key={name}
-                                isChecked={selectedAllergens.includes(name)}
-                                onChange={() => onToggleAllergen(name)}
-                                bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
-                                data-test-id={!isDrawerOpen ? `allergen-${index}` : ''}
-                            >
-                                {label}
-                            </Checkbox>
-                        ))}
-                        <InputGroup padding='8px 8px 8px 24px' alignItems='center' gap='8px'>
-                            <Input
-                                onChange={onSetCustomAllergenInput}
-                                onKeyDown={handleKeyDown}
-                                placeholder='Другой аллерген'
-                                value={customAllergen}
-                                size='sm'
-                                data-test-id={!isDrawerOpen ? 'add-other-allergen' : ''}
-                            />
-                            <IconButton
-                                onClick={onAddCustomAllergen}
-                                aria-label='123'
-                                color='lime.800'
-                                size='xs'
-                                variant='ghost'
-                                icon={<BsPlusCircleFill color='lime.600' />}
-                                data-test-id={!isDrawerOpen ? 'add-allergen-button' : ''}
-                            />
-                        </InputGroup>
-                    </Flex>
-                </MenuList>
-            </Menu>
-        </>
+        <MultiSelect
+            allergensOptions={ALLERGEN_OPTIONS}
+            selectedAllergens={selectedAllergens}
+            onToggleAllergen={onToggleAllergen}
+            onSetCustomAllergenInput={onSetCustomAllergenInput}
+            onAddCustomAllergen={onAddCustomAllergen}
+            handleKeyDown={handleKeyDown}
+            isDrawerOpen={isDrawerOpen}
+            isExcluding={isExcluding}
+            customAllergen={customAllergen}
+            isDrawerFilter={false}
+        />
     );
 };

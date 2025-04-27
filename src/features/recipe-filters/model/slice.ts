@@ -11,6 +11,7 @@ export interface SearchState {
     activeSearchQuery: string;
     isSearchAvailable: boolean;
     isSearchActive: boolean;
+    countSearchedRecipes: number;
 }
 
 export interface DrawerState {
@@ -23,9 +24,20 @@ export interface DrawerState {
     allergens: AllergenState;
 }
 
+export interface LabalState {
+    name: string;
+    label: string;
+}
+
 export interface FiltersState {
     drawerFilters: DrawerState;
     drawerUIState: DrawerState;
+    labels: {
+        allergenFilters: LabalState[];
+        sideDishFilters: LabalState[];
+        meatTypeFilters: LabalState[];
+        authorFilters: LabalState[];
+    };
     search: SearchState;
     allergens: AllergenState;
 }
@@ -49,11 +61,43 @@ const drawerInitialState: DrawerState = {
 const initialState: FiltersState = {
     drawerFilters: structuredClone(drawerInitialState),
     drawerUIState: structuredClone(drawerInitialState),
+    labels: {
+        allergenFilters: [
+            { label: 'Молочные продукты', name: 'моло' },
+            { label: 'Яйцо', name: 'яйцо' },
+            { label: 'Моллюски', name: '' },
+            { label: 'Рыба', name: 'рыб' },
+            { label: 'Орехи', name: 'орех' },
+            { label: 'Томат (помидор)', name: 'томат' },
+            { label: 'Цитрусовые', name: 'цитрус' },
+            { label: 'Клубника (ягоды)', name: 'клубни' },
+            { label: 'Шоколад', name: 'шоколад' },
+        ],
+        sideDishFilters: [
+            { label: 'Картошка', name: 'potatoes' },
+            { label: 'Гречка', name: 'buckwheat' },
+            { label: 'Паста', name: 'pasta' },
+            { label: 'Спагетти', name: 'spaghetti' },
+            { label: 'Рис', name: 'rice' },
+            { label: 'Капуста', name: 'cabbage' },
+            { label: 'Фасоль', name: 'bean' },
+            { label: 'Другие овощи', name: 'Другие овощи' },
+        ],
+        meatTypeFilters: [
+            { label: 'Курица', name: 'chicken' },
+            { label: 'Свинина', name: 'pork' },
+            { label: 'Говядина', name: 'beef' },
+            { label: 'Индейка', name: 'turkey' },
+            { label: 'Утка', name: 'duck' },
+        ],
+        authorFilters: [],
+    },
     search: {
         searchQuery: '',
         activeSearchQuery: '',
         isSearchAvailable: false,
         isSearchActive: false,
+        countSearchedRecipes: 0,
     },
     allergens: structuredClone(allergenInitialState),
 };
@@ -172,6 +216,9 @@ export const filtersSlice = createSlice({
                 state.search.isSearchActive = true;
             }
         },
+        setCountSearchedRecipes(state, action: PayloadAction<number>) {
+            state.search.countSearchedRecipes = action.payload;
+        },
         resetSearch(state) {
             state.search.activeSearchQuery = '';
             state.search.isSearchActive = false;
@@ -197,6 +244,7 @@ export const {
     toggleAuthor,
     toggleDrawerAllergen,
     toggleDrawerAllergenExcluding,
+    setCountSearchedRecipes,
 } = filtersSlice.actions;
 
 export const { reducer: filterReducer } = filtersSlice;

@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Card, HStack, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react';
 
 import SergeyImg from '~/shared/assets/avatar_img/@serge25.png';
-import { BsPeopleFill, BsPersonPlusFill } from '~/shared/ui/Icons';
+import { BsPeople, BsPersonPlusFill } from '~/shared/ui/Icons';
 
 interface AuthorCardProps {
     image?: string;
@@ -21,29 +21,32 @@ export const AuthorCard = (props: AuthorCardProps) => {
             marginTop={{ base: '24px', lg: '40px' }}
         >
             <Avatar src={image} boxSize='96px' />
-            <Box flexGrow={1}>
-                <Text fontSize={{ base: 'lg', md: '2xl' }} fontWeight='bold'>
-                    {name}
-                </Text>
+            <Flex direction='column' justifyContent='end' flexGrow={1}>
                 <Text
                     position='absolute'
                     right={{ base: '8px', md: '24px' }}
                     top={{ base: '8px', md: '24px' }}
+                    fontSize={{ base: 'xs', md: 'sm' }}
                 >
                     Автор рецепта
                 </Text>
-                <Text color='blackAlpha.700' fontSize='sm'>
-                    {accountName}
-                </Text>
-                <HStack justifyContent='space-between'>
+                <Box>
+                    <Text fontSize={{ base: 'lg', md: '2xl' }} fontWeight='bold'>
+                        {name}
+                    </Text>
+                    <Text color='blackAlpha.700' fontSize='sm'>
+                        {accountName}
+                    </Text>
+                </Box>
+                <HStack marginTop='16px' justifyContent='space-between'>
                     <Button size='xs' bgColor='black' color='white' leftIcon={<BsPersonPlusFill />}>
                         Подписаться
                     </Button>
-                    <Button leftIcon={<BsPeopleFill />} variant='ghost'>
+                    <Button size='xs' leftIcon={<BsPeople />} variant='ghost'>
                         125
                     </Button>
                 </HStack>
-            </Box>
+            </Flex>
         </Card>
     );
 };
