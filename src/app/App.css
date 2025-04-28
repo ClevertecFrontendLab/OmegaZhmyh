@@ -3,6 +3,8 @@
     --mobile-header-height: 64px;
     --footer-left-height: 144px;
     --mobile-footer-height: 84px;
+    --sidebar-width: 280px;
+    --navbar-width: 260px;
 }
 html::-webkit-scrollbar-button {
     background-color: rgba(0, 0, 0, 0);

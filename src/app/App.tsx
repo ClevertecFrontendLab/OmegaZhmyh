@@ -5,39 +5,38 @@ import { Route, Routes } from 'react-router';
 
 import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
+import { RecipePage } from '~/pages/RecipePage';
 import { VeganCuisinePage } from '~/pages/VeganCuisinePage';
-import { Header } from '~/widgets/Header';
-import { MobileFooter } from '~/widgets/MobileFooter/';
-import { Navbar } from '~/widgets/Navbar';
-import { Sidebar } from '~/widgets/Sidebar';
+import { CategoryRedirect } from '~/shared/ui/CategoryRedirect';
+import { BurgerMenu, Header, MobileFooter, NavBar, Sidebar } from '~/widgets/Layout';
 
 function App() {
     return (
         <>
             <Header />
             <Flex justifyContent={{ base: 'center', lg: 'space-between' }}>
-                <Navbar flexShrink={0} />
+                <NavBar flexShrink={0} />
                 <Container
                     as='main'
-                    marginTop={{ base: 'var(--mobile-header-height)', md: 'var(--header-height)' }}
+                    marginTop={{ base: 'var(--mobile-header-height)', lg: 'var(--header-height)' }}
                     paddingBottom={{ base: 'var(--mobile-footer-height)', lg: '0' }}
                     maxW={{
-                        base: 'container.sm',
-                        md: 'container.md',
-                        lg: 'container.lg',
                         xl: 'container.xl',
+                        lg: 'calc(100% - var(--navbar-width) - var(--sidebar-width))',
                     }}
-                    paddingX='0'
+                    paddingX={{ base: '16px', md: '20px' }}
                     overflow='hidden'
                 >
                     <Routes>
                         <Route path='/' element={<MainPage />} />
-                        <Route path='/Vegan-cuisine/Main-courses' element={<VeganCuisinePage />} />
-                        <Route path='/Vegan-cuisine' element={<VeganCuisinePage />} />
-                        <Route path='/Juiciest' element={<JuiciestPage />} />
+                        <Route path='/:category' element={<CategoryRedirect />} />
+                        <Route path='/:category/:subcategory' element={<VeganCuisinePage />} />
+                        <Route path='/:category/:subcategory/:id' element={<RecipePage />} />
+                        <Route path='/the-juiciest' element={<JuiciestPage />} />
                     </Routes>
                 </Container>
                 <Sidebar />
+                <BurgerMenu />
             </Flex>
             <MobileFooter />
         </>

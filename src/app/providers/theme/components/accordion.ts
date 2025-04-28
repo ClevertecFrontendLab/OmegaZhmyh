@@ -6,7 +6,7 @@ const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpe
 );
 
 const navbarVariant = definePartsStyle((props) => {
-    const { colorScheme: c } = props; // extract colorScheme from component props
+    const { colorScheme: c } = props;
 
     return {
         panel: {
@@ -26,11 +26,12 @@ const navbarVariant = definePartsStyle((props) => {
         },
         root: {
             allowMultiple: true,
-            minHeight: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 35px)',
-            maxHeight: 'calc(100vh - var(--header-height) - var(--footer-left-height) - 34px)',
             paddingLeft: '10px',
             overflow: 'auto',
             scrollbarGutter: 'stable',
+            '::-webkit-scrollbar': {
+                width: { base: '0px', lg: '8px' },
+            },
         },
     };
 });
@@ -38,5 +39,4 @@ const navbarVariant = definePartsStyle((props) => {
 const variants = {
     navbar: navbarVariant,
 };
-// export the component theme
 export const accordionTheme = defineMultiStyleConfig({ variants });
