@@ -2,13 +2,13 @@ import { Box, Card, CardBody, Highlight, HStack, Image, LinkOverlay, Text } from
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { RecipeType } from '~/entities/Recipe/model/types';
 import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
 import { selectRecipeQuery } from '../model/selectors/selectRecipeQuery';
+import { Recipe } from '../model/types';
 
-export const TextTagCard = (recipe: RecipeType) => {
+export const TextTagCard = (recipe: Recipe) => {
     const { bookmarks, category, description, image, likes, title } = recipe;
     const searchQuery = useSelector(selectRecipeQuery);
     return (

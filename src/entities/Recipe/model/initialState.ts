@@ -1,4 +1,4 @@
-import { RecipesState } from '~/entities/Recipe/model/types';
+import { RecipesState } from '~/shared/types/types';
 import { DishesImages } from '~/shared/ui/DishesImages';
 import { step1Img, step2Img, step3Img, step4Img } from '~/shared/ui/StepsImages';
 

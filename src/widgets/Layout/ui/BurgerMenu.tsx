@@ -6,7 +6,7 @@ import { AppBreadcrumb } from '~/shared/ui/AppBreadcrumb';
 import { selectIsBurgerOpen } from '../model/selectors/selectIsBurgerOpen';
 import { closeBurger } from '../model/slice';
 import { NavFooter } from './NavFooter';
-import { NavMenu } from './NavMenu';
+import { NavMenu } from './NavMenu/NavMenu';
 
 export const BurgerMenu = () => {
     const dispatch = useDispatch();

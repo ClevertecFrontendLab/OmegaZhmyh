@@ -4,3 +4,4 @@ export { selectPageCategory } from './model/selectors/selectPageCategory';
 export { selectPageSubcategory } from './model/selectors/selectPageSubcategory';
 export { categoryReducer } from './model/slice';
 export { setPageCategory, setPageSubcategory } from './model/slice';
+export type { categoryListState } from './model/types';

@@ -22,10 +22,10 @@ import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { Recomendation } from '~/shared/ui/Recomendation';
 
 import { selectRecipeQuery } from '../model/selectors/selectRecipeQuery';
-import { RecipeType } from '../model/types';
+import { Recipe } from '../model/types';
 
 export interface RecipeCardType {
-    recipe: RecipeType;
+    recipe: Recipe;
     tagColor?: string;
     recomendationLabel?: string;
     recomendationIcon?: AvatarImagesType;

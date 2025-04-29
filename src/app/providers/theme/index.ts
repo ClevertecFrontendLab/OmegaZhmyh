@@ -4,6 +4,7 @@ import { accordionTheme } from './components/accordion';
 import { cardTheme } from './components/card';
 import { checkboxTheme } from './components/checkbox';
 import { drawerTheme } from './components/drawer';
+import { linkTheme } from './components/link';
 import { menuTheme } from './components/menu';
 import { modalTheme } from './components/modal';
 import { switchTheme } from './components/switch';
@@ -21,6 +22,7 @@ const theme = extendTheme({
         Menu: menuTheme,
         Modal: modalTheme,
         Drawer: drawerTheme,
+        Link: linkTheme,
     },
     colors: {
         lime: {

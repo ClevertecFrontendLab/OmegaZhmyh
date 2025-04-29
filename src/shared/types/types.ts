@@ -1,22 +1,27 @@
 export type RecipesState = Recipe[];
 
 export interface Recipe {
-    id: number;
     title: string;
     description: string;
-    category: string[];
-    subcategory: string[];
-    image: string;
-    bookmarks: number;
-    likes: number;
-    date: string;
     time: string;
+    image: string;
+    meat?: string;
+    garnish?: string;
     portions?: number;
+    authorId: string;
+    categoriesIds: string[];
+    steps: StepType[];
     nutritionValue: NutritionValueType;
     ingredients: IngredientType[];
-    steps: StepType[];
-    meat?: string;
+    likes: number;
+    views: number;
+    bookmarks: number;
+    createdAt: string;
     side?: string;
+    category: string[];
+    subcategory: string[];
+    date: string;
+    _id: number;
 }
 
 export type ShortRecipeType = Pick<
