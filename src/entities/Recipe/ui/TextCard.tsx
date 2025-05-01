@@ -1,9 +1,8 @@
 import { Button, Grid, Text } from '@chakra-ui/react';
 
-import { KitchenTagType } from '~/shared/types/KitchenTagType';
 import { kitchenIcons } from '~/shared/ui/KitchenIcons';
 interface TextCardProps {
-    icon: KitchenTagType;
+    icon: string;
     text: string;
 }
 

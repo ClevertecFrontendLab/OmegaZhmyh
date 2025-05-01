@@ -2,15 +2,27 @@ import { Box, Card, CardBody, Highlight, HStack, Image, LinkOverlay, Text } from
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { KitchenTag } from '~/shared/ui/KitchenTag';
+import { selectAllCategories } from '~/entities/Category';
+import { API_BASE_IMG_URL } from '~/shared/config/constants';
+import { RecipeTags } from '~/shared/ui/KitchenTag/';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
-import { selectRecipeQuery } from '../model/selectors/selectRecipeQuery';
-import { Recipe } from '../model/types';
+import { selectRecipeQuery } from '../model/selectors';
+import { Recipe } from '../types';
 
-export const TextTagCard = (recipe: Recipe) => {
-    const { bookmarks, category, description, image, likes, title } = recipe;
+interface NewRecipeCardProps {
+    recipe: Recipe;
+}
+
+export const NewRecipeCard = (props: NewRecipeCardProps) => {
+    const { recipe } = props;
+    const { bookmarks, description, image, likes, title, categoriesIds } = recipe;
     const searchQuery = useSelector(selectRecipeQuery);
+    const categories = useSelector(selectAllCategories);
+    const recipeCategories = categories.filter((category) => categoriesIds.includes(category._id));
+    const recipeMainCategory = recipeCategories.filter((category) => 'subCategories' in category);
+    const recipeSubcategory = recipeCategories.filter((category) => !('subCategories' in category));
+
     return (
         <Card
             border='1px solid'
@@ -21,15 +33,19 @@ export const TextTagCard = (recipe: Recipe) => {
         >
             {image ? (
                 <>
-                    <KitchenTag
-                        category={category[0]}
-                        color='lime.150'
+                    <RecipeTags
+                        categoriesIds={categoriesIds}
+                        bgColor='lime.150'
                         position='absolute'
                         left='8px'
                         top='8px'
                         display={{ base: 'flex', lg: 'none' }}
                     />
-                    <Image src={image} width='100%' height={{ base: '128px', lg: '230px' }} />
+                    <Image
+                        src={API_BASE_IMG_URL + image}
+                        width='100%'
+                        height={{ base: '128px', lg: '230px' }}
+                    />
                 </>
             ) : null}
             <CardBody
@@ -43,7 +59,7 @@ export const TextTagCard = (recipe: Recipe) => {
                 <Box>
                     <LinkOverlay
                         as={Link}
-                        to={`/${recipe.category[0]}/${recipe.subcategory[0]}/${recipe.id}`}
+                        to={`/${recipeMainCategory[0]}/${recipeSubcategory[0]}/${recipe._id}`}
                         fontSize={{ base: 'md', lg: 'xl' }}
                         fontWeight='medium'
                         noOfLines={{ base: 2, lg: 1 }}
@@ -64,7 +80,11 @@ export const TextTagCard = (recipe: Recipe) => {
                     </Text>
                 </Box>
                 <HStack spacing={8.5} justifyContent='space-between'>
-                    <KitchenTag category={category[0]} display={{ base: 'none', lg: 'flex' }} />
+                    <RecipeTags
+                        categoriesIds={categoriesIds}
+                        bgColor='lime.150'
+                        display={{ base: 'none', lg: 'flex' }}
+                    />
                     <HStack spacing={{ base: 0, lg: 2 }}>
                         <BookmarkBtn
                             value={bookmarks}

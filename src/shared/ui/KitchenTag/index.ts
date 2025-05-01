@@ -1,1 +1,1 @@
-export { KitchenTag } from './ui/KitchenTag';
+export { RecipeTags } from './ui/RecipeTags';

@@ -1,28 +1,18 @@
 import { Box, SimpleGrid, SimpleGridProps } from '@chakra-ui/react';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { Recipe } from '~/entities/Recipe';
 import { RecipeCard } from '~/entities/Recipe';
-import { selectSerchedRecipes } from '~/features/recipe-filters';
-import { setCountSearchedRecipes } from '~/features/recipe-filters/model/slice';
 
-interface RecipeCardListProps extends SimpleGridProps {}
+interface RecipeCardListProps extends SimpleGridProps {
+    recipes?: Recipe[];
+}
 
-export const RecipeCardList = ({ ...gridProps }: RecipeCardListProps) => {
-    const recipes = useSelector(selectSerchedRecipes);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(setCountSearchedRecipes(recipes.length));
-    }, [dispatch, recipes]);
-
-    return (
-        <SimpleGrid {...gridProps}>
-            {recipes.map((recipeInfo, i) => (
-                <Box key={recipeInfo.id} data-test-id={`food-card-${i}`}>
-                    <RecipeCard recipe={recipeInfo} cardLink={i} />
-                </Box>
-            ))}
-        </SimpleGrid>
-    );
-};
+export const RecipeCardList = ({ recipes, ...gridProps }: RecipeCardListProps) => (
+    <SimpleGrid {...gridProps}>
+        {recipes?.map((recipeInfo, i) => (
+            <Box key={recipeInfo._id} data-test-id={`food-card-${i}`}>
+                <RecipeCard recipe={recipeInfo} />
+            </Box>
+        ))}
+    </SimpleGrid>
+);

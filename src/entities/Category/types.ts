@@ -1,3 +1,13 @@
+import { CategoriesResponse } from '~/shared/api/types';
+
+export interface categoryState {
+    pageCategory: MainCategory | null;
+    pageSubategory: SubCategory | null;
+    mainCategories: MainCategory[];
+    subCategories: SubCategory[];
+    allCategories: CategoriesResponse;
+}
+
 export interface BaseCategory {
     _id: string;
     title: string;
@@ -13,7 +23,3 @@ export interface MainCategory extends BaseCategory {
 export interface SubCategory extends BaseCategory {
     rootCategoryId: string;
 }
-
-export type Category = MainCategory | SubCategory;
-
-export type CategoriesArray = Category[];

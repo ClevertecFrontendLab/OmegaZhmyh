@@ -9,7 +9,6 @@ import { drawerReducer } from '~/widgets/Drawer';
 import { layoutSlice } from '~/widgets/Layout/model/slice';
 
 import appReducer, { appSlice } from './app-slice';
-import { navigationBackupSlice } from './navigationBackupSlice';
 const isProduction = false;
 
 const rootReducer = combineReducers({
@@ -20,7 +19,6 @@ const rootReducer = combineReducers({
     [layoutSlice.name]: layoutSlice.reducer,
     filters: filterReducer,
     drawer: drawerReducer,
-    [navigationBackupSlice.name]: navigationBackupSlice.reducer,
     [yeedaaApi.reducerPath]: yeedaaApi.reducer,
 });
 

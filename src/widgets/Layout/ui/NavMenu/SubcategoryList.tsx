@@ -1,7 +1,9 @@
-import { Flex, Link } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { NavLink } from 'react-router';
 
-import { SubCategory } from '~/shared/types/category';
+import { SubCategory } from '~/entities/Category/types';
+
+import navlinkStyles from './navlink.module.css';
 
 interface SubcategoryListProps {
     subcategores: SubCategory[];
@@ -13,21 +15,19 @@ export const SubcategoryList = (props: SubcategoryListProps) => {
     return (
         <Flex flexDirection='column'>
             {subcategores.map(({ category, title }) => (
-                <>
-                    <Link
-                        key={category}
-                        as={NavLink}
-                        to={`/${categoryName}/${category}`}
-                        _hover={{ bg: 'lime.50' }}
-                        variant='subcategoryLink'
-                    >
-                        <NavLink to={`/${categoryName}/${name}`}>
-                            {({ isActive }) => (
-                                <span data-test-id={isActive ? `${name}-active` : ''}>{title}</span>
-                            )}
-                        </NavLink>
-                    </Link>
-                </>
+                <NavLink
+                    key={category}
+                    to={`/${categoryName}/${category}`}
+                    className={({ isActive }) =>
+                        `${navlinkStyles.subcategoryLink} ${
+                            isActive ? navlinkStyles.activeLink : ''
+                        }`
+                    }
+                >
+                    {({ isActive }) => (
+                        <span data-test-id={isActive ? `${name}-active` : ''}>{title}</span>
+                    )}
+                </NavLink>
             ))}
         </Flex>
     );

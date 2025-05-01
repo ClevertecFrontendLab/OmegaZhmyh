@@ -1,21 +1,20 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 
-import { KitchenTag } from '~/shared/ui/KitchenTag';
+import { RecipeTags } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 
-import { ShortRecipeType } from '../model/types';
+import { Recipe } from '../types';
 
 export interface TextTagDecsCardProps {
-    recipe: ShortRecipeType;
-    tagColor?: string;
+    recipe: Recipe;
 }
 
-export const TextTagDecsCard = ({ recipe, tagColor }: TextTagDecsCardProps) => {
+export const TextTagDecsCard = ({ recipe }: TextTagDecsCardProps) => {
     const {
         title = 'Лапша с курицей и шафраном',
         description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae sunt, eaque fugit provident minima vel quaerat dolor voluptatem quos rem atque eum, veniam asperiores odit, beatae laudantium? Iure, iste possimus.',
         bookmarks,
-        category,
+        categoriesIds,
         likes,
     } = recipe;
     return (
@@ -43,7 +42,7 @@ export const TextTagDecsCard = ({ recipe, tagColor }: TextTagDecsCardProps) => {
                 </Text>
             </Box>
             <HStack spacing={8.5} justifyContent='space-between' marginTop='24px'>
-                <KitchenTag category={category[0]} color={tagColor} />
+                <RecipeTags categoriesIds={categoriesIds} bgColor='lime.50' />
                 <HStack spacing={{ base: 0, lg: 2 }}>
                     {bookmarks ? <BookmarkBtn value={bookmarks} /> : null}
                     {likes ? <LikeBtn value={likes} /> : null}

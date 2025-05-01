@@ -12,13 +12,15 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { selectAllRecipes } from '~/entities/Recipe/';
+import { setPageRecipe } from '~/entities/Recipe/';
+import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
 import { DishesImages } from '~/shared/ui/DishesImages';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
-import { KitchenTag } from '~/shared/ui/KitchenTag';
+import { RecipeTags } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { NewRecipes } from '~/widgets/NewRecipes';
 
@@ -29,14 +31,27 @@ import { Nutrients } from './Nutrients/';
 
 export const RecipePage = () => {
     const { id } = useParams();
-    const recipe = useSelector(selectAllRecipes).filter((recipe) => recipe.id === Number(id))[0];
+    const { data: recipe, isError } = useGetRecipeByIdQuery(id as string);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setPageRecipe(recipe || null));
+        return () => {
+            dispatch(setPageRecipe(null));
+        };
+    }, [dispatch, recipe]);
+
+    if (isError || !recipe) {
+        return <div>Error</div>;
+    }
 
     const {
         title,
         description,
         time,
         image = DishesImages['SpaghettiRollImg'],
-        category,
+        categoriesIds,
         nutritionValue,
         ingredients,
         portions,
@@ -61,11 +76,12 @@ export const RecipePage = () => {
                 <VStack alignItems='stretch' justifyContent='space-between' gap='0'>
                     <Box>
                         <HStack justifyContent='space-between' alignItems='start'>
-                            <Flex gap='8px' flexDirection={{ base: 'column', md: 'row' }}>
-                                {category.map((category) => (
-                                    <KitchenTag category={category} key={category} />
-                                ))}
-                            </Flex>
+                            <RecipeTags
+                                categoriesIds={categoriesIds}
+                                bgColor='lime.50'
+                                gap='8px'
+                                flexDirection={{ base: 'column', md: 'row' }}
+                            />
                             <HStack spacing={{ base: 0, lg: 2 }}>
                                 <BookmarkBtn
                                     value={bookmarks}

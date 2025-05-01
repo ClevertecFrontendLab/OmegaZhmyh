@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import { CookingBlog } from '~/entities/CookingBlog';
 import { selectIsSearchActive } from '~/features/recipe-filters/model/selectors/search/selectIsSearchActive';
 import { selectCountSearchedRecipes } from '~/features/recipe-filters/model/selectors/search/setCountSearchedRecipes';
+import { useGetTheJuiciestRecipeQuery } from '~/shared/api/yeedaaApi';
 import { NewRecipes } from '~/widgets/NewRecipes';
 import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
@@ -14,6 +15,9 @@ import { SearchPanel } from '~/widgets/SearchPanel';
 export const MainPage = () => {
     const isEmpty = useSelector(selectCountSearchedRecipes) === 0;
     const isSearchActive = useSelector(selectIsSearchActive);
+
+    const { data } = useGetTheJuiciestRecipeQuery();
+    const theJuiciestRecipes = data?.data;
 
     return (
         <Box>
@@ -50,6 +54,7 @@ export const MainPage = () => {
                         </Box>
                     </Flex>
                     <RecipeCardList
+                        recipes={theJuiciestRecipes}
                         columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
                         columnGap={{ base: '16px', xl: '24px' }}
                         rowGap={{ base: '12px', md: '16px', xl: '24px' }}

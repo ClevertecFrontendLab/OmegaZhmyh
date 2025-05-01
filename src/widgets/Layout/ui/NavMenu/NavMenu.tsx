@@ -11,8 +11,7 @@ import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { selectAllCategories } from '~/entities/Category/';
-import { useGetCategoriesQuery } from '~/shared/api/yeedaaApi';
+import { selectMainCategories } from '~/entities/Category/model/selectors';
 import { API_BASE_IMG_URL } from '~/shared/config/constants';
 
 import { useOverflow } from '../../lib/useOverflow';
@@ -24,13 +23,11 @@ interface NavMenuProps {
 
 export const NavMenu = (props: NavMenuProps) => {
     const { isMobile = false } = props;
-    const categores = useSelector(selectAllCategories);
-    console.log(categores);
-    const { data } = useGetCategoriesQuery();
-    const categories = data?.filter((categoryInfo) => categoryInfo.subCategories === undefined);
+
+    const mainCategories = useSelector(selectMainCategories);
+
     const accordionRef = useRef<HTMLDivElement>(null);
     const hasOverflow = useOverflow(accordionRef);
-    console.log(data);
     return (
         <Box
             paddingRight='4px'
@@ -45,7 +42,7 @@ export const NavMenu = (props: NavMenuProps) => {
             }
         >
             <Accordion ref={accordionRef} variant='navbar' maxHeight='100%' allowMultiple>
-                {categories?.map((categoryInfo) => (
+                {mainCategories.map((categoryInfo) => (
                     <AccordionItem key={categoryInfo.title}>
                         <AccordionButton
                             as={Link}
@@ -66,6 +63,7 @@ export const NavMenu = (props: NavMenuProps) => {
                         <AccordionPanel>
                             {!categoryInfo.subCategories ? null : (
                                 <SubcategoryList
+                                    key={categoryInfo.category}
                                     subcategores={categoryInfo.subCategories}
                                     categoryName={categoryInfo.category}
                                 />

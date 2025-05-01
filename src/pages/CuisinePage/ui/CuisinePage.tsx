@@ -3,65 +3,69 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router';
 
-import { selectAllCategories, setPageCategory, setPageSubcategory } from '~/entities/Category';
+import {
+    selectMainCategories,
+    selectSubcategories,
+    setPageCategory,
+    setPageSubcategory,
+} from '~/entities/Category';
+import { useGetRecipeBySubategoryQuery } from '~/shared/api/yeedaaApi';
 import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
-export const VeganCuisinePage = () => {
+export const CuisinePage = () => {
     const dispatch = useDispatch();
-    const params = useParams<{ category: string; subcategory: string }>();
-    const { category: pageCategory = '' } = params;
-    const categories = useSelector(selectAllCategories);
+
+    const { category: urlCategory = '', subcategory: urlSubcategory = '' } = useParams<{
+        category: string;
+        subcategory: string;
+    }>();
+
+    const categories = useSelector(selectMainCategories);
+    const subcategories = useSelector(selectSubcategories);
+
+    const pageMainCategory = categories.find((c) => c.category === urlCategory)!;
+    const pageSubcategory = subcategories.find((c) => c.category === urlSubcategory)!;
 
     useEffect(() => {
-        dispatch(setPageCategory(params.category ?? ''));
-        dispatch(setPageSubcategory(params.subcategory ?? ''));
+        dispatch(setPageCategory(pageMainCategory));
+        dispatch(setPageSubcategory(pageSubcategory));
         return () => {
-            dispatch(setPageCategory(''));
-            dispatch(setPageSubcategory(''));
+            dispatch(setPageCategory(null));
+            dispatch(setPageSubcategory(null));
         };
-    }, [dispatch, params]);
+    }, [dispatch, urlCategory, pageSubcategory, pageMainCategory]);
+
+    const { data } = useGetRecipeBySubategoryQuery(pageSubcategory._id);
+    const recipes = data?.data;
 
     return (
         <Flex justifyContent='center' direction='column' style={{ scrollbarGutter: 'stable' }}>
             <SearchPanel
-                title='Веганская кухня'
-                desc='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
+                title={pageMainCategory?.title || 'Заголовок не найден'}
+                desc={pageMainCategory?.description || 'Описание не найдено'}
             />
             <Flex justifyContent='center' flexWrap='wrap' marginTop='32px'>
-                {categories[pageCategory].subcategory.map((sbc, i) => (
+                {pageMainCategory?.subCategories.map(({ title, category }, i) => (
                     <Link
-                        key={sbc.name}
+                        variant='subCategoryTab'
+                        key={category}
                         as={NavLink}
-                        to={`/${pageCategory}/${sbc.name}`}
-                        data-test-id={`tab-${sbc.name}-${i}`}
-                        {...(location.pathname === `/${pageCategory}/${sbc.name}`
+                        to={`/${urlCategory}/${category}`}
+                        data-test-id={`tab-${category}-${i}`}
+                        {...(location.pathname === `/${urlCategory}/${category}`
                             ? {
                                   'aria-selected': true,
                               }
                             : { 'aria-selected': false })}
-                        display='flex'
-                        padding='8px 16px'
-                        whiteSpace='nowrap'
-                        alignItems='center'
-                        justifyContent='center'
-                        color='lime.800'
-                        borderBottom='1px solid'
-                        borderColor='blackAlpha.200'
-                        fontSize='md'
-                        fontWeight='medium'
-                        _activeLink={{
-                            borderBottom: '2px solid',
-                            color: 'lime.600',
-                            borderColor: 'lime.600',
-                        }}
                     >
-                        {sbc.label}
+                        {title}
                     </Link>
                 ))}
             </Flex>
             <RecipeCardList
+                recipes={recipes}
                 marginTop='24px'
                 columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
                 columnGap={{ base: '16px', lg: '24px' }}

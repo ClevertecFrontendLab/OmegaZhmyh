@@ -22,7 +22,6 @@ import {
     selectIsFiltersAvailable,
     SideDishesFilters,
 } from '~/features/recipe-filters';
-import { selectAllFiltersLabels } from '~/features/recipe-filters/model/selectors/selectAllFiltersLabels';
 import { resetDrawerFilters, setDrawerFiltersActive } from '~/features/recipe-filters/model/slice';
 import { BsFillXCircleFill } from '~/shared/ui/Icons';
 
@@ -34,7 +33,6 @@ export const AppDrawer = () => {
     const isDrawerOpen = useSelector(selectIsDrawerOpen);
     const isFindRecipeAvailable = useSelector(selectIsFiltersAvailable);
     const allFilters = useSelector(selectAllFilters);
-    const labels = useSelector(selectAllFiltersLabels);
 
     const onCloseHandler = () => dispatch(toggleIsOpenDrawer());
 
@@ -86,7 +84,7 @@ export const AppDrawer = () => {
                                 color='lime.600'
                                 data-test-id='filter-tag'
                             >
-                                {labels[filter]}
+                                {filter}
                             </Tag>
                         ))}
                     </Flex>

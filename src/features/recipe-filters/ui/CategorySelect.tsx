@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectCategoryLabels } from '~/entities/Category';
+import { selectMainCategories } from '~/entities/Category';
 
 import { selectCategoryFilter } from '../model/selectors/drawerFilters/selectCategoryFilter';
 import { toggleCategory } from '../model/slice';
@@ -20,7 +20,11 @@ import { toggleCategory } from '../model/slice';
 export const CategorySelect = () => {
     const dispatch = useDispatch();
     const categoryFilters = useSelector(selectCategoryFilter);
-    const allCategories = useSelector(selectCategoryLabels);
+    const mainCategories = useSelector(selectMainCategories);
+
+    const onCheckCategory = (category: string) => {
+        dispatch(toggleCategory(category));
+    };
 
     return (
         <Menu closeOnSelect={false}>
@@ -39,9 +43,9 @@ export const CategorySelect = () => {
             >
                 <Flex gap='8px' flexWrap='wrap'>
                     {categoryFilters.length ? (
-                        categoryFilters.map((f) => (
-                            <Tag variant='outline' colorScheme='lime' color='lime.600' key={f}>
-                                {allCategories[f]}
+                        categoryFilters.map((filter) => (
+                            <Tag variant='outline' colorScheme='lime' color='lime.600' key={filter}>
+                                {filter}
                             </Tag>
                         ))
                     ) : (
@@ -50,16 +54,16 @@ export const CategorySelect = () => {
                 </Flex>
             </MenuButton>
             <MenuList>
-                {Object.entries(allCategories).map(([name, label], index) => (
+                {mainCategories.map(({ title, category }, index) => (
                     <MenuItem
                         as={Checkbox}
-                        isChecked={categoryFilters.includes(name)}
-                        onChange={() => dispatch(toggleCategory(name))}
+                        isChecked={categoryFilters.includes(category)}
+                        onChange={() => onCheckCategory(category)}
                         bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
-                        data-test-id={`checkbox-${label.toLocaleLowerCase()}`}
-                        key={name}
+                        data-test-id={`checkbox-${title.toLocaleLowerCase()}`}
+                        key={category}
                     >
-                        {label}
+                        {title}
                     </MenuItem>
                 ))}
             </MenuList>

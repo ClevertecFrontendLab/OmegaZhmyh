@@ -3,10 +3,10 @@ import './App.css';
 import { Container, Flex } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
+import { CuisinePage } from '~/pages/CuisinePage';
 import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
 import { RecipePage } from '~/pages/RecipePage';
-import { VeganCuisinePage } from '~/pages/VeganCuisinePage';
 import { CategoryRedirect } from '~/shared/ui/CategoryRedirect';
 import { BurgerMenu, Header, MobileFooter, NavBar, Sidebar } from '~/widgets/Layout';
 
@@ -30,7 +30,7 @@ function App() {
                     <Routes>
                         <Route path='/' element={<MainPage />} />
                         <Route path='/:category' element={<CategoryRedirect />} />
-                        <Route path='/:category/:subcategory' element={<VeganCuisinePage />} />
+                        <Route path='/:category/:subcategory' element={<CuisinePage />} />
                         <Route path='/:category/:subcategory/:id' element={<RecipePage />} />
                         <Route path='/the-juiciest' element={<JuiciestPage />} />
                     </Routes>

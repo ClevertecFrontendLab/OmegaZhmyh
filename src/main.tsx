@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router';
 import App from '~/app/App.tsx';
 import { store } from '~/shared/store/configure-store';
 
+import { AppLoader } from './app/providers/appLoader';
 import { CustomChakraProvider } from './app/providers/CustomChakraProvider';
 
 createRoot(document.getElementById('root')!).render(
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
             <CustomChakraProvider>
                 <Provider store={store}>
-                    <App />
+                    <AppLoader>
+                        <App />
+                    </AppLoader>
                 </Provider>
             </CustomChakraProvider>
         </BrowserRouter>

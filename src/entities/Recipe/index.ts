@@ -1,7 +1,8 @@
-export { selectAllRecipes } from './model/selectors/selectAllRecipes';
+export { selectAllRecipes, selectPageRecipe } from './model/selectors';
 export { recipeReducer } from './model/slice';
-export type { Recipe, ShortRecipeType } from './model/types';
+export { setPageRecipe, setRecipes } from './model/slice';
+export type { Recipe } from './types';
+export { NewRecipeCard as TextTagCard } from './ui/NewRecipeCard';
 export { RecipeCard } from './ui/RecipeCard';
 export { TextCard } from './ui/TextCard';
-export { TextTagCard } from './ui/TextTagCard';
 export { TextTagDecsCard } from './ui/TextTagDecsCard';
