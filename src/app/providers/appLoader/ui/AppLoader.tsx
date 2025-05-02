@@ -4,7 +4,7 @@ import { FullscreenSpinner } from '~/widgets/fullScreenSpiner';
 
 export const AppLoader = ({ children }: { children: React.ReactNode }) => {
     const categories = useGetCategoriesQuery();
-    const recipes = useGetTheJuiciestRecipeQuery();
+    const recipes = useGetTheJuiciestRecipeQuery(1);
 
     const isLoading = categories.isLoading || recipes.isLoading;
     const isError = categories.isError || recipes.isError;

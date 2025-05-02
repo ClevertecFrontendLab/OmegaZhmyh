@@ -16,7 +16,7 @@ export const MainPage = () => {
     const isEmpty = useSelector(selectCountSearchedRecipes) === 0;
     const isSearchActive = useSelector(selectIsSearchActive);
 
-    const { data } = useGetTheJuiciestRecipeQuery();
+    const { data } = useGetTheJuiciestRecipeQuery(1);
     const theJuiciestRecipes = data?.data;
 
     return (

@@ -56,11 +56,11 @@ export const yeedaaApi = createApi({
             }),
             keepUnusedDataFor: 360,
         }),
-        getTheJuiciestRecipe: builder.query<RecipeResponse, void>({
-            query: () => ({
+        getTheJuiciestRecipe: builder.query<RecipeResponse, number>({
+            query: (page = 1) => ({
                 url: '/recipe',
                 params: {
-                    page: 1,
+                    page: page,
                     limit: 8,
                     sortBy: 'likes',
                     sortOrder: 'desc',

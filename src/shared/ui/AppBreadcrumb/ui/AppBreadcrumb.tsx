@@ -7,10 +7,10 @@ import {
     useBreakpointValue,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 
-import { selectPageCategory, selectPageSubcategory } from '~/entities/Category/';
-import { selectPageRecipe } from '~/entities/Recipe';
+import { selectAllCategories } from '~/entities/Category';
+import { selectAllRecipes } from '~/entities/Recipe';
 import { closeBurger } from '~/widgets/Layout';
 
 interface AppBreadcrumbProps extends BreadcrumbProps {
@@ -18,11 +18,12 @@ interface AppBreadcrumbProps extends BreadcrumbProps {
 }
 
 export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps) => {
-    const pageCategory = useSelector(selectPageCategory);
-    const pageSubcategory = useSelector(selectPageSubcategory);
-    const pageRecipe = useSelector(selectPageRecipe);
-    const dispatch = useDispatch();
+    const location = useLocation();
+    const pathnames = location.pathname.split('/').filter((x) => x);
+    const categorys = useSelector(selectAllCategories);
+    const allRecipes = useSelector(selectAllRecipes);
     const isMobileResolution = useBreakpointValue({ base: true, lg: false });
+    const dispatch = useDispatch();
 
     const onBreadcrumbClick = () => {
         dispatch(closeBurger());
@@ -45,55 +46,63 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
                 <BreadcrumbLink
                     as={Link}
                     to='/'
-                    color={pageCategory ? 'blackAlpha.700' : 'black'}
+                    color={pathnames.length > 0 ? 'blackAlpha.700' : 'black'}
                     onClick={onBreadcrumbClick}
                 >
                     Главная
                 </BreadcrumbLink>
             </BreadcrumbItem>
-            {!pageCategory ? null : (
-                <BreadcrumbItem whiteSpace='nowrap'>
-                    <BreadcrumbLink
-                        color={pageSubcategory ? 'black' : 'blackAlpha.700'}
-                        maxW={pageSubcategory ? '200px' : 'none'}
-                        overflow={pageSubcategory ? 'hidden' : 'visible'}
-                        textOverflow={pageSubcategory ? 'ellipsis' : 'clip'}
-                        as={Link}
-                        to={`/${pageCategory.category}/${pageCategory.subCategories[0].category}`}
-                        onClick={onBreadcrumbClick}
-                    >
-                        {pageCategory.title}
-                    </BreadcrumbLink>
-                </BreadcrumbItem>
-            )}
-            {!pageSubcategory ? null : (
-                <BreadcrumbItem whiteSpace='nowrap' key={pageSubcategory._id}>
-                    <BreadcrumbLink
-                        color={pageRecipe ? 'black' : 'blackAlpha.700'}
-                        maxW={pageRecipe ? '200px' : 'none'}
-                        overflow={pageRecipe ? 'hidden' : 'visible'}
-                        textOverflow={pageRecipe ? 'ellipsis' : 'clip'}
-                        as={Link}
-                        to={`/${pageCategory?.category}/${pageSubcategory.category}`}
-                        onClick={onBreadcrumbClick}
-                    >
-                        {pageSubcategory.title}
-                    </BreadcrumbLink>
-                </BreadcrumbItem>
-            )}
-            {!pageRecipe ? null : (
-                <BreadcrumbItem whiteSpace='nowrap'>
-                    <BreadcrumbLink
-                        color='black'
-                        maxW='200px'
-                        overflow='hidden'
-                        textOverflow='ellipsis'
-                        onClick={onBreadcrumbClick}
-                    >
-                        {pageRecipe.title}
-                    </BreadcrumbLink>
-                </BreadcrumbItem>
-            )}
+
+            {pathnames.map((name, index) => {
+                const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
+                const isLast = index === pathnames.length - 1;
+                let displayName: string | undefined;
+
+                switch (index) {
+                    case 0:
+                        displayName = categorys.find((c) => c.category == name)?.title;
+                        break;
+                    case 1:
+                        if (name == 'the-juiciest') {
+                            displayName = 'Самое сочное';
+                        } else {
+                            displayName = categorys.find((sub) => sub.category == name)?.title;
+                        }
+                        break;
+                    case 2:
+                        displayName =
+                            allRecipes.find((recipe) => recipe._id == +name)?.title ?? name;
+                        break;
+                    default:
+                        displayName = name;
+                        break;
+                }
+
+                return (
+                    <BreadcrumbItem whiteSpace='nowrap' key={name}>
+                        {isLast ? (
+                            <BreadcrumbLink
+                                color='black'
+                                maxW='200px'
+                                overflow='hidden'
+                                textOverflow='ellipsis'
+                                onClick={onBreadcrumbClick}
+                            >
+                                {displayName}
+                            </BreadcrumbLink>
+                        ) : (
+                            <BreadcrumbLink
+                                color='blackAlpha.700'
+                                as={Link}
+                                to={routeTo}
+                                onClick={onBreadcrumbClick}
+                            >
+                                {displayName}
+                            </BreadcrumbLink>
+                        )}
+                    </BreadcrumbItem>
+                );
+            })}
         </Breadcrumb>
     );
 };
