@@ -4,6 +4,7 @@ import { Container, Flex } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router';
 
 import { CuisinePage } from '~/pages/CuisinePage';
+import { ErrorPage } from '~/pages/ErrorPage';
 import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
 import { RecipePage } from '~/pages/RecipePage';
@@ -33,6 +34,7 @@ function App() {
                         <Route path='/:category/:subcategory' element={<CuisinePage />} />
                         <Route path='/:category/:subcategory/:id' element={<RecipePage />} />
                         <Route path='/the-juiciest' element={<JuiciestPage />} />
+                        <Route path='*' element={<ErrorPage />} />
                     </Routes>
                 </Container>
                 <Sidebar />
