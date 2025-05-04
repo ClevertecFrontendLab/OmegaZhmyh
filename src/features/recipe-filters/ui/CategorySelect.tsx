@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectMainCategories } from '~/entities/Category';
 
-import { selectCategoryFilter } from '../model/selectors/drawerFilters/selectCategoryFilter';
+import { selectCategoryFilter } from '../model/selectors/drawerStateSelectors';
 import { toggleCategory } from '../model/slice';
 
 export const CategorySelect = () => {

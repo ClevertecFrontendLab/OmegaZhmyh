@@ -3,10 +3,10 @@ import { IconButton, Input, InputGroup, InputRightElement } from '@chakra-ui/rea
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectIsSearchActive } from '../model/selectors/search/selectIsSearchActive';
-import { selectIsSearchAvailable } from '../model/selectors/search/selectIsSearchAvailable';
-import { selectSearchQuery } from '../model/selectors/search/selectSearchQuery';
-import { selectCountSearchedRecipes } from '../model/selectors/search/setCountSearchedRecipes';
+import { selectIsSearchActive } from '../model/selectors/searchSelectors';
+import { selectIsSearchAvailable } from '../model/selectors/searchSelectors';
+import { selectSearchQuery } from '../model/selectors/searchSelectors';
+import { selectCountSearchedRecipes } from '../model/selectors/searchSelectors';
 import { resetSearch, setSearchActive, setSearchQuery } from '../model/slice';
 
 interface SearchInputProps {}

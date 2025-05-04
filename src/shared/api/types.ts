@@ -14,3 +14,15 @@ export interface RecipeResponse {
 }
 
 export type CategoriesResponse = (MainCategory | SubCategory)[];
+
+export interface GetRecipesParams {
+    page?: number;
+    limit?: number;
+    allergens?: string;
+    searchString?: string;
+    meat?: string;
+    garnish?: string;
+    subcategoriesIds?: string;
+    sortBy?: string;
+    sortOrder?: string;
+}

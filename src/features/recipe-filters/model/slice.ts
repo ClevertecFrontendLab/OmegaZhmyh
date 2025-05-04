@@ -15,8 +15,8 @@ export const filtersSlice = createSlice({
         ...searchReducers,
 
         setDrawerFiltersActive(state) {
-            if (state.drawerUIState.isAvailable) {
-                state.drawerUIState.isActive = true;
+            if (state.isAvailable) {
+                state.isActive = true;
                 state.drawerFilters = state.drawerUIState;
                 state.drawerUIState = structuredClone(initialState.drawerUIState);
             }
@@ -45,6 +45,7 @@ export const {
     resetDrawerFilters,
     setDrawerCustomAllergenInput,
     setDrawerFiltersActive,
+    setSearchLoading,
     toggleAuthor,
     toggleDrawerAllergen,
     toggleDrawerAllergenExcluding,

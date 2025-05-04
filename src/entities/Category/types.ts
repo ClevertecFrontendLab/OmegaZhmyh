@@ -1,8 +1,6 @@
 import { CategoriesResponse } from '~/shared/api/types';
 
 export interface categoryState {
-    pageCategory: MainCategory | null;
-    pageSubategory: SubCategory | null;
     mainCategories: MainCategory[];
     subCategories: SubCategory[];
     allCategories: CategoriesResponse;

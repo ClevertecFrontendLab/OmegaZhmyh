@@ -8,7 +8,10 @@ import { apiSlice } from '~/shared/query/create-api';
 import { drawerReducer } from '~/widgets/Drawer';
 import { layoutSlice } from '~/widgets/Layout/model/slice';
 
+import { notificationReducer } from '../ui/SnackbarAlert';
 import appReducer, { appSlice } from './app-slice';
+import loadingReducer from './loadingSlice';
+
 const isProduction = false;
 
 const rootReducer = combineReducers({
@@ -20,6 +23,8 @@ const rootReducer = combineReducers({
     filters: filterReducer,
     drawer: drawerReducer,
     [yeedaaApi.reducerPath]: yeedaaApi.reducer,
+    notification: notificationReducer,
+    loading: loadingReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;

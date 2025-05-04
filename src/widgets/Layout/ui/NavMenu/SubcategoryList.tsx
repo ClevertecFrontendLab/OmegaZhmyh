@@ -25,7 +25,7 @@ export const SubcategoryList = (props: SubcategoryListProps) => {
                     }
                 >
                     {({ isActive }) => (
-                        <span data-test-id={isActive ? `${name}-active` : ''}>{title}</span>
+                        <span data-test-id={isActive ? `${category}-active` : ''}>{title}</span>
                     )}
                 </NavLink>
             ))}

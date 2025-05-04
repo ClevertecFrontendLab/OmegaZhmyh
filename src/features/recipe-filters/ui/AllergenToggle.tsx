@@ -1,7 +1,7 @@
 import { Flex, Switch, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectIsExcluding } from '../model/selectors/alergens/selectIsExcluding';
+import { selectIsExcluding } from '../model/selectors/alergenSelectors';
 import { toggleAllergenExcluding } from '../model/slice';
 
 interface AllergenToggleProps {}

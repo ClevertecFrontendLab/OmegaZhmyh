@@ -3,9 +3,9 @@ import 'swiper/swiper-bundle.css';
 import { Box, LinkBox, Text, useBreakpointValue } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { NewRecipeCard } from '~/entities/Recipe/ui/NewRecipeCard';
 import { useGetLatestReciperQuery } from '~/shared/api/yeedaaApi';
 
+import { NewRecipeCard } from './NewRecipeCard';
 import { SlideNextButton } from './SlideNextButton';
 import { SlidePrevButton } from './SlidePrevButton';
 
@@ -31,8 +31,9 @@ export const NewRecipes = () => {
                     data-test-id='carousel'
                 >
                     {newRecipes?.data?.map((recipe, i) => (
-                        <LinkBox key={recipe.title}>
+                        <LinkBox key={recipe._id}>
                             <SwiperSlide
+                                key={recipe._id}
                                 style={{ maxWidth: slideWidth }}
                                 data-test-id={`carousel-card-${i}`}
                             >

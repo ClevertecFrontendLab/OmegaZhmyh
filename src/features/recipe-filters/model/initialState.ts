@@ -7,8 +7,6 @@ const allergenInitialState: AllergenState = {
 };
 
 const drawerInitialState: DrawerState = {
-    isActive: false,
-    isAvailable: false,
     meatTypes: [],
     sideDishes: [],
     allergens: structuredClone(allergenInitialState),
@@ -17,37 +15,33 @@ const drawerInitialState: DrawerState = {
 };
 
 export const initialState: FiltersState = {
+    isActive: false,
+    isAvailable: false,
     drawerFilters: structuredClone(drawerInitialState),
     drawerUIState: structuredClone(drawerInitialState),
-    labels: {
+    options: {
         allergenFilters: [
-            { label: 'Молочные продукты', name: 'моло' },
-            { label: 'Яйцо', name: 'яйцо' },
-            { label: 'Моллюски', name: '' },
-            { label: 'Рыба', name: 'рыб' },
-            { label: 'Орехи', name: 'орех' },
-            { label: 'Томат (помидор)', name: 'томат' },
-            { label: 'Цитрусовые', name: 'цитрус' },
-            { label: 'Клубника (ягоды)', name: 'клубни' },
-            { label: 'Шоколад', name: 'шоколад' },
+            'Молочные продукты',
+            'Яйцо',
+            'Моллюски',
+            'Рыба',
+            'Орехи',
+            'Томат (помидор)',
+            'Цитрусовые',
+            'Клубника (ягоды)',
+            'Шоколад',
         ],
         sideDishFilters: [
-            { label: 'Картошка', name: 'potatoes' },
-            { label: 'Гречка', name: 'buckwheat' },
-            { label: 'Паста', name: 'pasta' },
-            { label: 'Спагетти', name: 'spaghetti' },
-            { label: 'Рис', name: 'rice' },
-            { label: 'Капуста', name: 'cabbage' },
-            { label: 'Фасоль', name: 'bean' },
-            { label: 'Другие овощи', name: 'Другие овощи' },
+            'Картошка',
+            'Гречка',
+            'Паста',
+            'Спагетти',
+            'Рис',
+            'Капуста',
+            'Фасоль',
+            'Другие овощи',
         ],
-        meatTypeFilters: [
-            { label: 'Курица', name: 'chicken' },
-            { label: 'Свинина', name: 'pork' },
-            { label: 'Говядина', name: 'beef' },
-            { label: 'Индейка', name: 'turkey' },
-            { label: 'Утка', name: 'duck' },
-        ],
+        meatTypeFilters: ['Курица', 'Свинина', 'Говядина', 'Индейка', 'Утка'],
         authorFilters: [],
     },
     search: {
@@ -55,6 +49,7 @@ export const initialState: FiltersState = {
         activeSearchQuery: '',
         isSearchAvailable: false,
         isSearchActive: false,
+        isSearchLoading: false,
         countSearchedRecipes: 0,
     },
     allergens: structuredClone(allergenInitialState),

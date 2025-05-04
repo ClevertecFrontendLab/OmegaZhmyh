@@ -14,7 +14,7 @@ import {
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { selectPageCategory, selectPageSubcategory } from '~/entities/Category';
+import { selectMainCategories, selectSubcategories } from '~/entities/Category';
 import { API_BASE_IMG_URL } from '~/shared/config/constants';
 import { BsBookmarkHeart } from '~/shared/ui/Icons';
 import { RecipeTags } from '~/shared/ui/KitchenTag';
@@ -25,14 +25,19 @@ import { Recipe } from '../types';
 
 export interface RecipeCardProps {
     recipe: Recipe;
+    cardLinkId?: number;
 }
 
 export const RecipeCard = (props: RecipeCardProps) => {
-    const { recipe } = props;
-    const { bookmarks, description, _id, image, likes, categoriesIds, title } = recipe;
     const searchQuery = useSelector(selectRecipeQuery);
-    const currentCategory = useSelector(selectPageCategory);
-    const currentSubcategory = useSelector(selectPageSubcategory);
+    const { recipe, cardLinkId } = props;
+    const { bookmarks, description, _id, image, likes, categoriesIds, title } = recipe;
+    const subcategory = useSelector(selectSubcategories).find((sub) =>
+        categoriesIds.includes(sub._id),
+    );
+    const category = useSelector(selectMainCategories).find(
+        (cat) => subcategory?.rootCategoryId === cat._id,
+    );
 
     return (
         <Card direction='row' variant='outline' overflow='hidden' borderRadius='8px'>
@@ -143,8 +148,8 @@ export const RecipeCard = (props: RecipeCardProps) => {
                             border='1px solid black'
                             _hover={{ color: 'black', bgColor: 'white' }}
                             as={Link}
-                            to={`/${currentCategory}/${currentSubcategory}/${_id}`}
-                            data-test-id={`card-link-${_id}`}
+                            to={`/${category?.category}/${subcategory?.category}/${_id}`}
+                            data-test-id={`card-link-${cardLinkId}`}
                         >
                             Готовить
                         </Button>

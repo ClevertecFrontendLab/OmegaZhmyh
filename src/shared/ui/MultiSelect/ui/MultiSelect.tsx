@@ -16,7 +16,7 @@ import {
 import { BsPlusCircleFill } from '../../Icons';
 
 interface MultiSelectProps {
-    allergensOptions: { name: string; label: string }[];
+    allergensOptions: string[];
     isExcluding: boolean;
     isDrawerOpen: boolean;
     selectedAllergens: string[];
@@ -60,8 +60,7 @@ export const MultiSelect = ({
                 {selectedAllergens.length ? (
                     selectedAllergens.map((allergen) => (
                         <Tag key={allergen} variant='outline' colorScheme='lime' color='lime.600'>
-                            {allergensOptions.find(({ name }) => name === allergen)?.label ??
-                                allergen}
+                            {allergen}
                         </Tag>
                     ))
                 ) : (
@@ -71,11 +70,11 @@ export const MultiSelect = ({
         </MenuButton>
         <MenuList data-test-id='allergens-menu' width='234px' padding={0}>
             <Flex flexDirection='column'>
-                {allergensOptions.map(({ label, name }, index) => (
+                {allergensOptions.map((allergen, index) => (
                     <Checkbox
-                        key={name}
-                        isChecked={selectedAllergens.includes(name)}
-                        onChange={() => onToggleAllergen(name)}
+                        key={allergen}
+                        isChecked={selectedAllergens.includes(allergen)}
+                        onChange={() => onToggleAllergen(allergen)}
                         padding={{ base: '6px 16px' }}
                         bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
                         data-test-id={
@@ -84,7 +83,7 @@ export const MultiSelect = ({
                                 : ''
                         }
                     >
-                        {label}
+                        {allergen}
                     </Checkbox>
                 ))}
                 <InputGroup padding='8px 8px 8px 24px' alignItems='center' gap='8px'>

@@ -5,8 +5,7 @@ import { Recipe } from '~/entities/Recipe';
 import { setRecipes } from '~/entities/Recipe/model/slice';
 
 import { API_BASE_URL } from '../config/constants';
-import { CategoriesResponse } from './types';
-import { RecipeResponse } from './types';
+import { CategoriesResponse, GetRecipesParams, RecipeResponse } from './types';
 
 export const yeedaaApi = createApi({
     reducerPath: 'yeedaaApi',
@@ -14,7 +13,6 @@ export const yeedaaApi = createApi({
     endpoints: (builder) => ({
         getCategories: builder.query<CategoriesResponse, void>({
             query: () => '/category',
-            keepUnusedDataFor: 360,
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
@@ -24,9 +22,11 @@ export const yeedaaApi = createApi({
                 }
             },
         }),
-        getRecipes: builder.query<RecipeResponse, void>({
-            query: () => '/recipe',
-            keepUnusedDataFor: 360,
+        getRecipes: builder.query<RecipeResponse, GetRecipesParams>({
+            query: (params) => ({
+                url: '/recipe',
+                params,
+            }),
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
@@ -44,6 +44,14 @@ export const yeedaaApi = createApi({
                 },
             }),
         }),
+        getRelevantRecipe: builder.query<RecipeResponse, string>({
+            query: (subcategoryId) => ({
+                url: `/recipe/category/${subcategoryId}`,
+                params: {
+                    limit: 5,
+                },
+            }),
+        }),
         getLatestReciper: builder.query<RecipeResponse, void>({
             query: () => ({
                 url: '/recipe',
@@ -54,7 +62,6 @@ export const yeedaaApi = createApi({
                     sortOrder: 'desc',
                 },
             }),
-            keepUnusedDataFor: 360,
         }),
         getTheJuiciestRecipe: builder.query<RecipeResponse, number>({
             query: (page = 1) => ({
@@ -65,7 +72,6 @@ export const yeedaaApi = createApi({
                     sortBy: 'likes',
                     sortOrder: 'desc',
                 },
-                keepUnusedDataFor: 360,
             }),
         }),
         getRecipeById: builder.query<Recipe, string>({
@@ -84,4 +90,5 @@ export const {
     useGetLatestReciperQuery,
     useGetTheJuiciestRecipeQuery,
     useGetRecipeBySubategoryQuery,
+    useGetRelevantRecipeQuery,
 } = yeedaaApi;

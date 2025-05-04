@@ -60,14 +60,14 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
 
                 switch (index) {
                     case 0:
-                        displayName = categorys.find((c) => c.category == name)?.title;
-                        break;
-                    case 1:
                         if (name == 'the-juiciest') {
                             displayName = 'Самое сочное';
                         } else {
-                            displayName = categorys.find((sub) => sub.category == name)?.title;
+                            displayName = categorys.find((c) => c.category == name)?.title;
                         }
+                        break;
+                    case 1:
+                        displayName = categorys.find((sub) => sub.category == name)?.title;
                         break;
                     case 2:
                         displayName =

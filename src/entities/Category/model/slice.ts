@@ -5,8 +5,6 @@ import { CategoriesResponse } from '~/shared/api/types';
 import { categoryState, MainCategory, SubCategory } from '../types';
 
 export const initialState: categoryState = {
-    pageCategory: null,
-    pageSubategory: null,
     mainCategories: [],
     subCategories: [],
     allCategories: [],
@@ -16,12 +14,6 @@ export const categorySlice = createSlice({
     name: 'category',
     initialState,
     reducers: {
-        setPageCategory(state, action: PayloadAction<MainCategory | null>) {
-            state.pageCategory = action.payload;
-        },
-        setPageSubcategory(state, action: PayloadAction<SubCategory | null>) {
-            state.pageSubategory = action.payload;
-        },
         setCategories(state, action: PayloadAction<CategoriesResponse>) {
             const categores: MainCategory[] = [];
             const subcategores: SubCategory[] = [];
@@ -39,5 +31,5 @@ export const categorySlice = createSlice({
     },
 });
 
-export const { setPageCategory, setPageSubcategory, setCategories } = categorySlice.actions;
+export const { setCategories } = categorySlice.actions;
 export const { reducer: categoryReducer } = categorySlice;

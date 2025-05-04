@@ -1,28 +1,44 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import { CookingBlog } from '~/entities/CookingBlog';
-import { selectIsSearchActive } from '~/features/recipe-filters/model/selectors/search/selectIsSearchActive';
-import { selectCountSearchedRecipes } from '~/features/recipe-filters/model/selectors/search/setCountSearchedRecipes';
+import {
+    selectCountSearchedRecipes,
+    selectIsSearchActive,
+} from '~/features/recipe-filters/model/selectors/searchSelectors';
 import { useGetTheJuiciestRecipeQuery } from '~/shared/api/yeedaaApi';
+import { setMainPageLoading } from '~/shared/store/loadingSlice';
+import { RecipeCardList } from '~/shared/ui/RecipeCardList';
+import { setError } from '~/shared/ui/SnackbarAlert';
+import { FoundRecipes } from '~/widgets/foundRecipes';
 import { NewRecipes } from '~/widgets/NewRecipes';
-import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
 export const MainPage = () => {
-    const isEmpty = useSelector(selectCountSearchedRecipes) === 0;
+    const dispatch = useDispatch();
+
+    const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
     const isSearchActive = useSelector(selectIsSearchActive);
 
-    const { data } = useGetTheJuiciestRecipeQuery(1);
+    const { data, isError, isLoading } = useGetTheJuiciestRecipeQuery(1);
     const theJuiciestRecipes = data?.data;
+
+    useEffect(() => {
+        if (isError) {
+            dispatch(setError('Не удалось загрузить самые сочные рецепты'));
+        }
+        dispatch(setMainPageLoading(isLoading));
+    }, [isError, dispatch, isLoading]);
 
     return (
         <Box>
             <SearchPanel title='Приятного аппетита!' />
-            {isEmpty && isSearchActive ? null : (
+            <FoundRecipes />
+            {countOfSearchedRecipes == 0 || !isSearchActive ? (
                 <>
                     <NewRecipes />
                     <Flex
@@ -34,8 +50,8 @@ export const MainPage = () => {
                             Самое сочное
                         </Text>
                         <Box
-                            display={{ base: 'none', lg: 'flex' }}
-                            visibility={{ base: 'hidden', lg: 'visible' }}
+                            display={{ base: 'none', md: 'flex' }}
+                            visibility={{ base: 'hidden', md: 'visible' }}
                             data-test-id='juiciest-link'
                         >
                             <Link to='/the-juiciest'>
@@ -61,8 +77,8 @@ export const MainPage = () => {
                         mt={{ base: '12px' }}
                     />
                     <Flex
-                        display={{ base: 'flex', lg: 'none' }}
-                        visibility={{ base: 'visible', lg: 'hidden' }}
+                        display={{ base: 'flex', md: 'none' }}
+                        visibility={{ base: 'visible', md: 'hidden' }}
                         justifyContent='center'
                         data-test-id='juiciest-link-mobile'
                     >
@@ -139,35 +155,8 @@ export const MainPage = () => {
                         </Button>
                     </Box>
                 </>
-            )}
-
-            <RelevantKitchen
-                marginTop='40px'
-                title='Веганская кухня'
-                description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
-                recipe1={{
-                    title: 'Картошка, тушенная с болгарским перцем и фасолью в томатном соусе',
-                    description:
-                        'Картошка, тушенная с болгарским перцем, фасолью, морковью и луком, -  вариант сытного блюда на каждый день. Фасоль в данном случае заменяет мясо, делая рагу сытным и питательным. Чтобы сократить время  приготовления, возьмём консервированную фасоль. Блюдо хоть и простое, но в полной мере наполнено ароматами и имеет выразительный вкус за счёт  добавления томатной пасты.',
-                    category: ['Вторые блюда'],
-                    likes: 1,
-                    bookmarks: 1,
-                }}
-                recipe2={{
-                    title: 'Капустные котлеты',
-                    description:
-                        'Капустные котлеты по этому рецепту получаются необычайно пышными и  невероятно вкусными. Мягкий вкус и лёгкая пряная нотка наверняка помогут сделать эти чудесные котлеты из капусты одним из ваших любимых овощных  блюд.',
-                    category: ['Вторые блюда'],
-                    likes: 2,
-                    bookmarks: 1,
-                }}
-                miniCardText1='Стейк для вегетарианцев'
-                miniCardIcon1='Вторые блюда'
-                miniCardText2='Котлеты из гречки и фасоли'
-                miniCardIcon2='Вторые блюда'
-                miniCardText3='Сырный суп с лапшой и брокколи'
-                miniCardIcon3='Первые блюда'
-            />
+            ) : null}
+            <RelevantKitchen marginTop='40px' />
         </Box>
     );
 };

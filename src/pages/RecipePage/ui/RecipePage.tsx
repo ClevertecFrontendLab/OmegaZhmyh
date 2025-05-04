@@ -14,43 +14,49 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
-import { setPageRecipe } from '~/entities/Recipe/';
 import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
-import { DishesImages } from '~/shared/ui/DishesImages';
+import { API_BASE_IMG_URL } from '~/shared/config/constants';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
 import { RecipeTags } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
+import { setError } from '~/shared/ui/SnackbarAlert';
 import { NewRecipes } from '~/widgets/NewRecipes';
 
-import { AuthorCard } from './AuthorCard';
-import { CookingSteps } from './CookingSteps';
-import { IngredientsList } from './IngredientsList';
-import { Nutrients } from './Nutrients/';
+import { AuthorCard } from './components/AuthorCard';
+import { CookingSteps } from './components/CookingSteps';
+import { IngredientsList } from './components/IngredientsList';
+import { NutrientBlock } from './components/NutrientBlock';
 
 export const RecipePage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const { data: recipe, isError } = useGetRecipeByIdQuery(id as string);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setPageRecipe(recipe || null));
-        return () => {
-            dispatch(setPageRecipe(null));
-        };
-    }, [dispatch, recipe]);
+        if (isError) {
+            dispatch(
+                setError(
+                    'Не удалось загрузить данные рецепта. Вы будете перенаправлены на предыдущую страницу.',
+                ),
+            );
+            navigate(-1);
+            return;
+        }
+    }, [dispatch, recipe, isError, navigate]);
 
-    if (isError || !recipe) {
-        return <div>Error</div>;
+    if (!recipe) {
+        return null;
     }
 
     const {
         title,
         description,
         time,
-        image = DishesImages['SpaghettiRollImg'],
+        image,
         categoriesIds,
         nutritionValue,
         ingredients,
@@ -67,7 +73,7 @@ export const RecipePage = () => {
                 marginTop={{ base: '16px', lg: '56px' }}
             >
                 <Image
-                    src={image}
+                    src={API_BASE_IMG_URL + image}
                     objectFit='cover'
                     borderRadius='8px'
                     width={{ base: '328px', md: '232px', lg: '353px', xl: '553px' }}
@@ -108,7 +114,7 @@ export const RecipePage = () => {
                     >
                         <Tag>
                             <TagLeftIcon as={BsAlarm} boxSize={{ lg: '16px' }}></TagLeftIcon>
-                            <TagLabel>{time}</TagLabel>
+                            <TagLabel>{time + ' мин.'}</TagLabel>
                         </Tag>
                         <Flex gap={{ base: '12px', xl: '16px' }}>
                             <Button
@@ -135,7 +141,7 @@ export const RecipePage = () => {
                 maxWidth={{ base: '100%', lg: '578px', xl: '668px' }}
                 paddingX={{ base: '0px' }}
             >
-                <Nutrients nutritionValue={nutritionValue} />
+                <NutrientBlock nutritionValue={nutritionValue} />
             </Container>
             <Container
                 maxWidth={{ base: '100%', md: '604px', lg: '578px', xl: '668px' }}

@@ -1,73 +1,90 @@
-import { Grid, GridItem, GridProps, SimpleGrid } from '@chakra-ui/react';
+import { Grid, GridItem, GridProps } from '@chakra-ui/react';
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { ShortRecipeType } from '~/entities/Recipe';
-import { TextCard } from '~/entities/Recipe/ui/TextCard';
-import { TextTagDecsCard } from '~/entities/Recipe/ui/TextTagDecsCard';
-import { KitchenTagType } from '~/shared/types/KitchenTagType';
+import { selectMainCategories, selectSubcategories } from '~/entities/Category';
+import { useGetRelevantRecipeQuery } from '~/shared/api/yeedaaApi';
+import { AppSpiner } from '~/shared/ui/AppSpiner';
+import { setError } from '~/shared/ui/SnackbarAlert';
 
-interface RelevantKitchenProps extends GridProps {
-    title: string;
-    description: string;
-    recipe1: ShortRecipeType;
-    recipe2: ShortRecipeType;
-    miniCardText1: string;
-    miniCardIcon1: KitchenTagType;
-    miniCardText2: string;
-    miniCardIcon2: KitchenTagType;
-    miniCardText3: string;
-    miniCardIcon3: KitchenTagType;
-}
+import { TextCard } from './TextCard';
+import { TextTagDecsCard } from './TextTagDecsCard';
 
-export const RelevantKitchen = (props: RelevantKitchenProps) => {
-    const {
-        title,
-        description,
-        recipe1,
-        recipe2,
-        miniCardText1,
-        miniCardIcon1,
-        miniCardText2,
-        miniCardIcon2,
-        miniCardText3,
-        miniCardIcon3,
-        ...othersProps
-    } = props;
+export const RelevantKitchen = (props: GridProps) => {
+    const dispatch = useDispatch();
+
+    const subcategories = useSelector(selectSubcategories);
+    const maincategories = useSelector(selectMainCategories);
+
+    const rundomSubcategoryIndex = useRef(Math.floor(Math.random() * subcategories.length)).current;
+    const rundomSubcategory = subcategories[rundomSubcategoryIndex];
+
+    const rootCategoryId = rundomSubcategory?.rootCategoryId;
+    const rootCategory = maincategories.find((category) => category._id === rootCategoryId);
+
+    const { data, isError, isLoading } = useGetRelevantRecipeQuery(rundomSubcategory?._id, {
+        skip: !rundomSubcategory,
+    });
+    const recipes = data?.data;
+
+    useEffect(() => {
+        if (isError) {
+            dispatch(setError('Ошибка сервера'));
+        }
+    }, [dispatch, isError]);
+
+    // Если нет данных о категориях, не рендерим компонент
+    if (!subcategories.length || !maincategories.length) {
+        return null;
+    }
+
     return (
-        <Grid
-            templateColumns={{ base: '1fr', md: '1fr 1fr 1fr', xl: '1fr 1fr 2fr' }}
-            rowGap={{ base: '12px', md: '16px', lg: '24px' }}
-            columnGap={{ base: '16px', xl: '24px' }}
-            borderTop='1px solid'
-            borderColor='blackAlpha.200'
-            padding={{ base: '8px 0 16px 0', lg: '24px 0 0 0' }}
-            {...othersProps}
-        >
-            <GridItem
-                fontSize={{ base: '2xl', lg: '4xl' }}
-                fontWeight='medium'
-                colSpan={{ base: 1, md: 3, lg: 1, xl: 2 }}
-                lineHeight={{ base: '32px' }}
-            >
-                {title}
-            </GridItem>
-            <GridItem
-                fontSize={{ base: 'sm', md: 'md' }}
-                fontWeight='medium'
-                lineHeight='20px'
-                colSpan={{ base: 1, md: 3, lg: 2, xl: 1 }}
-                color='blackAlpha.600'
-            >
-                {description}
-            </GridItem>
+        <>
+            {isLoading ? <AppSpiner /> : null}
+            {isError || isLoading || !rootCategory ? null : (
+                <Grid
+                    templateColumns={{ base: '1fr', md: '1fr 1fr 1fr', xl: '1fr 1fr 2fr' }}
+                    rowGap={{ base: '12px', md: '16px', lg: '24px' }}
+                    columnGap={{ base: '16px', xl: '24px' }}
+                    borderTop='1px solid'
+                    borderColor='blackAlpha.200'
+                    padding={{ base: '8px 0 16px 0', lg: '24px 0 0 0' }}
+                    {...props}
+                >
+                    <GridItem
+                        fontSize={{ base: '2xl', lg: '4xl' }}
+                        fontWeight='medium'
+                        colSpan={{ base: 1, md: 3, lg: 1, xl: 2 }}
+                        lineHeight={{ base: '32px' }}
+                    >
+                        {rootCategory?.title}
+                    </GridItem>
+                    <GridItem
+                        fontSize={{ base: 'sm', md: 'md' }}
+                        fontWeight='medium'
+                        lineHeight='20px'
+                        colSpan={{ base: 1, md: 3, lg: 2, xl: 1 }}
+                        color='blackAlpha.600'
+                    >
+                        {rootCategory?.description}
+                    </GridItem>
 
-            <TextTagDecsCard recipe={recipe1} />
-            <TextTagDecsCard recipe={recipe2} />
+                    {recipes && recipes[0] ? <TextTagDecsCard recipe={recipes[0]} /> : null}
+                    {recipes && recipes[1] ? <TextTagDecsCard recipe={recipes[1]} /> : null}
 
-            <SimpleGrid columns={1} gap={{ base: '12px' }}>
-                <TextCard text={miniCardText1} icon={miniCardIcon1} />
-                <TextCard text={miniCardText2} icon={miniCardIcon2} />
-                <TextCard text={miniCardText3} icon={miniCardIcon3} />
-            </SimpleGrid>
-        </Grid>
+                    <Grid templateRows='repeat(3, 1fr)' gap={{ base: '12px' }}>
+                        {recipes && recipes[2] ? (
+                            <TextCard recipe={recipes[2]} category={rootCategory} />
+                        ) : null}
+                        {recipes && recipes[3] ? (
+                            <TextCard recipe={recipes[3]} category={rootCategory} />
+                        ) : null}
+                        {recipes && recipes[4] ? (
+                            <TextCard recipe={recipes[4]} category={rootCategory} />
+                        ) : null}
+                    </Grid>
+                </Grid>
+            )}
+        </>
     );
 };

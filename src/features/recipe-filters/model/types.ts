@@ -8,13 +8,12 @@ export interface SearchState {
     searchQuery: string;
     activeSearchQuery: string;
     isSearchAvailable: boolean;
+    isSearchLoading: boolean;
     isSearchActive: boolean;
     countSearchedRecipes: number;
 }
 
 export interface DrawerState {
-    isActive: boolean;
-    isAvailable: boolean;
     meatTypes: string[];
     sideDishes: string[];
     categories: string[];
@@ -28,13 +27,15 @@ export interface LabalState {
 }
 
 export interface FiltersState {
+    isActive: boolean;
+    isAvailable: boolean;
     drawerFilters: DrawerState;
     drawerUIState: DrawerState;
-    labels: {
-        allergenFilters: LabalState[];
-        sideDishFilters: LabalState[];
-        meatTypeFilters: LabalState[];
-        authorFilters: LabalState[];
+    options: {
+        allergenFilters: string[];
+        sideDishFilters: string[];
+        meatTypeFilters: string[];
+        authorFilters: string[];
     };
     search: SearchState;
     allergens: AllergenState;

@@ -35,6 +35,13 @@ export const AppDrawer = () => {
     const allFilters = useSelector(selectAllFilters);
 
     const onCloseHandler = () => dispatch(toggleIsOpenDrawer());
+    const onClearHandler = () => {
+        dispatch(resetDrawerFilters());
+    };
+    const onFindHandler = () => {
+        dispatch(setDrawerFiltersActive());
+        onCloseHandler();
+    };
 
     return (
         <Drawer
@@ -91,7 +98,7 @@ export const AppDrawer = () => {
                     <Flex gap='8px'>
                         <Button
                             data-test-id='clear-filter-button'
-                            onClick={() => dispatch(resetDrawerFilters())}
+                            onClick={onClearHandler}
                             variant='outline'
                             color='blackAlpha.800'
                             backgroundColor='whiteAlpha.100'
@@ -102,10 +109,7 @@ export const AppDrawer = () => {
                         </Button>
                         <Button
                             data-test-id='find-recipe-button'
-                            onClick={() => {
-                                dispatch(setDrawerFiltersActive());
-                                onCloseHandler();
-                            }}
+                            onClick={onFindHandler}
                             isDisabled={!isFindRecipeAvailable}
                             pointerEvents={isFindRecipeAvailable ? 'auto' : 'none'}
                             variant='solid'

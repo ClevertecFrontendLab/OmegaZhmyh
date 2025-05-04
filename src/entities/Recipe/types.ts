@@ -22,7 +22,7 @@ export interface Recipe {
 
 export interface NutritionValueType {
     calories: number;
-    proteins: number;
+    protein: number;
     fats: number;
     carbohydrates: number;
 }

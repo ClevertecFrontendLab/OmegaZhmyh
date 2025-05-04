@@ -8,6 +8,7 @@ export const FullscreenSpinner = () => (
         alignItems='center'
         backdropFilter='blur(4px)'
         background='rgba(0, 0, 0, 0.16)'
+        data-test-id='app-loader'
     >
         <Flex
             width='206px'
