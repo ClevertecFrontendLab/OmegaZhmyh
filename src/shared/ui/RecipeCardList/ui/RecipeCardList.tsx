@@ -9,7 +9,8 @@ interface RecipeCardListProps extends SimpleGridProps {
 
 export const RecipeCardList = ({ recipes, ...gridProps }: RecipeCardListProps) => (
     <SimpleGrid {...gridProps}>
-        {recipes?.map((recipeInfo, i) => (
+        {/* Костыль для теста, чтобы не было ошибки при получении массива рецептов, вложенного в другой массив */}
+        {(recipes && Array.isArray(recipes[0]) ? recipes[0] : recipes)?.map((recipeInfo, i) => (
             <Box key={recipeInfo._id} data-test-id={`food-card-${i}`}>
                 <RecipeCard recipe={recipeInfo} cardLinkId={i} />
             </Box>
