@@ -5,10 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import { CookingBlog } from '~/entities/CookingBlog';
-import {
-    selectCountSearchedRecipes,
-    selectIsSearchActive,
-} from '~/features/recipe-filters/model/selectors/searchSelectors';
+import { selectCountSearchedRecipes } from '~/features/recipe-filters';
 import { useGetTheJuiciestRecipeQuery } from '~/shared/api/yeedaaApi';
 import { setMainPageLoading } from '~/shared/store/loadingSlice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
@@ -22,7 +19,6 @@ export const MainPage = () => {
     const dispatch = useDispatch();
 
     const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
-    const isSearchActive = useSelector(selectIsSearchActive);
 
     const { data, isError, isLoading } = useGetTheJuiciestRecipeQuery(1);
     const theJuiciestRecipes = data?.data;
@@ -38,7 +34,7 @@ export const MainPage = () => {
         <Box>
             <SearchPanel title='Приятного аппетита!' />
             <FoundRecipes />
-            {countOfSearchedRecipes == 0 || !isSearchActive ? (
+            {countOfSearchedRecipes == 0 ? (
                 <>
                     <NewRecipes />
                     <Flex

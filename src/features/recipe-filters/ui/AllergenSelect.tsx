@@ -9,7 +9,11 @@ import { selectIsExcluding } from '../model/selectors/alergenSelectors';
 import { selectSelectedAllergens } from '../model/selectors/alergenSelectors';
 import { addCustomAllergen, setCustomAllergenInput, toggleAllergen } from '../model/slice';
 
-export const AllergenSelect = () => {
+interface AllergenSelectProps {
+    isDrawerFilter?: boolean;
+}
+
+export const AllergenSelect = ({ isDrawerFilter = false }: AllergenSelectProps) => {
     const dispatch = useDispatch();
     const isExcluding = useSelector(selectIsExcluding);
     const selectedAllergens = useSelector(selectSelectedAllergens);
@@ -38,7 +42,7 @@ export const AllergenSelect = () => {
             isDrawerOpen={isDrawerOpen}
             isExcluding={isExcluding}
             customAllergen={customAllergen}
-            isDrawerFilter={false}
+            isDrawerFilter={isDrawerFilter}
         />
     );
 };

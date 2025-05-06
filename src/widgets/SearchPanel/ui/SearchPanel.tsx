@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 import { AllergenSelect, AllergenToggle, selectSearchLoading } from '~/features/recipe-filters';
@@ -15,6 +15,7 @@ interface SearchPanelProps {
 
 export const SearchPanel = ({ title, desc }: SearchPanelProps) => {
     const isSearchLoading = useSelector(selectSearchLoading);
+    const isMobile = useBreakpointValue({ base: true, lg: false });
     return (
         <Flex marginTop={{ base: '16px', lg: '32px' }} flexDirection='column' alignItems='center'>
             <Heading textAlign='center' fontSize={{ base: '2xl', lg: '5xl' }}>
@@ -47,17 +48,18 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => {
                             <AppDrawer />
                             <SearchInput />
                         </Flex>
-                        <Flex
-                            gap={4}
-                            marginTop={4}
-                            marginBottom={4}
-                            alignItems='start'
-                            zIndex='dropdown'
-                            display={{ base: 'none', lg: 'flex' }}
-                        >
-                            <AllergenToggle data-test-id='allergens-switcher' />
-                            <AllergenSelect data-test-id='allergens-menu-button' />
-                        </Flex>
+                        {isMobile ? null : (
+                            <Flex
+                                gap={4}
+                                marginTop={4}
+                                marginBottom={4}
+                                alignItems='start'
+                                zIndex='dropdown'
+                            >
+                                <AllergenToggle data-test-id='allergens-switcher' />
+                                <AllergenSelect data-test-id='allergens-menu-button' />
+                            </Flex>
+                        )}
                     </Flex>
                 </>
             )}

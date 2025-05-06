@@ -13,16 +13,16 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+    AllergenSelect,
+    AllergenToggle,
     AuthorSelect,
     CategorySelect,
-    DrawerAllergenSelect,
-    DrawerAllergenToggle,
     MeatFilters,
     selectAllFilters,
     selectIsFiltersAvailable,
     SideDishesFilters,
 } from '~/features/recipe-filters';
-import { resetDrawerFilters, setDrawerFiltersActive } from '~/features/recipe-filters/model/slice';
+import { resetFilters, setFiltersActive } from '~/features/recipe-filters/';
 import { BsFillXCircleFill } from '~/shared/ui/Icons';
 
 import { selectIsDrawerOpen } from '../model/selectIsDrawerOpen';
@@ -36,10 +36,10 @@ export const AppDrawer = () => {
 
     const onCloseHandler = () => dispatch(toggleIsOpenDrawer());
     const onClearHandler = () => {
-        dispatch(resetDrawerFilters());
+        dispatch(resetFilters());
     };
     const onFindHandler = () => {
-        dispatch(setDrawerFiltersActive());
+        dispatch(setFiltersActive());
         onCloseHandler();
     };
 
@@ -73,8 +73,8 @@ export const AppDrawer = () => {
                     <MeatFilters />
                     <SideDishesFilters />
                     <Box>
-                        <DrawerAllergenToggle />
-                        <DrawerAllergenSelect />
+                        <AllergenToggle isDrawerFilter={true} />
+                        <AllergenSelect isDrawerFilter={true} />
                     </Box>
                     <Flex
                         flexWrap='wrap'

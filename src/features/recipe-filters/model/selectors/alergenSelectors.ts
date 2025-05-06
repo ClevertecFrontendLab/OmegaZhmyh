@@ -7,9 +7,3 @@ export const selectCustomAllergen = (state: ApplicationState) =>
 export const selectIsExcluding = (state: ApplicationState) => state.filters.allergens.isExcluding;
 export const selectSelectedAllergens = (state: ApplicationState) =>
     state.filters.allergens.selectedAllergens;
-export const selectDrawerAllergens = (state: ApplicationState) =>
-    state.filters.drawerUIState.allergens.selectedAllergens;
-export const selectDrawerCustomAllergen = (state: ApplicationState) =>
-    state.filters.drawerUIState.allergens.customAllergen;
-export const selectIsDrawerExcluding = (state: ApplicationState) =>
-    state.filters.drawerUIState.allergens.isExcluding;

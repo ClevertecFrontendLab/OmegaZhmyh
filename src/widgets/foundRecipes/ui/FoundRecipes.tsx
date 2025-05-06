@@ -1,23 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectMainCategories } from '~/entities/Category';
+import { MainCategory, selectMainCategories } from '~/entities/Category';
 import {
     selectActiveSearchQuery,
-    selectMeatTypesFilters,
+    selectCategoryFilter,
+    selectCountSearchedRecipes,
+    selectIsFiltersActive,
+    selectIsSearchActive,
+    selectMeatTypeFilter,
     selectSelectedAllergens,
-    selectSideDishesFilters,
+    selectSideDishFilter,
     setCountSearchedRecipes,
     setSearchLoading,
 } from '~/features/recipe-filters';
-import {
-    selectCategoryFilter,
-    selectIsFiltersActive,
-} from '~/features/recipe-filters/model/selectors/drawerStateSelectors';
-import {
-    selectCountSearchedRecipes,
-    selectIsSearchActive,
-} from '~/features/recipe-filters/model/selectors/searchSelectors';
 import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 
@@ -34,8 +30,8 @@ export function FoundRecipes({ cuisinePageFilter }: FoundRecipesProps) {
     const isFiltersActive = useSelector(selectIsFiltersActive);
     const selectedAllergens = useSelector(selectSelectedAllergens);
 
-    const selectedSideDishes = useSelector(selectSideDishesFilters);
-    const selectedMeatTypes = useSelector(selectMeatTypesFilters);
+    const selectedSideDishes = useSelector(selectSideDishFilter);
+    const selectedMeatTypes = useSelector(selectMeatTypeFilter);
     const selectedCategories = useSelector(selectCategoryFilter);
     const mainCategories = useSelector(selectMainCategories);
     const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
@@ -45,11 +41,13 @@ export function FoundRecipes({ cuisinePageFilter }: FoundRecipesProps) {
         ?.subCategories.map((sub) => sub.category)
         .join(',');
 
-    const neededSubcategoriesIds: string[] = mainCategories
-        .filter((main) => selectedCategories.includes(main.category))
-        .reduce<
-            string[]
-        >((result, selectedMain) => [...result, ...selectedMain.subCategories.map((sub) => sub._id)], []);
+    const selectedMainCategories: MainCategory[] = mainCategories.filter((main) =>
+        selectedCategories.includes(main.title),
+    );
+
+    const neededSubcategoriesIds: string = selectedMainCategories
+        .map((main) => main.subCategories.map((sub) => sub._id).join(','))
+        .join(',');
 
     const {
         data: searchedRecipes,
@@ -65,7 +63,7 @@ export function FoundRecipes({ cuisinePageFilter }: FoundRecipesProps) {
             searchString: searchString || undefined,
             subcategoriesIds: cuisinePageFilter
                 ? pageCategoryRecipeQuery
-                : neededSubcategoriesIds.join(',') || undefined,
+                : neededSubcategoriesIds || undefined,
         },
         { skip: !isSearchActive && !isFiltersActive },
     );

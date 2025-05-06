@@ -13,7 +13,7 @@ export const BurgerMenu = () => {
     const isOpen = useSelector(selectIsBurgerOpen);
     const onCloseHandler = () => dispatch(closeBurger());
     return (
-        <Modal isOpen={isOpen} onClose={onCloseHandler} variant='burger'>
+        <Modal isOpen={isOpen} onClose={onCloseHandler} variant='burger' closeOnOverlayClick={true}>
             <ModalOverlay />
             <ModalContent transitionDuration='100ms'>
                 <ModalBody bgColor='rgba(0, 0, 0, 0)'>

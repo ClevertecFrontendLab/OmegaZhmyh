@@ -25,7 +25,7 @@ export const NewRecipes = () => {
             <Box position='relative' marginTop={{ base: '12px', lg: '24px' }}>
                 <Swiper
                     slidesPerView='auto'
-                    loop={true}
+                    loop={!!newRecipes?.data && newRecipes.data.length > 2}
                     spaceBetween={slideGap}
                     style={{ padding: '0', overflow: sliderOverflow }}
                     data-test-id='carousel'

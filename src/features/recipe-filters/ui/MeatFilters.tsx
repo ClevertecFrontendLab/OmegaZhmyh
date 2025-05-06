@@ -4,13 +4,13 @@ import { FilterGroup } from '~/shared/ui/FilterGroup';
 
 import {
     selectMeatTypeOptions,
-    selectMeatTypesFilters,
-} from '../model/selectors/meatTypesSelectors';
+    selectUIMeatTypeFilter,
+} from '../model/selectors/drawerUIStateSelectors';
 import { toggleMeatType } from '../model/slice';
 
 export const MeatFilters = () => {
     const dispatch = useDispatch();
-    const meatFilters = useSelector(selectMeatTypesFilters);
+    const meatFilters = useSelector(selectUIMeatTypeFilter);
     const meatOptions = useSelector(selectMeatTypeOptions);
     const onChangeMeatFilter = (meatFilter: string) => {
         dispatch(toggleMeatType(meatFilter));

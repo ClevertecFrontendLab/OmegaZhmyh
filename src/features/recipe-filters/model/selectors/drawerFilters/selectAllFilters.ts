@@ -1,18 +1,18 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { selectDrawerAllergens } from '../alergenSelectors';
-import { selectCategoryFilter } from '../drawerStateSelectors';
-import { selectAuthorsFilter } from '../drawerStateSelectors';
-import { selectMeatTypesFilters } from '../meatTypesSelectors';
-import { selectSideDishesFilters } from '../sideDishesSelectors';
+import { selectSelectedAllergens } from '../alergenSelectors';
+import { selectCategoryFilter } from '../drawerUIStateSelectors';
+import { selectUIAuthorFilter } from '../drawerUIStateSelectors';
+import { selectUIMeatTypeFilter } from '../drawerUIStateSelectors';
+import { selectUISideDishFilter } from '../drawerUIStateSelectors';
 
 export const selectAllFilters = createSelector(
     [
-        selectDrawerAllergens,
-        selectMeatTypesFilters,
-        selectSideDishesFilters,
+        selectSelectedAllergens,
+        selectUIMeatTypeFilter,
+        selectUISideDishFilter,
         selectCategoryFilter,
-        selectAuthorsFilter,
+        selectUIAuthorFilter,
     ],
     (...filters) => {
         const result: string[] = [];

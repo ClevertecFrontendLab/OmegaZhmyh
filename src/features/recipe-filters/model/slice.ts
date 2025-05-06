@@ -14,18 +14,20 @@ export const filtersSlice = createSlice({
 
         ...searchReducers,
 
-        setDrawerFiltersActive(state) {
+        setFiltersActive(state) {
             if (state.isAvailable) {
                 state.isActive = true;
-                state.drawerFilters = state.drawerUIState;
+                state.currentFilters = state.drawerUIState;
                 state.drawerUIState = structuredClone(initialState.drawerUIState);
             }
         },
 
-        resetDrawerFilters(state) {
+        resetFilters(state) {
             state.drawerUIState = structuredClone(initialState.drawerUIState);
-            state.drawerFilters = structuredClone(initialState.drawerFilters);
-            state.allergens = { ...initialState.allergens };
+            state.currentFilters = structuredClone(initialState.currentFilters);
+            state.allergens = structuredClone(initialState.allergens);
+            state.isActive = false;
+            state.isAvailable = false;
         },
     },
 });
@@ -38,17 +40,13 @@ export const {
     resetSearch,
     setSearchQuery,
     setSearchActive,
+    setFiltersActive,
     toggleCategory,
     toggleMeatType,
     toggleSideDishe,
-    addDrawerCustomAllergen,
-    resetDrawerFilters,
-    setDrawerCustomAllergenInput,
-    setDrawerFiltersActive,
+    resetFilters,
     setSearchLoading,
     toggleAuthor,
-    toggleDrawerAllergen,
-    toggleDrawerAllergenExcluding,
     setCountSearchedRecipes,
 } = filtersSlice.actions;
 

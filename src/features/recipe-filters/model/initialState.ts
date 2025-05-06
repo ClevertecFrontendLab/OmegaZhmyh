@@ -6,10 +6,9 @@ const allergenInitialState: AllergenState = {
     customAllergen: '',
 };
 
-const drawerInitialState: DrawerState = {
+const filtersInitialState: DrawerState = {
     meatTypes: [],
     sideDishes: [],
-    allergens: structuredClone(allergenInitialState),
     categories: [],
     authors: [],
 };
@@ -17,8 +16,8 @@ const drawerInitialState: DrawerState = {
 export const initialState: FiltersState = {
     isActive: false,
     isAvailable: false,
-    drawerFilters: structuredClone(drawerInitialState),
-    drawerUIState: structuredClone(drawerInitialState),
+    currentFilters: structuredClone(filtersInitialState),
+    drawerUIState: structuredClone(filtersInitialState),
     options: {
         allergenFilters: [
             'Молочные продукты',
@@ -52,5 +51,6 @@ export const initialState: FiltersState = {
         isSearchLoading: false,
         countSearchedRecipes: 0,
     },
+
     allergens: structuredClone(allergenInitialState),
 };

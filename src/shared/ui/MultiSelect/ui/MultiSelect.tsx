@@ -25,7 +25,7 @@ interface MultiSelectProps {
     onSetCustomAllergenInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onAddCustomAllergen: () => void;
     handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-    isDrawerFilter?: boolean;
+    isDrawerFilter: boolean;
 }
 
 export const MultiSelect = ({

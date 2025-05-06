@@ -18,7 +18,6 @@ export interface DrawerState {
     sideDishes: string[];
     categories: string[];
     authors: string[];
-    allergens: AllergenState;
 }
 
 export interface LabalState {
@@ -29,7 +28,7 @@ export interface LabalState {
 export interface FiltersState {
     isActive: boolean;
     isAvailable: boolean;
-    drawerFilters: DrawerState;
+    currentFilters: DrawerState;
     drawerUIState: DrawerState;
     options: {
         allergenFilters: string[];

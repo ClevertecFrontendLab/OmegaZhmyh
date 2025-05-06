@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectMainCategories } from '~/entities/Category';
 
-import { selectCategoryFilter } from '../model/selectors/drawerStateSelectors';
+import { selectCategoryFilter } from '../model/selectors/drawerUIStateSelectors';
 import { toggleCategory } from '../model/slice';
 
 export const CategorySelect = () => {
@@ -58,7 +58,7 @@ export const CategorySelect = () => {
                     <MenuItem
                         as={Checkbox}
                         isChecked={categoryFilters.includes(category)}
-                        onChange={() => onCheckCategory(category)}
+                        onChange={() => onCheckCategory(title)}
                         bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
                         data-test-id={`checkbox-${title.toLocaleLowerCase()}`}
                         key={category}

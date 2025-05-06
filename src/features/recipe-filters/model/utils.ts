@@ -1,4 +1,4 @@
-import { DrawerState } from './types';
+import { FiltersState } from './types';
 
 export const toggleFilter = (filters: string[], targetFilter: string) => {
     if (filters.includes(targetFilter)) {
@@ -8,10 +8,10 @@ export const toggleFilter = (filters: string[], targetFilter: string) => {
     }
 };
 
-export const findFiltersAvailable = (drawerFilters: DrawerState) =>
-    drawerFilters.meatTypes.length +
-        drawerFilters.sideDishes.length +
-        drawerFilters.allergens.selectedAllergens.length +
-        drawerFilters.categories.length +
-        drawerFilters.authors.length >=
-    1;
+export const findFiltersAvailable = (filters: FiltersState) =>
+    filters.drawerUIState.meatTypes.length +
+        filters.drawerUIState.sideDishes.length +
+        filters.allergens.selectedAllergens.length +
+        filters.drawerUIState.categories.length +
+        filters.drawerUIState.authors.length >
+    0;

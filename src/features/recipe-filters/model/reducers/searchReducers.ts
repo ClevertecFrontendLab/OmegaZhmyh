@@ -4,7 +4,8 @@ import { FiltersState } from '../types';
 
 export const setSearchQuery = (state: FiltersState, action: PayloadAction<string>) => {
     state.search.searchQuery = action.payload;
-    state.search.isSearchAvailable = action.payload.length >= 3;
+    state.search.isSearchAvailable =
+        action.payload.length > 2 || state.allergens.selectedAllergens.length > 0;
 };
 export const setSearchActive = (state: FiltersState) => {
     if (state.search.isSearchAvailable) {
