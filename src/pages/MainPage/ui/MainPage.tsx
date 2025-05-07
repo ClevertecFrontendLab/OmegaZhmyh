@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import { CookingBlog } from '~/entities/CookingBlog';
 import { selectCountSearchedRecipes } from '~/features/recipe-filters';
 import { useGetTheJuiciestRecipeQuery } from '~/shared/api/yeedaaApi';
-import { setMainPageLoading } from '~/shared/store/loadingSlice';
+import { setPageLoader } from '~/shared/store/app-slice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 import { setError } from '~/shared/ui/SnackbarAlert';
 import { FoundRecipes } from '~/widgets/foundRecipes';
@@ -27,7 +27,7 @@ export const MainPage = () => {
         if (isError) {
             dispatch(setError('Не удалось загрузить самые сочные рецепты'));
         }
-        dispatch(setMainPageLoading(isLoading));
+        dispatch(setPageLoader(isLoading));
     }, [isError, dispatch, isLoading]);
 
     return (

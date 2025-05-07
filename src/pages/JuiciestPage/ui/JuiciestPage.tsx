@@ -8,7 +8,7 @@ import {
     selectIsSearchActive,
 } from '~/features/recipe-filters/model/selectors/searchSelectors';
 import { useGetTheJuiciestRecipeQuery } from '~/shared/api/yeedaaApi';
-import { setJuiciestPageLoading } from '~/shared/store/loadingSlice';
+import { setPageLoader } from '~/shared/store/app-slice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 import { setError } from '~/shared/ui/SnackbarAlert';
 import { FoundRecipes } from '~/widgets/foundRecipes';
@@ -17,22 +17,23 @@ import { SearchPanel } from '~/widgets/SearchPanel';
 
 export const JuiciestPage = () => {
     const [page, setPage] = useState(1);
-    const [allRecipes, setAllRecipes] = useState<Recipe[]>([]);
+    const [juiciestRecipes, setJuiciestRecipes] = useState<Recipe[]>([]);
     const dispatch = useDispatch();
-    const { data, isFetching, isError } = useGetTheJuiciestRecipeQuery(page, {
+    const { data, isLoading, isError, isSuccess } = useGetTheJuiciestRecipeQuery(page, {
         refetchOnMountOrArgChange: true,
     });
 
-    useEffect(() => {
-        if (data?.data) {
-            setAllRecipes((prev) => {
-                const newRecipes = data.data.filter(
-                    (newRecipe) => !prev.some((recipe) => recipe._id === newRecipe._id),
-                );
-                return [...prev, ...newRecipes];
-            });
+    /* useEffect(() => {
+        if (data?.data && isSuccess) {
+            setJuiciestRecipes([...data.data]);
         }
-    }, [data]);
+    }, []); */
+
+    useEffect(() => {
+        if (data?.data && isSuccess) {
+            setJuiciestRecipes((prev) => [...prev, ...data.data]);
+        }
+    }, [data?.meta.page, data?.data.length]);
 
     useEffect(() => {
         if (isError) {
@@ -41,17 +42,15 @@ export const JuiciestPage = () => {
     }, [isError, dispatch]);
 
     useEffect(() => {
-        dispatch(setJuiciestPageLoading(isFetching));
-    }, [isFetching, dispatch]);
+        dispatch(setPageLoader(isLoading));
+    }, [isLoading, dispatch]);
 
     const hasMore = data?.meta?.totalPages
         ? page < data.meta.totalPages || data.data.length < data.meta.limit
         : false;
 
     const handleLoadMore = () => {
-        if (!isFetching) {
-            setPage((prev) => prev + 1);
-        }
+        setPage((prev) => prev + 1);
     };
 
     const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
@@ -64,7 +63,7 @@ export const JuiciestPage = () => {
             {countOfSearchedRecipes == 0 || !isSearchActive ? (
                 <>
                     <RecipeCardList
-                        recipes={allRecipes}
+                        recipes={juiciestRecipes}
                         marginTop='32px'
                         columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
                         columnGap={{ base: '16px', lg: '24px' }}

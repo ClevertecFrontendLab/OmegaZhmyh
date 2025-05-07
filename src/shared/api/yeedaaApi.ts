@@ -69,7 +69,7 @@ export const yeedaaApi = createApi({
             }),
         }),
         getTheJuiciestRecipe: builder.query<RecipeResponse, number>({
-            query: (page = 1) => ({
+            query: (page) => ({
                 url: '/recipe',
                 params: {
                     page: page,

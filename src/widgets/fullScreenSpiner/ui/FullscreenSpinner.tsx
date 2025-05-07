@@ -4,10 +4,12 @@ export const FullscreenSpinner = () => (
     <Flex
         h='100vh'
         w='100vw'
+        position='fixed'
         justifyContent='center'
         alignItems='center'
         backdropFilter='blur(4px)'
         background='rgba(0, 0, 0, 0.16)'
+        zIndex='overlay'
         data-test-id='app-loader'
     >
         <Flex

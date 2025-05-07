@@ -9,7 +9,7 @@ import {
     selectIsSearchActive,
 } from '~/features/recipe-filters/model/selectors/searchSelectors';
 import { useGetRecipeBySubategoryQuery } from '~/shared/api/yeedaaApi';
-import { setCuisinePageLoading } from '~/shared/store/loadingSlice';
+import { setPageLoader } from '~/shared/store/app-slice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 import { FoundRecipes } from '~/widgets/foundRecipes';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
@@ -37,12 +37,15 @@ export const CuisinePage = () => {
     const recipes = data?.data;
 
     useEffect(() => {
+        dispatch(setPageLoader(isLoading));
+    }, [isLoading, dispatch]);
+
+    useEffect(() => {
         if (!pageMainCategory || !pageSubcategory) {
             navigate('/not-found', { replace: true });
             return;
         }
-        dispatch(setCuisinePageLoading(isLoading));
-    }, [dispatch, urlCategory, pageSubcategory, pageMainCategory, navigate, isLoading]);
+    }, [dispatch, pageSubcategory, pageMainCategory, navigate]);
 
     return (
         <Flex justifyContent='center' direction='column' style={{ scrollbarGutter: 'stable' }}>

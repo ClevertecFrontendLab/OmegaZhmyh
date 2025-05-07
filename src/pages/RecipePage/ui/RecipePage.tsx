@@ -18,6 +18,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
 import { API_BASE_IMG_URL } from '~/shared/config/constants';
+import { setPageLoader } from '~/shared/store/app-slice';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
 import { RecipeTags } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
@@ -32,9 +33,13 @@ import { NutrientBlock } from './components/NutrientBlock';
 export const RecipePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { data: recipe, isError } = useGetRecipeByIdQuery(id as string);
+    const { data: recipe, isError, isLoading } = useGetRecipeByIdQuery(id as string);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setPageLoader(isLoading));
+    }, [isLoading, dispatch]);
 
     useEffect(() => {
         if (isError) {

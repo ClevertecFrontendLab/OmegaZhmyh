@@ -10,7 +10,6 @@ import { layoutSlice } from '~/widgets/Layout/model/slice';
 
 import { notificationReducer } from '../ui/SnackbarAlert';
 import appReducer, { appSlice } from './app-slice';
-import loadingReducer from './loadingSlice';
 
 const isProduction = false;
 
@@ -24,7 +23,6 @@ const rootReducer = combineReducers({
     drawer: drawerReducer,
     [yeedaaApi.reducerPath]: yeedaaApi.reducer,
     notification: notificationReducer,
-    loading: loadingReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;

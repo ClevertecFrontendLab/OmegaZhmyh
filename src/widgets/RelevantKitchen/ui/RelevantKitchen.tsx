@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectMainCategories, selectSubcategories } from '~/entities/Category';
 import { useGetRelevantRecipeQuery } from '~/shared/api/yeedaaApi';
+import { setRelevantKitchenLoader } from '~/shared/store/app-slice';
 import { AppSpiner } from '~/shared/ui/AppSpiner';
 import { setError } from '~/shared/ui/SnackbarAlert';
 
@@ -32,6 +33,10 @@ export const RelevantKitchen = (props: GridProps) => {
             dispatch(setError('Ошибка сервера'));
         }
     }, [dispatch, isError]);
+
+    useEffect(() => {
+        dispatch(setRelevantKitchenLoader(isLoading));
+    }, [isLoading, dispatch]);
 
     // Если нет данных о категориях, не рендерим компонент
     if (!subcategories.length || !maincategories.length) {
