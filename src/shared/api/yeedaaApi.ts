@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { setCategories } from '~/entities/Category/model/slice';
+import { SubCategory } from '~/entities/Category/types';
+import { MainCategory } from '~/entities/Category/types';
 import { Recipe } from '~/entities/Recipe';
 import { setRecipes } from '~/entities/Recipe/model/slice';
 
@@ -21,6 +23,9 @@ export const yeedaaApi = createApi({
                     console.log('Categories fetch failed, using backup if available');
                 }
             },
+        }),
+        getCategoryById: builder.query<MainCategory | SubCategory, string>({
+            query: (id) => `/category/${id}`,
         }),
         getRecipes: builder.query<RecipeResponse, GetRecipesParams>({
             query: (params) => ({
@@ -86,6 +91,7 @@ export const yeedaaApi = createApi({
 export const {
     useGetCategoriesQuery,
     useGetRecipesQuery,
+    useGetCategoryByIdQuery,
     useGetRecipeByIdQuery,
     useGetLatestReciperQuery,
     useGetTheJuiciestRecipeQuery,

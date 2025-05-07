@@ -30,17 +30,21 @@ export const NewRecipes = () => {
                     style={{ padding: '0', overflow: sliderOverflow }}
                     data-test-id='carousel'
                 >
-                    {newRecipes?.data?.map((recipe, i) => (
-                        <LinkBox key={recipe._id}>
-                            <SwiperSlide
-                                key={recipe._id}
-                                style={{ maxWidth: slideWidth }}
-                                data-test-id={`carousel-card-${i}`}
-                            >
-                                <NewRecipeCard recipe={recipe} />
-                            </SwiperSlide>
-                        </LinkBox>
-                    ))}
+                    {newRecipes?.data
+                        ? [...newRecipes.data]
+                              .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+                              ?.map((recipe, i) => (
+                                  <LinkBox key={recipe._id}>
+                                      <SwiperSlide
+                                          key={recipe._id}
+                                          style={{ maxWidth: slideWidth }}
+                                          data-test-id={`carousel-card-${i}`}
+                                      >
+                                          <NewRecipeCard recipe={recipe} />
+                                      </SwiperSlide>
+                                  </LinkBox>
+                              ))
+                        : null}
                     <SlidePrevButton />
                     <SlideNextButton />
                 </Swiper>

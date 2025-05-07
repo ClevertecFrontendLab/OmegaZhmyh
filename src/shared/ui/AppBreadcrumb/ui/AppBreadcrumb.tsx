@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
 import { selectAllCategories } from '~/entities/Category';
-import { selectAllRecipes } from '~/entities/Recipe';
+import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
 import { closeBurger } from '~/widgets/Layout';
 
 interface AppBreadcrumbProps extends BreadcrumbProps {
@@ -21,9 +21,10 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
     const categorys = useSelector(selectAllCategories);
-    const allRecipes = useSelector(selectAllRecipes);
     const isMobileResolution = useBreakpointValue({ base: true, lg: false });
     const dispatch = useDispatch();
+
+    const { data: recipe } = useGetRecipeByIdQuery(pathnames[2], { skip: !pathnames[2] });
 
     const onBreadcrumbClick = () => {
         dispatch(closeBurger());
@@ -70,8 +71,7 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
                         displayName = categorys.find((sub) => sub.category == name)?.title;
                         break;
                     case 2:
-                        displayName =
-                            allRecipes.find((recipe) => recipe._id == +name)?.title ?? name;
+                        displayName = recipe?.title ?? name;
                         break;
                     default:
                         displayName = name;
