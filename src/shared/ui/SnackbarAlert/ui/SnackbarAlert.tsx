@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, CloseButton, Text } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, CloseButton, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { clearError } from '../model/notificationSlice';
@@ -15,13 +15,12 @@ export const SnackbarAlert = () => {
         <Alert
             status='error'
             position='fixed'
-            bottom='32px'
+            bottom={{ base: 'calc(var(--mobile-footer-height) + 16px)', lg: '80px' }}
             left='50%'
             transform='translateX(-50%)'
-            width='auto'
+            width={{ base: '328px', lg: '480px' }}
             minWidth='300px'
             maxWidth='90vw'
-            borderRadius='md'
             boxShadow='lg'
             zIndex={1400}
             variant='solid'
@@ -31,15 +30,16 @@ export const SnackbarAlert = () => {
             data-test-id='error-notification'
         >
             <AlertIcon />
-            <Text fontWeight='medium' ml={2}>
-                {error}
-            </Text>
-            <Text>Попробуйте поискать снова попозже</Text>
+            <Box>
+                <Text fontWeight='medium'>{error}</Text>
+                <Text>Попробуйте поискать снова попозже</Text>
+            </Box>
             <CloseButton
                 alignSelf='flex-start'
-                position='relative'
-                right={-1}
-                top={-1}
+                position='absolute'
+                boxSize='11px'
+                right='12px'
+                top='12px'
                 onClick={onClose}
                 data-test-id='close-alert-button'
             />

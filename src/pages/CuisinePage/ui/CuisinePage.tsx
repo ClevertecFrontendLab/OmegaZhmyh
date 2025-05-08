@@ -53,7 +53,7 @@ export const CuisinePage = () => {
             <FoundRecipes cuisinePageFilter={urlCategory} />
             {countOfSearchedRecipes == 0 || !isSearchActive ? (
                 <>
-                    <Flex justifyContent='center' flexWrap='wrap' marginTop='32px'>
+                    <Flex justifyContent='center' flexWrap='wrap'>
                         {pageMainCategory?.subCategories.map(({ title, category }, i) => (
                             <Link
                                 variant='subCategoryTab'

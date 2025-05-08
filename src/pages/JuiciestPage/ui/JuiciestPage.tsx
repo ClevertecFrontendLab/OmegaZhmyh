@@ -19,9 +19,12 @@ export const JuiciestPage = () => {
     const [page, setPage] = useState(1);
     const [juiciestRecipes, setJuiciestRecipes] = useState<Recipe[]>([]);
     const dispatch = useDispatch();
-    const { data, isLoading, isError, isSuccess } = useGetTheJuiciestRecipeQuery(page, {
-        refetchOnMountOrArgChange: true,
-    });
+    const { currentData, isLoading, isFetching, isError, isSuccess } = useGetTheJuiciestRecipeQuery(
+        page,
+        {
+            refetchOnMountOrArgChange: true,
+        },
+    );
 
     /* useEffect(() => {
         if (data?.data && isSuccess) {
@@ -30,10 +33,12 @@ export const JuiciestPage = () => {
     }, []); */
 
     useEffect(() => {
-        if (data?.data && isSuccess) {
-            setJuiciestRecipes((prev) => [...prev, ...data.data]);
+        if (currentData?.data && isSuccess && currentData.meta.page == 1) {
+            setJuiciestRecipes([...currentData.data]);
+        } else if (currentData?.data && isSuccess) {
+            setJuiciestRecipes((prev) => [...prev, ...currentData.data]);
         }
-    }, [data?.meta.page, data?.data.length]);
+    }, [currentData?.meta.page, currentData?.data.length]);
 
     useEffect(() => {
         if (isError) {
@@ -45,8 +50,8 @@ export const JuiciestPage = () => {
         dispatch(setPageLoader(isLoading));
     }, [isLoading, dispatch]);
 
-    const hasMore = data?.meta?.totalPages
-        ? page < data.meta.totalPages || data.data.length < data.meta.limit
+    const hasMore = currentData?.meta?.totalPages
+        ? page < currentData.meta.totalPages || currentData.data.length < currentData.meta.limit
         : false;
 
     const handleLoadMore = () => {
@@ -64,12 +69,11 @@ export const JuiciestPage = () => {
                 <>
                     <RecipeCardList
                         recipes={juiciestRecipes}
-                        marginTop='32px'
                         columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
                         columnGap={{ base: '16px', lg: '24px' }}
                         rowGap='16px'
                     />
-                    {!hasMore ? null : (
+                    {!hasMore && !isFetching ? null : (
                         <Button
                             display='block'
                             margin='0 auto'
@@ -80,7 +84,7 @@ export const JuiciestPage = () => {
                             onClick={handleLoadMore}
                             data-test-id='load-more-button'
                         >
-                            Загрузка
+                            {isFetching ? 'Загрузка' : 'Загрузить еще'}
                         </Button>
                     )}
                 </>

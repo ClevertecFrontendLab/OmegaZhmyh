@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMainCategories, selectSubcategories } from '~/entities/Category';
 import { useGetRelevantRecipeQuery } from '~/shared/api/yeedaaApi';
 import { setRelevantKitchenLoader } from '~/shared/store/app-slice';
-import { AppSpiner } from '~/shared/ui/AppSpiner';
 import { setError } from '~/shared/ui/SnackbarAlert';
 
 import { TextCard } from './TextCard';
@@ -45,7 +44,6 @@ export const RelevantKitchen = (props: GridProps) => {
 
     return (
         <>
-            {isLoading ? <AppSpiner /> : null}
             {isError || isLoading || !rootCategory ? null : (
                 <Grid
                     templateColumns={{ base: '1fr', md: '1fr 1fr 1fr', xl: '1fr 1fr 2fr' }}

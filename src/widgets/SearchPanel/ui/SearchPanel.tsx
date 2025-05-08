@@ -17,7 +17,20 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => {
     const isSearchLoading = useSelector(selectSearchLoading);
     const isMobile = useBreakpointValue({ base: true, lg: false });
     return (
-        <Flex marginTop={{ base: '16px', lg: '32px' }} flexDirection='column' alignItems='center'>
+        <Flex
+            margin='0 auto'
+            marginTop={{ base: '16px', lg: '32px' }}
+            paddingBottom='32px'
+            marginBottom={{ lg: '24px' }}
+            flexDirection='column'
+            alignItems='center'
+            boxShadow={{
+                base: 'none',
+                lg: '0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+            }}
+            width={{ base: 'auto', lg: '576px', xl: '898px' }}
+            borderRadius='24px'
+        >
             <Heading textAlign='center' fontSize={{ base: '2xl', lg: '5xl' }}>
                 {title}
             </Heading>
@@ -49,13 +62,7 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => {
                             <SearchInput />
                         </Flex>
                         {isMobile ? null : (
-                            <Flex
-                                gap={4}
-                                marginTop={4}
-                                marginBottom={4}
-                                alignItems='start'
-                                zIndex='dropdown'
-                            >
+                            <Flex gap='16px' marginTop='16px' alignItems='start' zIndex='dropdown'>
                                 <AllergenToggle data-test-id='allergens-switcher' />
                                 <AllergenSelect data-test-id='allergens-menu-button' />
                             </Flex>

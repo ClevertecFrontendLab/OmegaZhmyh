@@ -17,6 +17,12 @@ interface AppBreadcrumbProps extends BreadcrumbProps {
     isMobile?: boolean;
 }
 
+export const ROUTES = {
+    HOME: '/',
+    THE_JUICIEST: 'the-juiciest',
+    NOT_FOUND: 'not-found',
+} as const;
+
 export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps) => {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
@@ -30,7 +36,7 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
         dispatch(closeBurger());
     };
 
-    return (
+    return pathnames[0] == ROUTES.NOT_FOUND ? null : (
         <Breadcrumb
             listProps={{ flexWrap: 'wrap' }}
             separator={<ChevronRightIcon color='blackAlpha.700' />}
@@ -46,7 +52,7 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
             <BreadcrumbItem>
                 <BreadcrumbLink
                     as={Link}
-                    to='/'
+                    to={ROUTES.HOME}
                     color={pathnames.length > 0 ? 'blackAlpha.700' : 'black'}
                     onClick={onBreadcrumbClick}
                 >
@@ -61,7 +67,7 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
 
                 switch (index) {
                     case 0:
-                        if (name == 'the-juiciest') {
+                        if (name == ROUTES.THE_JUICIEST) {
                             displayName = 'Самое сочное';
                         } else {
                             displayName = categorys.find((c) => c.category == name)?.title;

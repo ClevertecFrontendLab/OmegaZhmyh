@@ -17,8 +17,8 @@ export const NewRecipes = () => {
     const sliderOverflow = useBreakpointValue({ base: 'visible', md: 'hidden' });
     const { data: newRecipes } = useGetLatestReciperQuery();
 
-    return (
-        <Box marginTop={{ base: '32px', lg: '40px' }}>
+    return newRecipes?.data ? (
+        <Box>
             <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight='medium'>
                 Новые рецепты
             </Text>
@@ -30,25 +30,23 @@ export const NewRecipes = () => {
                     style={{ padding: '0', overflow: sliderOverflow }}
                     data-test-id='carousel'
                 >
-                    {newRecipes?.data
-                        ? [...newRecipes.data]
-                              .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
-                              ?.map((recipe, i) => (
-                                  <LinkBox key={recipe._id}>
-                                      <SwiperSlide
-                                          key={recipe._id}
-                                          style={{ maxWidth: slideWidth }}
-                                          data-test-id={`carousel-card-${i}`}
-                                      >
-                                          <NewRecipeCard recipe={recipe} />
-                                      </SwiperSlide>
-                                  </LinkBox>
-                              ))
-                        : null}
+                    {[...newRecipes.data]
+                        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+                        ?.map((recipe, i) => (
+                            <LinkBox key={recipe._id}>
+                                <SwiperSlide
+                                    key={recipe._id}
+                                    style={{ maxWidth: slideWidth }}
+                                    data-test-id={`carousel-card-${i}`}
+                                >
+                                    <NewRecipeCard recipe={recipe} />
+                                </SwiperSlide>
+                            </LinkBox>
+                        ))}
                     <SlidePrevButton />
                     <SlideNextButton />
                 </Swiper>
             </Box>
         </Box>
-    );
+    ) : null;
 };

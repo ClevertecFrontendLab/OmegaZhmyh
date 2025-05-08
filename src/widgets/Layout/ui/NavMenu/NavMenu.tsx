@@ -51,10 +51,7 @@ export const NavMenu = (props: NavMenuProps) => {
                             _hover={{ bg: 'lime.50' }}
                             data-test-id={categoryInfo.category == 'vegan' ? 'vegan-cuisine' : ''}
                         >
-                            <img
-                                src={API_BASE_IMG_URL + categoryInfo.icon}
-                                alt={categoryInfo.title}
-                            />
+                            <img src={API_BASE_IMG_URL + categoryInfo.icon} />
                             <Text flex='1' textAlign='left'>
                                 {categoryInfo.title}
                             </Text>
