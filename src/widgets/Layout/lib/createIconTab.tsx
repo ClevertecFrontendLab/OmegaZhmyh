@@ -14,7 +14,7 @@ export const createIconTab = (Icon: CustomTabProps) =>
         const styles = useMultiStyleConfig('Tabs', tabProps);
         return (
             <Tab __css={styles.tab} {...tabProps}>
-                {typeof Icon == 'string' ? (
+                {typeof Icon === 'string' ? (
                     <img width='40px' height='40px' src={Icon} />
                 ) : (
                     <Circle size='40px' bgColor={isSelected ? 'black' : 'none'}>

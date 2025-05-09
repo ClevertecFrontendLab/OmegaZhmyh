@@ -12,31 +12,53 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { selectAllRecipes } from '~/entities/Recipe/';
-import { DishesImages } from '~/shared/ui/DishesImages';
+import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
+import { setPageLoader } from '~/shared/store/app-slice';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
-import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
+import { RecipeTags } from '~/shared/ui/RecipeTags/';
+import { useErrorAlert } from '~/shared/ui/SnackbarAlert/hooks/useErrorAlert';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 import { NewRecipes } from '~/widgets/NewRecipes';
 
-import { AuthorCard } from './AuthorCard';
-import { CookingSteps } from './CookingSteps';
-import { IngredientsList } from './IngredientsList';
-import { Nutrients } from './Nutrients/';
+import { AuthorCard } from './components/AuthorCard';
+import { CookingSteps } from './components/CookingSteps';
+import { IngredientsList } from './components/IngredientsList';
+import { NutrientBlock } from './components/NutrientBlock';
 
 export const RecipePage = () => {
     const { id } = useParams();
-    const recipe = useSelector(selectAllRecipes).filter((recipe) => recipe.id === Number(id))[0];
+    const { data: recipe, isError, isLoading } = useGetRecipeByIdQuery(id as string);
+
+    const dispatch = useDispatch();
+
+    const { handleError } = useErrorAlert({
+        errorTitle: 'Ошибка сервера',
+        errorMessage: 'Попробуйте немного позже',
+    });
+
+    useEffect(() => {
+        dispatch(setPageLoader(isLoading));
+    }, [isLoading, dispatch]);
+
+    useEffect(() => {
+        handleError(isError);
+    }, [isError, handleError]);
+
+    if (!recipe) {
+        return null;
+    }
 
     const {
         title,
         description,
         time,
-        image = DishesImages['SpaghettiRollImg'],
-        category,
+        image,
+        categoriesIds,
         nutritionValue,
         ingredients,
         portions,
@@ -52,7 +74,7 @@ export const RecipePage = () => {
                 marginTop={{ base: '16px', lg: '56px' }}
             >
                 <Image
-                    src={image}
+                    src={getImgUrlPath(image)}
                     objectFit='cover'
                     borderRadius='8px'
                     width={{ base: '328px', md: '232px', lg: '353px', xl: '553px' }}
@@ -61,11 +83,12 @@ export const RecipePage = () => {
                 <VStack alignItems='stretch' justifyContent='space-between' gap='0'>
                     <Box>
                         <HStack justifyContent='space-between' alignItems='start'>
-                            <Flex gap='8px' flexDirection={{ base: 'column', md: 'row' }}>
-                                {category.map((category) => (
-                                    <KitchenTag category={category} key={category} />
-                                ))}
-                            </Flex>
+                            <RecipeTags
+                                categoriesIds={categoriesIds}
+                                bgColor='lime.50'
+                                gap='8px'
+                                flexDirection={{ base: 'column', md: 'row' }}
+                            />
                             <HStack spacing={{ base: 0, lg: 2 }}>
                                 <BookmarkBtn
                                     value={bookmarks}
@@ -92,7 +115,7 @@ export const RecipePage = () => {
                     >
                         <Tag>
                             <TagLeftIcon as={BsAlarm} boxSize={{ lg: '16px' }}></TagLeftIcon>
-                            <TagLabel>{time}</TagLabel>
+                            <TagLabel>{time + ' мин.'}</TagLabel>
                         </Tag>
                         <Flex gap={{ base: '12px', xl: '16px' }}>
                             <Button
@@ -119,7 +142,7 @@ export const RecipePage = () => {
                 maxWidth={{ base: '100%', lg: '578px', xl: '668px' }}
                 paddingX={{ base: '0px' }}
             >
-                <Nutrients nutritionValue={nutritionValue} />
+                <NutrientBlock nutritionValue={nutritionValue} />
             </Container>
             <Container
                 maxWidth={{ base: '100%', md: '604px', lg: '578px', xl: '668px' }}
@@ -129,7 +152,9 @@ export const RecipePage = () => {
                 <CookingSteps steps={steps} />
                 <AuthorCard />
             </Container>
-            <NewRecipes />
+            <Box marginTop={{ base: '40px', lg: '56px' }}>
+                <NewRecipes />
+            </Box>
         </>
     );
 };

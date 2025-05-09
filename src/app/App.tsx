@@ -1,18 +1,17 @@
 import './App.css';
 
 import { Container, Flex } from '@chakra-ui/react';
-import { Route, Routes } from 'react-router';
 
-import { JuiciestPage } from '~/pages/JuiciestPage';
-import { MainPage } from '~/pages/MainPage';
-import { RecipePage } from '~/pages/RecipePage';
-import { VeganCuisinePage } from '~/pages/VeganCuisinePage';
-import { CategoryRedirect } from '~/shared/ui/CategoryRedirect';
+import { SnackbarAlert } from '~/shared/ui/SnackbarAlert';
 import { BurgerMenu, Header, MobileFooter, NavBar, Sidebar } from '~/widgets/Layout';
+
+import { AppRoutes } from './AppRoutes';
+import { AppLoader } from './providers/appLoader';
 
 function App() {
     return (
         <>
+            <AppLoader />
             <Header />
             <Flex justifyContent={{ base: 'center', lg: 'space-between' }}>
                 <NavBar flexShrink={0} />
@@ -27,14 +26,9 @@ function App() {
                     paddingX={{ base: '16px', md: '20px' }}
                     overflow='hidden'
                 >
-                    <Routes>
-                        <Route path='/' element={<MainPage />} />
-                        <Route path='/:category' element={<CategoryRedirect />} />
-                        <Route path='/:category/:subcategory' element={<VeganCuisinePage />} />
-                        <Route path='/:category/:subcategory/:id' element={<RecipePage />} />
-                        <Route path='/the-juiciest' element={<JuiciestPage />} />
-                    </Routes>
+                    <AppRoutes />
                 </Container>
+                <SnackbarAlert />
                 <Sidebar />
                 <BurgerMenu />
             </Flex>

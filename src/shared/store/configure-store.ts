@@ -2,28 +2,32 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import { categorySlice } from '~/entities/Category/model/slice';
 import { recipeSlice } from '~/entities/Recipe/model/slice';
-import { filterReducer } from '~/features/recipe-filters';
+import { filtersSlice } from '~/features/recipe-filters';
+import { yeedaaApi } from '~/shared/api/yeedaaApi';
 import { apiSlice } from '~/shared/query/create-api';
-import { drawerReducer } from '~/widgets/Drawer';
+import { notificationSlice } from '~/shared/ui/SnackbarAlert';
+import { drawerSlice } from '~/widgets/Drawer';
 import { layoutSlice } from '~/widgets/Layout/model/slice';
 
-import appReducer, { appSlice } from './app-slice';
+import { appSlice } from './app-slice';
 
 const isProduction = false;
 
 const rootReducer = combineReducers({
-    [appSlice.name]: appReducer,
+    [appSlice.name]: appSlice.reducer,
     [recipeSlice.name]: recipeSlice.reducer,
     [categorySlice.name]: categorySlice.reducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
     [layoutSlice.name]: layoutSlice.reducer,
-    filters: filterReducer,
-    drawer: drawerReducer,
+    [filtersSlice.name]: filtersSlice.reducer,
+    [drawerSlice.name]: drawerSlice.reducer,
+    [yeedaaApi.reducerPath]: yeedaaApi.reducer,
+    [notificationSlice.name]: notificationSlice.reducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(yeedaaApi.middleware),
     devTools: !isProduction,
 });

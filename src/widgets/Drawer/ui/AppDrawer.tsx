@@ -13,30 +13,34 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+    AllergenSelect,
+    AllergenToggle,
     AuthorSelect,
     CategorySelect,
-    DrawerAllergenSelect,
-    DrawerAllergenToggle,
     MeatFilters,
     selectAllFilters,
     selectIsFiltersAvailable,
     SideDishesFilters,
 } from '~/features/recipe-filters';
-import { selectAllFiltersLabels } from '~/features/recipe-filters/model/selectors/selectAllFiltersLabels';
-import { resetDrawerFilters, setDrawerFiltersActive } from '~/features/recipe-filters/model/slice';
+import { resetFilters, setFiltersActive } from '~/features/recipe-filters/';
 import { BsFillXCircleFill } from '~/shared/ui/Icons';
 
-import { selectIsDrawerOpen } from '../model/selectIsDrawerOpen';
-import { toggleIsOpenDrawer } from '../model/slice';
+import { selectIsDrawerOpen, toggleIsOpenDrawer } from '../model/slice';
 
 export const AppDrawer = () => {
     const dispatch = useDispatch();
     const isDrawerOpen = useSelector(selectIsDrawerOpen);
     const isFindRecipeAvailable = useSelector(selectIsFiltersAvailable);
     const allFilters = useSelector(selectAllFilters);
-    const labels = useSelector(selectAllFiltersLabels);
 
     const onCloseHandler = () => dispatch(toggleIsOpenDrawer());
+    const onClearHandler = () => {
+        dispatch(resetFilters());
+    };
+    const onFindHandler = () => {
+        dispatch(setFiltersActive());
+        onCloseHandler();
+    };
 
     return (
         <Drawer
@@ -68,8 +72,8 @@ export const AppDrawer = () => {
                     <MeatFilters />
                     <SideDishesFilters />
                     <Box>
-                        <DrawerAllergenToggle />
-                        <DrawerAllergenSelect />
+                        <AllergenToggle isDrawerFilter={true} />
+                        <AllergenSelect isDrawerFilter={true} />
                     </Box>
                     <Flex
                         flexWrap='wrap'
@@ -86,14 +90,14 @@ export const AppDrawer = () => {
                                 color='lime.600'
                                 data-test-id='filter-tag'
                             >
-                                {labels[filter]}
+                                {filter}
                             </Tag>
                         ))}
                     </Flex>
                     <Flex gap='8px'>
                         <Button
                             data-test-id='clear-filter-button'
-                            onClick={() => dispatch(resetDrawerFilters())}
+                            onClick={onClearHandler}
                             variant='outline'
                             color='blackAlpha.800'
                             backgroundColor='whiteAlpha.100'
@@ -104,10 +108,7 @@ export const AppDrawer = () => {
                         </Button>
                         <Button
                             data-test-id='find-recipe-button'
-                            onClick={() => {
-                                dispatch(setDrawerFiltersActive());
-                                onCloseHandler();
-                            }}
+                            onClick={onFindHandler}
                             isDisabled={!isFindRecipeAvailable}
                             pointerEvents={isFindRecipeAvailable ? 'auto' : 'none'}
                             variant='solid'

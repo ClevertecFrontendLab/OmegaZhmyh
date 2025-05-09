@@ -54,7 +54,7 @@ const navbarVariant = definePartsStyle((props) => {
 });
 
 const mobileFooterVariant = definePartsStyle((props) => {
-    const { colorScheme: c } = props; // extract colorScheme from component props
+    const { colorScheme: c } = props;
 
     return {
         tab: {
@@ -84,32 +84,9 @@ const mobileFooterVariant = definePartsStyle((props) => {
     };
 });
 
-const subcategoryTabsVariant = definePartsStyle((props) => {
-    const { colorScheme: c } = props; // extract colorScheme from component props
-
-    return {
-        tab: {
-            borderBottom: '1px solid',
-            borderColor: 'blackAlpha.200',
-            _activeLink: {
-                borderBottom: '2px solid',
-                color: `${c}.600`,
-                borderColor: `${c}.600`,
-            },
-        },
-        tablist: {
-            justifyContent: 'center',
-            whiteSpace: 'nowrap',
-            color: `${c}.800`,
-            border: 'none',
-        },
-    };
-});
-
 const variants = {
     navbar: navbarVariant,
     mobileFooter: mobileFooterVariant,
-    subcategoryNavTabs: subcategoryTabsVariant,
 };
-// export the component theme
+
 export const tabsTheme = defineMultiStyleConfig({ baseStyle, variants });

@@ -9,27 +9,29 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
-import { selectAllCategories } from '~/entities/Category/';
-import { selectAllRecipes } from '~/entities/Recipe';
+import { selectAllCategories } from '~/entities/Category';
+import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
+import { ROUTES } from '~/shared/config/routes';
 import { closeBurger } from '~/widgets/Layout';
 
-interface AppBreadcrumbProps extends BreadcrumbProps {
+type AppBreadcrumbProps = BreadcrumbProps & {
     isMobile?: boolean;
-}
+};
 
 export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps) => {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
     const categorys = useSelector(selectAllCategories);
-    const allRecipes = useSelector(selectAllRecipes);
     const isMobileResolution = useBreakpointValue({ base: true, lg: false });
     const dispatch = useDispatch();
+
+    const { data: recipe } = useGetRecipeByIdQuery(pathnames[2], { skip: !pathnames[2] });
 
     const onBreadcrumbClick = () => {
         dispatch(closeBurger());
     };
 
-    return (
+    return pathnames[0] === ROUTES.NOT_FOUND ? null : (
         <Breadcrumb
             listProps={{ flexWrap: 'wrap' }}
             separator={<ChevronRightIcon color='blackAlpha.700' />}
@@ -45,7 +47,7 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
             <BreadcrumbItem>
                 <BreadcrumbLink
                     as={Link}
-                    to='/'
+                    to={ROUTES.HOME}
                     color={pathnames.length > 0 ? 'blackAlpha.700' : 'black'}
                     onClick={onBreadcrumbClick}
                 >
@@ -53,23 +55,24 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
                 </BreadcrumbLink>
             </BreadcrumbItem>
 
-            {pathnames.map((name, index, [category, _subcategory, _recipe]) => {
+            {pathnames.map((name, index) => {
                 const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
                 const isLast = index === pathnames.length - 1;
-                let displayName: string;
+                let displayName: string | undefined;
 
                 switch (index) {
                     case 0:
-                        displayName = categorys[name].label;
+                        if (name === ROUTES.THE_JUICIEST) {
+                            displayName = 'Самое сочное';
+                        } else {
+                            displayName = categorys.find((c) => c.category === name)?.title;
+                        }
                         break;
                     case 1:
-                        displayName =
-                            categorys[category].subcategory.find((sub) => sub.name == name)
-                                ?.label ?? name;
+                        displayName = categorys.find((sub) => sub.category === name)?.title;
                         break;
                     case 2:
-                        displayName =
-                            allRecipes.find((recipe) => recipe.id == +name)?.title ?? name;
+                        displayName = recipe?.title ?? name;
                         break;
                     default:
                         displayName = name;

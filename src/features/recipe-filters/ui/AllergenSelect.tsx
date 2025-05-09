@@ -3,29 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MultiSelect } from '~/shared/ui/MultiSelect';
 import { selectIsDrawerOpen } from '~/widgets/Drawer';
 
-import { selectCustomAllergen } from '../model/selectors/alergens/selectCustomAllergen';
-import { selectIsExcluding } from '../model/selectors/alergens/selectIsExcluding';
-import { selectSelectedAllergens } from '../model/selectors/alergens/selectSelectedAllergens';
+import { selectAllergenFilters } from '../model/slice';
+import { selectFiltersOptions } from '../model/slice';
 import { addCustomAllergen, setCustomAllergenInput, toggleAllergen } from '../model/slice';
 
-const ALLERGEN_OPTIONS = [
-    { label: 'Молочные продукты', name: 'моло' },
-    { label: 'Яйцо', name: 'яйцо' },
-    { label: 'Моллюски', name: '' },
-    { label: 'Рыба', name: 'рыб' },
-    { label: 'Орехи', name: 'орех' },
-    { label: 'Томат (помидор)', name: 'томат' },
-    { label: 'Цитрусовые', name: 'цитрус' },
-    { label: 'Клубника (ягоды)', name: 'клубни' },
-    { label: 'Шоколад', name: 'шоколад' },
-];
+type AllergenSelectProps = {
+    isDrawerFilter?: boolean;
+};
 
-export const AllergenSelect = () => {
+export const AllergenSelect = ({ isDrawerFilter = false }: AllergenSelectProps) => {
     const dispatch = useDispatch();
-    const isExcluding = useSelector(selectIsExcluding);
-    const selectedAllergens = useSelector(selectSelectedAllergens);
-    const customAllergen = useSelector(selectCustomAllergen);
+    const { isExcluding, selectedAllergens, customAllergen } = useSelector(selectAllergenFilters);
     const isDrawerOpen = useSelector(selectIsDrawerOpen);
+    const { allergenOptions } = useSelector(selectFiltersOptions);
 
     const onToggleAllergen = (allergen: string) => dispatch(toggleAllergen(allergen));
     const onSetCustomAllergenInput = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -39,7 +29,7 @@ export const AllergenSelect = () => {
 
     return (
         <MultiSelect
-            allergensOptions={ALLERGEN_OPTIONS}
+            allergensOptions={allergenOptions}
             selectedAllergens={selectedAllergens}
             onToggleAllergen={onToggleAllergen}
             onSetCustomAllergenInput={onSetCustomAllergenInput}
@@ -48,7 +38,7 @@ export const AllergenSelect = () => {
             isDrawerOpen={isDrawerOpen}
             isExcluding={isExcluding}
             customAllergen={customAllergen}
-            isDrawerFilter={false}
+            isDrawerFilter={isDrawerFilter}
         />
     );
 };

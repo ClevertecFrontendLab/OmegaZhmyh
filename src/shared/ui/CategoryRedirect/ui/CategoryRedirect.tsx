@@ -1,19 +1,15 @@
 import { useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router';
 
-import { selectAllCategories } from '~/entities/Category';
+import { selectMainCategories } from '~/entities/Category';
 
 export const CategoryRedirect = () => {
     const { category } = useParams();
-    const categories = useSelector(selectAllCategories);
+    const categories = useSelector(selectMainCategories);
+    const mainCategory = categories.find((c) => c.category === category);
+    const firstSubcategory = mainCategory?.subCategories[0]?.category;
 
-    if (!category || !categories[category]) {
-        return <Navigate to='/' replace />;
-    }
-
-    const firstSubcategory = categories[category].subcategory[0]?.name;
-
-    if (!firstSubcategory) {
+    if (!category || !mainCategory || !firstSubcategory) {
         return <Navigate to='/' replace />;
     }
 

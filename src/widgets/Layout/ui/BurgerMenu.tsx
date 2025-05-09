@@ -1,19 +1,25 @@
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { MODAL_VARIANT } from '~/shared/config/chakra-variants';
 import { AppBreadcrumb } from '~/shared/ui/AppBreadcrumb';
 
-import { selectIsBurgerOpen } from '../model/selectors/selectIsBurgerOpen';
+import { selectIsBurgerOpen } from '../model/slice';
 import { closeBurger } from '../model/slice';
 import { NavFooter } from './NavFooter';
-import { NavMenu } from './NavMenu';
+import { NavMenu } from './NavMenu/NavMenu';
 
 export const BurgerMenu = () => {
     const dispatch = useDispatch();
     const isOpen = useSelector(selectIsBurgerOpen);
     const onCloseHandler = () => dispatch(closeBurger());
     return (
-        <Modal isOpen={isOpen} onClose={onCloseHandler} variant='burger'>
+        <Modal
+            isOpen={isOpen}
+            onClose={onCloseHandler}
+            variant={MODAL_VARIANT}
+            closeOnOverlayClick={true}
+        >
             <ModalOverlay />
             <ModalContent transitionDuration='100ms'>
                 <ModalBody bgColor='rgba(0, 0, 0, 0)'>

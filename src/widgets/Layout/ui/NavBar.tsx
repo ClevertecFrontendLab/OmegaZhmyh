@@ -1,7 +1,7 @@
 import { Flex, useBreakpointValue } from '@chakra-ui/react';
 
 import { NavFooter } from './NavFooter';
-import { NavMenu } from './NavMenu';
+import { NavMenu } from './NavMenu/NavMenu';
 
 export const NavBar = ({ ...props }) => {
     const isMobile = useBreakpointValue({ base: true, lg: false });

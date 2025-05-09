@@ -1,6 +1,10 @@
-export { selectAllCategories } from './model/selectors/selectAllCategories';
-export { selectCategoryLabels } from './model/selectors/selectCategoryLabels';
-export { selectPageCategory } from './model/selectors/selectPageCategory';
-export { selectPageSubcategory } from './model/selectors/selectPageSubcategory';
+export {
+    selectAllCategories,
+    selectCategoryById,
+    selectMainCategories,
+    selectRecipeSubCategories,
+    selectSubCategories,
+} from './model/slice';
 export { categoryReducer } from './model/slice';
-export { setPageCategory, setPageSubcategory } from './model/slice';
+export { setCategories } from './model/slice';
+export type { MainCategory, SubCategory } from './types';

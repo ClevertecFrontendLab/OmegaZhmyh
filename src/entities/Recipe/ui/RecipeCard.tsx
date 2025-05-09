@@ -8,71 +8,50 @@ import {
     HStack,
     IconButton,
     Image,
-    SystemProps,
     Text,
     VStack,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { AvatarImagesType } from '~/shared/ui/AvatarImages';
+import { selectCategoryById, selectRecipeSubCategories } from '~/entities/Category';
+import { selectSearch } from '~/features/recipe-filters';
 import { BsBookmarkHeart } from '~/shared/ui/Icons';
-import { KitchenTag } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
-import { Recomendation } from '~/shared/ui/Recomendation';
+import { RecipeTags } from '~/shared/ui/RecipeTags/';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
-import { selectRecipeQuery } from '../model/selectors/selectRecipeQuery';
-import { RecipeType } from '../model/types';
+import { Recipe } from '../types';
+export type RecipeCardProps = {
+    recipe: Recipe;
+    cardLinkId?: number;
+};
 
-export interface RecipeCardType {
-    recipe: RecipeType;
-    tagColor?: string;
-    recomendationLabel?: string;
-    recomendationIcon?: AvatarImagesType;
-    direction?: SystemProps['flexDirection'];
-    cardLink: number;
-}
-
-export const RecipeCard = (props: RecipeCardType) => {
-    const {
-        recomendationLabel,
-        recomendationIcon = 'AlexCookImg',
-        direction = 'row',
-        tagColor,
-        recipe,
-        cardLink,
-    } = props;
-    const { bookmarks, category, description, id, image, likes, subcategory, title } = recipe;
-    const searchQuery = useSelector(selectRecipeQuery);
+export const RecipeCard = (props: RecipeCardProps) => {
+    const { searchQuery } = useSelector(selectSearch);
+    const { recipe, cardLinkId } = props;
+    const { bookmarks, description, _id, image, likes, categoriesIds, title } = recipe;
+    const subcategory = useSelector(selectRecipeSubCategories(categoriesIds));
+    const category = useSelector(selectCategoryById(subcategory?.rootCategoryId));
 
     return (
-        <Card direction={direction} variant='outline' overflow='hidden' borderRadius='8px'>
+        <Card direction='row' variant='outline' overflow='hidden' borderRadius='8px'>
             <Box position='relative'>
                 <Image
                     objectFit='cover'
-                    src={image}
+                    src={getImgUrlPath(image)}
                     alt='Caffe Latte'
                     width={{ base: '158px', lg: '346px' }}
                     height={{ base: '128px', lg: '244px' }}
                 />
-                <KitchenTag
-                    category={category[0]}
-                    color={tagColor}
+                <RecipeTags
+                    categoriesIds={categoriesIds}
+                    bgColor='lime.50'
                     position='absolute'
                     left='8px'
                     top='8px'
                     display={{ lg: 'none', base: 'flex' }}
                 />
-                {recomendationLabel ? (
-                    <Recomendation
-                        avatar={recomendationIcon}
-                        userName={recomendationLabel}
-                        position='absolute'
-                        left='24px'
-                        bottom='20px'
-                        display={{ base: 'none', lg: 'inline-flex' }}
-                    />
-                ) : null}
             </Box>
 
             <CardBody padding={{ base: '8px 8px 4px 24px', lg: '20px 24px' }}>
@@ -84,9 +63,9 @@ export const RecipeCard = (props: RecipeCardType) => {
                 >
                     <Box>
                         <HStack spacing={8.5} justifyContent='space-between'>
-                            <KitchenTag
-                                category={category[0]}
-                                color={tagColor}
+                            <RecipeTags
+                                categoriesIds={categoriesIds}
+                                bgColor='lime.50'
                                 display={{ lg: 'flex', base: 'none' }}
                             />
                             <HStack spacing={2}>
@@ -154,8 +133,8 @@ export const RecipeCard = (props: RecipeCardType) => {
                             border='1px solid black'
                             _hover={{ color: 'black', bgColor: 'white' }}
                             as={Link}
-                            to={`/${category[0]}/${subcategory[0]}/${id}`}
-                            data-test-id={`card-link-${cardLink}`}
+                            to={`/${category?.category}/${subcategory?.category}/${_id}`}
+                            data-test-id={`card-link-${cardLinkId}`}
                         >
                             Готовить
                         </Button>

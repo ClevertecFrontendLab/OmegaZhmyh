@@ -1,24 +1,50 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { CookingBlog } from '~/entities/CookingBlog';
-import { selectIsSearchActive } from '~/features/recipe-filters/model/selectors/search/selectIsSearchActive';
-import { selectCountSearchedRecipes } from '~/features/recipe-filters/model/selectors/search/setCountSearchedRecipes';
+import { selectCountSearchedRecipes } from '~/features/recipe-filters';
+import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
+import { setPageLoader } from '~/shared/store/app-slice';
+import { RecipeCardList } from '~/shared/ui/RecipeCardList';
+import { setError } from '~/shared/ui/SnackbarAlert';
+import { CookingBlogs } from '~/widgets/CookingBlogs';
+import { FoundRecipes } from '~/widgets/foundRecipes';
 import { NewRecipes } from '~/widgets/NewRecipes';
-import { RecipeCardList } from '~/widgets/RecipeCardList';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
 
 export const MainPage = () => {
-    const isEmpty = useSelector(selectCountSearchedRecipes) === 0;
-    const isSearchActive = useSelector(selectIsSearchActive);
+    const dispatch = useDispatch();
+
+    const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
+
+    const { data, isError, isLoading } = useGetRecipesQuery({
+        page: 1,
+        limit: 8,
+        sortBy: 'likes',
+        sortOrder: 'desc',
+    });
+    const theJuiciestRecipes = data?.data;
+
+    useEffect(() => {
+        if (isError) {
+            dispatch(
+                setError({
+                    title: 'Не удалось загрузить самые сочные рецепты',
+                    message: 'Попробуйте поискать снова попозже',
+                }),
+            );
+        }
+        dispatch(setPageLoader(isLoading));
+    }, [isError, dispatch, isLoading]);
 
     return (
         <Box>
             <SearchPanel title='Приятного аппетита!' />
-            {isEmpty && isSearchActive ? null : (
+            <FoundRecipes />
+            {countOfSearchedRecipes && countOfSearchedRecipes > 0 ? null : (
                 <>
                     <NewRecipes />
                     <Flex
@@ -30,8 +56,8 @@ export const MainPage = () => {
                             Самое сочное
                         </Text>
                         <Box
-                            display={{ base: 'none', lg: 'flex' }}
-                            visibility={{ base: 'hidden', lg: 'visible' }}
+                            display={{ base: 'none', md: 'flex' }}
+                            visibility={{ base: 'hidden', md: 'visible' }}
                             data-test-id='juiciest-link'
                         >
                             <Link to='/the-juiciest'>
@@ -50,14 +76,15 @@ export const MainPage = () => {
                         </Box>
                     </Flex>
                     <RecipeCardList
+                        recipes={theJuiciestRecipes}
                         columns={{ base: 1, xl: 2, lg: 1, md: 2 }}
                         columnGap={{ base: '16px', xl: '24px' }}
                         rowGap={{ base: '12px', md: '16px', xl: '24px' }}
                         mt={{ base: '12px' }}
                     />
                     <Flex
-                        display={{ base: 'flex', lg: 'none' }}
-                        visibility={{ base: 'visible', lg: 'hidden' }}
+                        display={{ base: 'flex', md: 'none' }}
+                        visibility={{ base: 'visible', md: 'hidden' }}
                         justifyContent='center'
                         data-test-id='juiciest-link-mobile'
                     >
@@ -76,93 +103,10 @@ export const MainPage = () => {
                             </Button>
                         </Link>
                     </Flex>
-                    <Box
-                        bgColor='lime.300'
-                        padding={{ base: '12px', lg: '24px' }}
-                        marginTop={{ base: '32px', lg: '40px' }}
-                        borderRadius={16}
-                    >
-                        <Flex justifyContent='space-between'>
-                            <Text fontSize={{ base: '2xl' }} fontWeight='medium' lineHeight='32px'>
-                                Кулинарные блоги
-                            </Text>
-                            <Button
-                                rightIcon={<ArrowForwardIcon />}
-                                variant='ghost'
-                                fontSize='xl'
-                                fontWeight='semibold'
-                                display={{ base: 'none', lg: 'flex' }}
-                                _hover={{ bgColor: 'lime.50' }}
-                            >
-                                Все авторы
-                            </Button>
-                        </Flex>
-                        <Flex
-                            gap={{ base: '12px', lg: '16px' }}
-                            marginTop={{ base: '12px', lg: '24px' }}
-                            flexDirection={{ base: 'column', md: 'row' }}
-                        >
-                            <CookingBlog
-                                userName='Елена Высоцкая'
-                                accountName='@elenapovar'
-                                avatarImg='ElenaVysotskayaImg'
-                                text='Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.'
-                            />
-                            <CookingBlog
-                                userName='Alex Cook'
-                                accountName='@funtasticooking'
-                                avatarImg='AlexCookImg'
-                                text='Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.'
-                            />
-                            <CookingBlog
-                                userName='Екатерина Константинопольская'
-                                accountName='@bake_and_pie'
-                                avatarImg='CatherineConstantinopleImg'
-                                text='Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.'
-                            />
-                        </Flex>
-                        <Button
-                            display={{ base: 'flex', lg: 'none' }}
-                            margin={{ base: '12px auto 0 auto' }}
-                            rightIcon={<ArrowForwardIcon />}
-                            variant='ghost'
-                            fontSize='xl'
-                            fontWeight='semibold'
-                            _hover={{ bgColor: 'lime:50' }}
-                        >
-                            Все авторы
-                        </Button>
-                    </Box>
+                    <CookingBlogs />
                 </>
             )}
-
-            <RelevantKitchen
-                marginTop='40px'
-                title='Веганская кухня'
-                description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.'
-                recipe1={{
-                    title: 'Картошка, тушенная с болгарским перцем и фасолью в томатном соусе',
-                    description:
-                        'Картошка, тушенная с болгарским перцем, фасолью, морковью и луком, -  вариант сытного блюда на каждый день. Фасоль в данном случае заменяет мясо, делая рагу сытным и питательным. Чтобы сократить время  приготовления, возьмём консервированную фасоль. Блюдо хоть и простое, но в полной мере наполнено ароматами и имеет выразительный вкус за счёт  добавления томатной пасты.',
-                    category: ['Вторые блюда'],
-                    likes: 1,
-                    bookmarks: 1,
-                }}
-                recipe2={{
-                    title: 'Капустные котлеты',
-                    description:
-                        'Капустные котлеты по этому рецепту получаются необычайно пышными и  невероятно вкусными. Мягкий вкус и лёгкая пряная нотка наверняка помогут сделать эти чудесные котлеты из капусты одним из ваших любимых овощных  блюд.',
-                    category: ['Вторые блюда'],
-                    likes: 2,
-                    bookmarks: 1,
-                }}
-                miniCardText1='Стейк для вегетарианцев'
-                miniCardIcon1='Вторые блюда'
-                miniCardText2='Котлеты из гречки и фасоли'
-                miniCardIcon2='Вторые блюда'
-                miniCardText3='Сырный суп с лапшой и брокколи'
-                miniCardIcon3='Первые блюда'
-            />
+            <RelevantKitchen marginTop='40px' />
         </Box>
     );
 };

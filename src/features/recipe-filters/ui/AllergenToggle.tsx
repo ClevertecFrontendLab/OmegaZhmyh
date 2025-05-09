@@ -1,14 +1,16 @@
 import { Flex, Switch, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectIsExcluding } from '../model/selectors/alergens/selectIsExcluding';
+import { selectAllergenFilters } from '../model/slice';
 import { toggleAllergenExcluding } from '../model/slice';
 
-interface AllergenToggleProps {}
+type AllergenToggleProps = {
+    isDrawerFilter?: boolean;
+};
 
-export const AllergenToggle = (_props: AllergenToggleProps) => {
+export const AllergenToggle = ({ isDrawerFilter = false }: AllergenToggleProps) => {
     const dispatch = useDispatch();
-    const isExcluding = useSelector(selectIsExcluding);
+    const { isExcluding } = useSelector(selectAllergenFilters);
 
     const toggleAllergenExcludingHandler = () => dispatch(toggleAllergenExcluding());
 
@@ -21,7 +23,7 @@ export const AllergenToggle = (_props: AllergenToggleProps) => {
                 colorScheme='lime'
                 isChecked={isExcluding}
                 onChange={toggleAllergenExcludingHandler}
-                data-test-id='allergens-switcher'
+                data-test-id={isDrawerFilter ? 'allergens-switcher-filter' : 'allergens-switcher'}
             />
         </Flex>
     );

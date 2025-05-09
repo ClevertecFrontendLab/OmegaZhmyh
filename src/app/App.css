@@ -5,6 +5,9 @@
     --mobile-footer-height: 84px;
     --sidebar-width: 280px;
     --navbar-width: 260px;
+
+    /* colors */
+    --lime-300: #bef264;
 }
 html::-webkit-scrollbar-button {
     background-color: rgba(0, 0, 0, 0);
