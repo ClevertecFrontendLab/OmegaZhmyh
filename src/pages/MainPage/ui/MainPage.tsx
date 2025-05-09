@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { selectCountSearchedRecipes, selectSearchLoading } from '~/features/recipe-filters';
-import { useGetTheJuiciestRecipeQuery } from '~/shared/api/yeedaaApi';
+import { selectCountSearchedRecipes } from '~/features/recipe-filters';
+import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 import { setError } from '~/shared/ui/SnackbarAlert';
@@ -19,14 +19,23 @@ export const MainPage = () => {
     const dispatch = useDispatch();
 
     const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
-    const isSearchLoading = useSelector(selectSearchLoading);
 
-    const { data, isError, isLoading, isSuccess } = useGetTheJuiciestRecipeQuery(1);
+    const { data, isError, isLoading } = useGetRecipesQuery({
+        page: 1,
+        limit: 8,
+        sortBy: 'likes',
+        sortOrder: 'desc',
+    });
     const theJuiciestRecipes = data?.data;
 
     useEffect(() => {
         if (isError) {
-            dispatch(setError('Не удалось загрузить самые сочные рецепты'));
+            dispatch(
+                setError({
+                    title: 'Не удалось загрузить самые сочные рецепты',
+                    message: 'Попробуйте поискать снова попозже',
+                }),
+            );
         }
         dispatch(setPageLoader(isLoading));
     }, [isError, dispatch, isLoading]);
@@ -35,7 +44,7 @@ export const MainPage = () => {
         <Box>
             <SearchPanel title='Приятного аппетита!' />
             <FoundRecipes />
-            {(countOfSearchedRecipes == 0 || isSearchLoading) && isSuccess ? (
+            {countOfSearchedRecipes && countOfSearchedRecipes > 0 ? null : (
                 <>
                     <NewRecipes />
                     <Flex
@@ -96,7 +105,7 @@ export const MainPage = () => {
                     </Flex>
                     <CookingBlogs />
                 </>
-            ) : null}
+            )}
             <RelevantKitchen marginTop='40px' />
         </Box>
     );

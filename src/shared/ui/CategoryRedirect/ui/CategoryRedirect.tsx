@@ -6,15 +6,10 @@ import { selectMainCategories } from '~/entities/Category';
 export const CategoryRedirect = () => {
     const { category } = useParams();
     const categories = useSelector(selectMainCategories);
-    const mainCategory = categories.find((c) => c.category == category);
+    const mainCategory = categories.find((c) => c.category === category);
+    const firstSubcategory = mainCategory?.subCategories[0]?.category;
 
-    if (!category || !mainCategory) {
-        return <Navigate to='/' replace />;
-    }
-
-    const firstSubcategory = mainCategory.subCategories[0]?.category;
-
-    if (!firstSubcategory) {
+    if (!category || !mainCategory || !firstSubcategory) {
         return <Navigate to='/' replace />;
     }
 

@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface LayoutState {
+export type LayoutState = {
     isBurgerOpen: boolean;
-}
+};
 
 const initialState: LayoutState = {
     isBurgerOpen: false,
@@ -19,8 +19,10 @@ export const layoutSlice = createSlice({
             state.isBurgerOpen = false;
         },
     },
-    selectors: {},
+    selectors: {
+        selectIsBurgerOpen: (state) => state.isBurgerOpen,
+    },
 });
 
 export const { toggleBurger, closeBurger } = layoutSlice.actions;
-export default layoutSlice.reducer;
+export const { selectIsBurgerOpen } = layoutSlice.selectors;

@@ -2,23 +2,20 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { FilterGroup } from '~/shared/ui/FilterGroup';
 
-import {
-    selectMeatTypeOptions,
-    selectUIMeatTypeFilter,
-} from '../model/selectors/drawerUIStateSelectors';
+import { selectFiltersOptions, selectUiState } from '../model/slice';
 import { toggleMeatType } from '../model/slice';
 
 export const MeatFilters = () => {
     const dispatch = useDispatch();
-    const meatFilters = useSelector(selectUIMeatTypeFilter);
-    const meatOptions = useSelector(selectMeatTypeOptions);
+    const { meatTypeFilters } = useSelector(selectUiState);
+    const { meatTypeOptions } = useSelector(selectFiltersOptions);
     const onChangeMeatFilter = (meatFilter: string) => {
         dispatch(toggleMeatType(meatFilter));
     };
     return (
         <FilterGroup
-            activeFilters={meatFilters}
-            filters={meatOptions}
+            activeFilters={meatTypeFilters}
+            filters={meatTypeOptions}
             onChangeFilter={onChangeMeatFilter}
             title='Тип мяса:'
         />

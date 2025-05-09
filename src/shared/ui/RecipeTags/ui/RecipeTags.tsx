@@ -1,32 +1,30 @@
 import { Flex, FlexProps } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-import { selectMainCategories, selectSubcategories } from '~/entities/Category/model/selectors';
+import { selectMainCategories, selectSubCategories } from '~/entities/Category/';
 
 import { CategoryTag } from './CategoryTag';
 
-interface RecipeTagsProps extends FlexProps {
+type RecipeTagsProps = FlexProps & {
     categoriesIds: string[];
-    limit?: number;
     bgColor: string;
-}
+    limit?: number;
+};
 
 export const RecipeTags = (props: RecipeTagsProps) => {
     const { categoriesIds, bgColor, limit = 1, ...rest } = props;
-    const subcategories = useSelector(selectSubcategories);
+    const subcategories = useSelector(selectSubCategories);
     const maincategories = useSelector(selectMainCategories);
 
     if (!categoriesIds) return null;
 
     const recipeSubcategories = subcategories.filter((sub) => categoriesIds.includes(sub._id));
 
-    // eslint-disable-next-line arrow-body-style
-    const recipeMaincategories = maincategories.filter((main) => {
-        // eslint-disable-next-line arrow-body-style
-        return main.subCategories.some((sub) => {
-            return recipeSubcategories.some((recipeSub) => recipeSub._id === sub._id);
-        });
-    });
+    const recipeMaincategories = maincategories.filter((main) =>
+        main.subCategories.some((sub) =>
+            recipeSubcategories.some((recipeSub) => recipeSub._id === sub._id),
+        ),
+    );
 
     return (
         <Flex {...rest}>

@@ -1,21 +1,29 @@
 import { Box, Flex, Heading, Text, useBreakpointValue } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-import { AllergenSelect, AllergenToggle, selectSearchLoading } from '~/features/recipe-filters';
+import {
+    AllergenSelect,
+    AllergenToggle,
+    selectCountSearchedRecipes,
+    selectSearchLoading,
+} from '~/features/recipe-filters';
 import { SearchInput } from '~/features/recipe-filters';
 import { AppSpiner } from '~/shared/ui/AppSpiner';
 import { AppDrawer } from '~/widgets/Drawer';
 
 import { DrawerToggle } from './AppDrawerToggle';
 
-interface SearchPanelProps {
+type SearchPanelProps = {
     title?: string;
     desc?: string;
-}
+};
 
 export const SearchPanel = ({ title, desc }: SearchPanelProps) => {
     const isSearchLoading = useSelector(selectSearchLoading);
     const isMobile = useBreakpointValue({ base: true, lg: false });
+    const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
+    const isResultOfSearchEmpty = countOfSearchedRecipes === 0;
+
     return (
         <Flex
             margin='0 auto'
@@ -28,12 +36,20 @@ export const SearchPanel = ({ title, desc }: SearchPanelProps) => {
                 base: 'none',
                 lg: '0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(0, 0, 0, 0.1)',
             }}
-            width={{ base: 'auto', lg: '576px', xl: '898px' }}
+            width={{ base: '100%', lg: '576px', xl: '898px' }}
             borderRadius='24px'
         >
-            <Heading textAlign='center' fontSize={{ base: '2xl', lg: '5xl' }}>
-                {title}
-            </Heading>
+            {isResultOfSearchEmpty ? (
+                <Heading textAlign='center' fontSize='md'>
+                    По вашему запросу ничего не найдено.
+                    <br />
+                    Попробуйте другой запрос
+                </Heading>
+            ) : (
+                <Heading textAlign='center' fontSize={{ base: '2xl', lg: '5xl' }}>
+                    {title}
+                </Heading>
+            )}
             {isSearchLoading ? (
                 <Box data-test-id='loader-search-block'>
                     <AppSpiner />

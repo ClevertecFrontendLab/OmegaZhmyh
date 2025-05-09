@@ -16,12 +16,12 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { IngredientType } from '~/shared/api/types';
+import { IngredientType } from '~/entities/Recipe/types';
 
-interface IngredientsListProps {
-    portions?: number;
+type IngredientsListProps = {
     ingredients: IngredientType[];
-}
+    portions?: number;
+};
 
 export const IngredientsList = ({ ingredients, portions = 1 }: IngredientsListProps) => {
     const [numberOfServings, setNumberOfServings] = useState(portions);

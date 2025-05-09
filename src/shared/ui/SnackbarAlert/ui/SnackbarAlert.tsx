@@ -1,17 +1,16 @@
 import { Alert, AlertIcon, Box, CloseButton, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { clearError } from '../model/notificationSlice';
-import { selectNotification } from '../model/selectors';
+import { clearError, selectError } from '../model/notificationSlice';
 
 export const SnackbarAlert = () => {
-    const { error } = useSelector(selectNotification);
+    const { errorTitle, errorMessage } = useSelector(selectError);
     const dispatch = useDispatch();
     const onClose = () => {
         dispatch(clearError());
     };
 
-    return error ? (
+    return errorTitle && errorMessage ? (
         <Alert
             status='error'
             position='fixed'
@@ -31,8 +30,8 @@ export const SnackbarAlert = () => {
         >
             <AlertIcon />
             <Box>
-                <Text fontWeight='medium'>{error}</Text>
-                <Text>Попробуйте поискать снова попозже</Text>
+                <Text fontWeight='medium'>{errorTitle}</Text>
+                <Text>{errorMessage}</Text>
             </Box>
             <CloseButton
                 alignSelf='flex-start'

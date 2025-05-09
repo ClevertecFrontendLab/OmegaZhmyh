@@ -3,30 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MultiSelect } from '~/shared/ui/MultiSelect';
 import { selectIsDrawerOpen } from '~/widgets/Drawer';
 
-import { selectAllergenOptions, selectDrawerAllergens } from '../model/selectors/alergenSelectors';
-import { selectDrawerCustomAllergen } from '../model/selectors/alergenSelectors';
-import { selectIsDrawerExcluding } from '../model/selectors/alergenSelectors';
-import {
-    addDrawerCustomAllergen,
-    setDrawerCustomAllergenInput,
-    toggleDrawerAllergen,
-} from '../model/slice';
+import { selectAllergenFilters, selectFiltersOptions } from '../model/slice';
+import { addCustomAllergen, setCustomAllergenInput, toggleAllergen } from '../model/slice';
 
 export const DrawerAllergenSelect = () => {
     const dispatch = useDispatch();
-    const isExcluding = useSelector(selectIsDrawerExcluding);
-    const selectedAllergens = useSelector(selectDrawerAllergens);
-    const customAllergen = useSelector(selectDrawerCustomAllergen);
+    const { isExcluding, selectedAllergens, customAllergen } = useSelector(selectAllergenFilters);
     const isDrawerOpen = useSelector(selectIsDrawerOpen);
-    const allergenOptions = useSelector(selectAllergenOptions);
+    const { allergenOptions } = useSelector(selectFiltersOptions);
 
-    const onToggleAllergen = (allergen: string) => dispatch(toggleDrawerAllergen(allergen));
+    const onToggleAllergen = (allergen: string) => dispatch(toggleAllergen(allergen));
     const onSetCustomAllergenInput = (e: React.ChangeEvent<HTMLInputElement>) =>
-        dispatch(setDrawerCustomAllergenInput(e.target.value));
-    const onAddCustomAllergen = () => dispatch(addDrawerCustomAllergen());
+        dispatch(setCustomAllergenInput(e.target.value));
+    const onAddCustomAllergen = () => dispatch(addCustomAllergen());
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.code === 'Enter') {
-            dispatch(addDrawerCustomAllergen());
+            dispatch(addCustomAllergen());
         }
     };
 

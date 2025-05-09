@@ -4,9 +4,9 @@ import { NutritionValueType } from '~/entities/Recipe/types';
 
 import { Nutrient } from './Nutrient';
 
-interface NutrientBlockProps {
+type NutrientBlockProps = {
     nutritionValue: NutritionValueType;
-}
+};
 
 export const NutrientBlock = ({ nutritionValue }: NutrientBlockProps) => {
     const { calories, carbohydrates, fats, protein } = nutritionValue;

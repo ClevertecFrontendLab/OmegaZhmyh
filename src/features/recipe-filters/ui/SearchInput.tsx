@@ -1,43 +1,23 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import { IconButton, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectIsSearchActive } from '../model/selectors/searchSelectors';
-import { selectIsSearchAvailable } from '../model/selectors/searchSelectors';
-import { selectSearchQuery } from '../model/selectors/searchSelectors';
-import { selectCountSearchedRecipes } from '../model/selectors/searchSelectors';
-import { resetSearch, setSearchActive, setSearchQuery } from '../model/slice';
+import {
+    selectIsSearchAvailable,
+    selectIsSearchInputInvalid,
+    selectSearchQuery,
+} from '../model/slice';
+import { setSearchActive, setSearchQuery } from '../model/slice';
 
-interface SearchInputProps {}
-
-export const SearchInput = (_props: SearchInputProps) => {
+export const SearchInput = () => {
     const dispatch = useDispatch();
-    const [isInputInvalid, setIsInputInvalid] = useState(false);
 
     const isSearchAvailable = useSelector(selectIsSearchAvailable);
-    const isSearchActive = useSelector(selectIsSearchActive);
-    const countSearchedRecipes = useSelector(selectCountSearchedRecipes);
     const selectQuery = useSelector(selectSearchQuery);
-
-    useEffect(() => {
-        if (isSearchActive && countSearchedRecipes === 0) {
-            setIsInputInvalid(true);
-        } else {
-            setIsInputInvalid(false);
-        }
-    }, [countSearchedRecipes, dispatch, isSearchActive]);
+    const isInputInvalid = useSelector(selectIsSearchInputInvalid);
 
     const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setSearchQuery(e.target.value));
-        if (e.target.value.length === 0) {
-            dispatch(resetSearch());
-        }
-        if (e.target.value.length < 3) {
-            setIsInputInvalid(true);
-        } else {
-            setIsInputInvalid(false);
-        }
     };
 
     const handleSearchActive = () => {
@@ -51,11 +31,7 @@ export const SearchInput = (_props: SearchInputProps) => {
     };
 
     return (
-        <InputGroup
-            borderColor='blackAlpha.600'
-            size={{ base: 'sm', lg: 'lg' }}
-            _invalid={{ borderColor: 'red.500' }}
-        >
+        <InputGroup borderColor='blackAlpha.600' size={{ base: 'sm', lg: 'lg' }}>
             <Input
                 onChange={handleSearchInput}
                 onKeyDown={handleKeyDown}
@@ -66,6 +42,7 @@ export const SearchInput = (_props: SearchInputProps) => {
                 fontSize={{ base: '14px', lg: '18px' }}
                 borderRadius={4}
                 placeholder='Название или ингредиент...'
+                _invalid={{ borderColor: 'red.500' }}
                 _placeholder={{ color: 'lime.800', fontSize: { md: '14px', lg: '18px' } }}
                 data-test-id='search-input'
             />

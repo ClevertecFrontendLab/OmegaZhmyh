@@ -14,37 +14,32 @@ import {
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { selectMainCategories, selectSubcategories } from '~/entities/Category';
-import { API_BASE_IMG_URL } from '~/shared/config/constants';
+import { selectCategoryById, selectRecipeSubCategories } from '~/entities/Category';
+import { selectSearch } from '~/features/recipe-filters';
 import { BsBookmarkHeart } from '~/shared/ui/Icons';
-import { RecipeTags } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
+import { RecipeTags } from '~/shared/ui/RecipeTags/';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
-import { selectRecipeQuery } from '../model/selectors';
 import { Recipe } from '../types';
-
-export interface RecipeCardProps {
+export type RecipeCardProps = {
     recipe: Recipe;
     cardLinkId?: number;
-}
+};
 
 export const RecipeCard = (props: RecipeCardProps) => {
-    const searchQuery = useSelector(selectRecipeQuery);
+    const { searchQuery } = useSelector(selectSearch);
     const { recipe, cardLinkId } = props;
     const { bookmarks, description, _id, image, likes, categoriesIds, title } = recipe;
-    const subcategory = useSelector(selectSubcategories).find((sub) =>
-        categoriesIds.includes(sub._id),
-    );
-    const category = useSelector(selectMainCategories).find(
-        (cat) => subcategory?.rootCategoryId === cat._id,
-    );
+    const subcategory = useSelector(selectRecipeSubCategories(categoriesIds));
+    const category = useSelector(selectCategoryById(subcategory?.rootCategoryId));
 
     return (
         <Card direction='row' variant='outline' overflow='hidden' borderRadius='8px'>
             <Box position='relative'>
                 <Image
                     objectFit='cover'
-                    src={API_BASE_IMG_URL + image}
+                    src={getImgUrlPath(image)}
                     alt='Caffe Latte'
                     width={{ base: '158px', lg: '346px' }}
                     height={{ base: '128px', lg: '244px' }}
@@ -57,16 +52,6 @@ export const RecipeCard = (props: RecipeCardProps) => {
                     top='8px'
                     display={{ lg: 'none', base: 'flex' }}
                 />
-                {/* {recomendationLabel ? (
-                    <Recomendation
-                        avatar={recomendationIcon}
-                        userName={recomendationLabel}
-                        position='absolute'
-                        left='24px'
-                        bottom='20px'
-                        display={{ base: 'none', lg: 'inline-flex' }}
-                    />
-                ) : null} */}
             </Box>
 
             <CardBody padding={{ base: '8px 8px 4px 24px', lg: '20px 24px' }}>

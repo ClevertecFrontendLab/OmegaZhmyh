@@ -4,24 +4,24 @@ import { Link } from 'react-router';
 
 import { selectAllCategories } from '~/entities/Category';
 import { Recipe } from '~/entities/Recipe';
-import { selectRecipeQuery } from '~/entities/Recipe/model/selectors';
-import { API_BASE_IMG_URL } from '~/shared/config/constants';
-import { RecipeTags } from '~/shared/ui/KitchenTag/';
+import { selectSearch } from '~/features/recipe-filters';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
+import { RecipeTags } from '~/shared/ui/RecipeTags/';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
-interface NewRecipeCardProps {
+type NewRecipeCardProps = {
     recipe: Recipe;
-}
+};
 
 export const NewRecipeCard = (props: NewRecipeCardProps) => {
     const { recipe } = props;
     const { bookmarks, description, image, likes, title, categoriesIds } = recipe;
-    const searchQuery = useSelector(selectRecipeQuery);
+    const { searchQuery } = useSelector(selectSearch);
     const categories = useSelector(selectAllCategories);
     const recipeCategories = categories.filter((category) => categoriesIds.includes(category._id));
     const recipeSubcategory = recipeCategories.find((cat) => 'rootCategoryId' in cat);
     const recipeMainCategory = categories.find(
-        (cat) => cat._id == recipeSubcategory?.rootCategoryId,
+        (cat) => cat._id === recipeSubcategory?.rootCategoryId,
     );
 
     return (
@@ -43,7 +43,7 @@ export const NewRecipeCard = (props: NewRecipeCardProps) => {
                         display={{ base: 'flex', lg: 'none' }}
                     />
                     <Image
-                        src={API_BASE_IMG_URL + image}
+                        src={getImgUrlPath(image)}
                         width='100%'
                         height={{ base: '128px', lg: '230px' }}
                     />
@@ -91,11 +91,8 @@ export const NewRecipeCard = (props: NewRecipeCardProps) => {
                         display={{ base: 'none', lg: 'flex' }}
                     />
                     <HStack spacing={{ base: 0, lg: 2 }}>
-                        <BookmarkBtn
-                            value={bookmarks}
-                            visibility={bookmarks ? 'visible' : 'hidden'}
-                        />
-                        <LikeBtn value={likes} visibility={likes ? 'visible' : 'hidden'} />
+                        <BookmarkBtn value={bookmarks} />
+                        <LikeBtn value={likes} />
                     </HStack>
                 </HStack>
             </CardBody>

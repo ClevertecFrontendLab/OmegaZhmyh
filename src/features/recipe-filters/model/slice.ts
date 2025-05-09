@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { initialState } from './initialState';
 import * as allergenReducers from './reducers/allergenReducers';
@@ -30,24 +30,73 @@ export const filtersSlice = createSlice({
             state.isAvailable = false;
         },
     },
+    selectors: {
+        selectIsFiltersActive: (state) => state.isActive,
+        selectIsFiltersAvailable: (state) => state.isAvailable,
+        selectUiState: (state) => state.drawerUIState,
+        selectFiltersOptions: (state) => state.filtersOptions,
+        selectAllergenFilters: (state) => state.allergens,
+        selectCurrentFilters: (state) => state.currentFilters,
+        selectSearch: (state) => state.search,
+        selectSearchQuery: (state) => state.search.searchQuery,
+        selectCountSearchedRecipes: (state) => state.search.countSearchedRecipes,
+        selectIsSearchActive: (state) => state.search.isSearchActive,
+        selectIsSearchAvailable: (state) => state.search.isSearchAvailable,
+        selectSearchLoading: (state) => state.search.isSearchLoading,
+        selectActiveSearchQuery: (state) => state.search.activeSearchQuery,
+    },
 });
+
+export const selectAllFilters = createSelector(
+    [filtersSlice.selectors.selectAllergenFilters, filtersSlice.selectors.selectUiState],
+    (
+        { selectedAllergens },
+        {
+            categoryFilters: categories,
+            meatTypeFilters: meatTypes,
+            sideDishFilters: sideDishes,
+            authorFilters: authors,
+        },
+    ) => [...selectedAllergens, ...categories, ...meatTypes, ...sideDishes, ...authors],
+);
+
+export const selectIsSearchInputInvalid = createSelector(
+    filtersSlice.selectors.selectSearchQuery,
+    filtersSlice.selectors.selectCountSearchedRecipes,
+    (search, countSearchedRecipes) =>
+        (search.length > 0 && search.length < 3) || countSearchedRecipes === 0,
+);
 
 export const {
     addCustomAllergen,
-    setCustomAllergenInput,
     toggleAllergen,
     toggleAllergenExcluding,
-    resetSearch,
-    setSearchQuery,
-    setSearchActive,
-    setFiltersActive,
     toggleCategory,
     toggleMeatType,
     toggleSideDishe,
-    resetFilters,
-    setSearchLoading,
     toggleAuthor,
+    setCustomAllergenInput,
+    setSearchQuery,
+    setSearchActive,
+    setFiltersActive,
+    setSearchLoading,
     setCountSearchedRecipes,
+    resetFilters,
+    resetSearch,
 } = filtersSlice.actions;
 
-export const { reducer: filterReducer } = filtersSlice;
+export const {
+    selectUiState,
+    selectFiltersOptions,
+    selectAllergenFilters,
+    selectCurrentFilters,
+    selectIsFiltersActive,
+    selectIsFiltersAvailable,
+    selectSearch,
+    selectActiveSearchQuery,
+    selectSearchQuery,
+    selectCountSearchedRecipes,
+    selectIsSearchActive,
+    selectIsSearchAvailable,
+    selectSearchLoading,
+} = filtersSlice.selectors;

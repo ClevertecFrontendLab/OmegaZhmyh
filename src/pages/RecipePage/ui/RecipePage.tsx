@@ -14,15 +14,15 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
-import { API_BASE_IMG_URL } from '~/shared/config/constants';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
-import { RecipeTags } from '~/shared/ui/KitchenTag';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
-import { setError } from '~/shared/ui/SnackbarAlert';
+import { RecipeTags } from '~/shared/ui/RecipeTags/';
+import { useErrorAlert } from '~/shared/ui/SnackbarAlert/hooks/useErrorAlert';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 import { NewRecipes } from '~/widgets/NewRecipes';
 
 import { AuthorCard } from './components/AuthorCard';
@@ -32,26 +32,22 @@ import { NutrientBlock } from './components/NutrientBlock';
 
 export const RecipePage = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
     const { data: recipe, isError, isLoading } = useGetRecipeByIdQuery(id as string);
 
     const dispatch = useDispatch();
+
+    const { handleError } = useErrorAlert({
+        errorTitle: 'Ошибка сервера',
+        errorMessage: 'Попробуйте немного позже',
+    });
 
     useEffect(() => {
         dispatch(setPageLoader(isLoading));
     }, [isLoading, dispatch]);
 
     useEffect(() => {
-        if (isError) {
-            dispatch(
-                setError(
-                    'Не удалось загрузить данные рецепта. Вы будете перенаправлены на предыдущую страницу.',
-                ),
-            );
-            navigate(-1);
-            return;
-        }
-    }, [dispatch, recipe, isError, navigate]);
+        handleError(isError);
+    }, [isError, handleError]);
 
     if (!recipe) {
         return null;
@@ -78,7 +74,7 @@ export const RecipePage = () => {
                 marginTop={{ base: '16px', lg: '56px' }}
             >
                 <Image
-                    src={API_BASE_IMG_URL + image}
+                    src={getImgUrlPath(image)}
                     objectFit='cover'
                     borderRadius='8px'
                     width={{ base: '328px', md: '232px', lg: '353px', xl: '553px' }}
@@ -156,7 +152,9 @@ export const RecipePage = () => {
                 <CookingSteps steps={steps} />
                 <AuthorCard />
             </Container>
-            <NewRecipes />
+            <Box marginTop={{ base: '40px', lg: '56px' }}>
+                <NewRecipes />
+            </Box>
         </>
     );
 };

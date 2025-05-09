@@ -1,22 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface DrawerState {
+export type DrawerState = {
     isDrawerOpen: boolean;
-}
+};
 
 const initialState: DrawerState = {
     isDrawerOpen: false,
 };
 
 export const drawerSlice = createSlice({
-    name: 'filters',
+    name: 'drawer',
     initialState,
     reducers: {
         toggleIsOpenDrawer(state) {
             state.isDrawerOpen = !state.isDrawerOpen;
         },
     },
+    selectors: {
+        selectIsDrawerOpen: (state) => state.isDrawerOpen,
+    },
 });
 
 export const { toggleIsOpenDrawer } = drawerSlice.actions;
-export const { reducer: drawerReducer } = drawerSlice;
+export const { selectIsDrawerOpen } = drawerSlice.selectors;

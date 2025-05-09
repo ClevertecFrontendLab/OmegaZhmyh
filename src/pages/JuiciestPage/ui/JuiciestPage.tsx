@@ -1,4 +1,4 @@
-import { Button, Flex } from '@chakra-ui/react';
+import { Button, Flex, Spinner } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,8 +6,8 @@ import { Recipe } from '~/entities/Recipe';
 import {
     selectCountSearchedRecipes,
     selectIsSearchActive,
-} from '~/features/recipe-filters/model/selectors/searchSelectors';
-import { useGetTheJuiciestRecipeQuery } from '~/shared/api/yeedaaApi';
+} from '~/features/recipe-filters/model/slice';
+import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 import { setError } from '~/shared/ui/SnackbarAlert';
@@ -19,21 +19,20 @@ export const JuiciestPage = () => {
     const [page, setPage] = useState(1);
     const [juiciestRecipes, setJuiciestRecipes] = useState<Recipe[]>([]);
     const dispatch = useDispatch();
-    const { currentData, isLoading, isFetching, isError, isSuccess } = useGetTheJuiciestRecipeQuery(
-        page,
+    const { currentData, isLoading, isFetching, isError, isSuccess } = useGetRecipesQuery(
+        {
+            page: page,
+            limit: 8,
+            sortBy: 'likes',
+            sortOrder: 'desc',
+        },
         {
             refetchOnMountOrArgChange: true,
         },
     );
 
-    /* useEffect(() => {
-        if (data?.data && isSuccess) {
-            setJuiciestRecipes([...data.data]);
-        }
-    }, []); */
-
     useEffect(() => {
-        if (currentData?.data && isSuccess && currentData.meta.page == 1) {
+        if (currentData?.data && isSuccess && currentData.meta.page === 1) {
             setJuiciestRecipes([...currentData.data]);
         } else if (currentData?.data && isSuccess) {
             setJuiciestRecipes((prev) => [...prev, ...currentData.data]);
@@ -42,7 +41,12 @@ export const JuiciestPage = () => {
 
     useEffect(() => {
         if (isError) {
-            dispatch(setError('Не удалось загрузить самые сочные рецепты'));
+            dispatch(
+                setError({
+                    title: 'Не удалось загрузить самые сочные рецепты',
+                    message: 'Попробуйте поискать снова попозже',
+                }),
+            );
         }
     }, [isError, dispatch]);
 
@@ -65,7 +69,7 @@ export const JuiciestPage = () => {
         <Flex justifyContent='center' direction='column' style={{ scrollbarGutter: 'stable' }}>
             <SearchPanel title='Самое сочное' />
             <FoundRecipes />
-            {countOfSearchedRecipes == 0 || !isSearchActive ? (
+            {countOfSearchedRecipes === 0 || !isSearchActive ? (
                 <>
                     <RecipeCardList
                         recipes={juiciestRecipes}
@@ -82,9 +86,13 @@ export const JuiciestPage = () => {
                             color='black'
                             _hover={{ bgColor: 'lime.50' }}
                             onClick={handleLoadMore}
+                            isDisabled={isFetching}
                             data-test-id='load-more-button'
                         >
-                            {isFetching ? 'Загрузка' : 'Загрузить еще'}
+                            <Flex alignItems='center' gap='8px'>
+                                {isFetching ? <Spinner boxSize='12px' /> : null}
+                                {isFetching ? 'Загрузка' : 'Загрузить еще'}
+                            </Flex>
                         </Button>
                     )}
                 </>

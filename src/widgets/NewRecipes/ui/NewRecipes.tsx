@@ -3,19 +3,22 @@ import 'swiper/swiper-bundle.css';
 import { Box, LinkBox, Text, useBreakpointValue } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { useGetLatestReciperQuery } from '~/shared/api/yeedaaApi';
+import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
 
 import { NewRecipeCard } from './NewRecipeCard';
 import { SlideNextButton } from './SlideNextButton';
 import { SlidePrevButton } from './SlidePrevButton';
 
 export const NewRecipes = () => {
-    //const newRecipes = useSelector(selectNewFiltredRecipes);
-
     const slideWidth = useBreakpointValue({ base: '153px', lg: '277px', xl: '322px' });
     const slideGap = useBreakpointValue({ base: '10px', xl: '24px' });
     const sliderOverflow = useBreakpointValue({ base: 'visible', md: 'hidden' });
-    const { data: newRecipes } = useGetLatestReciperQuery();
+    const { data: newRecipes } = useGetRecipesQuery({
+        page: 1,
+        limit: 10,
+        sortBy: 'createdAt',
+        sortOrder: 'desc',
+    });
 
     return newRecipes?.data ? (
         <Box>

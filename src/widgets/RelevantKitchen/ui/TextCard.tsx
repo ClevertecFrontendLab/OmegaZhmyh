@@ -2,12 +2,12 @@ import { Button, Grid, Text } from '@chakra-ui/react';
 
 import { MainCategory } from '~/entities/Category';
 import { Recipe } from '~/entities/Recipe';
-import { API_BASE_IMG_URL } from '~/shared/config/constants';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
-interface TextCardProps {
+type TextCardProps = {
     recipe: Recipe;
     category: MainCategory;
-}
+};
 
 export const TextCard = (props: TextCardProps) => {
     const { recipe, category } = props;
@@ -21,7 +21,7 @@ export const TextCard = (props: TextCardProps) => {
             outlineColor='blackAlpha.200'
             borderRadius='8px'
         >
-            <img src={API_BASE_IMG_URL + category.icon}></img>
+            <img src={getImgUrlPath(category.icon)}></img>
             <Text
                 fontWeight='medium'
                 fontSize={{ base: 'md', lg: 'lg' }}

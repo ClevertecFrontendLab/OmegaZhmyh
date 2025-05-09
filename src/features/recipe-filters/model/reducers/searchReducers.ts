@@ -16,10 +16,14 @@ export const setSearchActive = (state: FiltersState) => {
 export const setSearchLoading = (state: FiltersState, action: PayloadAction<boolean>) => {
     state.search.isSearchLoading = action.payload;
 };
-export const setCountSearchedRecipes = (state: FiltersState, action: PayloadAction<number>) => {
+export const setCountSearchedRecipes = (
+    state: FiltersState,
+    action: PayloadAction<number | null>,
+) => {
     state.search.countSearchedRecipes = action.payload;
 };
 export const resetSearch = (state: FiltersState) => {
     state.search.activeSearchQuery = '';
     state.search.isSearchActive = false;
+    state.search.countSearchedRecipes = null;
 };

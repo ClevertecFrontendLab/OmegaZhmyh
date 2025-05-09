@@ -1,11 +1,11 @@
 import { Tag, TagLabel, TagProps } from '@chakra-ui/react';
 
-interface CardTag extends TagProps {
+type CardTagProps = TagProps & {
     icon: string;
     label: string;
-}
+};
 
-export const CardTag = (props: CardTag) => {
+export const CardTag = (props: CardTagProps) => {
     const { icon, label, ...otherProps } = props;
     return (
         <Tag {...otherProps}>

@@ -1,4 +1,3 @@
-export { selectAllRecipes } from './model/selectors';
 export { recipeReducer } from './model/slice';
 export { setRecipes } from './model/slice';
 export type { Recipe } from './types';

@@ -8,7 +8,13 @@ const initialState = {
     error: '' as string | null,
     relevantKitchenLoading: false,
     pageLoading: false,
+    categoriesLoading: false,
 };
+
+const updateLoadingState = (state: AppState) => {
+    state.isLoading = state.relevantKitchenLoading || state.pageLoading || state.categoriesLoading;
+};
+
 export const appSlice = createSlice({
     name: 'app',
     initialState,
@@ -16,22 +22,23 @@ export const appSlice = createSlice({
         setAppError(state, { payload: error }: PayloadAction<string | null>) {
             state.error = error;
         },
-        setAppLoader(state, { payload: isLoading }: PayloadAction<boolean>) {
-            state.isLoading = isLoading;
-        },
         setRelevantKitchenLoader(state, { payload: isLoading }: PayloadAction<boolean>) {
             state.relevantKitchenLoading = isLoading;
-            state.isLoading = state.relevantKitchenLoading || state.pageLoading;
+            updateLoadingState(state);
         },
         setPageLoader(state, { payload: isLoading }: PayloadAction<boolean>) {
             state.pageLoading = isLoading;
-            state.isLoading = state.relevantKitchenLoading || state.pageLoading;
+            updateLoadingState(state);
+        },
+        setCategoriesLoading(state, { payload: isLoading }: PayloadAction<boolean>) {
+            state.categoriesLoading = isLoading;
+            updateLoadingState(state);
         },
     },
 });
 export const userLoadingSelector = (state: ApplicationState) => state.app.isLoading;
 export const userErrorSelector = (state: ApplicationState) => state.app.error;
 
-export const { setAppError, setAppLoader, setRelevantKitchenLoader, setPageLoader } =
+export const { setAppError, setRelevantKitchenLoader, setPageLoader, setCategoriesLoading } =
     appSlice.actions;
 export default appSlice.reducer;

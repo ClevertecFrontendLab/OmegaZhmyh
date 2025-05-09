@@ -1,13 +1,12 @@
 import { Box, Flex, HStack, Text } from '@chakra-ui/react';
 
-import { RecipeTags } from '~/shared/ui/KitchenTag';
+import { Recipe } from '~/entities/Recipe/types';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
+import { RecipeTags } from '~/shared/ui/RecipeTags/';
 
-import { Recipe } from '../../../entities/Recipe/types';
-
-export interface TextTagDecsCardProps {
+export type TextTagDecsCardProps = {
     recipe: Recipe;
-}
+};
 
 export const TextTagDecsCard = ({ recipe }: TextTagDecsCardProps) => {
     const { title, description, bookmarks, categoriesIds, likes } = recipe;

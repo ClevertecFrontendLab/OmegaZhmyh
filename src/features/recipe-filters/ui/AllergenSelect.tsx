@@ -3,23 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MultiSelect } from '~/shared/ui/MultiSelect';
 import { selectIsDrawerOpen } from '~/widgets/Drawer';
 
-import { selectAllergenOptions } from '../model/selectors/alergenSelectors';
-import { selectCustomAllergen } from '../model/selectors/alergenSelectors';
-import { selectIsExcluding } from '../model/selectors/alergenSelectors';
-import { selectSelectedAllergens } from '../model/selectors/alergenSelectors';
+import { selectAllergenFilters } from '../model/slice';
+import { selectFiltersOptions } from '../model/slice';
 import { addCustomAllergen, setCustomAllergenInput, toggleAllergen } from '../model/slice';
 
-interface AllergenSelectProps {
+type AllergenSelectProps = {
     isDrawerFilter?: boolean;
-}
+};
 
 export const AllergenSelect = ({ isDrawerFilter = false }: AllergenSelectProps) => {
     const dispatch = useDispatch();
-    const isExcluding = useSelector(selectIsExcluding);
-    const selectedAllergens = useSelector(selectSelectedAllergens);
-    const customAllergen = useSelector(selectCustomAllergen);
+    const { isExcluding, selectedAllergens, customAllergen } = useSelector(selectAllergenFilters);
     const isDrawerOpen = useSelector(selectIsDrawerOpen);
-    const allergenOptions = useSelector(selectAllergenOptions);
+    const { allergenOptions } = useSelector(selectFiltersOptions);
 
     const onToggleAllergen = (allergen: string) => dispatch(toggleAllergen(allergen));
     const onSetCustomAllergenInput = (e: React.ChangeEvent<HTMLInputElement>) =>

@@ -3,9 +3,9 @@ import { Box, SimpleGrid, SimpleGridProps } from '@chakra-ui/react';
 import { Recipe } from '~/entities/Recipe';
 import { RecipeCard } from '~/entities/Recipe';
 
-interface RecipeCardListProps extends SimpleGridProps {
+type RecipeCardListProps = SimpleGridProps & {
     recipes?: Recipe[];
-}
+};
 
 export const RecipeCardList = ({ recipes, ...gridProps }: RecipeCardListProps) => (
     <SimpleGrid {...gridProps}>

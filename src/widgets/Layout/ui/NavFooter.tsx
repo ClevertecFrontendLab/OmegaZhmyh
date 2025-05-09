@@ -4,7 +4,6 @@ import { BiLogOut } from '~/shared/ui/Icons';
 
 export const NavFooter = () => (
     <Stack
-        //height='var(--footer-left-height)'
         paddingX='24px'
         paddingBottom='32px'
         spacing={4}

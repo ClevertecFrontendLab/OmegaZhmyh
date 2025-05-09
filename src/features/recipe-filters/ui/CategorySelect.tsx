@@ -14,12 +14,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectMainCategories } from '~/entities/Category';
 
-import { selectCategoryFilter } from '../model/selectors/drawerUIStateSelectors';
+import { selectUiState } from '../model/slice';
 import { toggleCategory } from '../model/slice';
 
 export const CategorySelect = () => {
     const dispatch = useDispatch();
-    const categoryFilters = useSelector(selectCategoryFilter);
+    const { categoryFilters } = useSelector(selectUiState);
     const mainCategories = useSelector(selectMainCategories);
 
     const onCheckCategory = (category: string) => {

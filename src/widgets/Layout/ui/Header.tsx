@@ -9,8 +9,7 @@ import { AppBreadcrumb } from '~/shared/ui/AppBreadcrumb';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 import { UserCard } from '~/shared/ui/UserCard';
 
-import { selectIsBurgerOpen } from '../model/selectors/selectIsBurgerOpen';
-import { toggleBurger } from '../model/slice';
+import { selectIsBurgerOpen, toggleBurger } from '../model/slice';
 
 export const Header = () => {
     const dispatch = useDispatch();

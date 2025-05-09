@@ -1,41 +1,41 @@
-export interface AllergenState {
+export type AllergenState = {
     isExcluding: boolean;
     selectedAllergens: string[];
     customAllergen: string;
-}
+};
 
-export interface SearchState {
+export type SearchState = {
     searchQuery: string;
     activeSearchQuery: string;
     isSearchAvailable: boolean;
     isSearchLoading: boolean;
     isSearchActive: boolean;
-    countSearchedRecipes: number;
-}
+    countSearchedRecipes: number | null;
+};
 
-export interface DrawerState {
-    meatTypes: string[];
-    sideDishes: string[];
-    categories: string[];
-    authors: string[];
-}
+export type DrawerState = {
+    meatTypeFilters: string[];
+    sideDishFilters: string[];
+    categoryFilters: string[];
+    authorFilters: string[];
+};
 
-export interface LabalState {
+export type LabalState = {
     name: string;
     label: string;
-}
+};
 
-export interface FiltersState {
+export type FiltersState = {
     isActive: boolean;
     isAvailable: boolean;
     currentFilters: DrawerState;
     drawerUIState: DrawerState;
-    options: {
-        allergenFilters: string[];
-        sideDishFilters: string[];
-        meatTypeFilters: string[];
-        authorFilters: string[];
+    filtersOptions: {
+        allergenOptions: string[];
+        sideDishOptions: string[];
+        meatTypeOptions: string[];
+        authorOptions: string[];
     };
     search: SearchState;
     allergens: AllergenState;
-}
+};

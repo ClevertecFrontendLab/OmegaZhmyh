@@ -1,1 +1,1 @@
-export { CardTag } from './ui/CardTag';
+export { CardTagProps as CardTag } from './ui/CardTag';

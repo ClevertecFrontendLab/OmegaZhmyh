@@ -3,10 +3,10 @@ import { TagProps } from '@chakra-ui/react';
 import { AvatarImages, AvatarImagesType } from '~/shared/ui/AvatarImages';
 import { CardTag } from '~/shared/ui/CardTag';
 
-interface RecomendationProps extends TagProps {
+type RecomendationProps = TagProps & {
     avatar: AvatarImagesType;
     userName: string;
-}
+};
 
 export const Recomendation = (props: RecomendationProps) => {
     const { avatar, userName, ...otherProps } = props;

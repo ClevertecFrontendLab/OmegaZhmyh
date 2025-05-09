@@ -1,11 +1,11 @@
 import { Checkbox, Text, VStack } from '@chakra-ui/react';
 
-interface FilterGroupProps {
+type FilterGroupProps = {
     filters: string[];
     activeFilters: string[];
     onChangeFilter: (filter: string) => void;
     title: string;
-}
+};
 
 export const FilterGroup = ({
     activeFilters,

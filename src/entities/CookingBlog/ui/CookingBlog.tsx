@@ -3,12 +3,12 @@ import { Box, BoxProps, Text } from '@chakra-ui/react';
 import { AvatarImagesType } from '~/shared/ui/AvatarImages';
 import { UserCard } from '~/shared/ui/UserCard';
 
-interface CookingBlogProps extends BoxProps {
+type CookingBlogProps = BoxProps & {
     userName: string;
     accountName: string;
     avatarImg: AvatarImagesType;
     text: string;
-}
+};
 
 export const CookingBlog = ({
     text,

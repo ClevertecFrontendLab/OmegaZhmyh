@@ -2,8 +2,8 @@ import { Grid, GridItem, GridProps } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectMainCategories, selectSubcategories } from '~/entities/Category';
-import { useGetRelevantRecipeQuery } from '~/shared/api/yeedaaApi';
+import { selectMainCategories, selectSubCategories } from '~/entities/Category';
+import { useGetRecipeBySubategoryQuery } from '~/shared/api/yeedaaApi';
 import { setRelevantKitchenLoader } from '~/shared/store/app-slice';
 import { setError } from '~/shared/ui/SnackbarAlert';
 
@@ -13,7 +13,7 @@ import { TextTagDecsCard } from './TextTagDecsCard';
 export const RelevantKitchen = (props: GridProps) => {
     const dispatch = useDispatch();
 
-    const subcategories = useSelector(selectSubcategories);
+    const subcategories = useSelector(selectSubCategories);
     const maincategories = useSelector(selectMainCategories);
 
     const rundomSubcategoryIndex = useRef(Math.floor(Math.random() * subcategories.length)).current;
@@ -22,14 +22,25 @@ export const RelevantKitchen = (props: GridProps) => {
     const rootCategoryId = rundomSubcategory?.rootCategoryId;
     const rootCategory = maincategories.find((category) => category._id === rootCategoryId);
 
-    const { data, isError, isLoading } = useGetRelevantRecipeQuery(rundomSubcategory?._id, {
-        skip: !rundomSubcategory,
-    });
+    const { data, isError, isLoading } = useGetRecipeBySubategoryQuery(
+        {
+            subcategoryId: rundomSubcategory?._id ?? '',
+            limit: 5,
+        },
+        {
+            skip: !rundomSubcategory,
+        },
+    );
     const recipes = data?.data;
 
     useEffect(() => {
         if (isError) {
-            dispatch(setError('Ошибка сервера'));
+            dispatch(
+                setError({
+                    title: 'Ошибка сервера',
+                    message: 'Попробуйте поискать снова попозже',
+                }),
+            );
         }
     }, [dispatch, isError]);
 
@@ -37,7 +48,6 @@ export const RelevantKitchen = (props: GridProps) => {
         dispatch(setRelevantKitchenLoader(isLoading));
     }, [isLoading, dispatch]);
 
-    // Если нет данных о категориях, не рендерим компонент
     if (!subcategories.length || !maincategories.length) {
         return null;
     }

@@ -3,11 +3,11 @@ import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react'
 import SergeyImg from '~/shared/assets/avatar_img/@serge25.png';
 import { BsPeople, BsPersonPlusFill } from '~/shared/ui/Icons';
 
-interface AuthorCardProps {
+type AuthorCardProps = {
     image?: string;
     name?: string;
     accountName?: string;
-}
+};
 
 export const AuthorCard = (props: AuthorCardProps) => {
     const { name = 'Сергей Разумов', image = SergeyImg, accountName = '@serge25' } = props;

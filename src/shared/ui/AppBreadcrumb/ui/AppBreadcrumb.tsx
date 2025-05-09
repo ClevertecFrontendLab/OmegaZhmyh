@@ -11,17 +11,12 @@ import { Link, useLocation } from 'react-router';
 
 import { selectAllCategories } from '~/entities/Category';
 import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
+import { ROUTES } from '~/shared/config/routes';
 import { closeBurger } from '~/widgets/Layout';
 
-interface AppBreadcrumbProps extends BreadcrumbProps {
+type AppBreadcrumbProps = BreadcrumbProps & {
     isMobile?: boolean;
-}
-
-export const ROUTES = {
-    HOME: '/',
-    THE_JUICIEST: 'the-juiciest',
-    NOT_FOUND: 'not-found',
-} as const;
+};
 
 export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps) => {
     const location = useLocation();
@@ -36,7 +31,7 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
         dispatch(closeBurger());
     };
 
-    return pathnames[0] == ROUTES.NOT_FOUND ? null : (
+    return pathnames[0] === ROUTES.NOT_FOUND ? null : (
         <Breadcrumb
             listProps={{ flexWrap: 'wrap' }}
             separator={<ChevronRightIcon color='blackAlpha.700' />}
@@ -67,14 +62,14 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
 
                 switch (index) {
                     case 0:
-                        if (name == ROUTES.THE_JUICIEST) {
+                        if (name === ROUTES.THE_JUICIEST) {
                             displayName = 'Самое сочное';
                         } else {
-                            displayName = categorys.find((c) => c.category == name)?.title;
+                            displayName = categorys.find((c) => c.category === name)?.title;
                         }
                         break;
                     case 1:
-                        displayName = categorys.find((sub) => sub.category == name)?.title;
+                        displayName = categorys.find((sub) => sub.category === name)?.title;
                         break;
                     case 2:
                         displayName = recipe?.title ?? name;

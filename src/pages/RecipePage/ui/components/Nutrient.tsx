@@ -1,10 +1,10 @@
 import { Box, SimpleGrid, Text } from '@chakra-ui/react';
 
-interface NutrientProps {
+type NutrientProps = {
     title: string;
     value: number;
     measureUnit: string;
-}
+};
 
 export const Nutrient = (nutrient: NutrientProps) => {
     const { title, value, measureUnit } = nutrient;

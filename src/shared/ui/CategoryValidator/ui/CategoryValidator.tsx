@@ -4,13 +4,17 @@ import { useNavigate, useParams } from 'react-router';
 
 import { selectAllCategories } from '~/entities/Category';
 import { MainCategory } from '~/entities/Category/types';
+import { userLoadingSelector } from '~/shared/store/app-slice';
 
-export const CategoryValidator = () => {
+export const CategoryValidator = ({ children }: { children: React.ReactNode }) => {
     const { category, subcategory } = useParams();
     const categories = useSelector(selectAllCategories);
+    const isLoading = useSelector(userLoadingSelector);
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (isLoading || !categories.length) return;
+
         const mainCategory = categories.find(
             (cat): cat is MainCategory => 'subCategories' in cat && cat.category === category,
         );
@@ -29,7 +33,7 @@ export const CategoryValidator = () => {
                 navigate('/not-found', { replace: true });
             }
         }
-    }, [category, subcategory, categories, navigate]);
+    }, [category, subcategory, categories, isLoading, navigate]);
 
-    return null;
+    return children;
 };

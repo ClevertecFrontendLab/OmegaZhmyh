@@ -1,11 +1,11 @@
-import { Card, CardBody, Flex, Image, Tag, Text } from '@chakra-ui/react';
+import { Box, Card, CardBody, Flex, Image, Tag, Text } from '@chakra-ui/react';
 
 import { StepType } from '~/entities/Recipe/types';
-import { API_BASE_IMG_URL } from '~/shared/config/constants';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
-interface CookingStepsProps {
+type CookingStepsProps = {
     steps: StepType[];
-}
+};
 
 export const CookingSteps = ({ steps }: CookingStepsProps) => (
     <>
@@ -18,18 +18,20 @@ export const CookingSteps = ({ steps }: CookingStepsProps) => (
             Шаги приготовления
         </Text>
         <Flex flexDirection='column' gap='20px'>
-            {steps.map(({ image, stepNumber, description }) => (
-                <Card direction='row' overflow='hidden' key={stepNumber}>
+            {steps.map(({ image, stepNumber, description }, index) => (
+                <Card direction='row' height={{ base: '128px', lg: '244px' }} key={stepNumber}>
                     {image ? (
                         <Image
-                            src={API_BASE_IMG_URL + image}
+                            src={getImgUrlPath(image)}
                             width={{ base: '158px', lg: '346px' }}
                             height={{ base: '128px', lg: '244px' }}
                         />
                     ) : null}
-                    <CardBody padding={{ base: '8px', lg: '24px' }}>
-                        <Tag>Шаг {stepNumber}</Tag>
-                        <Text marginTop={{ base: '12px', lg: '16px' }}>{description}</Text>
+                    <CardBody padding={{ base: '8px', lg: '24px' }} overflow='hidden'>
+                        <Tag bgColor={index === steps.length - 1 ? 'lime.50' : 'blackAlpha.100'}>
+                            Шаг {stepNumber}
+                        </Tag>
+                        <Box marginTop={{ base: '12px', lg: '16px' }}>{description}</Box>
                     </CardBody>
                 </Card>
             ))}

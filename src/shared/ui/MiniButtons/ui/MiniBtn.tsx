@@ -1,9 +1,9 @@
 import { Button, ButtonProps } from '@chakra-ui/react';
 
-export interface MiniBtnProps extends ButtonProps {
-    value?: number;
+export type MiniBtnProps = ButtonProps & {
     icon: ButtonProps['leftIcon'];
-}
+    value?: number;
+};
 
 export const MiniBtn = ({ value = 0, icon, size = 'xs', ...othersProps }: MiniBtnProps) => (
     <Button

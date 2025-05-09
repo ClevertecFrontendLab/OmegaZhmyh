@@ -2,18 +2,17 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useGetCategoriesQuery } from '~/shared/api/yeedaaApi';
-import { setAppLoader, userLoadingSelector } from '~/shared/store/app-slice';
+import { setCategoriesLoading, userLoadingSelector } from '~/shared/store/app-slice';
 import { FullscreenSpinner } from '~/widgets/fullScreenSpiner';
 
 export const AppLoader = () => {
     const dispatch = useDispatch();
-    const categories = useGetCategoriesQuery();
-
-    const isAppLoading = useSelector(userLoadingSelector);
+    const idAppLoading = useSelector(userLoadingSelector);
+    const { isLoading } = useGetCategoriesQuery();
 
     useEffect(() => {
-        dispatch(setAppLoader(categories.isLoading));
-    }, [categories.isLoading, dispatch]);
+        dispatch(setCategoriesLoading(isLoading));
+    }, [isLoading, dispatch]);
 
-    if (isAppLoading) return <FullscreenSpinner />;
+    if (idAppLoading) return <FullscreenSpinner />;
 };

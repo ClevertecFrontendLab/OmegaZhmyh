@@ -15,7 +15,7 @@ import {
 
 import { BsPlusCircleFill } from '../../Icons';
 
-interface MultiSelectProps {
+type MultiSelectProps = {
     allergensOptions: string[];
     isExcluding: boolean;
     isDrawerOpen: boolean;
@@ -26,7 +26,7 @@ interface MultiSelectProps {
     onAddCustomAllergen: () => void;
     handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     isDrawerFilter: boolean;
-}
+};
 
 export const MultiSelect = ({
     customAllergen,

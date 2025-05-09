@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Recipe } from '../types';
 
-export interface RecipeState {
+export type RecipeState = {
     allRecipes: Recipe[];
-}
+};
 
 const initialState: RecipeState = {
     allRecipes: [],
@@ -18,7 +18,11 @@ export const recipeSlice = createSlice({
             state.allRecipes.push(...action.payload);
         },
     },
+    selectors: {
+        selectAllRecipes: (state) => state.allRecipes,
+    },
 });
 
 export const { reducer: recipeReducer } = recipeSlice;
 export const { setRecipes } = recipeSlice.actions;
+export const { selectAllRecipes } = recipeSlice.selectors;

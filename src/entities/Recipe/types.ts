@@ -1,13 +1,10 @@
 export type RecipesState = Recipe[];
 
-export interface Recipe {
+export type Recipe = {
     title: string;
     description: string;
     time: string;
     image: string;
-    meat?: string;
-    garnish?: string;
-    portions?: number;
     authorId: string;
     categoriesIds: string[];
     steps: StepType[];
@@ -18,23 +15,26 @@ export interface Recipe {
     bookmarks: number;
     createdAt: string;
     _id: number;
-}
+    meat?: string;
+    garnish?: string;
+    portions?: number;
+};
 
-export interface NutritionValueType {
+export type NutritionValueType = {
     calories: number;
     protein: number;
     fats: number;
     carbohydrates: number;
-}
+};
 
-export interface IngredientType {
+export type IngredientType = {
     title: string;
     count: number;
     measureUnit: string;
-}
+};
 
-export interface StepType {
+export type StepType = {
     stepNumber: number;
     description: string;
     image: string;
-}
+};

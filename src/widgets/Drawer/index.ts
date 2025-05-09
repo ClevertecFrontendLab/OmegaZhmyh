@@ -1,3 +1,3 @@
-export { selectIsDrawerOpen } from './model/selectIsDrawerOpen';
-export { drawerReducer } from './model/slice';
+export { selectIsDrawerOpen, toggleIsOpenDrawer } from './model/slice';
+export { drawerSlice } from './model/slice';
 export { AppDrawer } from './ui/AppDrawer';

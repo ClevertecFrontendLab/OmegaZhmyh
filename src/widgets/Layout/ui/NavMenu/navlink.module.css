@@ -9,7 +9,7 @@
 }
 
 .subcategoryLink:hover {
-    background: '#bef264';
+    background: var(--lime-300);
 }
 
 .subcategoryLink:before {
@@ -18,8 +18,7 @@
     height: 28px;
     width: 1px;
     left: -11px;
-    background: #bef264; /* lime.300 */
-    background: '#bef264';
+    background: var(--lime-300);
 }
 
 .activeLink {
@@ -29,7 +28,7 @@
 .activeLink:before {
     width: 8px;
     left: -18px;
-    background: #bef264; /* lime.300 */
+    background: var(--lime-300);
     transition:
         width 0.2s,
         left 0.2s;

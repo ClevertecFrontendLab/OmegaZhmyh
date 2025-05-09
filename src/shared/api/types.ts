@@ -1,21 +1,21 @@
 import { MainCategory, SubCategory } from '~/entities/Category/types';
 import { Recipe } from '~/entities/Recipe/types';
 
-export interface Meta {
+export type Meta = {
     total: number;
     page: number;
     limit: number;
     totalPages: number;
-}
+};
 
-export interface RecipeResponse {
+export type RecipeResponse = {
     data: Recipe[];
     meta: Meta;
-}
+};
 
 export type CategoriesResponse = (MainCategory | SubCategory)[];
 
-export interface GetRecipesParams {
+export type GetRecipesParams = {
     page?: number;
     limit?: number;
     allergens?: string;
@@ -25,4 +25,9 @@ export interface GetRecipesParams {
     subcategoriesIds?: string;
     sortBy?: string;
     sortOrder?: string;
-}
+};
+
+export type GetRecipeBySubategoryParams = {
+    subcategoryId: string;
+    limit?: number;
+};

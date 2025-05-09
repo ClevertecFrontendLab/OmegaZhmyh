@@ -2,30 +2,21 @@ export { AllergenSelect } from '../recipe-filters/ui/AllergenSelect';
 export { AllergenToggle } from '../recipe-filters/ui/AllergenToggle';
 export { SearchInput } from '../recipe-filters/ui/SearchInput';
 export {
-    selectCustomAllergen,
-    selectIsExcluding,
-    selectSelectedAllergens,
-} from './model/selectors/alergenSelectors';
-export { selectAllFilters } from './model/selectors/drawerFilters/selectAllFilters';
-export {
     selectActiveSearchQuery,
     selectCountSearchedRecipes,
     selectIsSearchActive,
     selectIsSearchAvailable,
     selectSearchLoading,
-} from './model/selectors/searchSelectors';
-export {
-    selectAuthorFilter,
-    selectCategoryFilter,
-    selectIsFiltersActive,
-    selectIsFiltersAvailable,
-    selectMeatTypeFilter,
-    selectSideDishFilter,
-} from './model/selectors/selectFilterCurrentState';
-export { filterReducer } from './model/slice';
+} from './model/slice';
+export { selectAllFilters } from './model/slice';
+export { filtersSlice } from './model/slice';
 export {
     addCustomAllergen,
     resetFilters,
+    selectAllergenFilters,
+    selectIsFiltersActive,
+    selectIsFiltersAvailable,
+    selectSearch,
     setCountSearchedRecipes,
     setCustomAllergenInput,
     setFiltersActive,

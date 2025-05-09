@@ -11,15 +11,16 @@ import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { selectMainCategories } from '~/entities/Category/model/selectors';
-import { API_BASE_IMG_URL } from '~/shared/config/constants';
+import { selectMainCategories } from '~/entities/Category/model/slice';
+import { ACCORDION_VARIANT } from '~/shared/config/chakra-variants';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { useOverflow } from '../../lib/useOverflow';
 import { SubcategoryList } from './SubcategoryList';
 
-interface NavMenuProps {
+type NavMenuProps = {
     isMobile?: boolean;
-}
+};
 
 export const NavMenu = (props: NavMenuProps) => {
     const { isMobile = false } = props;
@@ -41,7 +42,12 @@ export const NavMenu = (props: NavMenuProps) => {
                     : ''
             }
         >
-            <Accordion ref={accordionRef} variant='navbar' maxHeight='100%' allowMultiple>
+            <Accordion
+                ref={accordionRef}
+                variant={ACCORDION_VARIANT}
+                maxHeight='100%'
+                allowMultiple
+            >
                 {mainCategories.map((categoryInfo) => (
                     <AccordionItem key={categoryInfo.title}>
                         <AccordionButton
@@ -49,9 +55,9 @@ export const NavMenu = (props: NavMenuProps) => {
                             to={`/${categoryInfo.category}/${categoryInfo.subCategories[0].category}`}
                             _expanded={{ bg: 'lime.100', fontWeight: 'bold' }}
                             _hover={{ bg: 'lime.50' }}
-                            data-test-id={categoryInfo.category == 'vegan' ? 'vegan-cuisine' : ''}
+                            data-test-id={categoryInfo.category === 'vegan' ? 'vegan-cuisine' : ''}
                         >
-                            <img src={API_BASE_IMG_URL + categoryInfo.icon} />
+                            <img src={getImgUrlPath(categoryInfo.icon)} />
                             <Text flex='1' textAlign='left'>
                                 {categoryInfo.title}
                             </Text>

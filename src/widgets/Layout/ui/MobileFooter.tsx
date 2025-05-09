@@ -1,6 +1,7 @@
 import { TabList, Tabs } from '@chakra-ui/react';
 
 import AvatarImg from '~/shared/assets/avatar.png';
+import { MOBILE_FOOTER_VARIANT } from '~/shared/config/chakra-variants';
 import { BsHouse, BsPencil, BsSearch } from '~/shared/ui/Icons';
 
 import { createIconTab } from '../lib/createIconTab';
@@ -12,7 +13,7 @@ export const MobileFooter = () => {
     const AvatarTab = createIconTab(AvatarImg);
     return (
         <Tabs
-            variant='mobileFooter'
+            variant={MOBILE_FOOTER_VARIANT}
             data-test-id='footer'
             colorScheme='lime'
             as='footer'

@@ -5,10 +5,10 @@ import { SubCategory } from '~/entities/Category/types';
 
 import navlinkStyles from './navlink.module.css';
 
-interface SubcategoryListProps {
+type SubcategoryListProps = {
     subcategores: SubCategory[];
     categoryName: string;
-}
+};
 
 export const SubcategoryList = (props: SubcategoryListProps) => {
     const { subcategores, categoryName } = props;

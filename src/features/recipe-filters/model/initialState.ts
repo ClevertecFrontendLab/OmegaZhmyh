@@ -7,10 +7,10 @@ const allergenInitialState: AllergenState = {
 };
 
 const filtersInitialState: DrawerState = {
-    meatTypes: [],
-    sideDishes: [],
-    categories: [],
-    authors: [],
+    meatTypeFilters: [],
+    sideDishFilters: [],
+    categoryFilters: [],
+    authorFilters: [],
 };
 
 export const initialState: FiltersState = {
@@ -18,8 +18,8 @@ export const initialState: FiltersState = {
     isAvailable: false,
     currentFilters: structuredClone(filtersInitialState),
     drawerUIState: structuredClone(filtersInitialState),
-    options: {
-        allergenFilters: [
+    filtersOptions: {
+        allergenOptions: [
             'Молочные продукты',
             'Яйцо',
             'Моллюски',
@@ -30,7 +30,7 @@ export const initialState: FiltersState = {
             'Клубника (ягоды)',
             'Шоколад',
         ],
-        sideDishFilters: [
+        sideDishOptions: [
             'Картошка',
             'Гречка',
             'Паста',
@@ -40,8 +40,8 @@ export const initialState: FiltersState = {
             'Фасоль',
             'Другие овощи',
         ],
-        meatTypeFilters: ['Курица', 'Свинина', 'Говядина', 'Индейка', 'Утка'],
-        authorFilters: [],
+        meatTypeOptions: ['Курица', 'Свинина', 'Говядина', 'Индейка', 'Утка'],
+        authorOptions: [],
     },
     search: {
         searchQuery: '',
@@ -49,7 +49,7 @@ export const initialState: FiltersState = {
         isSearchAvailable: false,
         isSearchActive: false,
         isSearchLoading: false,
-        countSearchedRecipes: 0,
+        countSearchedRecipes: null,
     },
 
     allergens: structuredClone(allergenInitialState),

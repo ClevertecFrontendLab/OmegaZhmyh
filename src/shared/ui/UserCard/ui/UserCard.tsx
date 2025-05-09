@@ -2,11 +2,11 @@ import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
 
 import { AvatarImages, AvatarImagesType } from '../../AvatarImages';
 
-export interface UserCardProps {
+export type UserCardProps = {
     userName: string;
     accountName: string;
     avatarImg: AvatarImagesType;
-}
+};
 
 export const UserCard = ({ userName, accountName, avatarImg }: UserCardProps) => (
     <Flex flex='1' gap={{ base: 2, lg: 3 }} alignItems='center' flexWrap='nowrap'>

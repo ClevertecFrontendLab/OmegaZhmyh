@@ -25,8 +25,7 @@ import {
 import { resetFilters, setFiltersActive } from '~/features/recipe-filters/';
 import { BsFillXCircleFill } from '~/shared/ui/Icons';
 
-import { selectIsDrawerOpen } from '../model/selectIsDrawerOpen';
-import { toggleIsOpenDrawer } from '../model/slice';
+import { selectIsDrawerOpen, toggleIsOpenDrawer } from '../model/slice';
 
 export const AppDrawer = () => {
     const dispatch = useDispatch();
