@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { API_BASE_URL } from '~/shared/config/api-urls';
 import { ApplicationState } from '~/shared/store/configure-store';
@@ -62,3 +62,11 @@ export const authApi = createApi({
         }),
     }),
 });
+
+export const {
+    useLoginMutation,
+    useSignupMutation,
+    useForgotPasswordMutation,
+    useVerifyOtpMutation,
+    useResetPasswordMutation,
+} = authApi;
