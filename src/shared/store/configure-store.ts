@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import { categorySlice } from '~/entities/Category/model/slice';
 import { recipeSlice } from '~/entities/Recipe/model/slice';
+import { authSlice } from '~/features/auth/model/authSlice';
 import { filtersSlice } from '~/features/recipe-filters';
 import { yeedaaApi } from '~/shared/api/yeedaaApi';
 import { apiSlice } from '~/shared/query/create-api';
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     [drawerSlice.name]: drawerSlice.reducer,
     [yeedaaApi.reducerPath]: yeedaaApi.reducer,
     [notificationSlice.name]: notificationSlice.reducer,
+    [authSlice.name]: authSlice.reducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;
