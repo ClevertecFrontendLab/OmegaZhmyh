@@ -28,6 +28,7 @@ function App() {
                     </>
                 }
             />
+            <Route path={ROUTES.SIGN_UP} element={<AuthPage />} />
             <Route path={ROUTES.SIGN_IN} element={<AuthPage />} />
         </Routes>
     );

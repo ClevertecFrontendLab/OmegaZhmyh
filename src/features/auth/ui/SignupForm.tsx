@@ -27,7 +27,7 @@ type SignupStep2Values = {
     confirmPassword: string;
 };
 
-export const SignupForm = () => {
+export const SignUpForm = () => {
     const [step, setStep] = useState(1);
     const [step1Values, setStep1Values] = useState<SignupStep1Values>({
         firstName: '',
@@ -36,7 +36,7 @@ export const SignupForm = () => {
     });
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [signup] = useSignupMutation();
+    const [_signup] = useSignupMutation();
     const calculateProgress = (values: SignupStep1Values | SignupStep2Values) => {
         const totalFields = step === 1 ? 3 : 3;
         const validFields = Object.keys(values).filter((key) => key in values).length;
@@ -49,7 +49,7 @@ export const SignupForm = () => {
     };
 
     const handleStep2Submit = async (values: SignupStep2Values) => {
-        if (!step1Values) return;
+        /* if (!step1Values) return;
 
         try {
             await signup({
@@ -60,7 +60,8 @@ export const SignupForm = () => {
         } catch (error) {
             console.log(error);
             // Обработка ошибок будет добавлена позже
-        }
+        } */
+        console.log(values);
     };
 
     return (
