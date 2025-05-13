@@ -3,14 +3,20 @@ import {
     Button,
     FormControl,
     FormErrorMessage,
+    FormLabel,
+    IconButton,
     Input,
     InputGroup,
     InputRightElement,
     Progress,
+    Text,
     VStack,
 } from '@chakra-ui/react';
-import { Form, Formik } from 'formik';
+import { Field, Form, Formik, useFormikContext } from 'formik';
 import { useState } from 'react';
+
+import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
+import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 
 import { useSignupMutation } from '../api/authApi';
 import { signupStep1Schema, signupStep2Schema } from '../validation/auth.validation';
@@ -27,201 +33,199 @@ type SignupStep2Values = {
     confirmPassword: string;
 };
 
-export const SignUpForm = () => {
-    const [step, setStep] = useState(1);
-    const [step1Values, setStep1Values] = useState<SignupStep1Values>({
-        firstName: '',
-        lastName: '',
-        email: '',
-    });
+const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
+    const { errors, touched, validateForm, setTouched } = useFormikContext<SignupStep1Values>();
+    const setSecondStep = () => {
+        setTouched({
+            firstName: true,
+            lastName: true,
+            email: true,
+        });
+        validateForm().then((errors) => {
+            if (Object.keys(errors).length === 0) {
+                setCurrentStep(2);
+            }
+        });
+    };
+
+    return (
+        <VStack justifyContent='space-between' alignItems='stretch' minH='376px'>
+            <VStack spacing='24px'>
+                <FormControl isInvalid={!!errors.firstName && touched.firstName}>
+                    <FormLabel htmlFor='firstName' fontWeight='normal'>
+                        Имя
+                    </FormLabel>
+                    <Input
+                        as={Field}
+                        name='firstName'
+                        size='lg'
+                        bgColor='white'
+                        placeholder='Имя'
+                    />
+                    <FormErrorMessage>{errors.firstName}</FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.lastName && touched.lastName}>
+                    <FormLabel htmlFor='lastName' fontWeight='normal'>
+                        Фамилия
+                    </FormLabel>
+                    <Input
+                        as={Field}
+                        name='lastName'
+                        size='lg'
+                        bgColor='white'
+                        placeholder='Фамилия'
+                    />
+                    <FormErrorMessage>{errors.lastName}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!errors.email && touched.email}>
+                    <FormLabel htmlFor='email' fontWeight='normal'>
+                        Email
+                    </FormLabel>
+                    <Input as={Field} name='email' size='lg' bgColor='white' placeholder='Email' />
+                    <FormErrorMessage>{errors.email}</FormErrorMessage>
+                </FormControl>
+            </VStack>
+
+            <VStack spacing='16px' alignItems='stretch'>
+                <Button onClick={setSecondStep} bgColor='black' color='white' size='lg'>
+                    Далее
+                </Button>
+            </VStack>
+        </VStack>
+    );
+};
+
+const SecondStep = () => {
+    const { errors, touched } = useFormikContext<SignupStep2Values>();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    return (
+        <VStack justifyContent='space-between' alignItems='stretch' minH='376px'>
+            <VStack spacing='24px'>
+                <FormControl isInvalid={!!errors.login && touched.login}>
+                    <FormLabel htmlFor='login' fontWeight='normal'>
+                        Логин для входа на сайт
+                    </FormLabel>
+                    <Input
+                        as={Field}
+                        name='login'
+                        size='lg'
+                        bgColor='white'
+                        placeholder='Логин'
+                        data-test-id='login-input'
+                    />
+                    <FormErrorMessage>{errors.login}</FormErrorMessage>
+                </FormControl>
+
+                <FormControl isInvalid={!!errors.password && touched.password}>
+                    <FormLabel htmlFor='password' fontWeight='normal'>
+                        Пароль
+                    </FormLabel>
+                    <InputGroup size='lg'>
+                        <Input
+                            as={Field}
+                            name='password'
+                            type={showPassword ? 'text' : 'password'}
+                            bgColor='white'
+                            placeholder='Пароль'
+                        />
+                        <InputRightElement>
+                            <IconButton
+                                icon={showPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
+                                aria-label='Показать пароль'
+                                variant='unstyled'
+                                onMouseDown={() => setShowPassword(true)}
+                                onMouseUp={() => setShowPassword(false)}
+                                onMouseLeave={() => setShowPassword(false)}
+                            />
+                        </InputRightElement>
+                    </InputGroup>
+                    <FormErrorMessage>{errors.password}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!errors.confirmPassword && touched.confirmPassword}>
+                    <FormLabel htmlFor='password' fontWeight='normal'>
+                        Повторите пароль
+                    </FormLabel>
+                    <InputGroup size='lg'>
+                        <Input
+                            as={Field}
+                            name='confirmPassword'
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            bgColor='white'
+                            placeholder='Повторите пароль'
+                        />
+                        <InputRightElement>
+                            <IconButton
+                                icon={showConfirmPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
+                                aria-label='Показать пароль'
+                                variant='unstyled'
+                                onMouseDown={() => setShowConfirmPassword(true)}
+                                onMouseUp={() => setShowConfirmPassword(false)}
+                                onMouseLeave={() => setShowConfirmPassword(false)}
+                            />
+                        </InputRightElement>
+                    </InputGroup>
+                    <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
+                </FormControl>
+            </VStack>
+
+            <VStack spacing='16px' alignItems='stretch'>
+                <Button type='submit' bgColor='black' color='white' size='lg'>
+                    Зарегистрироваться
+                </Button>
+            </VStack>
+        </VStack>
+    );
+};
+
+export const SignUpForm = () => {
     const [_signup] = useSignupMutation();
-    const calculateProgress = (values: SignupStep1Values | SignupStep2Values) => {
-        const totalFields = step === 1 ? 3 : 3;
-        const validFields = Object.keys(values).filter((key) => key in values).length;
-        return ((totalFields - validFields) / totalFields) * 100;
-    };
+    const [currentStep, setCurrentStep] = useState(1);
 
-    const handleStep1Submit = (values: SignupStep1Values) => {
-        setStep1Values(values);
-        setStep(2);
-    };
+    const stepTitles = ['Шаг 1. Личная информация', 'Шаг 2. Логин и пароль'];
+    const getProgressValue = (values: { [key: string]: string }) =>
+        (Object.values(values).filter((value) => value).length / Object.values(values).length) *
+        100;
 
-    const handleStep2Submit = async (values: SignupStep2Values) => {
-        /* if (!step1Values) return;
+    const validationSchema = currentStep === 1 ? signupStep1Schema : signupStep2Schema;
 
-        try {
-            await signup({
-                ...step1Values,
-                ...values,
-            }).unwrap();
-            // Здесь будет модальное окно успешной регистрации
-        } catch (error) {
-            console.log(error);
-            // Обработка ошибок будет добавлена позже
-        } */
+    const handleSubmit = async (values: { login: string; password: string }) => {
         console.log(values);
     };
 
     return (
         <Box>
-            <Progress
-                value={step === 1 ? calculateProgress(step1Values) : 100}
-                mb={4}
-                data-test-id='sign-up-progress'
-            />
-
-            {step === 1 ? (
-                <Formik
-                    initialValues={{ firstName: '', lastName: '', email: '' }}
-                    validationSchema={signupStep1Schema}
-                    onSubmit={handleStep1Submit}
-                >
-                    {({ values, errors, touched, handleChange, handleBlur }) => (
-                        <Form>
-                            <VStack spacing={4} align='stretch'>
-                                <FormControl isInvalid={!!errors.firstName && touched.firstName}>
-                                    <Input
-                                        id='firstName'
-                                        name='firstName'
-                                        value={values.firstName}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        placeholder='Ваше имя'
-                                        data-test-id='first-name-input'
-                                    />
-                                    <FormErrorMessage>{errors.firstName}</FormErrorMessage>
-                                </FormControl>
-
-                                <FormControl isInvalid={!!errors.lastName && touched.lastName}>
-                                    <Input
-                                        id='lastName'
-                                        name='lastName'
-                                        value={values.lastName}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        placeholder='Ваша фамилия'
-                                        data-test-id='last-name-input'
-                                    />
-                                    <FormErrorMessage>{errors.lastName}</FormErrorMessage>
-                                </FormControl>
-
-                                <FormControl isInvalid={!!errors.email && touched.email}>
-                                    <Input
-                                        id='email'
-                                        name='email'
-                                        type='email'
-                                        value={values.email}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        placeholder='Ваш email'
-                                        data-test-id='email-input'
-                                    />
-                                    <FormErrorMessage>{errors.email}</FormErrorMessage>
-                                </FormControl>
-
-                                <Button
-                                    type='submit'
-                                    colorScheme='blue'
-                                    data-test-id='submit-button'
-                                >
-                                    Дальше
-                                </Button>
-                            </VStack>
-                        </Form>
-                    )}
-                </Formik>
-            ) : (
-                <Formik
-                    initialValues={{ login: '', password: '', confirmPassword: '' }}
-                    validationSchema={signupStep2Schema}
-                    onSubmit={handleStep2Submit}
-                >
-                    {({ values, errors, touched, handleChange, handleBlur }) => (
-                        <Form>
-                            <VStack spacing={4} align='stretch'>
-                                <FormControl isInvalid={!!errors.login && touched.login}>
-                                    <Input
-                                        id='login'
-                                        name='login'
-                                        value={values.login}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        placeholder='Логин'
-                                        data-test-id='login-input'
-                                    />
-                                    <FormErrorMessage>{errors.login}</FormErrorMessage>
-                                </FormControl>
-
-                                <FormControl isInvalid={!!errors.password && touched.password}>
-                                    <InputGroup>
-                                        <Input
-                                            id='password'
-                                            name='password'
-                                            type={showPassword ? 'text' : 'password'}
-                                            value={values.password}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            placeholder='Пароль'
-                                            data-test-id='password-input'
-                                        />
-                                        <InputRightElement width='4.5rem'>
-                                            <Button
-                                                h='1.75rem'
-                                                size='sm'
-                                                onMouseDown={() => setShowPassword(true)}
-                                                onMouseUp={() => setShowPassword(false)}
-                                                onMouseLeave={() => setShowPassword(false)}
-                                            >
-                                                {showPassword ? 'Скрыть' : 'Показать'}
-                                            </Button>
-                                        </InputRightElement>
-                                    </InputGroup>
-                                    <FormErrorMessage>{errors.password}</FormErrorMessage>
-                                </FormControl>
-
-                                <FormControl
-                                    isInvalid={!!errors.confirmPassword && touched.confirmPassword}
-                                >
-                                    <InputGroup>
-                                        <Input
-                                            id='confirmPassword'
-                                            name='confirmPassword'
-                                            type={showConfirmPassword ? 'text' : 'password'}
-                                            value={values.confirmPassword}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            placeholder='Повторите пароль'
-                                            data-test-id='confirm-password-input'
-                                        />
-                                        <InputRightElement width='4.5rem'>
-                                            <Button
-                                                h='1.75rem'
-                                                size='sm'
-                                                onMouseDown={() => setShowConfirmPassword(true)}
-                                                onMouseUp={() => setShowConfirmPassword(false)}
-                                                onMouseLeave={() => setShowConfirmPassword(false)}
-                                            >
-                                                {showConfirmPassword ? 'Скрыть' : 'Показать'}
-                                            </Button>
-                                        </InputRightElement>
-                                    </InputGroup>
-                                    <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
-                                </FormControl>
-
-                                <Button
-                                    type='submit'
-                                    colorScheme='blue'
-                                    data-test-id='submit-button'
-                                >
-                                    Зарегистрироваться
-                                </Button>
-                            </VStack>
-                        </Form>
-                    )}
-                </Formik>
-            )}
+            <Formik
+                initialValues={{
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    login: '',
+                    password: '',
+                    confirmPassword: '',
+                }}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+            >
+                {({ values }) => (
+                    <Form>
+                        <Text>{stepTitles[currentStep - 1]}</Text>
+                        <Progress
+                            colorScheme='lime'
+                            value={getProgressValue(values)}
+                            mb={4}
+                            data-test-id='sign-up-progress'
+                        />
+                        {currentStep === 1 ? (
+                            <FirstStep setCurrentStep={setCurrentStep} />
+                        ) : (
+                            <SecondStep />
+                        )}
+                    </Form>
+                )}
+            </Formik>
         </Box>
     );
 };

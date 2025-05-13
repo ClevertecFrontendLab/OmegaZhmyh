@@ -44,10 +44,12 @@ export const SignInForm = () => {
         >
             {({ values, errors, touched, handleChange, handleBlur }) => (
                 <Form>
-                    <VStack alignItems='stretch'>
+                    <VStack justifyContent='space-between' alignItems='stretch' minH='376px'>
                         <VStack spacing='24px'>
                             <FormControl isInvalid={!!errors.login && touched.login}>
-                                <FormLabel htmlFor='login'>Логин для входа на сайт</FormLabel>
+                                <FormLabel htmlFor='login' fontWeight='normal'>
+                                    Логин для входа на сайт
+                                </FormLabel>
                                 <Input
                                     id='login'
                                     name='login'
@@ -63,7 +65,9 @@ export const SignInForm = () => {
                             </FormControl>
 
                             <FormControl isInvalid={!!errors.password && touched.password}>
-                                <FormLabel htmlFor='password'>Пароль</FormLabel>
+                                <FormLabel htmlFor='password' fontWeight='normal'>
+                                    Пароль
+                                </FormLabel>
                                 <InputGroup size='lg'>
                                     <Input
                                         id='password'
@@ -80,7 +84,7 @@ export const SignInForm = () => {
                                         <IconButton
                                             icon={showPassword ? <BsEyeFill /> : <BsEyeSlashFill />}
                                             aria-label='Показать пароль'
-                                            variant='ghost'
+                                            variant='unstyled'
                                             onMouseDown={() => setShowPassword(true)}
                                             onMouseUp={() => setShowPassword(false)}
                                             onMouseLeave={() => setShowPassword(false)}
@@ -92,19 +96,18 @@ export const SignInForm = () => {
                             </FormControl>
                         </VStack>
 
-                        <Button
-                            type='submit'
-                            marginTop='112px'
-                            bgColor='black'
-                            color='white'
-                            size='lg'
-                            data-test-id='submit-button'
-                        >
-                            Войти
-                        </Button>
-                        <Link textAlign='center' marginTop='16px'>
-                            Забыли логин или пароль?
-                        </Link>
+                        <VStack spacing='16px' alignItems='stretch'>
+                            <Button
+                                type='submit'
+                                bgColor='black'
+                                color='white'
+                                size='lg'
+                                data-test-id='submit-button'
+                            >
+                                Войти
+                            </Button>
+                            <Link textAlign='center'>Забыли логин или пароль?</Link>
+                        </VStack>
                     </VStack>
                 </Form>
             )}
