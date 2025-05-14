@@ -13,24 +13,27 @@ import { AppRoutes } from './AppRoutes';
 import { AppLoader } from './providers/appLoader';
 function App() {
     return (
-        <Routes>
-            <Route
-                path='/'
-                element={
-                    <>
-                        <AppLoader />
-                        <Layout>
-                            <AppRoutes />
-                        </Layout>
-                        <SnackbarAlert />
-                        <BurgerMenu />
-                        <MobileFooter />
-                    </>
-                }
-            />
-            <Route path={ROUTES.SIGN_UP} element={<AuthPage />} />
-            <Route path={ROUTES.SIGN_IN} element={<AuthPage />} />
-        </Routes>
+        <>
+            <SnackbarAlert />
+            <Routes>
+                <Route
+                    path='/'
+                    element={
+                        <>
+                            <AppLoader />
+                            <Layout>
+                                <AppRoutes />
+                            </Layout>
+
+                            <BurgerMenu />
+                            <MobileFooter />
+                        </>
+                    }
+                />
+                <Route path={ROUTES.SIGN_UP} element={<AuthPage />} />
+                <Route path={ROUTES.SIGN_IN} element={<AuthPage />} />
+            </Routes>
+        </>
     );
 }
 

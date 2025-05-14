@@ -6,25 +6,21 @@ import { setError } from '~/shared/ui/SnackbarAlert';
 type UseErrorAlertProps = {
     errorTitle: string;
     errorMessage: string;
-    redirectPath?: string | number;
+    redirectBack?: boolean;
 };
 
-export const useErrorAlert = ({
-    errorTitle,
-    errorMessage,
-    redirectPath = -1,
-}: UseErrorAlertProps) => {
+export const useErrorAlert = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleError = (isError: boolean) => {
-        if (isError) {
-            dispatch(setError({ title: errorTitle, message: errorMessage }));
-            if (typeof redirectPath === 'number') {
-                navigate(redirectPath);
-            } else {
-                navigate(redirectPath as string);
-            }
+    const handleError = ({
+        errorTitle,
+        errorMessage,
+        redirectBack = false,
+    }: UseErrorAlertProps) => {
+        dispatch(setError({ title: errorTitle, message: errorMessage }));
+        if (redirectBack) {
+            navigate(-1);
         }
     };
 

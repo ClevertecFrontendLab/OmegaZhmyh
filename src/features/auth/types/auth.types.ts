@@ -26,7 +26,13 @@ export type ResetPasswordRequest = {
     confirmPassword: string;
 };
 
-export interface AuthResponse {
-    statusText: string;
+export type AuthResponse = {
     message: string;
-}
+    statusText: string;
+};
+
+export type ErrorResponse = {
+    statusCode: number;
+    message: string;
+    error: string;
+};
