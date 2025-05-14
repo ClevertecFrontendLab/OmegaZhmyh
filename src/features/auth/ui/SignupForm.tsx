@@ -19,7 +19,7 @@ import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 
 import { useSignupMutation } from '../api/authApi';
-import { signupStep1Schema, signupStep2Schema } from '../validation/auth.validation';
+import { signupStep1Schema } from '../validation/auth.validation';
 
 type SignupStep1Values = {
     firstName: string;
@@ -42,7 +42,7 @@ const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void 
             email: true,
         });
         validateForm().then((errors) => {
-            if (Object.keys(errors).length === 0) {
+            if (Object.keys(errors).length < 4) {
                 setCurrentStep(2);
             }
         });
@@ -55,8 +55,9 @@ const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void 
                     <FormLabel htmlFor='firstName' fontWeight='normal'>
                         Имя
                     </FormLabel>
-                    <Input
-                        as={Field}
+                    <Field
+                        as={Input}
+                        id='firstName'
                         name='firstName'
                         size='lg'
                         bgColor='white'
@@ -69,8 +70,9 @@ const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void 
                     <FormLabel htmlFor='lastName' fontWeight='normal'>
                         Фамилия
                     </FormLabel>
-                    <Input
-                        as={Field}
+                    <Field
+                        as={Input}
+                        id='lastName'
                         name='lastName'
                         size='lg'
                         bgColor='white'
@@ -82,7 +84,14 @@ const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void 
                     <FormLabel htmlFor='email' fontWeight='normal'>
                         Email
                     </FormLabel>
-                    <Input as={Field} name='email' size='lg' bgColor='white' placeholder='Email' />
+                    <Field
+                        as={Input}
+                        id='email'
+                        name='email'
+                        size='lg'
+                        bgColor='white'
+                        placeholder='Email'
+                    />
                     <FormErrorMessage>{errors.email}</FormErrorMessage>
                 </FormControl>
             </VStack>
@@ -97,7 +106,7 @@ const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void 
 };
 
 const SecondStep = () => {
-    const { errors, touched } = useFormikContext<SignupStep2Values>();
+    const { errors, touched, isValid, dirty } = useFormikContext<SignupStep2Values>();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -108,8 +117,9 @@ const SecondStep = () => {
                     <FormLabel htmlFor='login' fontWeight='normal'>
                         Логин для входа на сайт
                     </FormLabel>
-                    <Input
-                        as={Field}
+                    <Field
+                        as={Input}
+                        id='login'
                         name='login'
                         size='lg'
                         bgColor='white'
@@ -124,8 +134,9 @@ const SecondStep = () => {
                         Пароль
                     </FormLabel>
                     <InputGroup size='lg'>
-                        <Input
-                            as={Field}
+                        <Field
+                            as={Input}
+                            id='password'
                             name='password'
                             type={showPassword ? 'text' : 'password'}
                             bgColor='white'
@@ -149,8 +160,9 @@ const SecondStep = () => {
                         Повторите пароль
                     </FormLabel>
                     <InputGroup size='lg'>
-                        <Input
-                            as={Field}
+                        <Field
+                            as={Input}
+                            id='confirmPassword'
                             name='confirmPassword'
                             type={showConfirmPassword ? 'text' : 'password'}
                             bgColor='white'
@@ -172,7 +184,13 @@ const SecondStep = () => {
             </VStack>
 
             <VStack spacing='16px' alignItems='stretch'>
-                <Button type='submit' bgColor='black' color='white' size='lg'>
+                <Button
+                    type='submit'
+                    bgColor='black'
+                    color='white'
+                    size='lg'
+                    isDisabled={!isValid || !dirty}
+                >
                     Зарегистрироваться
                 </Button>
             </VStack>
@@ -185,11 +203,21 @@ export const SignUpForm = () => {
     const [currentStep, setCurrentStep] = useState(1);
 
     const stepTitles = ['Шаг 1. Личная информация', 'Шаг 2. Логин и пароль'];
-    const getProgressValue = (values: { [key: string]: string }) =>
-        (Object.values(values).filter((value) => value).length / Object.values(values).length) *
-        100;
 
-    const validationSchema = currentStep === 1 ? signupStep1Schema : signupStep2Schema;
+    const getProgressValue = (
+        values: { [key: string]: string },
+        errors: { [key: string]: string },
+        touched: { [key: string]: boolean },
+    ) => {
+        const totalFields = Object.values(values);
+        const errorFields = Object.values(errors).filter(Boolean);
+        const touchedFields = Object.keys(touched);
+        return touchedFields.length > 0
+            ? ((totalFields.length - errorFields.length) / totalFields.length) * 100
+            : 0;
+    };
+
+    const validationSchema = signupStep1Schema;
 
     const handleSubmit = async (values: { login: string; password: string }) => {
         console.log(values);
@@ -209,12 +237,12 @@ export const SignUpForm = () => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
-                {({ values }) => (
+                {({ values, errors, touched }) => (
                     <Form>
                         <Text>{stepTitles[currentStep - 1]}</Text>
                         <Progress
                             colorScheme='lime'
-                            value={getProgressValue(values)}
+                            value={getProgressValue(values, errors, touched)}
                             mb={4}
                             data-test-id='sign-up-progress'
                         />

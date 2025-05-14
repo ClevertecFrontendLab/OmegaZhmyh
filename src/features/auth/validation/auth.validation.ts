@@ -8,21 +8,18 @@ export const loginSchema = Yup.object().shape({
 export const signupStep1Schema = Yup.object().shape({
     firstName: Yup.string()
         .required('Введите имя')
-        .matches(/^[А-Я]/, 'Должно начинаться с кириллицы А-Я')
+        .matches(/^[А-Яа-я]/, 'Должно начинаться с кириллицы А-Я')
         .matches(/^[А-Яа-я-]+$/, 'Только кириллица А-Я, и "-"')
         .max(50, 'Максимальная длина 50 символов'),
     lastName: Yup.string()
         .required('Введите фамилию')
-        .matches(/^[А-Я]/, 'Должно начинаться с кириллицы А-Я')
+        .matches(/^[А-Яа-я]/, 'Должно начинаться с кириллицы А-Я')
         .matches(/^[А-Яа-я-]+$/, 'Только кириллица А-Я, и "-"')
         .max(50, 'Максимальная длина 50 символов'),
     email: Yup.string()
         .required('Введите e-mail')
         .email('Введите корректный e-mail')
         .max(50, 'Максимальная длина 50 символов'),
-});
-
-export const signupStep2Schema = Yup.object().shape({
     login: Yup.string()
         .required('Введите логин')
         .min(5, 'Не соответствует формату')
