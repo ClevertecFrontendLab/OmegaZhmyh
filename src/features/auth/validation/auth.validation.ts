@@ -29,6 +29,8 @@ export const signupStep1Schema = Yup.object().shape({
         .required('Введите пароль')
         .min(8, 'Не соответствует формату')
         .matches(/^[A-Za-z0-9!@#$&_+.-]+$/, 'Не соответствует формату')
+        .matches(/[A-Z]/, 'Не соответствует формату')
+        .matches(/[0-9]/, 'Не соответствует формату')
         .max(50, 'Максимальная длина 50 символов'),
     confirmPassword: Yup.string()
         .required('Повторите пароль')

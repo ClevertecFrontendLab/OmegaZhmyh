@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Routes } from 'react-router';
 
 import { AuthPage } from '~/pages/AuthPage';
+import { VerificationPage } from '~/pages/AuthPage/ui/VerificationPage';
 import { ROUTES } from '~/shared/config/routes';
 import { SnackbarAlert } from '~/shared/ui/SnackbarAlert';
 import { Layout } from '~/widgets/Layout';
@@ -32,6 +33,7 @@ function App() {
                 />
                 <Route path={ROUTES.SIGN_UP} element={<AuthPage />} />
                 <Route path={ROUTES.SIGN_IN} element={<AuthPage />} />
+                <Route path={ROUTES.VERIFICATION} element={<VerificationPage />} />
             </Routes>
         </>
     );

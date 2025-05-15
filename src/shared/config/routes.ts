@@ -6,5 +6,6 @@ export const ROUTES = {
     THE_JUICIEST: 'the-juiciest',
     SIGN_IN: 'sign-in',
     SIGN_UP: 'sign-up',
+    VERIFICATION: 'verification',
     NOT_FOUND: 'not-found',
 } as const;

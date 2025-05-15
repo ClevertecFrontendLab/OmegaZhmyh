@@ -7,11 +7,11 @@ import { authSlice } from '~/features/auth/model/authSlice';
 import { filtersSlice } from '~/features/recipe-filters';
 import { yeedaaApi } from '~/shared/api/yeedaaApi';
 import { apiSlice } from '~/shared/query/create-api';
-import { notificationSlice } from '~/shared/ui/SnackbarAlert';
 import { drawerSlice } from '~/widgets/Drawer';
 import { layoutSlice } from '~/widgets/Layout/model/slice';
 
 import { appSlice } from './app-slice';
+import { notificationSlice } from './notificationSlice';
 
 const isProduction = false;
 

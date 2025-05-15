@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { setError } from '~/shared/ui/SnackbarAlert';
+import { setError } from '~/shared/store/notificationSlice';
 
 type UseErrorAlertProps = {
     errorTitle: string;

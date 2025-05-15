@@ -9,8 +9,8 @@ import {
 } from '~/features/recipe-filters/model/slice';
 import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
 import { setPageLoader } from '~/shared/store/app-slice';
+import { setError } from '~/shared/store/notificationSlice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
-import { setError } from '~/shared/ui/SnackbarAlert';
 import { FoundRecipes } from '~/widgets/foundRecipes';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
