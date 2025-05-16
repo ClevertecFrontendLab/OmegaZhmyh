@@ -7,25 +7,29 @@ import {
     Input,
     InputGroup,
     InputRightElement,
-    Link,
     VStack,
 } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import { useAppDispatch } from '~/shared/store/hooks';
+import { setForgotPasswordModal } from '~/shared/store/notificationSlice';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { useLoginMutation } from '../../../api/authApi';
 import { loginSchema } from '../../../validation/auth.validation';
+import { ForgotPasswordForm } from '../../ForgotPassword/ui/ForgotPasswordForm';
+import { VerifyOtpForm } from '../../ForgotPassword/ui/VerifyOtpForm';
 import { ServerErrorModal } from './ServerErrorModal';
 
 export const SignInForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [login] = useLoginMutation();
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const [isRetryModalOpen, setIsRetryModalOpen] = useState(false);
     const [formValues, setFormValues] = useState<{ login: string; password: string } | null>(null);
 
@@ -69,6 +73,10 @@ export const SignInForm = () => {
         if (formValues) {
             await handleSubmit(formValues);
         }
+    };
+
+    const onForgotPassword = () => {
+        dispatch(setForgotPasswordModal());
     };
 
     return (
@@ -148,7 +156,13 @@ export const SignInForm = () => {
                                 >
                                     Войти
                                 </Button>
-                                <Link textAlign='center'>Забыли логин или пароль?</Link>
+                                <Button
+                                    variant='unstyled'
+                                    textAlign='center'
+                                    onClick={onForgotPassword}
+                                >
+                                    Забыли логин или пароль?
+                                </Button>
                             </VStack>
                         </VStack>
                     </Form>
@@ -159,6 +173,8 @@ export const SignInForm = () => {
                 onClose={() => setIsRetryModalOpen(false)}
                 onRetry={handleRetry}
             />
+            <ForgotPasswordForm />
+            <VerifyOtpForm />
         </>
     );
 };

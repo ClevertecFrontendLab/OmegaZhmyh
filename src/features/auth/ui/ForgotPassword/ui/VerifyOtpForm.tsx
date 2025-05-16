@@ -12,10 +12,10 @@ import {
     VStack,
 } from '@chakra-ui/react';
 
-import emailCodeVerification from '~/assets/images/email-code-verification.png';
+import emailCodeVerification from '~/shared/assets/email-code-verification.png';
 import { BsXCircle } from '~/shared/ui/Icons';
 
-export const EmailCodeVerification = () => {
+export const VerifyOtpForm = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <>

@@ -3,6 +3,16 @@ import { createMultiStyleConfigHelpers } from '@chakra-ui/styled-system';
 
 const { definePartsStyle, defineMultiStyleConfig } = createMultiStyleConfigHelpers(parts.keys);
 
+const baseStyle = definePartsStyle({
+    dialog: {
+        gap: '32px',
+        alignItems: 'stretch',
+        p: '32px',
+        borderRadius: '16px',
+        maxW: { base: '316px', lg: '396px' },
+    },
+});
+
 const burger = definePartsStyle({
     dialogContainer: { zIndex: 'overlay', justifyContent: 'end', alignItems: 'start' },
     closeButton: { zIndex: 'overlay' },
@@ -22,5 +32,6 @@ const burger = definePartsStyle({
 });
 
 export const modalTheme = defineMultiStyleConfig({
+    baseStyle,
     variants: { burger },
 });

@@ -11,6 +11,8 @@ export type NotificationState = {
         message: string | null;
     };
     verificationFailedModal: ModalNotificationContent;
+    forgotPasswordModal: ModalNotificationContent;
+    verifyOtpModal: ModalNotificationContent;
 };
 
 const initialState: NotificationState = {
@@ -20,6 +22,12 @@ const initialState: NotificationState = {
         message: null,
     },
     verificationFailedModal: {
+        isOpen: false,
+    },
+    forgotPasswordModal: {
+        isOpen: false,
+    },
+    verifyOtpModal: {
         isOpen: false,
     },
 };
@@ -44,14 +52,40 @@ export const notificationSlice = createSlice({
         clearVerificationFailedModal: (state) => {
             state.verificationFailedModal.isOpen = false;
         },
+        setForgotPasswordModal: (state) => {
+            state.forgotPasswordModal.isOpen = true;
+        },
+        clearForgotPasswordModal: (state) => {
+            state.forgotPasswordModal.isOpen = false;
+        },
+        setVerifyOtpModal: (state) => {
+            state.verifyOtpModal.isOpen = true;
+        },
+        clearVerifyOtpModal: (state) => {
+            state.verifyOtpModal.isOpen = false;
+        },
     },
     selectors: {
         selectNotificationAlert: (state) => state.notificationAlert,
         selectVerificationFailedModal: (state) => state.verificationFailedModal.isOpen,
+        selectForgotPasswordModal: (state) => state.forgotPasswordModal.isOpen,
+        selectVerifyOtpModal: (state) => state.verifyOtpModal.isOpen,
     },
 });
 
-export const { setError, clearError, setVerificationFailedModal, clearVerificationFailedModal } =
-    notificationSlice.actions;
-export const { selectNotificationAlert, selectVerificationFailedModal } =
-    notificationSlice.selectors;
+export const {
+    setError,
+    clearError,
+    setVerificationFailedModal,
+    clearVerificationFailedModal,
+    setForgotPasswordModal,
+    clearForgotPasswordModal,
+    setVerifyOtpModal,
+    clearVerifyOtpModal,
+} = notificationSlice.actions;
+export const {
+    selectNotificationAlert,
+    selectVerificationFailedModal,
+    selectForgotPasswordModal,
+    selectVerifyOtpModal,
+} = notificationSlice.selectors;
