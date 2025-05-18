@@ -2,6 +2,7 @@ import {
     Button,
     FormControl,
     FormErrorMessage,
+    FormHelperText,
     FormLabel,
     IconButton,
     Input,
@@ -22,9 +23,15 @@ type SignupStep2Values = {
 };
 
 export const SecondStep = () => {
-    const { errors, touched, isValid, dirty } = useFormikContext<SignupStep2Values>();
+    const { errors, touched, handleBlur, setFieldValue } = useFormikContext<SignupStep2Values>();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFieldValue(name, value.trim());
+        handleBlur({ target: { name, value: value.trim() } });
+    };
 
     return (
         <VStack justifyContent='space-between' alignItems='stretch' minH='376px'>
@@ -41,7 +48,9 @@ export const SecondStep = () => {
                         bgColor='white'
                         placeholder='Логин'
                         data-test-id='login-input'
+                        onBlur={handleTrimBlur}
                     />
+                    <FormHelperText>Логин не менее 5 символов, только латиница</FormHelperText>
                     <FormErrorMessage>{errors.login}</FormErrorMessage>
                 </FormControl>
 
@@ -57,6 +66,7 @@ export const SecondStep = () => {
                             type={showPassword ? 'text' : 'password'}
                             bgColor='white'
                             placeholder='Пароль'
+                            data-test-id='password-input'
                         />
                         <InputRightElement>
                             <IconButton
@@ -69,6 +79,9 @@ export const SecondStep = () => {
                             />
                         </InputRightElement>
                     </InputGroup>
+                    <FormHelperText>
+                        Пароль не менее 8 символов, с заглавной буквой и цифрой
+                    </FormHelperText>
                     <FormErrorMessage>{errors.password}</FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={!!errors.confirmPassword && touched.confirmPassword}>
@@ -83,6 +96,7 @@ export const SecondStep = () => {
                             type={showConfirmPassword ? 'text' : 'password'}
                             bgColor='white'
                             placeholder='Повторите пароль'
+                            data-test-id='confirm-password-input'
                         />
                         <InputRightElement>
                             <IconButton
@@ -95,6 +109,7 @@ export const SecondStep = () => {
                             />
                         </InputRightElement>
                     </InputGroup>
+
                     <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
                 </FormControl>
             </VStack>
@@ -105,7 +120,7 @@ export const SecondStep = () => {
                     bgColor='black'
                     color='white'
                     size='lg'
-                    isDisabled={!isValid || !dirty}
+                    data-test-id='submit-button'
                 >
                     Зарегистрироваться
                 </Button>

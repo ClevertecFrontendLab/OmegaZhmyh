@@ -1,19 +1,15 @@
-import { Box, Flex, Image, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
-import { useLocation, useNavigate } from 'react-router';
+import { Box, Flex, Image, Link, Text } from '@chakra-ui/react';
+import { NavLink, useLocation } from 'react-router';
 
 import { SignUpForm } from '~/features/auth/';
 import { SignInForm } from '~/features/auth/';
+import { LINK_VARIANT } from '~/shared/config/chakra-variants';
 import { ROUTES } from '~/shared/config/routes';
 
 export const AuthPage = () => {
     const location = useLocation();
-    const navigate = useNavigate();
 
     const activeTab = location.pathname === '/' + ROUTES.SIGN_IN ? 0 : 1;
-
-    const handleTabChange = (index: number) => {
-        navigate('/' + (index === 0 ? ROUTES.SIGN_IN : ROUTES.SIGN_UP));
-    };
 
     return (
         <Flex
@@ -36,50 +32,35 @@ export const AuthPage = () => {
                             h={{ base: '38px', lg: '64px' }}
                         />
                     </Flex>
-                    <Tabs
-                        marginTop={{ base: '40px', md: '56px', lg: '80px' }}
-                        variant='unstyled'
-                        colorScheme='green'
-                        index={activeTab}
-                        onChange={handleTabChange}
-                    >
-                        <TabList borderBottom='1px solid' borderColor='blackAlpha.200'>
-                            <Tab
-                                fontSize={{ base: 'md', lg: 'lg' }}
-                                fontWeight='medium'
-                                padding='12px 24px'
-                                color='lime.800'
-                                borderBottom='2px solid transparent'
-                                _selected={{
-                                    color: '#2B823F',
-                                    borderColor: 'lime.700',
-                                }}
-                            >
-                                Вход на сайт
-                            </Tab>
-                            <Tab
-                                fontSize={{ base: 'md', lg: 'lg' }}
-                                fontWeight='medium'
-                                padding='12px 24px'
-                                color='lime.800'
-                                borderBottom='2px solid transparent'
-                                _selected={{
-                                    color: '#2B823F',
-                                    borderColor: 'lime.700',
-                                }}
-                            >
-                                Регистрация
-                            </Tab>
-                        </TabList>
-                        <TabPanels>
-                            <TabPanel paddingTop='40px'>
-                                <SignInForm />
-                            </TabPanel>
-                            <TabPanel paddingTop='40px'>
-                                <SignUpForm />
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs>
+                    <Flex justifyContent='center' flexWrap='wrap'>
+                        <Link
+                            variant={LINK_VARIANT}
+                            as={NavLink}
+                            to={`/${ROUTES.SIGN_IN}`}
+                            {...(location.pathname === `/${ROUTES.SIGN_IN}`
+                                ? {
+                                      'aria-selected': true,
+                                  }
+                                : { 'aria-selected': false })}
+                        >
+                            Вход на сайт
+                        </Link>
+                        <Link
+                            variant={LINK_VARIANT}
+                            as={NavLink}
+                            to={`/${ROUTES.SIGN_UP}`}
+                            {...(location.pathname === `/${ROUTES.SIGN_UP}`
+                                ? {
+                                      'aria-selected': true,
+                                  }
+                                : { 'aria-selected': false })}
+                        >
+                            Регистрация
+                        </Link>
+                    </Flex>
+                    <Flex paddingTop='40px'>
+                        {activeTab === 0 ? <SignInForm /> : <SignUpForm />}
+                    </Flex>
                 </Box>
                 <Text
                     position='absolute'

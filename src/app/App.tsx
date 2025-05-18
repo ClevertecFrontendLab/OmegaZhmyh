@@ -6,29 +6,28 @@ import { AuthPage } from '~/pages/AuthPage';
 import { VerificationPage } from '~/pages/AuthPage/ui/VerificationPage';
 import { ROUTES } from '~/shared/config/routes';
 import { SnackbarAlert } from '~/shared/ui/SnackbarAlert';
+import { FullscreenSpinner } from '~/widgets/fullScreenSpiner';
 import { Layout } from '~/widgets/Layout';
-import { BurgerMenu } from '~/widgets/Layout/ui/BurgerMenu';
-import { MobileFooter } from '~/widgets/Layout/ui/MobileFooter';
 
 import { AppRoutes } from './AppRoutes';
+import { ProtectedRoute } from './ProtectedRoute';
 import { AppLoader } from './providers/appLoader';
+
 function App() {
     return (
         <>
+            <FullscreenSpinner />
             <SnackbarAlert />
             <Routes>
                 <Route
-                    path='/'
+                    path='*'
                     element={
-                        <>
+                        <ProtectedRoute>
                             <AppLoader />
                             <Layout>
                                 <AppRoutes />
                             </Layout>
-
-                            <BurgerMenu />
-                            <MobileFooter />
-                        </>
+                        </ProtectedRoute>
                     }
                 />
                 <Route path={ROUTES.SIGN_UP} element={<AuthPage />} />

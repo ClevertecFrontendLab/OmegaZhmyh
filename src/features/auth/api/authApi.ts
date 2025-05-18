@@ -31,6 +31,13 @@ export const authApi = createApi({
                 method: 'POST',
                 body: credentials,
             }),
+            transformResponse: (response: AuthResponse, meta) => {
+                const token = meta?.response?.headers.get('authentication-access');
+                if (token) {
+                    localStorage.setItem('token', token);
+                }
+                return response;
+            },
         }),
         signup: builder.mutation<AuthResponse, SignupRequest>({
             query: (userData) => ({

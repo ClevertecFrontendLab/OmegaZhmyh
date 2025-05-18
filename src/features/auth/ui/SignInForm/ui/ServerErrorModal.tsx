@@ -28,6 +28,7 @@ export const ServerErrorModal = ({
             borderRadius='16px'
             maxW={{ base: '316px', lg: '396px' }}
             textAlign='center'
+            data-test-id='sign-in-error-modal'
         >
             <IconButton
                 aria-label='Закрыть'
@@ -38,6 +39,7 @@ export const ServerErrorModal = ({
                 size='xs'
                 variant='unstyled'
                 onClick={onClose}
+                data-test-id='close-button'
             />
             <Image
                 src='/src/shared/assets/Breakfast1.png'
@@ -63,6 +65,7 @@ export const ServerErrorModal = ({
                     w='100%'
                     borderRadius='6px'
                     onClick={onRetry}
+                    data-test-id='repeat-button'
                 >
                     Повторить
                 </Button>

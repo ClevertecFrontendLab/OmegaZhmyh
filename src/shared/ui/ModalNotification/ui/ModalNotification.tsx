@@ -1,23 +1,19 @@
-import { Box, IconButton, Image, Modal, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
+import { IconButton, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
 
 import { BsXCircle } from '~/shared/ui/Icons';
 
 type ModalNotificationProps = {
     isOpen: boolean;
     onClose: () => void;
-    img: string;
-    title: React.ReactNode;
-    body: React.ReactNode;
-    footer: React.ReactNode;
+    children: React.ReactNode;
+    dataTestId?: string;
 };
 
 export const ModalNotification = ({
     isOpen,
     onClose,
-    img,
-    title,
-    body,
-    footer,
+    children,
+    dataTestId,
 }: ModalNotificationProps) => {
     if (!isOpen) return null;
 
@@ -30,6 +26,7 @@ export const ModalNotification = ({
                 p='32px'
                 borderRadius='16px'
                 maxW={{ base: '316px', lg: '396px' }}
+                data-test-id={dataTestId}
             >
                 <IconButton
                     aria-label='Закрыть'
@@ -40,25 +37,10 @@ export const ModalNotification = ({
                     size='xs'
                     variant='unstyled'
                     onClick={onClose}
+                    data-test-id='close-button'
                 />
 
-                <Image
-                    src={img}
-                    boxSize={{ base: '108px', lg: '206px' }}
-                    mx='auto'
-                    alt='email-code-verification'
-                />
-                <Box>
-                    <Text textAlign='center' fontSize='2xl' fontWeight='bold'>
-                        {title}
-                    </Text>
-                    <Text mt='16px' textAlign='center' color='blackAlpha.900'>
-                        {body}
-                    </Text>
-                </Box>
-                <Box color='blackAlpha.600' textAlign='center' fontSize='xs'>
-                    {footer}
-                </Box>
+                {children}
             </ModalContent>
         </Modal>
     );

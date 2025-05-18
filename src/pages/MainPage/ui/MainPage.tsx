@@ -56,8 +56,8 @@ export const MainPage = () => {
                             Самое сочное
                         </Text>
                         <Box
-                            display={{ base: 'none', md: 'flex' }}
-                            visibility={{ base: 'hidden', md: 'visible' }}
+                            display={{ base: 'none', lg: 'flex' }}
+                            visibility={{ base: 'hidden', lg: 'visible' }}
                             data-test-id='juiciest-link'
                         >
                             <Link to='/the-juiciest'>
@@ -83,8 +83,8 @@ export const MainPage = () => {
                         mt={{ base: '12px' }}
                     />
                     <Flex
-                        display={{ base: 'flex', md: 'none' }}
-                        visibility={{ base: 'visible', md: 'hidden' }}
+                        display={{ base: 'flex', lg: 'none' }}
+                        visibility={{ base: 'visible', lg: 'hidden' }}
                         justifyContent='center'
                         data-test-id='juiciest-link-mobile'
                     >

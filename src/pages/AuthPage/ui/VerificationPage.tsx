@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router';
 
 import { ROUTES } from '~/shared/config/routes';
 import { useAppDispatch } from '~/shared/store/hooks';
-import { setVerificationFailedModal } from '~/shared/store/notificationSlice';
+import { setVerificationErrorModal } from '~/shared/store/notificationSlice';
 
 export const VerificationPage = () => {
     const [searchParams] = useSearchParams();
@@ -25,7 +25,7 @@ export const VerificationPage = () => {
             navigate(`/${ROUTES.SIGN_IN}`);
         } else {
             navigate(`/${ROUTES.SIGN_UP}`);
-            dispatch(setVerificationFailedModal());
+            dispatch(setVerificationErrorModal());
         }
     }, [searchParams, navigate, toast, dispatch]);
 

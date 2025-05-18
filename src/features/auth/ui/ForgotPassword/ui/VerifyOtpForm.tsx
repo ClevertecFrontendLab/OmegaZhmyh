@@ -1,58 +1,55 @@
-import {
-    Button,
-    IconButton,
-    Image,
-    Modal,
-    ModalContent,
-    ModalOverlay,
-    PinInput,
-    PinInputField,
-    Text,
-    useDisclosure,
-    VStack,
-} from '@chakra-ui/react';
+import { Box, HStack, Image, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
 
 import emailCodeVerification from '~/shared/assets/email-code-verification.png';
-import { BsXCircle } from '~/shared/ui/Icons';
+import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
+import {
+    clearVerifyOtpModal,
+    selectVerifyOtpModal,
+    selectVerifyOtpModalEmail,
+} from '~/shared/store/notificationSlice';
+import { ModalNotification } from '~/shared/ui/ModalNotification';
 
 export const VerifyOtpForm = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const dispatch = useAppDispatch();
+    const isVerifyOtpForm = useAppSelector(selectVerifyOtpModal);
+    const email = useAppSelector(selectVerifyOtpModalEmail);
+    const onVerifyOtpFormClose = () => dispatch(clearVerifyOtpModal());
     return (
-        <>
-            <Button onClick={onOpen}>Открыть модалку</Button>
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent gap='32px'>
-                    <IconButton
-                        aria-label='Закрыть'
-                        icon={<BsXCircle />}
-                        position='absolute'
-                        top='24px'
-                        right='24px'
-                        variant='ghost'
-                        onClick={onClose}
-                    />
-                    <Image src={emailCodeVerification} alt='email-code-verification' />
-                    <VStack gap='24px'>
-                        <VStack gap='16px'>
-                            <Text>
-                                Мы отправили вам на e-mail{' '}
-                                <Text fontWeight='semibold'>ekaterinabaker@gmail.ru</Text>{' '}
-                                шестизначный код. Введите его ниже.
-                            </Text>
-                            <PinInput>
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                            </PinInput>
-                        </VStack>
-                        <Text>Не пришло письмо? Проверьте папку Спам.</Text>
-                    </VStack>
-                </ModalContent>
-            </Modal>
-        </>
+        <ModalNotification
+            isOpen={isVerifyOtpForm}
+            onClose={onVerifyOtpFormClose}
+            dataTestId='verification-code-modal'
+        >
+            <Image
+                src={emailCodeVerification}
+                boxSize={{ base: '108px', lg: '206px' }}
+                mx='auto'
+                alt='email-code-verification'
+            />
+            <Box>
+                <Text mt='16px' textAlign='center' color='blackAlpha.900'>
+                    Мы отправили вам на e-mail <Text fontWeight='semibold'>{email}</Text>{' '}
+                    шестизначный код. Введите его ниже.
+                </Text>
+            </Box>
+            <HStack>
+                <PinInput>
+                    <PinInputField data-test-id='verification-code-input-1' />
+                    <PinInputField data-test-id='verification-code-input-2' />
+                    <PinInputField data-test-id='verification-code-input-3' />
+                    <PinInputField data-test-id='verification-code-input-4' />
+                    <PinInputField data-test-id='verification-code-input-5' />
+                    <PinInputField data-test-id='verification-code-input-6' />
+                </PinInput>
+            </HStack>
+            <Box color='blackAlpha.600' textAlign='center' fontSize='xs'>
+                <Text>
+                    Остались вопросы? Свяжитесь{' '}
+                    <Link textDecor='underline' href='mailto:support@example.com'>
+                        с поддержкой
+                    </Link>
+                </Text>
+            </Box>
+        </ModalNotification>
     );
 };

@@ -60,6 +60,7 @@ export const ForgotPasswordForm = () => {
                 p='32px'
                 borderRadius='16px'
                 maxW={{ base: '316px', lg: '396px' }}
+                data-test-id='send-email-modal'
             >
                 <IconButton
                     aria-label='Закрыть'
@@ -70,6 +71,7 @@ export const ForgotPasswordForm = () => {
                     size='xs'
                     variant='unstyled'
                     onClick={onClose}
+                    data-test-id='close-button'
                 />
 
                 <Image
@@ -92,9 +94,22 @@ export const ForgotPasswordForm = () => {
                     <Form>
                         <FormControl>
                             <FormLabel htmlFor='email'>Ваш e-mail</FormLabel>
-                            <Field as={Input} name='email' type='email' placeholder='e-mail' />
+                            <Field
+                                as={Input}
+                                name='email'
+                                type='email'
+                                placeholder='e-mail'
+                                data-test-id='email-input'
+                            />
                         </FormControl>
-                        <Button type='submit' size='lg' w='full' bg='black' color='white'>
+                        <Button
+                            type='submit'
+                            size='lg'
+                            w='full'
+                            bg='black'
+                            color='white'
+                            data-test-id='submit-button'
+                        >
                             Получить код
                         </Button>
                     </Form>

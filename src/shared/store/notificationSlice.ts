@@ -10,9 +10,10 @@ export type NotificationState = {
         title: string | null;
         message: string | null;
     };
-    verificationFailedModal: ModalNotificationContent;
+    verificationErrorModal: ModalNotificationContent;
+    emailVerificationModal: ModalNotificationContent & { email: string };
     forgotPasswordModal: ModalNotificationContent;
-    verifyOtpModal: ModalNotificationContent;
+    verifyOtpModal: ModalNotificationContent & { email: string };
 };
 
 const initialState: NotificationState = {
@@ -21,7 +22,11 @@ const initialState: NotificationState = {
         title: null,
         message: null,
     },
-    verificationFailedModal: {
+    emailVerificationModal: {
+        isOpen: false,
+        email: '',
+    },
+    verificationErrorModal: {
         isOpen: false,
     },
     forgotPasswordModal: {
@@ -29,6 +34,7 @@ const initialState: NotificationState = {
     },
     verifyOtpModal: {
         isOpen: false,
+        email: '',
     },
 };
 
@@ -46,11 +52,19 @@ export const notificationSlice = createSlice({
             state.notificationAlert.title = null;
             state.notificationAlert.message = null;
         },
-        setVerificationFailedModal: (state) => {
-            state.verificationFailedModal.isOpen = true;
+        setEmailVerificationModal: (state, action: PayloadAction<{ email: string }>) => {
+            state.emailVerificationModal.isOpen = true;
+            state.emailVerificationModal.email = action.payload.email;
         },
-        clearVerificationFailedModal: (state) => {
-            state.verificationFailedModal.isOpen = false;
+        clearEmailVerificationModal: (state) => {
+            state.emailVerificationModal.isOpen = false;
+            state.emailVerificationModal.email = '';
+        },
+        setVerificationErrorModal: (state) => {
+            state.verificationErrorModal.isOpen = true;
+        },
+        clearVerificationErrorModal: (state) => {
+            state.verificationErrorModal.isOpen = false;
         },
         setForgotPasswordModal: (state) => {
             state.forgotPasswordModal.isOpen = true;
@@ -58,26 +72,33 @@ export const notificationSlice = createSlice({
         clearForgotPasswordModal: (state) => {
             state.forgotPasswordModal.isOpen = false;
         },
-        setVerifyOtpModal: (state) => {
+        setVerifyOtpModal: (state, action: PayloadAction<{ email: string }>) => {
             state.verifyOtpModal.isOpen = true;
+            state.verifyOtpModal.email = action.payload.email;
         },
         clearVerifyOtpModal: (state) => {
             state.verifyOtpModal.isOpen = false;
+            state.verifyOtpModal.email = '';
         },
     },
     selectors: {
         selectNotificationAlert: (state) => state.notificationAlert,
-        selectVerificationFailedModal: (state) => state.verificationFailedModal.isOpen,
+        selectVerificationErrorModal: (state) => state.verificationErrorModal.isOpen,
+        selectEmailVerificationModal: (state) => state.emailVerificationModal.isOpen,
+        selectEmailVerificationModalEmail: (state) => state.emailVerificationModal.email,
         selectForgotPasswordModal: (state) => state.forgotPasswordModal.isOpen,
         selectVerifyOtpModal: (state) => state.verifyOtpModal.isOpen,
+        selectVerifyOtpModalEmail: (state) => state.verifyOtpModal.email,
     },
 });
 
 export const {
     setError,
     clearError,
-    setVerificationFailedModal,
-    clearVerificationFailedModal,
+    setEmailVerificationModal,
+    clearEmailVerificationModal,
+    setVerificationErrorModal,
+    clearVerificationErrorModal,
     setForgotPasswordModal,
     clearForgotPasswordModal,
     setVerifyOtpModal,
@@ -85,7 +106,10 @@ export const {
 } = notificationSlice.actions;
 export const {
     selectNotificationAlert,
-    selectVerificationFailedModal,
+    selectVerificationErrorModal,
+    selectEmailVerificationModal,
+    selectEmailVerificationModalEmail,
     selectForgotPasswordModal,
     selectVerifyOtpModal,
+    selectVerifyOtpModalEmail,
 } = notificationSlice.selectors;

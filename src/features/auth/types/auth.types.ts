@@ -26,7 +26,7 @@ export type ResetPasswordRequest = {
     confirmPassword: string;
 };
 
-export type AuthResponse = {
+export type SuccessResponse = {
     message: string;
     statusText: string;
 };
@@ -36,3 +36,5 @@ export type ErrorResponse = {
     message: string;
     error: string;
 };
+
+export type AuthResponse = SuccessResponse | ErrorResponse;

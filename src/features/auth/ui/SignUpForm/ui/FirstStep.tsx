@@ -8,7 +8,8 @@ type SignupStep1Values = {
 };
 
 export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
-    const { errors, touched, validateForm, setTouched } = useFormikContext<SignupStep1Values>();
+    const { errors, touched, validateForm, setTouched, handleBlur, setFieldValue } =
+        useFormikContext<SignupStep1Values>();
     const setSecondStep = () => {
         setTouched({
             firstName: true,
@@ -22,6 +23,12 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
         });
     };
 
+    const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFieldValue(name, value.trim());
+        handleBlur({ target: { name, value: value.trim() } });
+    };
+
     return (
         <VStack justifyContent='space-between' alignItems='stretch' minH='376px'>
             <VStack spacing='24px'>
@@ -31,11 +38,12 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
                     </FormLabel>
                     <Field
                         as={Input}
-                        id='firstName'
                         name='firstName'
                         size='lg'
                         bgColor='white'
                         placeholder='Имя'
+                        data-test-id='first-name-input'
+                        onBlur={handleTrimBlur}
                     />
                     <FormErrorMessage>{errors.firstName}</FormErrorMessage>
                 </FormControl>
@@ -51,6 +59,8 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
                         size='lg'
                         bgColor='white'
                         placeholder='Фамилия'
+                        data-test-id='last-name-input'
+                        onBlur={handleTrimBlur}
                     />
                     <FormErrorMessage>{errors.lastName}</FormErrorMessage>
                 </FormControl>
@@ -65,13 +75,21 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
                         size='lg'
                         bgColor='white'
                         placeholder='Email'
+                        data-test-id='email-input'
+                        onBlur={handleTrimBlur}
                     />
                     <FormErrorMessage>{errors.email}</FormErrorMessage>
                 </FormControl>
             </VStack>
 
             <VStack spacing='16px' alignItems='stretch'>
-                <Button onClick={setSecondStep} bgColor='black' color='white' size='lg'>
+                <Button
+                    onClick={setSecondStep}
+                    bgColor='black'
+                    color='white'
+                    size='lg'
+                    data-test-id='submit-button'
+                >
                     Далее
                 </Button>
             </VStack>
