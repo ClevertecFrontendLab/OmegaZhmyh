@@ -1,6 +1,8 @@
 import { Box, Image, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router';
 
 import verificationImage from '~/shared/assets/email-code-verification2.png';
+import { ROUTES } from '~/shared/config/routes';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearEmailVerificationModal,
@@ -11,9 +13,13 @@ import { ModalNotification } from '~/shared/ui/ModalNotification';
 
 export const EmailVerificationModal = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const email = useAppSelector(selectEmailVerificationModalEmail);
     const isEmailVerificationModal = useAppSelector(selectEmailVerificationModal);
-    const onEmailVerificationModalClose = () => dispatch(clearEmailVerificationModal());
+    const onEmailVerificationModalClose = () => {
+        dispatch(clearEmailVerificationModal());
+        navigate('/' + ROUTES.SIGN_IN);
+    };
     return (
         <ModalNotification
             isOpen={isEmailVerificationModal}

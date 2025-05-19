@@ -1,33 +1,32 @@
-import { Box, Flex, Text, useToast } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 
 import { ROUTES } from '~/shared/config/routes';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setVerificationErrorModal } from '~/shared/store/notificationSlice';
+import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 export const VerificationPage = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const toast = useToast();
     const dispatch = useAppDispatch();
+    const { handleError } = useErrorAlert();
 
     useEffect(() => {
         const emailVerified = searchParams.get('emailVerified');
 
         if (emailVerified === 'true') {
-            toast({
-                title: 'Верификация прошла успешно',
+            handleError({
+                errorTitle: 'Верификация прошла успешно',
                 status: 'success',
-                duration: 20000,
-                isClosable: true,
             });
             navigate(`/${ROUTES.SIGN_IN}`);
         } else {
             navigate(`/${ROUTES.SIGN_UP}`);
             dispatch(setVerificationErrorModal());
         }
-    }, [searchParams, navigate, toast, dispatch]);
+    }, [searchParams, navigate, dispatch, handleError]);
 
     return (
         <Flex

@@ -2,6 +2,7 @@ import { Box, Progress, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
 
+import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setEmailVerificationModal } from '~/shared/store/notificationSlice';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
@@ -58,17 +59,34 @@ export const SignUpForm = () => {
             await signup(values).unwrap();
             dispatch(setEmailVerificationModal({ email: values.email }));
         } catch (error) {
-            if (error && typeof error === 'object' && 'status' in error && error.status === 400) {
-                handleError({
-                    errorTitle: 'Неверный логин или пароль',
-                    errorMessage: 'Попробуйте снова.',
-                });
-            }
-            if (error && typeof error === 'object' && 'status' in error && error.status === 500) {
-                handleError({
-                    errorTitle: 'Ошибка сервера',
-                    errorMessage: 'Попробуйте немного позже.',
-                });
+            const SIGN_UP_LOGIN_CONFLICT_MESSAGE = 'Пользователь с таким login уже существует.';
+            const SIGN_UP_EMAIL_CONFLICT_MESSAGE = 'Пользователь с таким email уже существует.';
+
+            if (error && isErrorResponse(error)) {
+                if (error.status === 400 && error.data?.message == SIGN_UP_LOGIN_CONFLICT_MESSAGE) {
+                    handleError({
+                        errorTitle: SIGN_UP_LOGIN_CONFLICT_MESSAGE,
+                        errorMessage: 'Попробуйте снова.',
+                    });
+                } else if (
+                    error.status === 400 &&
+                    error.data?.message == SIGN_UP_EMAIL_CONFLICT_MESSAGE
+                ) {
+                    handleError({
+                        errorTitle: SIGN_UP_EMAIL_CONFLICT_MESSAGE,
+                        errorMessage: 'Попробуйте снова.',
+                    });
+                } else if (error.status === 500) {
+                    handleError({
+                        errorTitle: 'Ошибка сервера',
+                        errorMessage: 'Попробуйте немного позже.',
+                    });
+                } else {
+                    handleError({
+                        errorTitle: 'Неизвестная ошибка',
+                        errorMessage: 'Попробуйте немного позже.',
+                    });
+                }
             }
         }
     };

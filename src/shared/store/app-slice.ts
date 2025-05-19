@@ -13,11 +13,12 @@ const initialState = {
 };
 
 const updateLoadingState = (state: AppState) => {
-    state.isLoading =
+    /* state.isLoading =
         state.relevantKitchenLoading ||
         state.pageLoading ||
         state.categoriesLoading ||
-        state.authLoading;
+        state.authLoading; */
+    state.isLoading = state.authLoading;
 };
 
 export const appSlice = createSlice({

@@ -26,15 +26,19 @@ export type ResetPasswordRequest = {
     confirmPassword: string;
 };
 
-export type SuccessResponse = {
+export type AuthResponse = {
     message: string;
     statusText: string;
 };
 
 export type ErrorResponse = {
-    statusCode: number;
-    message: string;
-    error: string;
+    status: number;
+    data?: {
+        statusCode: number;
+        message: string;
+        error?: string;
+    };
 };
 
-export type AuthResponse = SuccessResponse | ErrorResponse;
+export const isErrorResponse = (error: unknown): error is ErrorResponse =>
+    typeof error === 'object' && error !== null && 'status' in error;

@@ -5,8 +5,9 @@ import { setError } from '~/shared/store/notificationSlice';
 
 type UseErrorAlertProps = {
     errorTitle: string;
-    errorMessage: string;
+    errorMessage?: string;
     redirectBack?: boolean;
+    status?: 'success' | 'error';
 };
 
 export const useErrorAlert = () => {
@@ -17,8 +18,9 @@ export const useErrorAlert = () => {
         errorTitle,
         errorMessage,
         redirectBack = false,
+        status,
     }: UseErrorAlertProps) => {
-        dispatch(setError({ title: errorTitle, message: errorMessage }));
+        dispatch(setError({ title: errorTitle, message: errorMessage, status }));
         if (redirectBack) {
             navigate(-1);
         }

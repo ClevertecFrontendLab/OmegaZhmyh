@@ -9,6 +9,7 @@ export type NotificationState = {
         isOpen: boolean;
         title: string | null;
         message: string | null;
+        status: 'success' | 'error';
     };
     verificationErrorModal: ModalNotificationContent;
     emailVerificationModal: ModalNotificationContent & { email: string };
@@ -21,6 +22,7 @@ const initialState: NotificationState = {
         isOpen: false,
         title: null,
         message: null,
+        status: 'error',
     },
     emailVerificationModal: {
         isOpen: false,
@@ -42,15 +44,24 @@ export const notificationSlice = createSlice({
     name: 'notification',
     initialState,
     reducers: {
-        setError: (state, action: PayloadAction<{ title: string; message: string }>) => {
+        setError: (
+            state,
+            action: PayloadAction<{
+                title: string;
+                message?: string | null;
+                status?: 'success' | 'error';
+            }>,
+        ) => {
             state.notificationAlert.isOpen = true;
             state.notificationAlert.title = action.payload.title;
-            state.notificationAlert.message = action.payload.message;
+            state.notificationAlert.message = action.payload.message ?? null;
+            state.notificationAlert.status = action.payload.status ?? 'error';
         },
         clearError: (state) => {
             state.notificationAlert.isOpen = false;
             state.notificationAlert.title = null;
             state.notificationAlert.message = null;
+            state.notificationAlert.status = 'error';
         },
         setEmailVerificationModal: (state, action: PayloadAction<{ email: string }>) => {
             state.emailVerificationModal.isOpen = true;
