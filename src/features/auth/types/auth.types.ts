@@ -17,7 +17,7 @@ export type ForgotPasswordRequest = {
 
 export type VerifyOtpRequest = {
     email: string;
-    code: string;
+    otpToken: string;
 };
 
 export type ResetPasswordRequest = {

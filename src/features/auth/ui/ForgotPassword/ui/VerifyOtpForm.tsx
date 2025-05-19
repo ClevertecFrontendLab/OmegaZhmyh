@@ -1,6 +1,9 @@
 import { Box, HStack, Image, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
+import { useVerifyOtpMutation } from '~/features/auth/api/authApi';
 import emailCodeVerification from '~/shared/assets/email-code-verification.png';
+import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearVerifyOtpModal,
@@ -13,7 +16,37 @@ export const VerifyOtpForm = () => {
     const dispatch = useAppDispatch();
     const isVerifyOtpForm = useAppSelector(selectVerifyOtpModal);
     const email = useAppSelector(selectVerifyOtpModalEmail);
-    const onVerifyOtpFormClose = () => dispatch(clearVerifyOtpModal());
+    const [otp, setOtp] = useState<string>('');
+    const [isInvalid, setIsInvalid] = useState(false);
+    const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+
+    useEffect(() => {
+        if (isLoading) {
+            dispatch(setAuthLoading(isLoading));
+        }
+    }, [dispatch, isLoading]);
+
+    const onVerifyOtpFormClose = () => {
+        setOtp('');
+        setIsInvalid(false);
+        dispatch(clearVerifyOtpModal());
+    };
+
+    const handleOtpChange = async (value: string) => {
+        setOtp(value);
+        setIsInvalid(false);
+        if (value.length === 6) {
+            try {
+                await verifyOtp({ email, otpToken: value }).unwrap();
+                dispatch(clearVerifyOtpModal());
+            } catch (error) {
+                console.error(error);
+                setOtp('');
+                setIsInvalid(true);
+            }
+        }
+    };
+
     return (
         <ModalNotification
             isOpen={isVerifyOtpForm}
@@ -33,7 +66,7 @@ export const VerifyOtpForm = () => {
                 </Text>
             </Box>
             <HStack>
-                <PinInput>
+                <PinInput onChange={handleOtpChange} value={otp} isInvalid={isInvalid}>
                     <PinInputField data-test-id='verification-code-input-1' />
                     <PinInputField data-test-id='verification-code-input-2' />
                     <PinInputField data-test-id='verification-code-input-3' />

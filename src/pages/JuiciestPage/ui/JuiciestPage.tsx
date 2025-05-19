@@ -32,12 +32,12 @@ export const JuiciestPage = () => {
     );
 
     useEffect(() => {
-        if (currentData?.data && isSuccess && currentData.meta.page === 1) {
+        if (currentData?.data && isSuccess && currentData.meta?.page === 1) {
             setJuiciestRecipes([...currentData.data]);
         } else if (currentData?.data && isSuccess) {
-            setJuiciestRecipes((prev) => [...prev, ...currentData.data]);
+            setJuiciestRecipes((prev) => [...prev, ...currentData.data!]);
         }
-    }, [currentData?.meta.page, currentData?.data.length]);
+    }, [currentData, isSuccess]);
 
     useEffect(() => {
         if (isError) {
@@ -54,9 +54,7 @@ export const JuiciestPage = () => {
         dispatch(setPageLoader(isLoading));
     }, [isLoading, dispatch]);
 
-    const hasMore = currentData?.meta?.totalPages
-        ? page < currentData.meta.totalPages || currentData.data.length < currentData.meta.limit
-        : false;
+    const hasMore = currentData?.meta?.totalPages ? page < currentData.meta.totalPages : false;
 
     const handleLoadMore = () => {
         setPage((prev) => prev + 1);

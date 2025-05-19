@@ -9,8 +9,8 @@ export type Meta = {
 };
 
 export type RecipeResponse = {
-    data: Recipe[];
-    meta: Meta;
+    data?: Recipe[];
+    meta?: Meta;
 };
 
 export type CategoriesResponse = (MainCategory | SubCategory)[];

@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     FormControl,
+    FormErrorMessage,
     FormLabel,
     IconButton,
     Image,
@@ -11,15 +12,19 @@ import {
     ModalOverlay,
     Text,
 } from '@chakra-ui/react';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { useState } from 'react';
 
 import { useForgotPasswordMutation } from '~/features/auth/api/authApi';
+import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { forgotPasswordSchema } from '~/features/auth/validation/auth.validation';
 import breakfast from '~/shared/assets/breakfast.png';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearForgotPasswordModal,
     selectForgotPasswordModal,
+    setVerificationErrorModal,
+    setVerifyOtpModal,
 } from '~/shared/store/notificationSlice';
 import { BsXCircle } from '~/shared/ui/Icons';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
@@ -30,23 +35,38 @@ export const ForgotPasswordForm = () => {
     const onClose = () => dispatch(clearForgotPasswordModal());
     const { handleError } = useErrorAlert();
     const [forgotPassword] = useForgotPasswordMutation();
+    const [isInvalid, setIsInvalid] = useState(false);
 
-    const onSubmit = async (values: { email: string }) => {
+    const onSubmit = async (
+        values: { email: string },
+        { resetForm }: FormikHelpers<{ email: string }>,
+    ) => {
         try {
             await forgotPassword(values).unwrap();
+            dispatch(clearForgotPasswordModal());
+            dispatch(setVerifyOtpModal({ email: values.email }));
+            dispatch(setVerificationErrorModal());
         } catch (error) {
-            if (error && typeof error === 'object' && 'status' in error && error.status === 403) {
-                console.log(error);
-                handleError({
-                    errorTitle: 'Неверный логин или пароль',
-                    errorMessage: 'Попробуйте снова.',
-                });
-            }
-            if (error && typeof error === 'object' && 'status' in error && error.status === 500) {
-                handleError({
-                    errorTitle: 'Ошибка сервера',
-                    errorMessage: 'Попробуйте немного позже.',
-                });
+            if (error && isErrorResponse(error)) {
+                resetForm();
+                setIsInvalid(true);
+                if (error.status === 403) {
+                    handleError({
+                        errorTitle: 'Такого e-mail нет',
+                        errorMessage:
+                            'Попробуйте другой e-mail или проверьте правильность его написания',
+                    });
+                } else if (error.status === 500) {
+                    handleError({
+                        errorTitle: 'Ошибка сервера',
+                        errorMessage: 'Попробуйте немного позже.',
+                    });
+                } else {
+                    handleError({
+                        errorTitle: 'Неизвестная ошибка',
+                        errorMessage: 'Попробуйте немного позже.',
+                    });
+                }
             }
         }
     };
@@ -91,28 +111,36 @@ export const ForgotPasswordForm = () => {
                     validationSchema={forgotPasswordSchema}
                     onSubmit={onSubmit}
                 >
-                    <Form>
-                        <FormControl>
-                            <FormLabel htmlFor='email'>Ваш e-mail</FormLabel>
-                            <Field
-                                as={Input}
-                                name='email'
-                                type='email'
-                                placeholder='e-mail'
-                                data-test-id='email-input'
-                            />
-                        </FormControl>
-                        <Button
-                            type='submit'
-                            size='lg'
-                            w='full'
-                            bg='black'
-                            color='white'
-                            data-test-id='submit-button'
-                        >
-                            Получить код
-                        </Button>
-                    </Form>
+                    {({ errors, handleChange }) => (
+                        <Form>
+                            <FormControl isInvalid={isInvalid || !!errors.email}>
+                                <FormLabel htmlFor='email'>Ваш e-mail</FormLabel>
+                                <Field
+                                    as={Input}
+                                    name='email'
+                                    type='email'
+                                    placeholder='e-mail'
+                                    data-test-id='email-input'
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                        handleChange(e);
+                                        setIsInvalid(false);
+                                    }}
+                                />
+                                <FormErrorMessage>{errors.email}</FormErrorMessage>
+                            </FormControl>
+                            <Button
+                                type='submit'
+                                mt='24px'
+                                size='lg'
+                                w='full'
+                                bg='black'
+                                color='white'
+                                data-test-id='submit-button'
+                            >
+                                Получить код
+                            </Button>
+                        </Form>
+                    )}
                 </Formik>
                 <Box color='blackAlpha.600' textAlign='center' fontSize='xs'>
                     Не пришло письмо? Проверьте папку Спам.

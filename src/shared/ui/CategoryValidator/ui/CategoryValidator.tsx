@@ -35,5 +35,5 @@ export const CategoryValidator = ({ children }: { children: React.ReactNode }) =
         }
     }, [category, subcategory, categories, isLoading, navigate]);
 
-    return children;
+    return categories ? null : children;
 };

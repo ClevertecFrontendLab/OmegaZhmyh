@@ -66,7 +66,7 @@ export function FoundRecipes({ cuisinePageFilter }: { cuisinePageFilter?: string
 
     useEffect(() => {
         if (isSearchedRecipesSuccess) {
-            dispatch(setCountSearchedRecipes(searchedRecipes?.data.length || 0));
+            dispatch(setCountSearchedRecipes(searchedRecipes?.data?.length || 0));
         }
     }, [isSearchedRecipesSuccess, dispatch, searchedRecipes]);
 

@@ -21,7 +21,7 @@ export const SnackbarAlert = () => {
             minWidth='300px'
             maxWidth='90vw'
             boxShadow='lg'
-            zIndex={1400}
+            zIndex='toast'
             variant='solid'
             padding='16px 24px'
             color='white'
