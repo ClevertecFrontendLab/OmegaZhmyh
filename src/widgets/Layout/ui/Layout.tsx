@@ -2,7 +2,6 @@ import { Container, Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import { AppLoader } from '~/app/providers/appLoader';
-import { SnackbarAlert } from '~/shared/ui/SnackbarAlert';
 
 import { BurgerMenu } from './BurgerMenu';
 import { Header } from './Header';
@@ -29,7 +28,6 @@ export const Layout = ({ children }: { children: ReactNode }) => (
             >
                 {children}
             </Container>
-            <SnackbarAlert />
             <Sidebar />
             <BurgerMenu />
         </Flex>

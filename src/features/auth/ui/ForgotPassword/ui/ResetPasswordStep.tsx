@@ -13,6 +13,7 @@ import {
 import { Field, useFormikContext } from 'formik';
 import { useState } from 'react';
 
+import { useHandleTrimBlur } from '~/features/auth/lib/handleTrimBlur';
 import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
@@ -21,6 +22,7 @@ export const ResetPasswordStep = () => {
     const { errors, touched } = useFormikContext<ResetPasswordRequest>();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const handleTrimBlur = useHandleTrimBlur();
 
     return (
         <VStack spacing='24px'>
@@ -36,6 +38,7 @@ export const ResetPasswordStep = () => {
                     bgColor='white'
                     placeholder='Логин'
                     data-test-id='login-input'
+                    onBlur={handleTrimBlur}
                 />
                 <FormHelperText>Логин не менее 5 символов, только латиница</FormHelperText>
                 <FormErrorMessage>{errors.login}</FormErrorMessage>

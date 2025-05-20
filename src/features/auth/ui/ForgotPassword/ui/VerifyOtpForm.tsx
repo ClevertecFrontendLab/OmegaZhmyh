@@ -2,6 +2,7 @@ import { Box, HStack, Image, Link, PinInput, PinInputField, Text } from '@chakra
 import { useState } from 'react';
 
 import { useVerifyOtpMutation } from '~/features/auth/api/authApi';
+import { isErrorResponse } from '~/features/auth/types/auth.types';
 import emailCodeVerification from '~/shared/assets/email-code-verification.png';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
@@ -12,6 +13,7 @@ import {
     setAccountRecoveryModal,
 } from '~/shared/store/notificationSlice';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
+import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 export const VerifyOtpForm = () => {
     const dispatch = useAppDispatch();
@@ -20,6 +22,7 @@ export const VerifyOtpForm = () => {
     const [otp, setOtp] = useState<string>('');
     const [isInvalid, setIsInvalid] = useState(false);
     const [verifyOtp] = useVerifyOtpMutation();
+    const { handleError } = useErrorAlert();
 
     const onVerifyOtpFormClose = () => {
         setOtp('');
@@ -37,9 +40,18 @@ export const VerifyOtpForm = () => {
                 dispatch(clearVerifyOtpModal());
                 dispatch(setAccountRecoveryModal({ email }));
             } catch (error) {
-                console.error(error);
-                setOtp('');
-                setIsInvalid(true);
+                if (error && isErrorResponse(error)) {
+                    if (error.status === 403) {
+                        setOtp('');
+                        setIsInvalid(true);
+                    } else {
+                        setOtp('');
+                        handleError({
+                            errorTitle: 'Ошибка сервера',
+                            errorMessage: 'Попробуйте немного позже.',
+                        });
+                    }
+                }
             } finally {
                 dispatch(setAuthLoading(false));
             }
@@ -59,6 +71,11 @@ export const VerifyOtpForm = () => {
                 alt='email-code-verification'
             />
             <Box>
+                {isInvalid ? (
+                    <Text fontSize='2xl' fontWeight='bold'>
+                        Неверный код
+                    </Text>
+                ) : null}
                 <Text mt='16px' textAlign='center' color='blackAlpha.900'>
                     Мы отправили вам на e-mail <Text fontWeight='semibold'>{email}</Text>{' '}
                     шестизначный код. Введите его ниже.

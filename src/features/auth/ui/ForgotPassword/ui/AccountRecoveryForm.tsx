@@ -4,6 +4,7 @@ import { Form, Formik } from 'formik';
 import { useResetPasswordMutation } from '~/features/auth/api/authApi';
 import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
 import { resetPasswordSchema } from '~/features/auth/validation/auth.validation';
+import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearAccountRecoveryModal,
@@ -25,6 +26,7 @@ export const AccountRecoveryForm = () => {
 
     const onSubmit = async (values: ResetPasswordRequest) => {
         try {
+            dispatch(setAuthLoading(true));
             await forgotPassword(values).unwrap();
             onAccountRecoveryModalClose();
             handleError({
@@ -36,6 +38,8 @@ export const AccountRecoveryForm = () => {
                 errorTitle: 'Ошибка сервера',
                 errorMessage: 'Попробуйте немного позже',
             });
+        } finally {
+            dispatch(setAuthLoading(false));
         }
     };
 

@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 
 import { selectCountSearchedRecipes } from '~/features/recipe-filters';
 import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
-import { setPageLoader } from '~/shared/store/app-slice';
 import { setError } from '~/shared/store/notificationSlice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 import { CookingBlogs } from '~/widgets/CookingBlogs';
@@ -20,7 +19,7 @@ export const MainPage = () => {
 
     const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
 
-    const { data, isError, isLoading } = useGetRecipesQuery({
+    const { data, isError } = useGetRecipesQuery({
         page: 1,
         limit: 8,
         sortBy: 'likes',
@@ -37,8 +36,7 @@ export const MainPage = () => {
                 }),
             );
         }
-        dispatch(setPageLoader(isLoading));
-    }, [isError, dispatch, isLoading]);
+    }, [isError, dispatch]);
 
     return (
         <Box>

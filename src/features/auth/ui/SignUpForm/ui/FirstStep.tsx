@@ -1,6 +1,8 @@
 import { Button, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react';
 import { Field, useFormikContext } from 'formik';
 
+import { useHandleTrimBlur } from '~/features/auth/lib/handleTrimBlur';
+
 type SignupStep1Values = {
     firstName: string;
     lastName: string;
@@ -8,8 +10,8 @@ type SignupStep1Values = {
 };
 
 export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
-    const { errors, touched, validateForm, setTouched, handleBlur, setFieldValue } =
-        useFormikContext<SignupStep1Values>();
+    const { errors, touched, validateForm, setTouched } = useFormikContext<SignupStep1Values>();
+    const handleTrimBlur = useHandleTrimBlur();
     const setSecondStep = () => {
         setTouched({
             firstName: true,
@@ -21,12 +23,6 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
                 setCurrentStep(2);
             }
         });
-    };
-
-    const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFieldValue(name, value.trim());
-        handleBlur({ target: { name, value: value.trim() } });
     };
 
     return (
