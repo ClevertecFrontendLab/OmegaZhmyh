@@ -19,7 +19,7 @@ import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 type SignupStep2Values = {
     login: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirm: string;
 };
 
 export const SecondStep = () => {
@@ -34,7 +34,7 @@ export const SecondStep = () => {
     };
 
     return (
-        <VStack justifyContent='space-between' alignItems='stretch' minH='376px'>
+        <VStack spacing='48px' alignItems='stretch' justifyContent='space-between' minH='376px'>
             <VStack spacing='24px'>
                 <FormControl isInvalid={!!errors.login && touched.login}>
                     <FormLabel htmlFor='login' fontWeight='normal'>
@@ -42,7 +42,6 @@ export const SecondStep = () => {
                     </FormLabel>
                     <Field
                         as={Input}
-                        id='login'
                         name='login'
                         size='lg'
                         bgColor='white'
@@ -61,7 +60,6 @@ export const SecondStep = () => {
                     <InputGroup size='lg'>
                         <Field
                             as={Input}
-                            id='password'
                             name='password'
                             type={showPassword ? 'text' : 'password'}
                             bgColor='white'
@@ -84,15 +82,14 @@ export const SecondStep = () => {
                     </FormHelperText>
                     <FormErrorMessage>{errors.password}</FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={!!errors.confirmPassword && touched.confirmPassword}>
-                    <FormLabel htmlFor='password' fontWeight='normal'>
+                <FormControl isInvalid={!!errors.passwordConfirm && touched.passwordConfirm}>
+                    <FormLabel htmlFor='passwordConfirm' fontWeight='normal'>
                         Повторите пароль
                     </FormLabel>
                     <InputGroup size='lg'>
                         <Field
                             as={Input}
-                            id='confirmPassword'
-                            name='confirmPassword'
+                            name='passwordConfirm'
                             type={showConfirmPassword ? 'text' : 'password'}
                             bgColor='white'
                             placeholder='Повторите пароль'
@@ -110,21 +107,19 @@ export const SecondStep = () => {
                         </InputRightElement>
                     </InputGroup>
 
-                    <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
+                    <FormErrorMessage>{errors.passwordConfirm}</FormErrorMessage>
                 </FormControl>
             </VStack>
 
-            <VStack spacing='16px' alignItems='stretch'>
-                <Button
-                    type='submit'
-                    bgColor='black'
-                    color='white'
-                    size='lg'
-                    data-test-id='submit-button'
-                >
-                    Зарегистрироваться
-                </Button>
-            </VStack>
+            <Button
+                type='submit'
+                bgColor='black'
+                color='white'
+                size='lg'
+                data-test-id='submit-button'
+            >
+                Зарегистрироваться
+            </Button>
         </VStack>
     );
 };

@@ -20,7 +20,7 @@ type SignUpFormValues = {
     email: string;
     login: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirm: string;
 };
 
 const initialValues: SignUpFormValues = {
@@ -29,7 +29,7 @@ const initialValues: SignUpFormValues = {
     email: '',
     login: '',
     password: '',
-    confirmPassword: '',
+    passwordConfirm: '',
 };
 
 export const SignUpForm = () => {

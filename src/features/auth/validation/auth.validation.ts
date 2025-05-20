@@ -36,7 +36,7 @@ export const signupStep1Schema = Yup.object().shape({
         .matches(/^[A-Za-z0-9!@#$&_+.-]+$/, 'Не соответствует формату')
         .matches(/[A-Z]/, 'Не соответствует формату')
         .matches(/[0-9]/, 'Не соответствует формату'),
-    confirmPassword: Yup.string()
+    passwordConfirm: Yup.string()
         .required('Повторите пароль')
         .oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
 });
@@ -61,7 +61,7 @@ export const resetPasswordSchema = Yup.object().shape({
         .min(8, 'Не соответствует формату')
         .matches(/^[A-Za-z0-9!@#$&_+.-]+$/, 'Не соответствует формату')
         .max(50, 'Максимальная длина 50 символов'),
-    confirmPassword: Yup.string()
+    passwordConfirm: Yup.string()
         .required('Повторите пароль')
         .oneOf([Yup.ref('password')], 'Пароли должны совпадать'),
 });

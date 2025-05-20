@@ -18,7 +18,7 @@ const updateLoadingState = (state: AppState) => {
         state.pageLoading ||
         state.categoriesLoading ||
         state.authLoading; */
-    state.isLoading = state.authLoading || state.pageLoading || state.relevantKitchenLoading;
+    state.isLoading = state.authLoading || state.categoriesLoading || state.relevantKitchenLoading;
 };
 
 export const appSlice = createSlice({

@@ -23,6 +23,7 @@ import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { useLoginMutation } from '../../../api/authApi';
 import { loginSchema } from '../../../validation/auth.validation';
+import { AccountRecoveryForm } from '../../ForgotPassword';
 import { ForgotPasswordForm } from '../../ForgotPassword/ui/ForgotPasswordForm';
 import { VerifyOtpForm } from '../../ForgotPassword/ui/VerifyOtpForm';
 import { ServerErrorModal } from './ServerErrorModal';
@@ -213,6 +214,7 @@ export const SignInForm = () => {
             />
             <ForgotPasswordForm />
             <VerifyOtpForm />
+            <AccountRecoveryForm />
         </>
     );
 };

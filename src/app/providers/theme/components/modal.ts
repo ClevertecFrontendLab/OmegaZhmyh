@@ -22,9 +22,10 @@ const burger = definePartsStyle({
         maxWidth: '352px',
         boxShadow: 'none',
         zIndex: 'overlay',
+        padding: 0,
     },
     body: {
-        padding: '0',
+        padding: 0,
         '::-webkit-scrollbar': {
             width: '0px',
         },

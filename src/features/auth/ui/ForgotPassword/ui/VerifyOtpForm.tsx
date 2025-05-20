@@ -1,5 +1,5 @@
 import { Box, HStack, Image, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useVerifyOtpMutation } from '~/features/auth/api/authApi';
 import emailCodeVerification from '~/shared/assets/email-code-verification.png';
@@ -9,6 +9,7 @@ import {
     clearVerifyOtpModal,
     selectVerifyOtpModal,
     selectVerifyOtpModalEmail,
+    setAccountRecoveryModal,
 } from '~/shared/store/notificationSlice';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 
@@ -18,13 +19,7 @@ export const VerifyOtpForm = () => {
     const email = useAppSelector(selectVerifyOtpModalEmail);
     const [otp, setOtp] = useState<string>('');
     const [isInvalid, setIsInvalid] = useState(false);
-    const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
-
-    useEffect(() => {
-        if (isLoading) {
-            dispatch(setAuthLoading(isLoading));
-        }
-    }, [dispatch, isLoading]);
+    const [verifyOtp] = useVerifyOtpMutation();
 
     const onVerifyOtpFormClose = () => {
         setOtp('');
@@ -37,12 +32,16 @@ export const VerifyOtpForm = () => {
         setIsInvalid(false);
         if (value.length === 6) {
             try {
+                dispatch(setAuthLoading(true));
                 await verifyOtp({ email, otpToken: value }).unwrap();
                 dispatch(clearVerifyOtpModal());
+                dispatch(setAccountRecoveryModal({ email }));
             } catch (error) {
                 console.error(error);
                 setOtp('');
                 setIsInvalid(true);
+            } finally {
+                dispatch(setAuthLoading(false));
             }
         }
     };

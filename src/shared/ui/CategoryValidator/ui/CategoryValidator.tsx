@@ -1,39 +1,22 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 
-import { selectAllCategories } from '~/entities/Category';
 import { MainCategory } from '~/entities/Category/types';
-import { userLoadingSelector } from '~/shared/store/app-slice';
+import { useGetCategoriesQuery } from '~/shared/api/yeedaaApi';
 
 export const CategoryValidator = ({ children }: { children: React.ReactNode }) => {
     const { category, subcategory } = useParams();
-    const categories = useSelector(selectAllCategories);
-    const isLoading = useSelector(userLoadingSelector);
-    const navigate = useNavigate();
+    const { data: categoriesData, isLoading, isSuccess } = useGetCategoriesQuery();
+    const categories = categoriesData ?? [];
 
-    useEffect(() => {
-        if (isLoading || !categories.length) return;
+    const mainCategory = categories.find(
+        (cat): cat is MainCategory => 'subCategories' in cat && cat.category === category,
+    );
+    const isValidSubcategory = mainCategory?.subCategories.some(
+        (sub) => sub.category === subcategory,
+    );
 
-        const mainCategory = categories.find(
-            (cat): cat is MainCategory => 'subCategories' in cat && cat.category === category,
-        );
-
-        if (!category || !mainCategory) {
-            navigate('/not-found', { replace: true });
-            return;
-        }
-
-        if (subcategory) {
-            const isValidSubcategory = mainCategory.subCategories.some(
-                (sub) => sub.category === subcategory,
-            );
-
-            if (!isValidSubcategory) {
-                navigate('/not-found', { replace: true });
-            }
-        }
-    }, [category, subcategory, categories, isLoading, navigate]);
-
-    return categories ? null : children;
+    if (isLoading) return null;
+    if ((isSuccess && categories.length === 0) || !isValidSubcategory)
+        return <Navigate to='/not-found' />;
+    return children;
 };

@@ -28,14 +28,7 @@ export const AppRoutes = () => (
                 </ProtectedRoute>
             }
         />
-        <Route
-            path={ROUTES.CATEGORY}
-            element={
-                <CategoryValidator>
-                    <CategoryRedirect />
-                </CategoryValidator>
-            }
-        />
+        <Route path={ROUTES.CATEGORY} element={<CategoryRedirect />} />
         <Route
             path={ROUTES.SUBCATEGORY}
             element={

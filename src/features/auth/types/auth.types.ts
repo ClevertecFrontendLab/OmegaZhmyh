@@ -22,8 +22,9 @@ export type VerifyOtpRequest = {
 
 export type ResetPasswordRequest = {
     login: string;
+    email: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirm: string;
 };
 
 export type AuthResponse = {

@@ -15,6 +15,7 @@ export type NotificationState = {
     emailVerificationModal: ModalNotificationContent & { email: string };
     forgotPasswordModal: ModalNotificationContent;
     verifyOtpModal: ModalNotificationContent & { email: string };
+    accountRecoveryModal: ModalNotificationContent & { email: string };
 };
 
 const initialState: NotificationState = {
@@ -35,6 +36,10 @@ const initialState: NotificationState = {
         isOpen: false,
     },
     verifyOtpModal: {
+        isOpen: false,
+        email: '',
+    },
+    accountRecoveryModal: {
         isOpen: false,
         email: '',
     },
@@ -91,6 +96,14 @@ export const notificationSlice = createSlice({
             state.verifyOtpModal.isOpen = false;
             state.verifyOtpModal.email = '';
         },
+        setAccountRecoveryModal: (state, action: PayloadAction<{ email: string }>) => {
+            state.accountRecoveryModal.isOpen = true;
+            state.accountRecoveryModal.email = action.payload.email;
+        },
+        clearAccountRecoveryModal: (state) => {
+            state.accountRecoveryModal.isOpen = false;
+            state.accountRecoveryModal.email = '';
+        },
     },
     selectors: {
         selectNotificationAlert: (state) => state.notificationAlert,
@@ -100,6 +113,8 @@ export const notificationSlice = createSlice({
         selectForgotPasswordModal: (state) => state.forgotPasswordModal.isOpen,
         selectVerifyOtpModal: (state) => state.verifyOtpModal.isOpen,
         selectVerifyOtpModalEmail: (state) => state.verifyOtpModal.email,
+        selectAccountRecoveryModal: (state) => state.accountRecoveryModal.isOpen,
+        selectAccountRecoveryModalEmail: (state) => state.accountRecoveryModal.email,
     },
 });
 
@@ -114,6 +129,8 @@ export const {
     clearForgotPasswordModal,
     setVerifyOtpModal,
     clearVerifyOtpModal,
+    setAccountRecoveryModal,
+    clearAccountRecoveryModal,
 } = notificationSlice.actions;
 export const {
     selectNotificationAlert,
@@ -123,4 +140,6 @@ export const {
     selectForgotPasswordModal,
     selectVerifyOtpModal,
     selectVerifyOtpModalEmail,
+    selectAccountRecoveryModal,
+    selectAccountRecoveryModalEmail,
 } = notificationSlice.selectors;

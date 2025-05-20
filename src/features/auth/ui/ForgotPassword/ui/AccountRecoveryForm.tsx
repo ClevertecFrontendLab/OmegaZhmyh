@@ -1,28 +1,32 @@
 import { Text } from '@chakra-ui/react';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 
-import { useForgotPasswordMutation } from '~/features/auth/api/authApi';
+import { useResetPasswordMutation } from '~/features/auth/api/authApi';
+import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
+import { resetPasswordSchema } from '~/features/auth/validation/auth.validation';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
-    clearVerificationErrorModal,
-    selectVerificationErrorModal,
+    clearAccountRecoveryModal,
+    selectAccountRecoveryModal,
+    selectAccountRecoveryModalEmail,
 } from '~/shared/store/notificationSlice';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
-import { SecondStep } from '../../SignUpForm/ui/SecondStep';
+import { ResetPasswordStep } from './ResetPasswordStep';
 
 export const AccountRecoveryForm = () => {
     const dispatch = useAppDispatch();
-    const onVerificationFailedClose = () => dispatch(clearVerificationErrorModal());
-    const isVerificationFailed = useAppSelector(selectVerificationErrorModal);
-    const [forgotPassword] = useForgotPasswordMutation();
+    const onAccountRecoveryModalClose = () => dispatch(clearAccountRecoveryModal());
+    const isAccountRecoveryModalOpen = useAppSelector(selectAccountRecoveryModal);
+    const email = useAppSelector(selectAccountRecoveryModalEmail);
+    const [forgotPassword] = useResetPasswordMutation();
     const { handleError } = useErrorAlert();
 
-    const onSubmit = async (values: { email: string }) => {
+    const onSubmit = async (values: ResetPasswordRequest) => {
         try {
             await forgotPassword(values).unwrap();
-            onVerificationFailedClose();
+            onAccountRecoveryModalClose();
             handleError({
                 errorTitle: 'Восстановление данных успешно',
                 status: 'success',
@@ -37,15 +41,26 @@ export const AccountRecoveryForm = () => {
 
     return (
         <ModalNotification
-            isOpen={isVerificationFailed}
-            onClose={onVerificationFailedClose}
+            isOpen={isAccountRecoveryModalOpen}
+            onClose={onAccountRecoveryModalClose}
             dataTestId='reset-credentials-modal'
         >
             <Text textAlign='center' fontSize='2xl' fontWeight='bold'>
                 Восстановление аккаунта
             </Text>
-            <Formik initialValues={{ email: '' }} onSubmit={onSubmit}>
-                <SecondStep />
+            <Formik
+                initialValues={{
+                    login: '',
+                    password: '',
+                    passwordConfirm: '',
+                    email,
+                }}
+                validationSchema={resetPasswordSchema}
+                onSubmit={onSubmit}
+            >
+                <Form>
+                    <ResetPasswordStep />
+                </Form>
             </Formik>
         </ModalNotification>
     );
