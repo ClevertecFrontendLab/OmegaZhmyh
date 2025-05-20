@@ -27,7 +27,7 @@ export const CuisinePage = () => {
     const pageMainCategory = categories.find((c) => c.category === urlCategory);
     const pageSubcategory = subcategories.find((c) => c.category === urlSubcategory);
 
-    const { data, isLoading } = useGetRecipeBySubategoryQuery(
+    const { data, isFetching } = useGetRecipeBySubategoryQuery(
         {
             subcategoryId: pageSubcategory?._id ?? '',
             limit: 8,
@@ -39,8 +39,8 @@ export const CuisinePage = () => {
     const recipes = data?.data;
 
     useEffect(() => {
-        dispatch(setPageLoader(isLoading));
-    }, [isLoading, dispatch]);
+        dispatch(setPageLoader(isFetching));
+    }, [isFetching, dispatch]);
 
     return (
         <Flex justifyContent='center' direction='column' style={{ scrollbarGutter: 'stable' }}>
