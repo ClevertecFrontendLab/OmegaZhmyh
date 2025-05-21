@@ -1,7 +1,16 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, VStack } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Input,
+    VStack,
+} from '@chakra-ui/react';
 import { Field, useFormikContext } from 'formik';
 
-import { useHandleTrimBlur } from '~/features/auth/lib/handleTrimBlur';
+import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
+import { FORM_FIELD } from '~/shared/config/chakra-variants';
 
 type SignupStep1Values = {
     firstName: string;
@@ -26,18 +35,17 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
     };
 
     return (
-        <VStack justifyContent='space-between' alignItems='stretch' minH='376px'>
+        <Box>
             <VStack spacing='24px'>
                 <FormControl isInvalid={!!errors.firstName && touched.firstName}>
-                    <FormLabel htmlFor='firstName' fontWeight='normal'>
-                        Имя
-                    </FormLabel>
+                    <FormLabel htmlFor='firstName'>Ваше имя</FormLabel>
                     <Field
                         as={Input}
                         name='firstName'
+                        variant={FORM_FIELD}
                         size='lg'
-                        bgColor='white'
                         placeholder='Имя'
+                        _placeholder={{ color: 'lime.800' }}
                         data-test-id='first-name-input'
                         onBlur={handleTrimBlur}
                     />
@@ -45,15 +53,13 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.lastName && touched.lastName}>
-                    <FormLabel htmlFor='lastName' fontWeight='normal'>
-                        Фамилия
-                    </FormLabel>
+                    <FormLabel htmlFor='lastName'>Ваша фамилия</FormLabel>
                     <Field
                         as={Input}
                         id='lastName'
                         name='lastName'
+                        variant={FORM_FIELD}
                         size='lg'
-                        bgColor='white'
                         placeholder='Фамилия'
                         data-test-id='last-name-input'
                         onBlur={handleTrimBlur}
@@ -62,15 +68,15 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
                 </FormControl>
                 <FormControl isInvalid={!!errors.email && touched.email}>
                     <FormLabel htmlFor='email' fontWeight='normal'>
-                        Email
+                        Ваш e-mail
                     </FormLabel>
                     <Field
                         as={Input}
                         id='email'
                         name='email'
+                        placeholder='e-mail'
+                        variant={FORM_FIELD}
                         size='lg'
-                        bgColor='white'
-                        placeholder='Email'
                         data-test-id='email-input'
                         onBlur={handleTrimBlur}
                     />
@@ -78,17 +84,18 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
                 </FormControl>
             </VStack>
 
-            <VStack spacing='16px' alignItems='stretch'>
-                <Button
-                    onClick={setSecondStep}
-                    bgColor='black'
-                    color='white'
-                    size='lg'
-                    data-test-id='submit-button'
-                >
-                    Далее
-                </Button>
-            </VStack>
-        </VStack>
+            <Button
+                onClick={setSecondStep}
+                mt='48px'
+                width='full'
+                bgColor='blackAlpha.900'
+                borderColor='blackAlpha.200'
+                color='white'
+                size='lg'
+                data-test-id='submit-button'
+            >
+                Дальше
+            </Button>
+        </Box>
     );
 };

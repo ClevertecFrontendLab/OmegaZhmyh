@@ -1,7 +1,11 @@
 import { extendTheme } from '@chakra-ui/react';
 
+import { accordionTheme } from './components/accordion';
 import { checkboxTheme } from './components/checkbox';
 import { drawerTheme } from './components/drawer';
+import { formControlTheme } from './components/formControl';
+import { formLabelTheme } from './components/formLabel';
+import { inputTheme } from './components/input';
 import { linkTheme } from './components/link';
 import { modalTheme } from './components/modal';
 import { switchTheme } from './components/switch';
@@ -13,10 +17,14 @@ const theme = extendTheme({
         Switch: switchTheme,
         Tabs: tabsTheme,
         Table: tableTheme,
+        Accordion: accordionTheme,
         Checkbox: checkboxTheme,
         Modal: modalTheme,
         Drawer: drawerTheme,
         Link: linkTheme,
+        Input: inputTheme,
+        Form: formControlTheme,
+        FormLabel: formLabelTheme,
     },
     colors: {
         lime: {

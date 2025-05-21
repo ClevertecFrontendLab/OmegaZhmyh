@@ -8,10 +8,10 @@ import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
 import { RecipePage } from '~/pages/RecipePage';
 import { ROUTES } from '~/shared/config/routes';
-import { CategoryRedirect } from '~/shared/ui/CategoryRedirect';
-import { CategoryValidator } from '~/shared/ui/CategoryValidator';
 import { Layout } from '~/widgets/Layout';
 
+import { CategoryRedirect } from './CategoryRedirect';
+import { CategoryValidator } from './CategoryValidator';
 import { ProtectedRoute } from './ProtectedRoute';
 import { AppLoader } from './providers/appLoader';
 

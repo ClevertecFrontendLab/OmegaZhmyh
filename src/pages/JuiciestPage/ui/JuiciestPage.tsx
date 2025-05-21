@@ -18,8 +18,9 @@ import { SearchPanel } from '~/widgets/SearchPanel';
 export const JuiciestPage = () => {
     const [page, setPage] = useState(1);
     const [juiciestRecipes, setJuiciestRecipes] = useState<Recipe[]>([]);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
     const dispatch = useDispatch();
-    const { currentData, isLoading, isFetching, isError, isSuccess } = useGetRecipesQuery(
+    const { currentData, isFetching, isError, isSuccess } = useGetRecipesQuery(
         {
             page: page,
             limit: 8,
@@ -51,8 +52,14 @@ export const JuiciestPage = () => {
     }, [isError, dispatch]);
 
     useEffect(() => {
-        dispatch(setPageLoader(isLoading));
-    }, [isLoading, dispatch]);
+        dispatch(setPageLoader(isFirstLoad));
+    }, [isFirstLoad, dispatch]);
+
+    useEffect(() => {
+        if (!isFetching) {
+            setIsFirstLoad(false);
+        }
+    }, [isFetching]);
 
     const hasMore = currentData?.meta?.totalPages ? page < currentData.meta.totalPages : false;
 

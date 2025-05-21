@@ -102,7 +102,15 @@ export const SignUpForm = () => {
                     <Form data-test-id='sign-up-form'>
                         <Text>{stepTitles[currentStep - 1]}</Text>
                         <Progress
-                            colorScheme='lime'
+                            height='8px'
+                            isAnimated
+                            hasStripe
+                            bgColor='blackAlpha.100'
+                            sx={{
+                                '& > div': {
+                                    backgroundColor: 'lime.300',
+                                },
+                            }}
                             value={getProgressValue(values, errors)}
                             mb={4}
                             data-test-id='sign-up-progress'

@@ -58,7 +58,13 @@ export const NavMenu = (props: NavMenuProps) => {
                             data-test-id={categoryInfo.category === 'vegan' ? 'vegan-cuisine' : ''}
                         >
                             <img src={getImgUrlPath(categoryInfo.icon)} />
-                            <Text flex='1' textAlign='left'>
+                            <Text
+                                flex='1'
+                                textAlign='left'
+                                overflow='hidden'
+                                textOverflow='ellipsis'
+                                whiteSpace='nowrap'
+                            >
                                 {categoryInfo.title}
                             </Text>
                             <AccordionIcon />

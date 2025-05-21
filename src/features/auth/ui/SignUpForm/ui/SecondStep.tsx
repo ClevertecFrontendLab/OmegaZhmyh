@@ -13,6 +13,7 @@ import {
 import { Field, useFormikContext } from 'formik';
 import { useState } from 'react';
 
+import { FORM_FIELD } from '~/shared/config/chakra-variants';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 
@@ -37,14 +38,12 @@ export const SecondStep = () => {
         <VStack spacing='48px' alignItems='stretch' justifyContent='space-between' minH='376px'>
             <VStack spacing='24px'>
                 <FormControl isInvalid={!!errors.login && touched.login}>
-                    <FormLabel htmlFor='login' fontWeight='normal'>
-                        Логин для входа на сайт
-                    </FormLabel>
+                    <FormLabel htmlFor='login'>Логин для входа на сайт</FormLabel>
                     <Field
                         as={Input}
                         name='login'
                         size='lg'
-                        bgColor='white'
+                        variant={FORM_FIELD}
                         placeholder='Логин'
                         data-test-id='login-input'
                         onBlur={handleTrimBlur}
@@ -54,15 +53,14 @@ export const SecondStep = () => {
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.password && touched.password}>
-                    <FormLabel htmlFor='password' fontWeight='normal'>
-                        Пароль
-                    </FormLabel>
+                    <FormLabel htmlFor='password'>Пароль</FormLabel>
                     <InputGroup size='lg'>
                         <Field
                             as={Input}
                             name='password'
+                            size='lg'
                             type={showPassword ? 'text' : 'password'}
-                            bgColor='white'
+                            variant={FORM_FIELD}
                             placeholder='Пароль'
                             data-test-id='password-input'
                         />
@@ -83,15 +81,14 @@ export const SecondStep = () => {
                     <FormErrorMessage>{errors.password}</FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={!!errors.passwordConfirm && touched.passwordConfirm}>
-                    <FormLabel htmlFor='passwordConfirm' fontWeight='normal'>
-                        Повторите пароль
-                    </FormLabel>
+                    <FormLabel htmlFor='passwordConfirm'>Повторите пароль</FormLabel>
                     <InputGroup size='lg'>
                         <Field
                             as={Input}
                             name='passwordConfirm'
+                            size='lg'
                             type={showConfirmPassword ? 'text' : 'password'}
-                            bgColor='white'
+                            variant={FORM_FIELD}
                             placeholder='Повторите пароль'
                             data-test-id='confirm-password-input'
                         />

@@ -3,7 +3,8 @@ import { NavLink, useLocation } from 'react-router';
 
 import { SignUpForm } from '~/features/auth/';
 import { SignInForm } from '~/features/auth/';
-import { LINK_VARIANT } from '~/shared/config/chakra-variants';
+import AuthPageImg from '~/shared/assets/auth-page.jpg';
+import { AUTH_LINK_VARIANT } from '~/shared/config/chakra-variants';
 import { ROUTES } from '~/shared/config/routes';
 
 export const AuthPage = () => {
@@ -18,14 +19,19 @@ export const AuthPage = () => {
             bgGradient='linear-gradient(208deg, #eaffc7 0%, #29813f 100%)'
             justifyContent='center'
         >
-            <VStack justifyContent='space-between'>
+            <VStack
+                justifyContent='space-between'
+                maxW={{ base: '100%', lg: '50%' }}
+                w='100%'
+                padding={{ base: '16px', md: '20px' }}
+            >
                 <Flex
                     marginTop={{ base: '72px', md: '140px', lg: '170px' }}
                     maxW={{ base: '328px', md: '355px', lg: '451px', xl: '461px' }}
+                    w='100%'
                     align='stretch'
                     direction='column'
                     flexGrow={1}
-                    position='relative'
                 >
                     <Image
                         src='/src/shared/assets/logo.svg'
@@ -41,7 +47,7 @@ export const AuthPage = () => {
                         width='full'
                     >
                         <Link
-                            variant={LINK_VARIANT}
+                            variant={AUTH_LINK_VARIANT}
                             as={NavLink}
                             to={`/${ROUTES.SIGN_IN}`}
                             {...(location.pathname === `/${ROUTES.SIGN_IN}`
@@ -53,7 +59,7 @@ export const AuthPage = () => {
                             Вход на сайт
                         </Link>
                         <Link
-                            variant={LINK_VARIANT}
+                            variant={AUTH_LINK_VARIANT}
                             as={NavLink}
                             to={`/${ROUTES.SIGN_UP}`}
                             {...(location.pathname === `/${ROUTES.SIGN_UP}`
@@ -70,11 +76,11 @@ export const AuthPage = () => {
                     </Flex>
                 </Flex>
                 <Box
-                    bottom='30px'
-                    left='30px'
                     fontSize='xs'
                     fontWeight='semibold'
-                    color='blackAlpha.700'
+                    color='black'
+                    padding='10px'
+                    alignSelf='start'
                 >
                     Все права защищены, ученический файл, ©Клевер Технолоджи, 2025
                 </Box>
@@ -82,21 +88,15 @@ export const AuthPage = () => {
 
             {/* Правая часть */}
             <Flex width='50%' position='relative' display={{ base: 'none', lg: 'flex' }}>
-                <Image
-                    src='/src/shared/assets/auth-page.jpg'
-                    alt='food'
-                    objectFit='cover'
-                    w='100%'
-                    h='100%'
-                    borderRadius='0'
-                />
+                <Image src={AuthPageImg} alt='food' objectFit='cover' w='100%' />
                 <Box
                     position='absolute'
                     bottom='30px'
                     right='30px'
-                    color='blackAlpha.800'
+                    color='black'
                     fontSize='xs'
                     fontWeight='semibold'
+                    padding='10px'
                 >
                     Лучший сервис для ваших кулинарных побед
                 </Box>

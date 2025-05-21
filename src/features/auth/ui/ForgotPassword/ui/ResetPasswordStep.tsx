@@ -13,7 +13,7 @@ import {
 import { Field, useFormikContext } from 'formik';
 import { useState } from 'react';
 
-import { useHandleTrimBlur } from '~/features/auth/lib/handleTrimBlur';
+import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
 import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';

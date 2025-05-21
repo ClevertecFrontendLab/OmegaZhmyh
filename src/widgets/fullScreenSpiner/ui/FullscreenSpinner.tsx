@@ -1,10 +1,14 @@
 import { Flex, Spinner } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
 
 import { userLoadingSelector } from '~/shared/store/app-slice';
 import { useAppSelector } from '~/shared/store/hooks';
+import { closeBurger } from '~/widgets/Layout';
 
 export const FullscreenSpinner = () => {
     const idAppLoading = useAppSelector(userLoadingSelector);
+    const dispatch = useDispatch();
+    const burgerClose = () => dispatch(closeBurger());
     if (!idAppLoading) return null;
     return (
         <Flex
@@ -16,6 +20,7 @@ export const FullscreenSpinner = () => {
             backdropFilter='blur(4px)'
             background='rgba(0, 0, 0, 0.16)'
             zIndex='popover'
+            onClick={burgerClose}
             data-test-id='app-loader'
         >
             <Flex
