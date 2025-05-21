@@ -26,7 +26,7 @@ export const AuthPage = () => {
                 padding={{ base: '16px', md: '20px' }}
             >
                 <Flex
-                    marginTop={{ base: '72px', md: '140px', lg: '170px' }}
+                    marginTop={{ base: '56px', md: '120px', lg: '150px' }}
                     maxW={{ base: '328px', md: '355px', lg: '451px', xl: '461px' }}
                     w='100%'
                     align='stretch'
@@ -91,8 +91,8 @@ export const AuthPage = () => {
                 <Image src={AuthPageImg} alt='food' objectFit='cover' w='100%' />
                 <Box
                     position='absolute'
-                    bottom='30px'
-                    right='30px'
+                    bottom='20px'
+                    right='20px'
                     color='black'
                     fontSize='xs'
                     fontWeight='semibold'

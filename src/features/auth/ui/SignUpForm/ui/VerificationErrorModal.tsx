@@ -10,8 +10,10 @@ import { ModalNotification } from '~/shared/ui/ModalNotification';
 
 export const VerificationErrorModal = () => {
     const dispatch = useAppDispatch();
-    const onVerificationFailedClose = () => dispatch(clearVerificationErrorModal());
+
     const isVerificationFailed = useAppSelector(selectVerificationErrorModal);
+    const onVerificationFailedClose = () => dispatch(clearVerificationErrorModal());
+
     return (
         <ModalNotification
             isOpen={isVerificationFailed}

@@ -17,13 +17,27 @@ import { SignInFormValues } from '../types';
 import { ServerErrorModal } from './ServerErrorModal';
 import { SignInFormContent } from './SignInFormContent';
 
+const SIGNIN_FORM_ERROR_MESSAGES = {
+    USER_NOT_FOUND: 'Пользователь не найден',
+    TRY_AGAIN: 'Попробуйте снова.',
+    INVALID_CREDENTIALS: 'Неверный логин или пароль',
+    EMAIL_NOT_VERIFIED: 'E-mail не верифицирован',
+    CHECK_EMAIL: 'Проверьте почту и перейдите по ссылке.',
+} as const;
+
 export const SignInForm = () => {
-    const [login, { isLoading }] = useLoginMutation();
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const [login, { isLoading }] = useLoginMutation();
+
     const [isRetryModalOpen, setIsRetryModalOpen] = useState(false);
     const [formValues, setFormValues] = useState<SignInFormValues | null>(null);
-    const { handleError } = useErrorAlert();
+
+    const { handleError } = useErrorAlert(
+        { base: '50%', lg: '25%' },
+        { base: '100px', lg: '80px' },
+    );
 
     useEffect(() => {
         dispatch(setAuthLoading(isLoading));
@@ -37,18 +51,19 @@ export const SignInForm = () => {
             if (error && isErrorResponse(error)) {
                 if (error.status === 400) {
                     handleError({
-                        errorTitle: error.data?.message || 'Пользователь не найден',
-                        errorMessage: 'Попробуйте снова.',
+                        errorTitle:
+                            error.data?.message || SIGNIN_FORM_ERROR_MESSAGES.USER_NOT_FOUND,
+                        errorMessage: SIGNIN_FORM_ERROR_MESSAGES.TRY_AGAIN,
                     });
                 } else if (error.status === 401) {
                     handleError({
-                        errorTitle: 'Неверный логин или пароль',
-                        errorMessage: 'Попробуйте снова.',
+                        errorTitle: SIGNIN_FORM_ERROR_MESSAGES.INVALID_CREDENTIALS,
+                        errorMessage: SIGNIN_FORM_ERROR_MESSAGES.TRY_AGAIN,
                     });
                 } else if (error.status === 403) {
                     handleError({
-                        errorTitle: 'E-mail не верифицирован',
-                        errorMessage: 'Проверьте почту и перейдите по ссылке.',
+                        errorTitle: SIGNIN_FORM_ERROR_MESSAGES.EMAIL_NOT_VERIFIED,
+                        errorMessage: SIGNIN_FORM_ERROR_MESSAGES.CHECK_EMAIL,
                     });
                 } else {
                     setFormValues(values);

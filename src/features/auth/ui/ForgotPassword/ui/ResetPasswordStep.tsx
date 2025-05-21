@@ -15,6 +15,7 @@ import { useState } from 'react';
 
 import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
 import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
+import { FORM_FIELD } from '~/shared/config/chakra-variants';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 
@@ -27,15 +28,14 @@ export const ResetPasswordStep = () => {
     return (
         <VStack spacing='24px'>
             <FormControl isInvalid={!!errors.login && touched.login}>
-                <FormLabel htmlFor='login' fontWeight='normal'>
+                <FormLabel htmlFor='login' fontWeight='normal' color='black'>
                     Логин для входа на сайт
                 </FormLabel>
                 <Field
                     as={Input}
-                    id='login'
                     name='login'
                     size='lg'
-                    bgColor='white'
+                    variant={FORM_FIELD}
                     placeholder='Логин'
                     data-test-id='login-input'
                     onBlur={handleTrimBlur}
@@ -45,16 +45,16 @@ export const ResetPasswordStep = () => {
             </FormControl>
 
             <FormControl isInvalid={!!errors.password && touched.password}>
-                <FormLabel htmlFor='password' fontWeight='normal'>
+                <FormLabel htmlFor='password' fontWeight='normal' color='black'>
                     Новый пароль
                 </FormLabel>
                 <InputGroup size='lg'>
                     <Field
                         as={Input}
-                        id='password'
                         name='password'
+                        size='lg'
                         type={showPassword ? 'text' : 'password'}
-                        bgColor='white'
+                        variant={FORM_FIELD}
                         placeholder='Новый пароль'
                         data-test-id='password-input'
                     />
@@ -76,15 +76,16 @@ export const ResetPasswordStep = () => {
             </FormControl>
 
             <FormControl isInvalid={!!errors.passwordConfirm && touched.passwordConfirm}>
-                <FormLabel htmlFor='passwordConfirm' fontWeight='normal'>
+                <FormLabel htmlFor='passwordConfirm' fontWeight='normal' color='black'>
                     Повторите пароль
                 </FormLabel>
                 <InputGroup size='lg'>
                     <Field
                         as={Input}
                         name='passwordConfirm'
+                        size='lg'
                         type={showConfirmPassword ? 'text' : 'password'}
-                        bgColor='white'
+                        variant={FORM_FIELD}
                         placeholder='Повторите пароль'
                         data-test-id='confirm-password-input'
                     />

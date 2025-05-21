@@ -1,5 +1,6 @@
 import { IconButton, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
 
+import { AUTH_MODAL_VARIANT } from '~/shared/config/chakra-variants';
 import { BsXCircle } from '~/shared/ui/Icons';
 
 type ModalNotificationProps = {
@@ -18,16 +19,9 @@ export const ModalNotification = ({
     if (!isOpen) return null;
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} variant={AUTH_MODAL_VARIANT}>
             <ModalOverlay />
-            <ModalContent
-                gap='32px'
-                alignItems='stretch'
-                p='32px'
-                borderRadius='16px'
-                maxW={{ base: '316px', lg: '396px' }}
-                data-test-id={dataTestId}
-            >
+            <ModalContent data-test-id={dataTestId}>
                 <IconButton
                     aria-label='Закрыть'
                     icon={<BsXCircle boxSize='24px' />}

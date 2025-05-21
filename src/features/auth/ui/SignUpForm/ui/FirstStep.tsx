@@ -20,7 +20,9 @@ type SignupStep1Values = {
 
 export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
     const { errors, touched, validateForm, setTouched } = useFormikContext<SignupStep1Values>();
+
     const handleTrimBlur = useHandleTrimBlur();
+
     const setSecondStep = () => {
         setTouched({
             firstName: true,

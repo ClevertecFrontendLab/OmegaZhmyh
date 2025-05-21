@@ -14,12 +14,15 @@ import { ModalNotification } from '~/shared/ui/ModalNotification';
 export const EmailVerificationModal = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
     const email = useAppSelector(selectEmailVerificationModalEmail);
     const isEmailVerificationModal = useAppSelector(selectEmailVerificationModal);
+
     const onEmailVerificationModalClose = () => {
         dispatch(clearEmailVerificationModal());
         navigate('/' + ROUTES.SIGN_IN);
     };
+
     return (
         <ModalNotification
             isOpen={isEmailVerificationModal}

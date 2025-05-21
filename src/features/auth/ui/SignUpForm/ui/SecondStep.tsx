@@ -25,6 +25,7 @@ type SignupStep2Values = {
 
 export const SecondStep = () => {
     const { errors, touched, handleBlur, setFieldValue } = useFormikContext<SignupStep2Values>();
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 

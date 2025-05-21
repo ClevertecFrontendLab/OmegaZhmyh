@@ -23,7 +23,9 @@ const authLink = defineStyle({
     fontWeight: 'medium',
     color: 'lime.800',
     padding: '13px 24px',
+    marginBottom: '-2px',
     _activeLink: {
+        textDecoration: 'none',
         borderBottom: '2px solid',
         color: 'lime.700',
         borderColor: 'lime.700',

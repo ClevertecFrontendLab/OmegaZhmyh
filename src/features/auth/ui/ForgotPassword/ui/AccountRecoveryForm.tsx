@@ -16,27 +16,56 @@ import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { ResetPasswordStep } from './ResetPasswordStep';
 
+const initialValues: ResetPasswordRequest = {
+    login: '',
+    password: '',
+    passwordConfirm: '',
+    email: '',
+};
+
+const ACCOUNT_RECOVERY_FORM_ERROR_MESSAGES = {
+    SERVER_ERROR: 'Ошибка сервера',
+    UNKNOWN_ERROR: 'Неизвестная ошибка',
+    TRY_AGAIN: 'Попробуйте немного позже.',
+} as const;
+
+const ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES = {
+    SUCCESS: 'Восстановление данных успешно',
+} as const;
+
 export const AccountRecoveryForm = () => {
     const dispatch = useAppDispatch();
+    const email = useAppSelector(selectAccountRecoveryModalEmail);
+
     const onAccountRecoveryModalClose = () => dispatch(clearAccountRecoveryModal());
     const isAccountRecoveryModalOpen = useAppSelector(selectAccountRecoveryModal);
-    const email = useAppSelector(selectAccountRecoveryModalEmail);
+
     const [forgotPassword] = useResetPasswordMutation();
     const { handleError } = useErrorAlert();
+    const { handleError: handleSuccess } = useErrorAlert(
+        {
+            base: '50%',
+            lg: '25%',
+        },
+        {
+            base: '100px',
+            lg: '80px',
+        },
+    );
 
     const onSubmit = async (values: ResetPasswordRequest) => {
         try {
             dispatch(setAuthLoading(true));
             await forgotPassword(values).unwrap();
             onAccountRecoveryModalClose();
-            handleError({
-                errorTitle: 'Восстановление данных успешно',
+            handleSuccess({
+                errorTitle: ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES.SUCCESS,
                 status: 'success',
             });
         } catch (_error) {
             handleError({
-                errorTitle: 'Ошибка сервера',
-                errorMessage: 'Попробуйте немного позже',
+                errorTitle: ACCOUNT_RECOVERY_FORM_ERROR_MESSAGES.SERVER_ERROR,
+                errorMessage: ACCOUNT_RECOVERY_FORM_ERROR_MESSAGES.TRY_AGAIN,
             });
         } finally {
             dispatch(setAuthLoading(false));
@@ -50,15 +79,12 @@ export const AccountRecoveryForm = () => {
             dataTestId='reset-credentials-modal'
         >
             <Text textAlign='center' fontSize='2xl' fontWeight='bold'>
-                Восстановление аккаунта
+                Восстановление
+                <br />
+                аккаунта
             </Text>
             <Formik
-                initialValues={{
-                    login: '',
-                    password: '',
-                    passwordConfirm: '',
-                    email,
-                }}
+                initialValues={{ ...initialValues, email }}
                 validationSchema={resetPasswordSchema}
                 onSubmit={onSubmit}
             >

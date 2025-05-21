@@ -10,7 +10,10 @@ type UseErrorAlertProps = {
     status?: 'success' | 'error';
 };
 
-export const useErrorAlert = () => {
+export const useErrorAlert = (
+    left?: { base: string; lg: string } | string,
+    bottom?: { base: string; lg: string } | string,
+) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -20,7 +23,7 @@ export const useErrorAlert = () => {
         redirectBack = false,
         status,
     }: UseErrorAlertProps) => {
-        dispatch(setError({ title: errorTitle, message: errorMessage, status }));
+        dispatch(setError({ title: errorTitle, message: errorMessage, status, left, bottom }));
         if (redirectBack) {
             navigate(-1);
         }

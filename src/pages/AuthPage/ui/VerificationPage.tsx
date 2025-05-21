@@ -7,10 +7,14 @@ import { useAppDispatch } from '~/shared/store/hooks';
 import { setVerificationErrorModal } from '~/shared/store/notificationSlice';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
+const VERIFICATION_SUCCESS = 'Верификация прошла успешно';
+
 export const VerificationPage = () => {
-    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+
+    const [searchParams] = useSearchParams();
+
     const { handleError } = useErrorAlert();
 
     useEffect(() => {
@@ -18,7 +22,7 @@ export const VerificationPage = () => {
 
         if (emailVerified === 'true') {
             handleError({
-                errorTitle: 'Верификация прошла успешно',
+                errorTitle: VERIFICATION_SUCCESS,
                 status: 'success',
             });
             navigate(`/${ROUTES.SIGN_IN}`);

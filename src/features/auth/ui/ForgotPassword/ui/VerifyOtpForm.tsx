@@ -15,13 +15,21 @@ import {
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
+const VERIFY_OTP_FORM_ERROR_MESSAGES = {
+    SERVER_ERROR: 'Ошибка сервера',
+    TRY_AGAIN: 'Попробуйте немного позже',
+} as const;
+
 export const VerifyOtpForm = () => {
     const dispatch = useAppDispatch();
     const isVerifyOtpForm = useAppSelector(selectVerifyOtpModal);
     const email = useAppSelector(selectVerifyOtpModalEmail);
-    const [otp, setOtp] = useState<string>('');
+
+    const [otp, setOtp] = useState('');
     const [isInvalid, setIsInvalid] = useState(false);
+
     const [verifyOtp] = useVerifyOtpMutation();
+
     const { handleError } = useErrorAlert();
 
     const onVerifyOtpFormClose = () => {
@@ -47,8 +55,8 @@ export const VerifyOtpForm = () => {
                     } else {
                         setOtp('');
                         handleError({
-                            errorTitle: 'Ошибка сервера',
-                            errorMessage: 'Попробуйте немного позже.',
+                            errorTitle: VERIFY_OTP_FORM_ERROR_MESSAGES.SERVER_ERROR,
+                            errorMessage: VERIFY_OTP_FORM_ERROR_MESSAGES.TRY_AGAIN,
                         });
                     }
                 }

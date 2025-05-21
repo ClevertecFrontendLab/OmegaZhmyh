@@ -4,12 +4,8 @@ import {
     FormControl,
     FormErrorMessage,
     FormLabel,
-    IconButton,
     Image,
     Input,
-    Modal,
-    ModalContent,
-    ModalOverlay,
     Text,
 } from '@chakra-ui/react';
 import { Field, Form, Formik, FormikHelpers } from 'formik';
@@ -19,6 +15,7 @@ import { useForgotPasswordMutation } from '~/features/auth/api/authApi';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { forgotPasswordSchema } from '~/features/auth/validation/auth.validation';
 import breakfast from '~/shared/assets/breakfast.png';
+import { FORM_FIELD } from '~/shared/config/chakra-variants';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearForgotPasswordModal,
@@ -26,16 +23,26 @@ import {
     setVerificationErrorModal,
     setVerifyOtpModal,
 } from '~/shared/store/notificationSlice';
-import { BsXCircle } from '~/shared/ui/Icons';
+import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+
+const FORGOT_PASSWORD_FORM_ERROR_MESSAGES = {
+    EMAIL_NOT_FOUND: 'Такого e-mail нет',
+    SERVER_ERROR: 'Ошибка сервера',
+    UNKNOWN_ERROR: 'Неизвестная ошибка',
+    TRY_AGAIN: 'Попробуйте немного позже',
+    EMAIL_NOT_FOUND_MESSAGE: 'Попробуйте другой e-mail или проверьте правильность его написания',
+} as const;
 
 export const ForgotPasswordForm = () => {
     const dispatch = useAppDispatch();
     const isOpen = useAppSelector(selectForgotPasswordModal);
-    const onClose = () => dispatch(clearForgotPasswordModal());
+
     const { handleError } = useErrorAlert();
     const [forgotPassword] = useForgotPasswordMutation();
     const [isInvalid, setIsInvalid] = useState(false);
+
+    const onClose = () => dispatch(clearForgotPasswordModal());
 
     const onSubmit = async (
         values: { email: string },
@@ -52,19 +59,18 @@ export const ForgotPasswordForm = () => {
                 setIsInvalid(true);
                 if (error.status === 403) {
                     handleError({
-                        errorTitle: 'Такого e-mail нет',
-                        errorMessage:
-                            'Попробуйте другой e-mail или проверьте правильность его написания',
+                        errorTitle: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.EMAIL_NOT_FOUND,
+                        errorMessage: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.EMAIL_NOT_FOUND_MESSAGE,
                     });
                 } else if (error.status === 500) {
                     handleError({
-                        errorTitle: 'Ошибка сервера',
-                        errorMessage: 'Попробуйте немного позже.',
+                        errorTitle: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.SERVER_ERROR,
+                        errorMessage: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.TRY_AGAIN,
                     });
                 } else {
                     handleError({
-                        errorTitle: 'Неизвестная ошибка',
-                        errorMessage: 'Попробуйте немного позже.',
+                        errorTitle: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.UNKNOWN_ERROR,
+                        errorMessage: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.TRY_AGAIN,
                     });
                 }
             }
@@ -72,80 +78,60 @@ export const ForgotPasswordForm = () => {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent
-                gap='32px'
-                alignItems='stretch'
-                p='32px'
-                borderRadius='16px'
-                maxW={{ base: '316px', lg: '396px' }}
-                data-test-id='send-email-modal'
+        <ModalNotification isOpen={isOpen} onClose={onClose} dataTestId='send-email-modal'>
+            <Image
+                src={breakfast}
+                boxSize={{ base: '108px', lg: '206px' }}
+                mx='auto'
+                alt='email-code-verification'
+            />
+            <Box>
+                <Text mt='16px' textAlign='center' color='blackAlpha.900'>
+                    Для восстановления входа введите ваш e-mail, куда можно отправить уникальный код
+                </Text>
+            </Box>
+            <Formik
+                initialValues={{ email: '' }}
+                validationSchema={forgotPasswordSchema}
+                onSubmit={onSubmit}
             >
-                <IconButton
-                    aria-label='Закрыть'
-                    icon={<BsXCircle boxSize='24px' />}
-                    position='absolute'
-                    top='24px'
-                    right='24px'
-                    size='xs'
-                    variant='unstyled'
-                    onClick={onClose}
-                    data-test-id='close-button'
-                />
-
-                <Image
-                    src={breakfast}
-                    boxSize={{ base: '108px', lg: '206px' }}
-                    mx='auto'
-                    alt='email-code-verification'
-                />
-                <Box>
-                    <Text mt='16px' textAlign='center' color='blackAlpha.900'>
-                        Для восстановления входа введите ваш e-mail, куда можно отправить уникальный
-                        код
-                    </Text>
-                </Box>
-                <Formik
-                    initialValues={{ email: '' }}
-                    validationSchema={forgotPasswordSchema}
-                    onSubmit={onSubmit}
-                >
-                    {({ errors, handleChange }) => (
-                        <Form>
-                            <FormControl isInvalid={isInvalid || !!errors.email}>
-                                <FormLabel htmlFor='email'>Ваш e-mail</FormLabel>
-                                <Field
-                                    as={Input}
-                                    name='email'
-                                    type='email'
-                                    placeholder='e-mail'
-                                    data-test-id='email-input'
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                        handleChange(e);
-                                        setIsInvalid(false);
-                                    }}
-                                />
-                                <FormErrorMessage>{errors.email}</FormErrorMessage>
-                            </FormControl>
-                            <Button
-                                type='submit'
-                                mt='24px'
+                {({ errors, handleChange }) => (
+                    <Form>
+                        <FormControl isInvalid={isInvalid || !!errors.email}>
+                            <FormLabel htmlFor='email'>Ваш e-mail</FormLabel>
+                            <Field
+                                as={Input}
+                                name='email'
+                                type='email'
                                 size='lg'
-                                w='full'
-                                bg='black'
-                                color='white'
-                                data-test-id='submit-button'
-                            >
-                                Получить код
-                            </Button>
-                        </Form>
-                    )}
-                </Formik>
-                <Box color='blackAlpha.600' textAlign='center' fontSize='xs'>
-                    Не пришло письмо? Проверьте папку Спам.
-                </Box>
-            </ModalContent>
-        </Modal>
+                                variant={FORM_FIELD}
+                                color='blackAlpha.500'
+                                placeholder='e-mail'
+                                data-test-id='email-input'
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    handleChange(e);
+                                    setIsInvalid(false);
+                                }}
+                            />
+                            <FormErrorMessage>{errors.email}</FormErrorMessage>
+                        </FormControl>
+                        <Button
+                            type='submit'
+                            mt='24px'
+                            size='lg'
+                            w='full'
+                            bg='black'
+                            color='white'
+                            data-test-id='submit-button'
+                        >
+                            Получить код
+                        </Button>
+                    </Form>
+                )}
+            </Formik>
+            <Box color='blackAlpha.600' textAlign='center' fontSize='xs'>
+                Не пришло письмо? Проверьте папку Спам.
+            </Box>
+        </ModalNotification>
     );
 };

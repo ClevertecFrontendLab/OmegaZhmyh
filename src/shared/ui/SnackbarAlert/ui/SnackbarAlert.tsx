@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearError, selectNotificationAlert } from '~/shared/store/notificationSlice';
 
 export const SnackbarAlert = () => {
-    const { title, message, isOpen, status } = useSelector(selectNotificationAlert);
+    const { title, message, isOpen, status, left, bottom } = useSelector(selectNotificationAlert);
     const dispatch = useDispatch();
     const onClose = () => {
         dispatch(clearError());
@@ -14,12 +14,10 @@ export const SnackbarAlert = () => {
         <Alert
             status={status}
             position='fixed'
-            bottom={{ base: 'calc(var(--mobile-footer-height) + 16px)', lg: '80px' }}
-            left='50%'
+            bottom={bottom ?? 'calc(var(--mobile-footer-height) + 16px)'}
+            left={left ?? '50%'}
             transform='translateX(-50%)'
-            width={{ base: '328px', lg: '480px' }}
-            minWidth='300px'
-            maxWidth='90vw'
+            width={{ base: '328px', lg: '400px' }}
             boxShadow='lg'
             zIndex='toast'
             variant='solid'

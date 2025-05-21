@@ -10,6 +10,8 @@ export type NotificationState = {
         title: string | null;
         message: string | null;
         status: 'success' | 'error';
+        left?: { base: string; lg: string } | string;
+        bottom?: { base: string; lg: string } | string;
     };
     verificationErrorModal: ModalNotificationContent;
     emailVerificationModal: ModalNotificationContent & { email: string };
@@ -55,12 +57,19 @@ export const notificationSlice = createSlice({
                 title: string;
                 message?: string | null;
                 status?: 'success' | 'error';
+                left?: { base: string; lg: string } | string;
+                bottom?: { base: string; lg: string } | string;
             }>,
         ) => {
             state.notificationAlert.isOpen = true;
             state.notificationAlert.title = action.payload.title;
             state.notificationAlert.message = action.payload.message ?? null;
             state.notificationAlert.status = action.payload.status ?? 'error';
+            state.notificationAlert.left = action.payload.left ?? { base: '50%', lg: '50%' };
+            state.notificationAlert.bottom = action.payload.bottom ?? {
+                base: 'calc(var(--mobile-footer-height) + 16px)',
+                lg: '80px',
+            };
         },
         clearError: (state) => {
             state.notificationAlert.isOpen = false;
