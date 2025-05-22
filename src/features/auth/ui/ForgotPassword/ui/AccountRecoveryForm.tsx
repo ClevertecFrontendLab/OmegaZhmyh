@@ -14,6 +14,11 @@ import {
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
+import {
+    ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES,
+    SERVER_ERROR_MESSAGES,
+    SUCCESS_STATUS,
+} from '../../../constants/form-messages.constants.ts';
 import { ResetPasswordStep } from './ResetPasswordStep';
 
 const initialValues: ResetPasswordRequest = {
@@ -22,16 +27,6 @@ const initialValues: ResetPasswordRequest = {
     passwordConfirm: '',
     email: '',
 };
-
-const ACCOUNT_RECOVERY_FORM_ERROR_MESSAGES = {
-    SERVER_ERROR: 'Ошибка сервера',
-    UNKNOWN_ERROR: 'Неизвестная ошибка',
-    TRY_AGAIN: 'Попробуйте немного позже.',
-} as const;
-
-const ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES = {
-    SUCCESS: 'Восстановление данных успешно',
-} as const;
 
 export const AccountRecoveryForm = () => {
     const dispatch = useAppDispatch();
@@ -48,7 +43,7 @@ export const AccountRecoveryForm = () => {
             lg: '25%',
         },
         {
-            base: '100px',
+            base: '95px',
             lg: '80px',
         },
     );
@@ -60,12 +55,12 @@ export const AccountRecoveryForm = () => {
             onAccountRecoveryModalClose();
             handleSuccess({
                 errorTitle: ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES.SUCCESS,
-                status: 'success',
+                status: SUCCESS_STATUS,
             });
         } catch (_error) {
             handleError({
-                errorTitle: ACCOUNT_RECOVERY_FORM_ERROR_MESSAGES.SERVER_ERROR,
-                errorMessage: ACCOUNT_RECOVERY_FORM_ERROR_MESSAGES.TRY_AGAIN,
+                errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
             });
         } finally {
             dispatch(setAuthLoading(false));
@@ -78,7 +73,7 @@ export const AccountRecoveryForm = () => {
             onClose={onAccountRecoveryModalClose}
             dataTestId='reset-credentials-modal'
         >
-            <Text textAlign='center' fontSize='2xl' fontWeight='bold'>
+            <Text textAlign='center' fontSize='2xl' fontWeight='bold' mb='24px'>
                 Восстановление
                 <br />
                 аккаунта

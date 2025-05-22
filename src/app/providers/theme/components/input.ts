@@ -12,6 +12,10 @@ const formField = definePartsStyle({
         border: '1px solid',
         borderColor: 'lime.150',
         _placeholder: { color: 'lime.800' },
+        _invalid: {
+            borderColor: 'red.500',
+            boxShadow: '0 0 0 1px var(--chakra-colors-red-500)',
+        },
     },
 });
 

@@ -2,12 +2,14 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 
+import {
+    SUCCESS_STATUS,
+    VERIFICATION_SUCCESS,
+} from '~/features/auth/constants/form-messages.constants.ts';
 import { ROUTES } from '~/shared/config/routes';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setVerificationErrorModal } from '~/shared/store/notificationSlice';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
-
-const VERIFICATION_SUCCESS = 'Верификация прошла успешно';
 
 export const VerificationPage = () => {
     const navigate = useNavigate();
@@ -23,7 +25,7 @@ export const VerificationPage = () => {
         if (emailVerified === 'true') {
             handleError({
                 errorTitle: VERIFICATION_SUCCESS,
-                status: 'success',
+                status: SUCCESS_STATUS,
             });
             navigate(`/${ROUTES.SIGN_IN}`);
         } else {

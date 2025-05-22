@@ -12,6 +12,8 @@ import { Field, useFormikContext } from 'formik';
 import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
 import { FORM_FIELD } from '~/shared/config/chakra-variants';
 
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
+
 type SignupStep1Values = {
     firstName: string;
     lastName: string;
@@ -40,13 +42,13 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
         <Box>
             <VStack spacing='24px'>
                 <FormControl isInvalid={!!errors.firstName && touched.firstName}>
-                    <FormLabel htmlFor='firstName'>Ваше имя</FormLabel>
+                    <FormLabel htmlFor={AUTH_FIELD_NAMES.FIRST_NAME}>Ваше имя</FormLabel>
                     <Field
                         as={Input}
-                        name='firstName'
+                        name={AUTH_FIELD_NAMES.FIRST_NAME}
                         variant={FORM_FIELD}
                         size='lg'
-                        placeholder='Имя'
+                        placeholder={AUTH_PLACEHOLDERS.FIRST_NAME}
                         _placeholder={{ color: 'lime.800' }}
                         data-test-id='first-name-input'
                         onBlur={handleTrimBlur}
@@ -55,28 +57,26 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
                 </FormControl>
 
                 <FormControl isInvalid={!!errors.lastName && touched.lastName}>
-                    <FormLabel htmlFor='lastName'>Ваша фамилия</FormLabel>
+                    <FormLabel htmlFor={AUTH_FIELD_NAMES.LAST_NAME}>Ваша фамилия</FormLabel>
                     <Field
                         as={Input}
-                        id='lastName'
-                        name='lastName'
+                        name={AUTH_FIELD_NAMES.LAST_NAME}
                         variant={FORM_FIELD}
                         size='lg'
-                        placeholder='Фамилия'
+                        placeholder={AUTH_PLACEHOLDERS.LAST_NAME}
                         data-test-id='last-name-input'
                         onBlur={handleTrimBlur}
                     />
                     <FormErrorMessage>{errors.lastName}</FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={!!errors.email && touched.email}>
-                    <FormLabel htmlFor='email' fontWeight='normal'>
+                    <FormLabel htmlFor={AUTH_FIELD_NAMES.EMAIL} fontWeight='normal'>
                         Ваш e-mail
                     </FormLabel>
                     <Field
                         as={Input}
-                        id='email'
-                        name='email'
-                        placeholder='e-mail'
+                        name={AUTH_FIELD_NAMES.EMAIL}
+                        placeholder={AUTH_PLACEHOLDERS.EMAIL}
                         variant={FORM_FIELD}
                         size='lg'
                         data-test-id='email-input'

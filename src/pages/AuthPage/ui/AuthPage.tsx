@@ -14,15 +14,13 @@ export const AuthPage = () => {
 
     return (
         <Flex
-            minHeight='100vh'
-            width='100vw'
             bgGradient='linear-gradient(208deg, #eaffc7 0%, #29813f 100%)'
             justifyContent='center'
+            minH='100dvh'
         >
             <VStack
                 justifyContent='space-between'
-                maxW={{ base: '100%', lg: '50%' }}
-                w='100%'
+                w={{ base: '100%', lg: '50%' }}
                 padding={{ base: '16px', md: '20px' }}
             >
                 <Flex
@@ -87,8 +85,8 @@ export const AuthPage = () => {
             </VStack>
 
             {/* Правая часть */}
-            <Flex width='50%' position='relative' display={{ base: 'none', lg: 'flex' }}>
-                <Image src={AuthPageImg} alt='food' objectFit='cover' w='100%' />
+            <Flex position='relative' w='50%' display={{ base: 'none', lg: 'flex' }}>
+                <Image src={AuthPageImg} alt='food' objectFit='cover' h='100vh' w='100%' />
                 <Box
                     position='absolute'
                     bottom='20px'

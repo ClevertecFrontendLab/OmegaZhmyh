@@ -17,6 +17,8 @@ import { FORM_FIELD } from '~/shared/config/chakra-variants';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
+
 type SignupStep2Values = {
     login: string;
     password: string;
@@ -42,10 +44,10 @@ export const SecondStep = () => {
                     <FormLabel htmlFor='login'>Логин для входа на сайт</FormLabel>
                     <Field
                         as={Input}
-                        name='login'
+                        name={AUTH_FIELD_NAMES.LOGIN}
                         size='lg'
                         variant={FORM_FIELD}
-                        placeholder='Логин'
+                        placeholder={AUTH_PLACEHOLDERS.LOGIN}
                         data-test-id='login-input'
                         onBlur={handleTrimBlur}
                     />
@@ -58,11 +60,11 @@ export const SecondStep = () => {
                     <InputGroup size='lg'>
                         <Field
                             as={Input}
-                            name='password'
+                            name={AUTH_FIELD_NAMES.PASSWORD}
                             size='lg'
                             type={showPassword ? 'text' : 'password'}
                             variant={FORM_FIELD}
-                            placeholder='Пароль'
+                            placeholder={AUTH_PLACEHOLDERS.PASSWORD}
                             data-test-id='password-input'
                         />
                         <InputRightElement>
@@ -86,11 +88,11 @@ export const SecondStep = () => {
                     <InputGroup size='lg'>
                         <Field
                             as={Input}
-                            name='passwordConfirm'
+                            name={AUTH_FIELD_NAMES.PASSWORD_CONFIRM}
                             size='lg'
                             type={showConfirmPassword ? 'text' : 'password'}
                             variant={FORM_FIELD}
-                            placeholder='Повторите пароль'
+                            placeholder={AUTH_PLACEHOLDERS.PASSWORD_CONFIRM}
                             data-test-id='confirm-password-input'
                         />
                         <InputRightElement>

@@ -35,16 +35,14 @@ export const EmailVerificationModal = () => {
                 mx='auto'
                 alt='email-code-verification'
             />
-            <Box>
-                <Text textAlign='center' fontSize='2xl' fontWeight='bold'>
-                    Остался последний шаг. Нужно верифицировать ваш e-mail
-                </Text>
-                <Text mt='16px' textAlign='center' color='blackAlpha.900'>
-                    Мы отправили вам на почту <Text fontWeight='semibold'>{email}</Text> ссылку для
-                    верификации.
-                </Text>
-            </Box>
-            <Box color='blackAlpha.600' textAlign='center' fontSize='xs'>
+            <Text textAlign='center' fontSize='2xl' fontWeight='bold' mt='32px'>
+                Остался последний шаг. Нужно верифицировать ваш e-mail
+            </Text>
+            <Text textAlign='center' color='blackAlpha.900' mt='16px'>
+                Мы отправили вам на почту <Text fontWeight='semibold'>{email}</Text> ссылку для
+                верификации.
+            </Text>
+            <Box color='blackAlpha.600' textAlign='center' fontSize='xs' mt='32px'>
                 Не пришло письмо? Проверьте папку Спам. По другим вопросам свяжитесь с поддержкой
             </Box>
         </ModalNotification>

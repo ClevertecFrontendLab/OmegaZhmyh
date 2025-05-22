@@ -8,7 +8,6 @@ import {
     Input,
     InputGroup,
     InputRightElement,
-    VStack,
 } from '@chakra-ui/react';
 import { Field, useFormikContext } from 'formik';
 import { useState } from 'react';
@@ -19,6 +18,8 @@ import { FORM_FIELD } from '~/shared/config/chakra-variants';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
+
 export const ResetPasswordStep = () => {
     const { errors, touched } = useFormikContext<ResetPasswordRequest>();
     const [showPassword, setShowPassword] = useState(false);
@@ -26,17 +27,17 @@ export const ResetPasswordStep = () => {
     const handleTrimBlur = useHandleTrimBlur();
 
     return (
-        <VStack spacing='24px'>
-            <FormControl isInvalid={!!errors.login && touched.login}>
+        <>
+            <FormControl isInvalid={!!errors.login && touched.login} mb='24px'>
                 <FormLabel htmlFor='login' fontWeight='normal' color='black'>
                     Логин для входа на сайт
                 </FormLabel>
                 <Field
                     as={Input}
-                    name='login'
+                    name={AUTH_FIELD_NAMES.LOGIN}
                     size='lg'
                     variant={FORM_FIELD}
-                    placeholder='Логин'
+                    placeholder={AUTH_PLACEHOLDERS.LOGIN}
                     data-test-id='login-input'
                     onBlur={handleTrimBlur}
                 />
@@ -44,18 +45,18 @@ export const ResetPasswordStep = () => {
                 <FormErrorMessage>{errors.login}</FormErrorMessage>
             </FormControl>
 
-            <FormControl isInvalid={!!errors.password && touched.password}>
+            <FormControl isInvalid={!!errors.password && touched.password} mb='24px'>
                 <FormLabel htmlFor='password' fontWeight='normal' color='black'>
                     Новый пароль
                 </FormLabel>
                 <InputGroup size='lg'>
                     <Field
                         as={Input}
-                        name='password'
+                        name={AUTH_FIELD_NAMES.PASSWORD}
                         size='lg'
                         type={showPassword ? 'text' : 'password'}
                         variant={FORM_FIELD}
-                        placeholder='Новый пароль'
+                        placeholder={AUTH_PLACEHOLDERS.PASSWORD_NEW}
                         data-test-id='password-input'
                     />
                     <InputRightElement>
@@ -82,11 +83,11 @@ export const ResetPasswordStep = () => {
                 <InputGroup size='lg'>
                     <Field
                         as={Input}
-                        name='passwordConfirm'
+                        name={AUTH_FIELD_NAMES.PASSWORD_CONFIRM}
                         size='lg'
                         type={showConfirmPassword ? 'text' : 'password'}
                         variant={FORM_FIELD}
-                        placeholder='Повторите пароль'
+                        placeholder={AUTH_PLACEHOLDERS.PASSWORD_CONFIRM}
                         data-test-id='confirm-password-input'
                     />
                     <InputRightElement>
@@ -105,14 +106,15 @@ export const ResetPasswordStep = () => {
 
             <Button
                 type='submit'
+                mt='32px'
                 bgColor='black'
                 color='white'
                 size='lg'
                 w='full'
                 data-test-id='submit-button'
             >
-                Сохранить
+                Зарегистрироваться
             </Button>
-        </VStack>
+        </>
     );
 };

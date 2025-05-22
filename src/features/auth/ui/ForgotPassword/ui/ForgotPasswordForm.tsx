@@ -16,6 +16,7 @@ import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { forgotPasswordSchema } from '~/features/auth/validation/auth.validation';
 import breakfast from '~/shared/assets/breakfast.png';
 import { FORM_FIELD } from '~/shared/config/chakra-variants';
+import { HTTP_STATUS } from '~/shared/config/httpStatusCodes';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearForgotPasswordModal,
@@ -26,13 +27,11 @@ import {
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
-const FORGOT_PASSWORD_FORM_ERROR_MESSAGES = {
-    EMAIL_NOT_FOUND: 'Такого e-mail нет',
-    SERVER_ERROR: 'Ошибка сервера',
-    UNKNOWN_ERROR: 'Неизвестная ошибка',
-    TRY_AGAIN: 'Попробуйте немного позже',
-    EMAIL_NOT_FOUND_MESSAGE: 'Попробуйте другой e-mail или проверьте правильность его написания',
-} as const;
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
+import {
+    FORGOT_PASSWORD_FORM_ERROR_MESSAGES,
+    SERVER_ERROR_MESSAGES,
+} from '../../../constants/form-messages.constants.ts';
 
 export const ForgotPasswordForm = () => {
     const dispatch = useAppDispatch();
@@ -57,20 +56,20 @@ export const ForgotPasswordForm = () => {
             if (error && isErrorResponse(error)) {
                 resetForm();
                 setIsInvalid(true);
-                if (error.status === 403) {
+                if (error.status === HTTP_STATUS.FORBIDDEN) {
                     handleError({
                         errorTitle: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.EMAIL_NOT_FOUND,
                         errorMessage: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.EMAIL_NOT_FOUND_MESSAGE,
                     });
-                } else if (error.status === 500) {
+                } else if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                     handleError({
-                        errorTitle: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.SERVER_ERROR,
-                        errorMessage: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.TRY_AGAIN,
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                        errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
                     });
                 } else {
                     handleError({
-                        errorTitle: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.UNKNOWN_ERROR,
-                        errorMessage: FORGOT_PASSWORD_FORM_ERROR_MESSAGES.TRY_AGAIN,
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_UNKNOWN_ERROR,
+                        errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
                     });
                 }
             }
@@ -86,8 +85,16 @@ export const ForgotPasswordForm = () => {
                 alt='email-code-verification'
             />
             <Box>
-                <Text mt='16px' textAlign='center' color='blackAlpha.900'>
-                    Для восстановления входа введите ваш e-mail, куда можно отправить уникальный код
+                <Text
+                    mt='32px'
+                    mb='16px'
+                    textAlign='center'
+                    fontSize='md'
+                    color='blackAlpha.900'
+                    px='10px'
+                >
+                    Для восстановления входа введите ваш e&#8209;mail, куда можно отправить
+                    уникальный код
                 </Text>
             </Box>
             <Formik
@@ -98,15 +105,15 @@ export const ForgotPasswordForm = () => {
                 {({ errors, handleChange }) => (
                     <Form>
                         <FormControl isInvalid={isInvalid || !!errors.email}>
-                            <FormLabel htmlFor='email'>Ваш e-mail</FormLabel>
+                            <FormLabel htmlFor={AUTH_FIELD_NAMES.EMAIL}>Ваш e-mail</FormLabel>
                             <Field
                                 as={Input}
-                                name='email'
+                                name={AUTH_FIELD_NAMES.EMAIL}
                                 type='email'
                                 size='lg'
                                 variant={FORM_FIELD}
                                 color='blackAlpha.500'
-                                placeholder='e-mail'
+                                placeholder={AUTH_PLACEHOLDERS.EMAIL}
                                 data-test-id='email-input'
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                     handleChange(e);
@@ -129,7 +136,7 @@ export const ForgotPasswordForm = () => {
                     </Form>
                 )}
             </Formik>
-            <Box color='blackAlpha.600' textAlign='center' fontSize='xs'>
+            <Box color='blackAlpha.600' textAlign='center' fontSize='xs' mt='24px'>
                 Не пришло письмо? Проверьте папку Спам.
             </Box>
         </ModalNotification>

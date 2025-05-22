@@ -1,66 +1,59 @@
 import { Formik } from 'formik';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { HTTP_STATUS } from '~/shared/config/httpStatusCodes';
 import { ROUTES } from '~/shared/config/routes';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { useLoginMutation } from '../../../api/authApi';
+import { SIGNIN_FORM_ERROR_MESSAGES } from '../../../constants/form-messages.constants.ts';
 import { loginSchema } from '../../../validation/auth.validation';
 import { AccountRecoveryForm } from '../../ForgotPassword';
 import { ForgotPasswordForm } from '../../ForgotPassword/ui/ForgotPasswordForm';
 import { VerifyOtpForm } from '../../ForgotPassword/ui/VerifyOtpForm';
-import { SignInFormValues } from '../types';
 import { ServerErrorModal } from './ServerErrorModal';
 import { SignInFormContent } from './SignInFormContent';
 
-const SIGNIN_FORM_ERROR_MESSAGES = {
-    USER_NOT_FOUND: 'Пользователь не найден',
-    TRY_AGAIN: 'Попробуйте снова.',
-    INVALID_CREDENTIALS: 'Неверный логин или пароль',
-    EMAIL_NOT_VERIFIED: 'E-mail не верифицирован',
-    CHECK_EMAIL: 'Проверьте почту и перейдите по ссылке.',
-} as const;
+export type SignInFormValues = {
+    login: string;
+    password: string;
+};
 
 export const SignInForm = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const [login, { isLoading }] = useLoginMutation();
+    const [login] = useLoginMutation();
 
     const [isRetryModalOpen, setIsRetryModalOpen] = useState(false);
     const [formValues, setFormValues] = useState<SignInFormValues | null>(null);
+    const [isInvalid, setIsInvalid] = useState(false);
 
-    const { handleError } = useErrorAlert(
-        { base: '50%', lg: '25%' },
-        { base: '100px', lg: '80px' },
-    );
-
-    useEffect(() => {
-        dispatch(setAuthLoading(isLoading));
-    }, [isLoading, dispatch]);
+    const { handleError } = useErrorAlert({ base: '50%', lg: '25%' }, { base: '95px', lg: '80px' });
 
     const handleSubmit = async (values: SignInFormValues) => {
         try {
+            dispatch(setAuthLoading(true));
             await login(values).unwrap();
             navigate(ROUTES.HOME);
         } catch (error: unknown) {
             if (error && isErrorResponse(error)) {
-                if (error.status === 400) {
+                if (error.status === HTTP_STATUS.BAD_REQUEST) {
                     handleError({
-                        errorTitle:
-                            error.data?.message || SIGNIN_FORM_ERROR_MESSAGES.USER_NOT_FOUND,
+                        errorTitle: SIGNIN_FORM_ERROR_MESSAGES.USER_NOT_FOUND,
                         errorMessage: SIGNIN_FORM_ERROR_MESSAGES.TRY_AGAIN,
                     });
-                } else if (error.status === 401) {
+                } else if (error.status === HTTP_STATUS.UNAUTHORIZED) {
+                    setIsInvalid(true);
                     handleError({
                         errorTitle: SIGNIN_FORM_ERROR_MESSAGES.INVALID_CREDENTIALS,
                         errorMessage: SIGNIN_FORM_ERROR_MESSAGES.TRY_AGAIN,
                     });
-                } else if (error.status === 403) {
+                } else if (error.status === HTTP_STATUS.FORBIDDEN) {
                     handleError({
                         errorTitle: SIGNIN_FORM_ERROR_MESSAGES.EMAIL_NOT_VERIFIED,
                         errorMessage: SIGNIN_FORM_ERROR_MESSAGES.CHECK_EMAIL,
@@ -70,6 +63,8 @@ export const SignInForm = () => {
                     setIsRetryModalOpen(true);
                 }
             }
+        } finally {
+            dispatch(setAuthLoading(false));
         }
     };
 
@@ -88,7 +83,15 @@ export const SignInForm = () => {
                 validateOnChange={false}
                 onSubmit={handleSubmit}
             >
-                <SignInFormContent />
+                {({ handleChange }) => (
+                    <SignInFormContent
+                        isInvalid={isInvalid}
+                        onInputChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            setIsInvalid(false);
+                            handleChange(e);
+                        }}
+                    />
+                )}
             </Formik>
             <ServerErrorModal
                 isOpen={isRetryModalOpen}

@@ -5,7 +5,7 @@ export const loginSchema = Yup.object().shape({
     password: Yup.string().required('Введите пароль').max(50, 'Максимальная длина 50 символов'),
 });
 
-export const signupStep1Schema = Yup.object().shape({
+export const validationSchema = Yup.object().shape({
     firstName: Yup.string()
         .trim()
         .required('Введите имя')

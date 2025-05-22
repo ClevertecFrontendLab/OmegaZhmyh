@@ -19,9 +19,15 @@ import { setForgotPasswordModal } from '~/shared/store/notificationSlice';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 
-import { SignInFormValues } from '../types';
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
+import { SignInFormValues } from './SignInForm';
 
-export const SignInFormContent = () => {
+type SignInFormContentProps = {
+    isInvalid: boolean;
+    onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export const SignInFormContent = ({ isInvalid, onInputChange }: SignInFormContentProps) => {
     const dispatch = useAppDispatch();
 
     const handleTrimBlur = useHandleTrimBlur();
@@ -37,31 +43,33 @@ export const SignInFormContent = () => {
     return (
         <Form data-test-id='sign-in-form'>
             <VStack spacing='24px'>
-                <FormControl isInvalid={!!errors.login && touched.login}>
+                <FormControl isInvalid={(!!errors.login && touched.login) || isInvalid}>
                     <FormLabel htmlFor='login'>Логин для входа на сайт</FormLabel>
                     <Field
                         as={Input}
-                        name='login'
+                        name={AUTH_FIELD_NAMES.LOGIN}
                         variant={FORM_FIELD}
                         size='lg'
-                        placeholder='Введите логин'
+                        placeholder={AUTH_PLACEHOLDERS.LOGIN_ENTER}
                         onBlur={handleTrimBlur}
                         data-test-id='login-input'
+                        onChange={onInputChange}
                     />
-                    <FormErrorMessage>{errors.login}</FormErrorMessage>
+                    {errors.login && <FormErrorMessage>{errors.login}</FormErrorMessage>}
                 </FormControl>
 
-                <FormControl isInvalid={!!errors.password && touched.password}>
+                <FormControl isInvalid={(!!errors.password && touched.password) || isInvalid}>
                     <FormLabel htmlFor='password'>Пароль</FormLabel>
                     <InputGroup size='lg'>
                         <Field
                             as={Input}
-                            name='password'
+                            name={AUTH_FIELD_NAMES.PASSWORD}
                             type={showPassword ? 'text' : 'password'}
                             variant={FORM_FIELD}
                             size='lg'
-                            placeholder='Пароль для сайта'
+                            placeholder={AUTH_PLACEHOLDERS.PASSWORD_ENTER}
                             data-test-id='password-input'
+                            onChange={onInputChange}
                         />
                         <InputRightElement>
                             <IconButton
@@ -72,10 +80,11 @@ export const SignInFormContent = () => {
                                 onMouseUp={() => setShowPassword(false)}
                                 onMouseLeave={() => setShowPassword(false)}
                                 data-test-id='password-visibility-button'
+                                onClick={() => setShowPassword(!showPassword)}
                             />
                         </InputRightElement>
                     </InputGroup>
-                    <FormErrorMessage>{errors.password}</FormErrorMessage>
+                    {errors.password && <FormErrorMessage>{errors.password}</FormErrorMessage>}
                 </FormControl>
             </VStack>
 

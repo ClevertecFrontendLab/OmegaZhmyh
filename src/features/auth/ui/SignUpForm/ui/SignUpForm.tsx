@@ -3,12 +3,18 @@ import { Form, Formik } from 'formik';
 import { useState } from 'react';
 
 import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { HTTP_STATUS } from '~/shared/config/httpStatusCodes';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setEmailVerificationModal } from '~/shared/store/notificationSlice';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { useSignupMutation } from '../../../api/authApi';
-import { signupStep1Schema } from '../../../validation/auth.validation';
+import {
+    SERVER_ERROR_MESSAGES,
+    SIGNUP_FORM_ERROR_MESSAGES,
+    SIGNUP_STEP_TITLES,
+} from '../../../constants/form-messages.constants.ts';
+import { validationSchema } from '../../../validation/auth.validation';
 import { EmailVerificationModal } from './EmailVerificationModal';
 import { FirstStep } from './FirstStep';
 import { SecondStep } from './SecondStep';
@@ -32,16 +38,6 @@ const initialValues: SignUpFormValues = {
     passwordConfirm: '',
 };
 
-const SIGNUP_FORM_ERROR_MESSAGES = {
-    TRY_AGAIN: 'Попробуйте немного позже',
-    SERVER_ERROR: 'Ошибка сервера',
-    UNKNOWN_ERROR: 'Неизвестная ошибка',
-    LOGIN_CONFLICT: 'Пользователь с таким login уже существует.',
-    EMAIL_CONFLICT: 'Пользователь с таким email уже существует.',
-} as const;
-
-const SIGNUP_STEP_TITLES = ['Шаг 1. Личная информация', 'Шаг 2. Логин и пароль'];
-
 export const SignUpForm = () => {
     const dispatch = useAppDispatch();
 
@@ -49,10 +45,7 @@ export const SignUpForm = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
 
-    const { handleError } = useErrorAlert(
-        { base: '50%', lg: '25%' },
-        { base: '100px', lg: '80px' },
-    );
+    const { handleError } = useErrorAlert({ base: '50%', lg: '25%' }, { base: '95px', lg: '80px' });
 
     const getProgressValue = (
         values: { [key: string]: string },
@@ -66,8 +59,6 @@ export const SignUpForm = () => {
             : 0;
     };
 
-    const validationSchema = signupStep1Schema;
-
     const handleSubmit = async (values: SignUpFormValues) => {
         try {
             await signup(values).unwrap();
@@ -75,30 +66,28 @@ export const SignUpForm = () => {
         } catch (error) {
             if (error && isErrorResponse(error)) {
                 if (
-                    error.status === 400 &&
+                    error.status === HTTP_STATUS.BAD_REQUEST &&
                     error.data?.message == SIGNUP_FORM_ERROR_MESSAGES.LOGIN_CONFLICT
                 ) {
                     handleError({
                         errorTitle: SIGNUP_FORM_ERROR_MESSAGES.LOGIN_CONFLICT,
-                        errorMessage: SIGNUP_FORM_ERROR_MESSAGES.TRY_AGAIN,
                     });
                 } else if (
-                    error.status === 400 &&
+                    error.status === HTTP_STATUS.BAD_REQUEST &&
                     error.data?.message == SIGNUP_FORM_ERROR_MESSAGES.EMAIL_CONFLICT
                 ) {
                     handleError({
                         errorTitle: SIGNUP_FORM_ERROR_MESSAGES.EMAIL_CONFLICT,
-                        errorMessage: SIGNUP_FORM_ERROR_MESSAGES.TRY_AGAIN,
                     });
-                } else if (error.status === 500) {
+                } else if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                     handleError({
-                        errorTitle: SIGNUP_FORM_ERROR_MESSAGES.SERVER_ERROR,
-                        errorMessage: SIGNUP_FORM_ERROR_MESSAGES.TRY_AGAIN,
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                        errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
                     });
                 } else {
                     handleError({
-                        errorTitle: SIGNUP_FORM_ERROR_MESSAGES.UNKNOWN_ERROR,
-                        errorMessage: SIGNUP_FORM_ERROR_MESSAGES.TRY_AGAIN,
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_UNKNOWN_ERROR,
+                        errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
                     });
                 }
             }

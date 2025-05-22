@@ -1,4 +1,4 @@
-import { IconButton, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
+import { Box, IconButton, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
 
 import { AUTH_MODAL_VARIANT } from '~/shared/config/chakra-variants';
 import { BsXCircle } from '~/shared/ui/Icons';
@@ -33,8 +33,7 @@ export const ModalNotification = ({
                     onClick={onClose}
                     data-test-id='close-button'
                 />
-
-                {children}
+                <Box>{children}</Box>
             </ModalContent>
         </Modal>
     );

@@ -24,7 +24,6 @@ const burger = definePartsStyle({
 
 const authModal = definePartsStyle({
     dialog: {
-        gap: '32px',
         alignItems: 'stretch',
         p: '32px',
         borderRadius: '16px',
