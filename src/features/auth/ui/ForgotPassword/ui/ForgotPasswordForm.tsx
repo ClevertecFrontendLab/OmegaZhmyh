@@ -91,10 +91,9 @@ export const ForgotPasswordForm = () => {
                     textAlign='center'
                     fontSize='md'
                     color='blackAlpha.900'
-                    px='10px'
+                    px={{ base: '0px', lg: '20px' }}
                 >
-                    Для восстановления входа введите ваш e&#8209;mail, куда можно отправить
-                    уникальный код
+                    Для восстановления входа введите ваш e-mail, куда можно отправить уникальный код
                 </Text>
             </Box>
             <Formik

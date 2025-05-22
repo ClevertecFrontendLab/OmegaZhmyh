@@ -78,7 +78,7 @@ export const VerifyOtpForm = () => {
             />
             <Box mt='32px'>
                 {isInvalid ? (
-                    <Text fontSize='2xl' fontWeight='bold' mb='16px'>
+                    <Text textAlign='center' fontSize='2xl' fontWeight='bold' mb='16px'>
                         Неверный код
                     </Text>
                 ) : null}

@@ -83,8 +83,6 @@ export const AuthPage = () => {
                     Все права защищены, ученический файл, ©Клевер Технолоджи, 2025
                 </Box>
             </VStack>
-
-            {/* Правая часть */}
             <Flex position='relative' w='50%' display={{ base: 'none', lg: 'flex' }}>
                 <Image src={AuthPageImg} alt='food' objectFit='cover' h='100vh' w='100%' />
                 <Box
