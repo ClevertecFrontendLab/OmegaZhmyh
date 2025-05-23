@@ -1,6 +1,6 @@
 import { Button, Image, Text } from '@chakra-ui/react';
 
-import breakfast from '~/shared/assets/Breakfast.png';
+import BreakfastImg from '~/shared/assets/breakfast.png';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 
 export const ServerErrorModal = ({
@@ -13,7 +13,12 @@ export const ServerErrorModal = ({
     onRetry: () => void;
 }) => (
     <ModalNotification isOpen={isOpen} onClose={onClose} dataTestId='sign-in-error-modal'>
-        <Image src={breakfast} alt='breakfast' boxSize={{ base: '108px', lg: '206px' }} mx='auto' />
+        <Image
+            src={BreakfastImg}
+            alt='breakfast'
+            boxSize={{ base: '108px', lg: '206px' }}
+            mx='auto'
+        />
         <Text textAlign='center' fontSize='2xl' fontWeight='bold' mt='32px'>
             Вход не выполнен
         </Text>

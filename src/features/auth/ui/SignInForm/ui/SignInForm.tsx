@@ -2,9 +2,9 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { isErrorResponse } from '~/features/auth/types/auth.types';
-import { HTTP_STATUS } from '~/shared/config/httpStatusCodes';
-import { ROUTES } from '~/shared/config/routes';
+import { isErrorResponse, LoginRequest } from '~/features/auth/types/auth.types';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
@@ -18,11 +18,6 @@ import { VerifyOtpForm } from '../../ForgotPassword/ui/VerifyOtpForm';
 import { ServerErrorModal } from './ServerErrorModal';
 import { SignInFormContent } from './SignInFormContent';
 
-export type SignInFormValues = {
-    login: string;
-    password: string;
-};
-
 export const SignInForm = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -30,12 +25,12 @@ export const SignInForm = () => {
     const [login] = useLoginMutation();
 
     const [isRetryModalOpen, setIsRetryModalOpen] = useState(false);
-    const [formValues, setFormValues] = useState<SignInFormValues | null>(null);
+    const [formValues, setFormValues] = useState<LoginRequest | null>(null);
     const [isInvalid, setIsInvalid] = useState(false);
 
     const { handleError } = useErrorAlert({ base: '50%', lg: '25%' }, { base: '95px', lg: '80px' });
 
-    const handleSubmit = async (values: SignInFormValues) => {
+    const handleSubmit = async (values: LoginRequest) => {
         try {
             dispatch(setAuthLoading(true));
             await login(values).unwrap();

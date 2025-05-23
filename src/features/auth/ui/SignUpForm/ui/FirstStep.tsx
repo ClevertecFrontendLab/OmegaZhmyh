@@ -10,18 +10,13 @@ import {
 import { Field, useFormikContext } from 'formik';
 
 import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
-import { FORM_FIELD } from '~/shared/config/chakra-variants';
+import { SignupRequest } from '~/features/auth/types/auth.types';
+import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
 
 import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
 
-type SignupStep1Values = {
-    firstName: string;
-    lastName: string;
-    email: string;
-};
-
 export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
-    const { errors, touched, validateForm, setTouched } = useFormikContext<SignupStep1Values>();
+    const { errors, touched, validateForm, setTouched } = useFormikContext<SignupRequest>();
 
     const handleTrimBlur = useHandleTrimBlur();
 
@@ -32,7 +27,11 @@ export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) =
             email: true,
         });
         validateForm().then((errors) => {
-            if (Object.keys(errors).length < 4) {
+            const isFirstNameValid = !errors.firstName;
+            const isLastNameValid = !errors.lastName;
+            const isEmailValid = !errors.email;
+
+            if (isFirstNameValid && isLastNameValid && isEmailValid) {
                 setCurrentStep(2);
             }
         });

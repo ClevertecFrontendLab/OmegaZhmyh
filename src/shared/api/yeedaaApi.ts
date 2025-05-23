@@ -5,7 +5,8 @@ import { SubCategory } from '~/entities/Category/types';
 import { MainCategory } from '~/entities/Category/types';
 import { Recipe } from '~/entities/Recipe';
 
-import { API_BASE_URL } from '../config/api-urls';
+import { API_BASE_URL } from '../config/api-urls.constants';
+import { setCategoriesLoading } from '../store/app-slice';
 import {
     CategoriesResponse,
     GetRecipeBySubategoryParams,
@@ -23,10 +24,13 @@ export const yeedaaApi = createApi({
             keepUnusedDataFor: Infinity,
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
+                    dispatch(setCategoriesLoading(true));
                     const { data } = await queryFulfilled;
                     dispatch(setCategories(data));
                 } catch {
                     console.log('Categories fetch failed, using backup if available');
+                } finally {
+                    dispatch(setCategoriesLoading(false));
                 }
             },
         }),

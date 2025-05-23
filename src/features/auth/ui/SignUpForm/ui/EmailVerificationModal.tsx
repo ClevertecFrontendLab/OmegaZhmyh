@@ -2,7 +2,7 @@ import { Box, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 
 import verificationImage from '~/shared/assets/email-code-verification2.png';
-import { ROUTES } from '~/shared/config/routes';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearEmailVerificationModal,
@@ -20,7 +20,7 @@ export const EmailVerificationModal = () => {
 
     const onEmailVerificationModalClose = () => {
         dispatch(clearEmailVerificationModal());
-        navigate('/' + ROUTES.SIGN_IN);
+        navigate(ROUTES.SIGN_IN);
     };
 
     return (

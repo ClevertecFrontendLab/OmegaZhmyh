@@ -2,8 +2,8 @@ import { Box, Progress, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
 
-import { isErrorResponse } from '~/features/auth/types/auth.types';
-import { HTTP_STATUS } from '~/shared/config/httpStatusCodes';
+import { isErrorResponse, SignupRequest } from '~/features/auth/types/auth.types';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setEmailVerificationModal } from '~/shared/store/notificationSlice';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
@@ -20,16 +20,7 @@ import { FirstStep } from './FirstStep';
 import { SecondStep } from './SecondStep';
 import { VerificationErrorModal } from './VerificationErrorModal';
 
-type SignUpFormValues = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    login: string;
-    password: string;
-    passwordConfirm: string;
-};
-
-const initialValues: SignUpFormValues = {
+const initialValues: SignupRequest = {
     firstName: '',
     lastName: '',
     email: '',
@@ -59,7 +50,7 @@ export const SignUpForm = () => {
             : 0;
     };
 
-    const handleSubmit = async (values: SignUpFormValues) => {
+    const handleSubmit = async (values: SignupRequest) => {
         try {
             await signup(values).unwrap();
             dispatch(setEmailVerificationModal({ email: values.email }));

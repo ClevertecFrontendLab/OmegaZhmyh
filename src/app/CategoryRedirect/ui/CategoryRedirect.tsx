@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router';
 
 import { selectMainCategories } from '~/entities/Category';
-import { ROUTES } from '~/shared/config/routes';
+import { ROUTES } from '~/shared/config/routes.constants';
 
 export const CategoryRedirect = () => {
     const { category } = useParams();

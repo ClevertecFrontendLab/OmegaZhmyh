@@ -6,7 +6,7 @@ import {
     SUCCESS_STATUS,
     VERIFICATION_SUCCESS,
 } from '~/features/auth/constants/form-messages.constants.ts';
-import { ROUTES } from '~/shared/config/routes';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setVerificationErrorModal } from '~/shared/store/notificationSlice';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
@@ -27,9 +27,9 @@ export const VerificationPage = () => {
                 errorTitle: VERIFICATION_SUCCESS,
                 status: SUCCESS_STATUS,
             });
-            navigate(`/${ROUTES.SIGN_IN}`);
+            navigate(ROUTES.SIGN_IN);
         } else {
-            navigate(`/${ROUTES.SIGN_UP}`);
+            navigate(ROUTES.SIGN_UP);
             dispatch(setVerificationErrorModal());
         }
     }, [searchParams, navigate, dispatch, handleError]);

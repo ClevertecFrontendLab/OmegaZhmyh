@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/Category';
 import { useGetRecipeBySubategoryQuery } from '~/shared/api/yeedaaApi';
+import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { setRelevantKitchenLoader } from '~/shared/store/app-slice';
 import { setError } from '~/shared/store/notificationSlice';
 
@@ -25,7 +26,7 @@ export const RelevantKitchen = (props: GridProps) => {
     const { data, isError, isLoading } = useGetRecipeBySubategoryQuery(
         {
             subcategoryId: rundomSubcategory?._id ?? '',
-            limit: 5,
+            limit: RECIPES_LIMITS.RELEVANT,
         },
         {
             skip: !rundomSubcategory,

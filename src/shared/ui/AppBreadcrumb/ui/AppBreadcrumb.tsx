@@ -11,7 +11,8 @@ import { Link, useLocation } from 'react-router';
 
 import { selectAllCategories } from '~/entities/Category';
 import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
-import { ROUTES } from '~/shared/config/routes';
+import { PAGE_TITLES } from '~/shared/config/page-titles.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { closeBurger } from '~/widgets/Layout';
 
 type AppBreadcrumbProps = BreadcrumbProps & {
@@ -62,8 +63,8 @@ export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps
 
                 switch (index) {
                     case 0:
-                        if (name === ROUTES.THE_JUICIEST) {
-                            displayName = 'Самое сочное';
+                        if (name === ROUTES.THE_JUICIEST.split('/')[1]) {
+                            displayName = PAGE_TITLES.THE_JUICIEST;
                         } else {
                             displayName = categorys.find((c) => c.category === name)?.title;
                         }

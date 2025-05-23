@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { API_BASE_URL } from '~/shared/config/api-urls';
+import { API_BASE_URL } from '~/shared/config/api-urls.constants';
 import { ApplicationState } from '~/shared/store/configure-store';
 
 import {

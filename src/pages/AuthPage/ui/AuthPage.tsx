@@ -4,13 +4,14 @@ import { NavLink, useLocation } from 'react-router';
 import { SignUpForm } from '~/features/auth/';
 import { SignInForm } from '~/features/auth/';
 import AuthPageImg from '~/shared/assets/auth-page.jpg';
-import { AUTH_LINK_VARIANT } from '~/shared/config/chakra-variants';
-import { ROUTES } from '~/shared/config/routes';
+import logo from '~/shared/assets/logo.svg';
+import { AUTH_LINK_VARIANT } from '~/shared/config/chakra-variants.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
 
 export const AuthPage = () => {
     const location = useLocation();
 
-    const activeTab = location.pathname === '/' + ROUTES.SIGN_IN ? 0 : 1;
+    const activeTab = location.pathname === ROUTES.SIGN_IN ? 0 : 1;
 
     return (
         <Flex
@@ -31,11 +32,7 @@ export const AuthPage = () => {
                     direction='column'
                     flexGrow={1}
                 >
-                    <Image
-                        src='/src/shared/assets/logo.svg'
-                        alt='logo'
-                        h={{ base: '38px', lg: '64px' }}
-                    />
+                    <Image src={logo} alt='logo' h={{ base: '38px', lg: '64px' }} />
                     <Flex
                         justifyContent='start'
                         flexWrap='wrap'
@@ -47,8 +44,8 @@ export const AuthPage = () => {
                         <Link
                             variant={AUTH_LINK_VARIANT}
                             as={NavLink}
-                            to={`/${ROUTES.SIGN_IN}`}
-                            {...(location.pathname === `/${ROUTES.SIGN_IN}`
+                            to={ROUTES.SIGN_IN}
+                            {...(location.pathname === ROUTES.SIGN_IN
                                 ? {
                                       'aria-selected': true,
                                   }
@@ -59,8 +56,8 @@ export const AuthPage = () => {
                         <Link
                             variant={AUTH_LINK_VARIANT}
                             as={NavLink}
-                            to={`/${ROUTES.SIGN_UP}`}
-                            {...(location.pathname === `/${ROUTES.SIGN_UP}`
+                            to={ROUTES.SIGN_UP}
+                            {...(location.pathname === ROUTES.SIGN_UP
                                 ? {
                                       'aria-selected': true,
                                   }

@@ -13,14 +13,14 @@ import { Field, Form, useFormikContext } from 'formik';
 import { useState } from 'react';
 
 import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
-import { FORM_FIELD } from '~/shared/config/chakra-variants';
+import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setForgotPasswordModal } from '~/shared/store/notificationSlice';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 
 import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
-import { SignInFormValues } from './SignInForm';
+import { LoginRequest } from '../../../types/auth.types';
 
 type SignInFormContentProps = {
     isInvalid: boolean;
@@ -32,7 +32,7 @@ export const SignInFormContent = ({ isInvalid, onInputChange }: SignInFormConten
 
     const handleTrimBlur = useHandleTrimBlur();
 
-    const { errors, touched } = useFormikContext<SignInFormValues>();
+    const { errors, touched } = useFormikContext<LoginRequest>();
 
     const [showPassword, setShowPassword] = useState(false);
 

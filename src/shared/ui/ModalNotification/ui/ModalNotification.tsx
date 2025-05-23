@@ -1,6 +1,6 @@
 import { Box, IconButton, Modal, ModalContent, ModalOverlay } from '@chakra-ui/react';
 
-import { AUTH_MODAL_VARIANT } from '~/shared/config/chakra-variants';
+import { AUTH_MODAL_VARIANT } from '~/shared/config/chakra-variants.constants';
 import { BsXCircle } from '~/shared/ui/Icons';
 
 type ModalNotificationProps = {

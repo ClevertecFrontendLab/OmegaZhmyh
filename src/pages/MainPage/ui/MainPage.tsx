@@ -6,6 +6,8 @@ import { Link } from 'react-router';
 
 import { selectCountSearchedRecipes } from '~/features/recipe-filters';
 import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
+import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
+import { SORT } from '~/shared/config/sort.constants';
 import { setError } from '~/shared/store/notificationSlice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 import { CookingBlogs } from '~/widgets/CookingBlogs';
@@ -20,10 +22,9 @@ export const MainPage = () => {
     const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
 
     const { data, isError } = useGetRecipesQuery({
-        page: 1,
-        limit: 8,
-        sortBy: 'likes',
-        sortOrder: 'desc',
+        limit: RECIPES_LIMITS.DEFAULT,
+        sortBy: SORT.BY.LIKES,
+        sortOrder: SORT.ORDER.DESC,
     });
     const theJuiciestRecipes = data?.data;
 

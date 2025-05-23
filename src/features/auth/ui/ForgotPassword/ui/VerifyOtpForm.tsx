@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useVerifyOtpMutation } from '~/features/auth/api/authApi';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import emailCodeVerification from '~/shared/assets/email-code-verification.png';
-import { HTTP_STATUS } from '~/shared/config/httpStatusCodes';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
@@ -17,6 +17,8 @@ import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { SERVER_ERROR_MESSAGES } from '../../../constants/form-messages.constants.ts';
+
+const OTP_LENGTH = 6;
 
 export const VerifyOtpForm = () => {
     const dispatch = useAppDispatch();
@@ -39,7 +41,7 @@ export const VerifyOtpForm = () => {
     const handleOtpChange = async (value: string) => {
         setOtp(value);
         setIsInvalid(false);
-        if (value.length === 6) {
+        if (value.length === OTP_LENGTH) {
             try {
                 dispatch(setAuthLoading(true));
                 await verifyOtp({ email, otpToken: value }).unwrap();
@@ -89,17 +91,17 @@ export const VerifyOtpForm = () => {
             </Box>
             <HStack mt='16px' justifyContent='center' gap='6px'>
                 <PinInput onChange={handleOtpChange} value={otp} isInvalid={isInvalid}>
-                    <PinInputField data-test-id='verification-code-input-1' />
-                    <PinInputField data-test-id='verification-code-input-2' />
-                    <PinInputField data-test-id='verification-code-input-3' />
-                    <PinInputField data-test-id='verification-code-input-4' />
-                    <PinInputField data-test-id='verification-code-input-5' />
-                    <PinInputField data-test-id='verification-code-input-6' />
+                    {Array.from({ length: OTP_LENGTH }).map((_, index) => (
+                        <PinInputField
+                            key={index}
+                            data-test-id={`verification-code-input-${index + 1}`}
+                        />
+                    ))}
                 </PinInput>
             </HStack>
             <Text color='blackAlpha.600' textAlign='center' fontSize='xs' mt='24px'>
                 Остались вопросы? Свяжитесь{' '}
-                <Link textDecor='underline' href='mailto:support@example.com'>
+                <Link textDecor='underline' href='#'>
                     с поддержкой
                 </Link>
             </Text>

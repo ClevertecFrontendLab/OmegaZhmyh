@@ -9,6 +9,7 @@ export type SignupRequest = {
     email: string;
     login: string;
     password: string;
+    passwordConfirm: string;
 };
 
 export type ForgotPasswordRequest = {

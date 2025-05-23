@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
 import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
-import { FORM_FIELD } from '~/shared/config/chakra-variants';
+import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
 import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
 import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
 

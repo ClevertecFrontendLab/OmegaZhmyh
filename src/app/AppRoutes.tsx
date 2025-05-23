@@ -7,65 +7,36 @@ import { ErrorPage } from '~/pages/ErrorPage';
 import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
 import { RecipePage } from '~/pages/RecipePage';
-import { ROUTES } from '~/shared/config/routes';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { Layout } from '~/widgets/Layout';
 
 import { CategoryRedirect } from './CategoryRedirect';
 import { CategoryValidator } from './CategoryValidator';
 import { ProtectedRoute } from './ProtectedRoute';
-import { AppLoader } from './providers/appLoader';
 
 export const AppRoutes = () => (
     <Routes>
-        <Route
-            path={ROUTES.HOME}
-            element={
-                <ProtectedRoute>
-                    <AppLoader />
-                    <Layout>
-                        <MainPage />
-                    </Layout>
-                </ProtectedRoute>
-            }
-        />
         <Route path={ROUTES.CATEGORY} element={<CategoryRedirect />} />
-        <Route
-            path={ROUTES.SUBCATEGORY}
-            element={
-                <ProtectedRoute>
-                    <AppLoader />
-                    <Layout>
-                        <CategoryValidator>
-                            <CuisinePage />
-                        </CategoryValidator>
-                    </Layout>
-                </ProtectedRoute>
-            }
-        />
-        <Route
-            path={ROUTES.RECIPE}
-            element={
-                <ProtectedRoute>
-                    <AppLoader />
-                    <Layout>
-                        <CategoryValidator>
-                            <RecipePage />
-                        </CategoryValidator>
-                    </Layout>
-                </ProtectedRoute>
-            }
-        />
-        <Route
-            path={ROUTES.THE_JUICIEST}
-            element={
-                <ProtectedRoute>
-                    <AppLoader />
-                    <Layout>
-                        <JuiciestPage />
-                    </Layout>
-                </ProtectedRoute>
-            }
-        />
+        <Route element={<ProtectedRoute />}>
+            <Route path={ROUTES.HOME} element={<MainPage />} />
+            <Route
+                path={ROUTES.SUBCATEGORY}
+                element={
+                    <CategoryValidator>
+                        <CuisinePage />
+                    </CategoryValidator>
+                }
+            />
+            <Route
+                path={ROUTES.RECIPE}
+                element={
+                    <CategoryValidator>
+                        <RecipePage />
+                    </CategoryValidator>
+                }
+            />
+            <Route path={ROUTES.THE_JUICIEST} element={<JuiciestPage />} />
+        </Route>
         <Route
             path={ROUTES.NOT_FOUND}
             element={

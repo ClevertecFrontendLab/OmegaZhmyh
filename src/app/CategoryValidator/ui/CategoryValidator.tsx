@@ -15,8 +15,13 @@ export const CategoryValidator = ({ children }: { children: React.ReactNode }) =
         (sub) => sub.category === subcategory,
     );
 
-    if (isLoading) return null;
-    if ((isSuccess && categories.length === 0) || !isValidSubcategory)
+    if (isLoading) {
+        return null;
+    }
+
+    if ((isSuccess && categories.length === 0) || !isValidSubcategory) {
         return <Navigate to='/not-found' />;
+    }
+
     return children;
 };

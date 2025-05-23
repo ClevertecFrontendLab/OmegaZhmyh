@@ -15,8 +15,8 @@ import { useForgotPasswordMutation } from '~/features/auth/api/authApi';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { forgotPasswordSchema } from '~/features/auth/validation/auth.validation';
 import breakfast from '~/shared/assets/Breakfast.png';
-import { FORM_FIELD } from '~/shared/config/chakra-variants';
-import { HTTP_STATUS } from '~/shared/config/httpStatusCodes';
+import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearForgotPasswordModal,

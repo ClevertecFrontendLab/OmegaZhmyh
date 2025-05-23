@@ -8,24 +8,24 @@ export type Meta = {
     totalPages: number;
 };
 
-export type RecipeResponse = {
-    data?: Recipe[];
-    meta?: Meta;
-};
+export type RecipeResponse = Partial<{
+    data: Recipe[];
+    meta: Meta;
+}>;
 
 export type CategoriesResponse = (MainCategory | SubCategory)[];
 
-export type GetRecipesParams = {
-    page?: number;
-    limit?: number;
-    allergens?: string;
-    searchString?: string;
-    meat?: string;
-    garnish?: string;
-    subcategoriesIds?: string;
-    sortBy?: string;
-    sortOrder?: string;
-};
+export type GetRecipesParams = Partial<{
+    page: number;
+    limit: number;
+    allergens: string;
+    searchString: string;
+    meat: string;
+    garnish: string;
+    subcategoriesIds: string;
+    sortBy: string;
+    sortOrder: string;
+}>;
 
 export type GetRecipeBySubategoryParams = {
     subcategoryId: string;
