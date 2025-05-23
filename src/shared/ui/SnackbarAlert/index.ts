@@ -1,3 +1,2 @@
-export { notificationSlice } from './model/notificationSlice';
-export { clearError, setError } from './model/notificationSlice';
+export { useErrorAlert } from './hooks/useErrorAlert';
 export { SnackbarAlert } from './ui/SnackbarAlert';

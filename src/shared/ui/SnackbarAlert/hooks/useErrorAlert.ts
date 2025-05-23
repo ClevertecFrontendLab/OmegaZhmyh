@@ -1,30 +1,31 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-import { setError } from '~/shared/ui/SnackbarAlert';
+import { setError } from '~/shared/store/notificationSlice';
 
 type UseErrorAlertProps = {
     errorTitle: string;
-    errorMessage: string;
-    redirectPath?: string | number;
+    errorMessage?: string;
+    redirectBack?: boolean;
+    status?: 'success' | 'error';
 };
 
-export const useErrorAlert = ({
-    errorTitle,
-    errorMessage,
-    redirectPath = -1,
-}: UseErrorAlertProps) => {
+export const useErrorAlert = (
+    left?: { base: string; lg: string } | string,
+    bottom?: { base: string; lg: string } | string,
+) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleError = (isError: boolean) => {
-        if (isError) {
-            dispatch(setError({ title: errorTitle, message: errorMessage }));
-            if (typeof redirectPath === 'number') {
-                navigate(redirectPath);
-            } else {
-                navigate(redirectPath as string);
-            }
+    const handleError = ({
+        errorTitle,
+        errorMessage,
+        redirectBack = false,
+        status,
+    }: UseErrorAlertProps) => {
+        dispatch(setError({ title: errorTitle, message: errorMessage, status, left, bottom }));
+        if (redirectBack) {
+            navigate(-1);
         }
     };
 

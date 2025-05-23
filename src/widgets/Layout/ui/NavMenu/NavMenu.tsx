@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import { selectMainCategories } from '~/entities/Category/model/slice';
-import { ACCORDION_VARIANT } from '~/shared/config/chakra-variants';
+import { ACCORDION_VARIANT } from '~/shared/config/chakra-variants.constants';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { useOverflow } from '../../lib/useOverflow';
@@ -58,7 +58,13 @@ export const NavMenu = (props: NavMenuProps) => {
                             data-test-id={categoryInfo.category === 'vegan' ? 'vegan-cuisine' : ''}
                         >
                             <img src={getImgUrlPath(categoryInfo.icon)} />
-                            <Text flex='1' textAlign='left'>
+                            <Text
+                                flex='1'
+                                textAlign='left'
+                                overflow='hidden'
+                                textOverflow='ellipsis'
+                                whiteSpace='nowrap'
+                            >
                                 {categoryInfo.title}
                             </Text>
                             <AccordionIcon />

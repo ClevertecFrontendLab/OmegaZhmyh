@@ -8,9 +8,11 @@ import {
     selectIsSearchActive,
 } from '~/features/recipe-filters/model/slice';
 import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
+import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
+import { SORT } from '~/shared/config/sort.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
+import { setError } from '~/shared/store/notificationSlice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
-import { setError } from '~/shared/ui/SnackbarAlert';
 import { FoundRecipes } from '~/widgets/foundRecipes';
 import { RelevantKitchen } from '~/widgets/RelevantKitchen';
 import { SearchPanel } from '~/widgets/SearchPanel';
@@ -18,13 +20,14 @@ import { SearchPanel } from '~/widgets/SearchPanel';
 export const JuiciestPage = () => {
     const [page, setPage] = useState(1);
     const [juiciestRecipes, setJuiciestRecipes] = useState<Recipe[]>([]);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
     const dispatch = useDispatch();
-    const { currentData, isLoading, isFetching, isError, isSuccess } = useGetRecipesQuery(
+    const { currentData, isFetching, isError, isSuccess } = useGetRecipesQuery(
         {
             page: page,
-            limit: 8,
-            sortBy: 'likes',
-            sortOrder: 'desc',
+            limit: RECIPES_LIMITS.DEFAULT,
+            sortBy: SORT.BY.LIKES,
+            sortOrder: SORT.ORDER.DESC,
         },
         {
             refetchOnMountOrArgChange: true,
@@ -32,12 +35,12 @@ export const JuiciestPage = () => {
     );
 
     useEffect(() => {
-        if (currentData?.data && isSuccess && currentData.meta.page === 1) {
+        if (currentData?.data && isSuccess && currentData.meta?.page === 1) {
             setJuiciestRecipes([...currentData.data]);
         } else if (currentData?.data && isSuccess) {
-            setJuiciestRecipes((prev) => [...prev, ...currentData.data]);
+            setJuiciestRecipes((prev) => [...prev, ...currentData.data!]);
         }
-    }, [currentData?.meta.page, currentData?.data.length]);
+    }, [currentData, isSuccess]);
 
     useEffect(() => {
         if (isError) {
@@ -51,12 +54,16 @@ export const JuiciestPage = () => {
     }, [isError, dispatch]);
 
     useEffect(() => {
-        dispatch(setPageLoader(isLoading));
-    }, [isLoading, dispatch]);
+        dispatch(setPageLoader(isFirstLoad));
+    }, [isFirstLoad, dispatch]);
 
-    const hasMore = currentData?.meta?.totalPages
-        ? page < currentData.meta.totalPages || currentData.data.length < currentData.meta.limit
-        : false;
+    useEffect(() => {
+        if (!isFetching) {
+            setIsFirstLoad(false);
+        }
+    }, [isFetching]);
+
+    const hasMore = currentData?.meta?.totalPages ? page < currentData.meta.totalPages : false;
 
     const handleLoadMore = () => {
         setPage((prev) => prev + 1);

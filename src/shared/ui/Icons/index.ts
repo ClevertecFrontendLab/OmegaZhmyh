@@ -14,3 +14,4 @@ export { BsPeopleFill } from './ui/BsPeopleFill';
 export { BsPersonPlusFill } from './ui/BsPersonPlusFill';
 export { BsPlusCircleFill } from './ui/BsPlusCircleFill';
 export { BsSearch } from './ui/BsSearch';
+export { BsXCircle } from './ui/BsXCircle';

@@ -4,6 +4,8 @@ import { Box, LinkBox, Text, useBreakpointValue } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
+import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
+import { SORT } from '~/shared/config/sort.constants';
 
 import { NewRecipeCard } from './NewRecipeCard';
 import { SlideNextButton } from './SlideNextButton';
@@ -15,9 +17,9 @@ export const NewRecipes = () => {
     const sliderOverflow = useBreakpointValue({ base: 'visible', md: 'hidden' });
     const { data: newRecipes } = useGetRecipesQuery({
         page: 1,
-        limit: 10,
-        sortBy: 'createdAt',
-        sortOrder: 'desc',
+        limit: RECIPES_LIMITS.NEW_RECIPES,
+        sortBy: SORT.BY.CREATED_AT,
+        sortOrder: SORT.ORDER.DESC,
     });
 
     return newRecipes?.data ? (
@@ -33,19 +35,17 @@ export const NewRecipes = () => {
                     style={{ padding: '0', overflow: sliderOverflow }}
                     data-test-id='carousel'
                 >
-                    {[...newRecipes.data]
-                        .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
-                        ?.map((recipe, i) => (
-                            <LinkBox key={recipe._id}>
-                                <SwiperSlide
-                                    key={recipe._id}
-                                    style={{ maxWidth: slideWidth }}
-                                    data-test-id={`carousel-card-${i}`}
-                                >
-                                    <NewRecipeCard recipe={recipe} />
-                                </SwiperSlide>
-                            </LinkBox>
-                        ))}
+                    {newRecipes.data.map((recipe, i) => (
+                        <LinkBox key={recipe._id}>
+                            <SwiperSlide
+                                key={recipe._id}
+                                style={{ maxWidth: slideWidth }}
+                                data-test-id={`carousel-card-${i}`}
+                            >
+                                <NewRecipeCard recipe={recipe} />
+                            </SwiperSlide>
+                        </LinkBox>
+                    ))}
                     <SlidePrevButton />
                     <SlideNextButton />
                 </Swiper>

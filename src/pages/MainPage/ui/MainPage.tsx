@@ -6,9 +6,10 @@ import { Link } from 'react-router';
 
 import { selectCountSearchedRecipes } from '~/features/recipe-filters';
 import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
-import { setPageLoader } from '~/shared/store/app-slice';
+import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
+import { SORT } from '~/shared/config/sort.constants';
+import { setError } from '~/shared/store/notificationSlice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
-import { setError } from '~/shared/ui/SnackbarAlert';
 import { CookingBlogs } from '~/widgets/CookingBlogs';
 import { FoundRecipes } from '~/widgets/foundRecipes';
 import { NewRecipes } from '~/widgets/NewRecipes';
@@ -20,11 +21,10 @@ export const MainPage = () => {
 
     const countOfSearchedRecipes = useSelector(selectCountSearchedRecipes);
 
-    const { data, isError, isLoading } = useGetRecipesQuery({
-        page: 1,
-        limit: 8,
-        sortBy: 'likes',
-        sortOrder: 'desc',
+    const { data, isError } = useGetRecipesQuery({
+        limit: RECIPES_LIMITS.DEFAULT,
+        sortBy: SORT.BY.LIKES,
+        sortOrder: SORT.ORDER.DESC,
     });
     const theJuiciestRecipes = data?.data;
 
@@ -37,8 +37,7 @@ export const MainPage = () => {
                 }),
             );
         }
-        dispatch(setPageLoader(isLoading));
-    }, [isError, dispatch, isLoading]);
+    }, [isError, dispatch]);
 
     return (
         <Box>
@@ -56,8 +55,8 @@ export const MainPage = () => {
                             Самое сочное
                         </Text>
                         <Box
-                            display={{ base: 'none', md: 'flex' }}
-                            visibility={{ base: 'hidden', md: 'visible' }}
+                            display={{ base: 'none', lg: 'flex' }}
+                            visibility={{ base: 'hidden', lg: 'visible' }}
                             data-test-id='juiciest-link'
                         >
                             <Link to='/the-juiciest'>
@@ -83,8 +82,8 @@ export const MainPage = () => {
                         mt={{ base: '12px' }}
                     />
                     <Flex
-                        display={{ base: 'flex', md: 'none' }}
-                        visibility={{ base: 'visible', md: 'hidden' }}
+                        display={{ base: 'flex', lg: 'none' }}
+                        visibility={{ base: 'visible', lg: 'hidden' }}
                         justifyContent='center'
                         data-test-id='juiciest-link-mobile'
                     >

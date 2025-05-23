@@ -9,10 +9,15 @@ const initialState = {
     relevantKitchenLoading: false,
     pageLoading: false,
     categoriesLoading: false,
+    authLoading: false,
 };
 
 const updateLoadingState = (state: AppState) => {
-    state.isLoading = state.relevantKitchenLoading || state.pageLoading || state.categoriesLoading;
+    state.isLoading =
+        state.authLoading ||
+        state.categoriesLoading ||
+        state.relevantKitchenLoading ||
+        state.pageLoading;
 };
 
 export const appSlice = createSlice({
@@ -34,11 +39,20 @@ export const appSlice = createSlice({
             state.categoriesLoading = isLoading;
             updateLoadingState(state);
         },
+        setAuthLoading(state, { payload: isLoading }: PayloadAction<boolean>) {
+            state.authLoading = isLoading;
+            updateLoadingState(state);
+        },
     },
 });
 export const userLoadingSelector = (state: ApplicationState) => state.app.isLoading;
 export const userErrorSelector = (state: ApplicationState) => state.app.error;
 
-export const { setAppError, setRelevantKitchenLoader, setPageLoader, setCategoriesLoading } =
-    appSlice.actions;
+export const {
+    setAppError,
+    setRelevantKitchenLoader,
+    setPageLoader,
+    setCategoriesLoading,
+    setAuthLoading,
+} = appSlice.actions;
 export default appSlice.reducer;

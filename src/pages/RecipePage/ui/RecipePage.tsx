@@ -36,17 +36,20 @@ export const RecipePage = () => {
 
     const dispatch = useDispatch();
 
-    const { handleError } = useErrorAlert({
-        errorTitle: 'Ошибка сервера',
-        errorMessage: 'Попробуйте немного позже',
-    });
+    const { handleError } = useErrorAlert();
 
     useEffect(() => {
         dispatch(setPageLoader(isLoading));
     }, [isLoading, dispatch]);
 
     useEffect(() => {
-        handleError(isError);
+        if (isError) {
+            handleError({
+                errorTitle: 'Ошибка при загрузке рецепта',
+                errorMessage: 'Не удалось загрузить рецепт',
+                redirectBack: true,
+            });
+        }
     }, [isError, handleError]);
 
     if (!recipe) {

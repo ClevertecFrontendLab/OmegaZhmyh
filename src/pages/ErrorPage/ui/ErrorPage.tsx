@@ -1,7 +1,7 @@
 import { Box, Center, Image, Link, Text } from '@chakra-ui/react';
 import { Link as RouteLink } from 'react-router';
 
-import ErrorImg from '~/shared/assets/Breakfast.png';
+import ErrorImg from '~/shared/assets/breakfast.png';
 
 export const ErrorPage = () => (
     <Center height='calc(100vh - var(--header-height))' flexDirection='column'>

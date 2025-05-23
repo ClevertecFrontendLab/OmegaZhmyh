@@ -18,6 +18,20 @@ const subCategoryTab = defineStyle({
     },
 });
 
+const authLink = defineStyle({
+    fontSize: 'lg',
+    fontWeight: 'medium',
+    color: 'lime.800',
+    padding: '13px 24px',
+    marginBottom: '-2px',
+    _activeLink: {
+        textDecoration: 'none',
+        borderBottom: '2px solid',
+        color: 'lime.700',
+        borderColor: 'lime.700',
+    },
+});
+
 export const linkTheme = defineStyleConfig({
-    variants: { subCategoryTab },
+    variants: { subCategoryTab, authLink },
 });

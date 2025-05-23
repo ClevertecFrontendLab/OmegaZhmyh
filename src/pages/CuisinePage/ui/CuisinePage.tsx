@@ -6,7 +6,8 @@ import { NavLink, useParams } from 'react-router';
 import { selectMainCategories, selectSubCategories } from '~/entities/Category';
 import { selectCountSearchedRecipes, selectIsSearchActive } from '~/features/recipe-filters/';
 import { useGetRecipeBySubategoryQuery } from '~/shared/api/yeedaaApi';
-import { LINK_VARIANT } from '~/shared/config/chakra-variants';
+import { LINK_VARIANT } from '~/shared/config/chakra-variants.constants';
+import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 import { FoundRecipes } from '~/widgets/foundRecipes';
@@ -27,10 +28,10 @@ export const CuisinePage = () => {
     const pageMainCategory = categories.find((c) => c.category === urlCategory);
     const pageSubcategory = subcategories.find((c) => c.category === urlSubcategory);
 
-    const { data, isLoading } = useGetRecipeBySubategoryQuery(
+    const { data, isFetching } = useGetRecipeBySubategoryQuery(
         {
             subcategoryId: pageSubcategory?._id ?? '',
-            limit: 8,
+            limit: RECIPES_LIMITS.DEFAULT,
         },
         {
             skip: !pageMainCategory,
@@ -39,8 +40,8 @@ export const CuisinePage = () => {
     const recipes = data?.data;
 
     useEffect(() => {
-        dispatch(setPageLoader(isLoading));
-    }, [isLoading, dispatch]);
+        dispatch(setPageLoader(isFetching));
+    }, [isFetching, dispatch]);
 
     return (
         <Flex justifyContent='center' direction='column' style={{ scrollbarGutter: 'stable' }}>

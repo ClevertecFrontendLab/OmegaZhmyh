@@ -1,7 +1,7 @@
 import { TabList, Tabs } from '@chakra-ui/react';
 
 import AvatarImg from '~/shared/assets/avatar.png';
-import { MOBILE_FOOTER_VARIANT } from '~/shared/config/chakra-variants';
+import { MOBILE_FOOTER_VARIANT } from '~/shared/config/chakra-variants.constants';
 import { BsHouse, BsPencil, BsSearch } from '~/shared/ui/Icons';
 
 import { createIconTab } from '../lib/createIconTab';
