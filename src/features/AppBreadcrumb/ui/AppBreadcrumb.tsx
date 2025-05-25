@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
 import { selectAllCategories } from '~/entities/Category';
-import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
+import { useGetRecipeByIdQuery } from '~/entities/Recipe/api/recipeApi';
 import { PAGE_TITLES } from '~/shared/config/page-titles.constants';
 import { ROUTES } from '~/shared/config/routes.constants';
 import { closeBurger } from '~/widgets/Layout';

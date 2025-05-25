@@ -3,9 +3,9 @@ import { Box, Flex, IconButton, Image } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
+import { AppBreadcrumb } from '~/features/AppBreadcrumb';
 import Logo from '~/shared/assets/logo.svg';
 import MobileLogo from '~/shared/assets/mobile-logo.svg';
-import { AppBreadcrumb } from '~/shared/ui/AppBreadcrumb';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 import { UserCard } from '~/shared/ui/UserCard';
 

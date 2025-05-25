@@ -6,6 +6,7 @@ import { CuisinePage } from '~/pages/CuisinePage';
 import { ErrorPage } from '~/pages/ErrorPage';
 import { JuiciestPage } from '~/pages/JuiciestPage';
 import { MainPage } from '~/pages/MainPage';
+import { NewRecipePage } from '~/pages/NewRecipePage';
 import { RecipePage } from '~/pages/RecipePage';
 import { ROUTES } from '~/shared/config/routes.constants';
 import { Layout } from '~/widgets/Layout';
@@ -35,6 +36,7 @@ export const AppRoutes = () => (
                     </CategoryValidator>
                 }
             />
+            <Route path={ROUTES.NEW_RECIPE} element={<NewRecipePage />} />
             <Route path={ROUTES.THE_JUICIEST} element={<JuiciestPage />} />
         </Route>
         <Route

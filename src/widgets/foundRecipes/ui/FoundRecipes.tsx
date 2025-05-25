@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { MainCategory, selectMainCategories } from '~/entities/Category';
+import { useGetRecipesQuery } from '~/entities/Recipe/api/recipeApi';
 import {
     selectActiveSearchQuery,
     selectAllergenFilters,
@@ -12,7 +13,6 @@ import {
     setSearchLoading,
 } from '~/features/recipe-filters';
 import { selectCurrentFilters } from '~/features/recipe-filters/model/slice';
-import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
 import { RecipeCardList } from '~/shared/ui/RecipeCardList';
 
 export function FoundRecipes({ cuisinePageFilter }: { cuisinePageFilter?: string }) {

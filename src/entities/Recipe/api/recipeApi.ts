@@ -1,0 +1,71 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+import { GetRecipeBySubategoryParams, GetRecipesParams, RecipeResponse } from '~/shared/api/types';
+import { API_BASE_URL } from '~/shared/config/api-urls.constants';
+import { ApplicationState } from '~/shared/store/configure-store';
+
+import { Recipe } from '../model/types';
+
+export const recipeApi = createApi({
+    reducerPath: 'recipeApi',
+    baseQuery: fetchBaseQuery({
+        baseUrl: API_BASE_URL,
+        prepareHeaders: (headers, { getState }) => {
+            const token = (getState() as ApplicationState).auth.token;
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+            return headers;
+        },
+    }),
+    endpoints: (builder) => ({
+        getRecipes: builder.query<RecipeResponse, GetRecipesParams>({
+            query: (params) => ({
+                url: '/recipe',
+                params,
+            }),
+        }),
+        getRecipeBySubategory: builder.query<RecipeResponse, GetRecipeBySubategoryParams>({
+            query: ({ subcategoryId, limit }) => ({
+                url: `/recipe/category/${subcategoryId}`,
+                params: { limit },
+            }),
+        }),
+        getRecipeById: builder.query<Recipe, string>({
+            query: (id) => `/recipe/${id}`,
+        }),
+        getRecipeByUserId: builder.query<Recipe[], string>({
+            query: (userId) => `/recipe/user/${userId}`,
+        }),
+        createRecipe: builder.mutation<void, Partial<Recipe>>({
+            query: (recipe) => ({
+                url: '/recipe',
+                method: 'POST',
+                body: recipe,
+            }),
+        }),
+        updateRecipe: builder.mutation<void, Partial<Recipe> & { _id: number }>({
+            query: (recipe) => ({
+                url: `/recipe/${recipe._id}`,
+                method: 'PATCH',
+                body: recipe,
+            }),
+        }),
+        deleteRecipe: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `/recipe/${id}`,
+                method: 'DELETE',
+            }),
+        }),
+    }),
+});
+
+export const {
+    useGetRecipesQuery,
+    useGetRecipeBySubategoryQuery,
+    useGetRecipeByIdQuery,
+    useGetRecipeByUserIdQuery,
+    useCreateRecipeMutation,
+    useUpdateRecipeMutation,
+    useDeleteRecipeMutation,
+} = recipeApi;

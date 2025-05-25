@@ -4,8 +4,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
+import { useGetRecipesQuery } from '~/entities/Recipe/api/recipeApi';
 import { selectCountSearchedRecipes } from '~/features/recipe-filters';
-import { useGetRecipesQuery } from '~/shared/api/yeedaaApi';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { SORT } from '~/shared/config/sort.constants';
 import { setError } from '~/shared/store/notificationSlice';

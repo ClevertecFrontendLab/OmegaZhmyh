@@ -16,7 +16,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
+import { useGetRecipeByIdQuery } from '~/entities/Recipe/api/recipeApi';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';

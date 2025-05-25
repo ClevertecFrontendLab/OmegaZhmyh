@@ -1,5 +1,5 @@
 import { MainCategory, SubCategory } from '~/entities/Category/types';
-import { Recipe } from '~/entities/Recipe/types';
+import { Recipe } from '~/features/types';
 
 export type Meta = {
     total: number;
@@ -30,4 +30,9 @@ export type GetRecipesParams = Partial<{
 export type GetRecipeBySubategoryParams = {
     subcategoryId: string;
     limit?: number;
+};
+
+export type MeasureUnit = {
+    _id: string;
+    name: string;
 };

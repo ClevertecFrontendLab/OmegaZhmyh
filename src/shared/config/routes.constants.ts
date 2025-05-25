@@ -3,6 +3,7 @@ export const ROUTES = {
     CATEGORY: '/:category',
     SUBCATEGORY: '/:category/:subcategory',
     RECIPE: '/:category/:subcategory/:id',
+    NEW_RECIPE: '/new-recipe',
     THE_JUICIEST: '/the-juiciest',
     SIGN_IN: '/sign-in',
     SIGN_UP: '/sign-up',
