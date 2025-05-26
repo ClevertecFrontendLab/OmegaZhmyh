@@ -55,6 +55,7 @@ export const Sidebar = () => {
                     icon={<BsPencil boxSize='24px' color='lime.50' />}
                     _hover={{}}
                     onClick={handleWriteRecipe}
+                    data-test-id='add-recipe-button'
                 />
                 <Text marginTop='12px' color='blackAlpha.700' fontSize='xs'>
                     Записать рецепт

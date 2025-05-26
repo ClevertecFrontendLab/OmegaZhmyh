@@ -67,6 +67,18 @@ export const authApi = createApi({
                 body: passwordData,
             }),
         }),
+        checkAuth: builder.query<AuthResponse, void>({
+            query: () => ({
+                url: '/auth/check-auth',
+                method: 'GET',
+            }),
+        }),
+        refreshToken: builder.query<AuthResponse, void>({
+            query: () => ({
+                url: '/auth/refresh',
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
@@ -76,4 +88,6 @@ export const {
     useForgotPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
+    useCheckAuthQuery,
+    useRefreshTokenQuery,
 } = authApi;

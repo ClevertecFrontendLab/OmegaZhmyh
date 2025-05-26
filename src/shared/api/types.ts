@@ -36,3 +36,9 @@ export type MeasureUnit = {
     _id: string;
     name: string;
 };
+
+export type ImageUploadResponse = {
+    name: string;
+    url: string;
+    _id: string;
+};

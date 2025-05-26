@@ -7,7 +7,7 @@ import { MainCategory } from '~/entities/Category/types';
 import { API_BASE_URL } from '../config/api-urls.constants';
 import { setCategoriesLoading } from '../store/app-slice';
 import { ApplicationState } from '../store/configure-store';
-import { CategoriesResponse, MeasureUnit } from './types';
+import { CategoriesResponse, ImageUploadResponse, MeasureUnit } from './types';
 
 export const yeedaaApi = createApi({
     reducerPath: 'yeedaaApi',
@@ -45,8 +45,23 @@ export const yeedaaApi = createApi({
             query: () => '/measure-units',
             keepUnusedDataFor: Infinity,
         }),
+        uploadImage: builder.mutation<ImageUploadResponse, File>({
+            query: (file) => {
+                const formData = new FormData();
+                formData.append('file', file);
+                return {
+                    url: '/file/upload',
+                    method: 'POST',
+                    body: formData,
+                };
+            },
+        }),
     }),
 });
 
-export const { useGetCategoriesQuery, useGetCategoryByIdQuery, useGetMeasureUnitsQuery } =
-    yeedaaApi;
+export const {
+    useGetCategoriesQuery,
+    useGetCategoryByIdQuery,
+    useGetMeasureUnitsQuery,
+    useUploadImageMutation,
+} = yeedaaApi;
