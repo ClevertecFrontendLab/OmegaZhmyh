@@ -1,11 +1,18 @@
 import { Center, Flex, Icon, Image, Tag, Textarea, VStack } from '@chakra-ui/react';
 import { Field } from 'formik';
 
+import { StepType } from '~/entities/Recipe';
 import { BsFillImageFill, BsTrash } from '~/shared/ui/Icons';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { FORM_FIELDS, PLACEHOLDERS } from './constants';
-import { StepItemProps } from './types';
+
+export interface StepItemProps {
+    step: StepType;
+    index: number;
+    onImageClick: () => void;
+    onRemove: () => void;
+}
 
 export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps) => (
     <Flex

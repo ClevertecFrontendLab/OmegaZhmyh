@@ -2,33 +2,30 @@ import { Button, HStack, Icon, Text, VStack } from '@chakra-ui/react';
 import { FieldArray, useFormikContext } from 'formik';
 import { useState } from 'react';
 
+import { StepType } from '~/entities/Recipe';
 import { useUploadImageMutation } from '~/shared/api/yeedaaApi';
 import { BsPlusCircleFill } from '~/shared/ui/Icons';
 
 import { BUTTONS, FORM_FIELDS, LABELS } from './constants';
 import { ImageUploadModal } from './ImageUploadModal';
 import { StepItem } from './StepItem';
-import { Step } from './types';
 
 export const CookingSteps = () => {
-    const { values, setFieldValue } = useFormikContext<{ steps: Step[] }>();
+    const { values, setFieldValue } = useFormikContext<{ steps: StepType[] }>();
     const steps = values[FORM_FIELDS.STEPS] || [];
     const [modalIdx, setModalIdx] = useState<number | null>(null);
-    const [fileLoading, setFileLoading] = useState(false);
-    const [uploadImage] = useUploadImageMutation();
+    const [uploadImage, { isLoading }] = useUploadImageMutation();
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
-        setFileLoading(true);
         setImageFile(file);
 
         const reader = new FileReader();
         reader.onloadend = () => {
             setPreviewUrl(reader.result as string);
-            setFileLoading(false);
         };
         reader.readAsDataURL(file);
     };
@@ -36,7 +33,6 @@ export const CookingSteps = () => {
     const handleImageSave = async () => {
         if (!imageFile || modalIdx === null) return;
         try {
-            setFileLoading(true);
             const formData = new FormData();
             formData.append('file', imageFile);
             const result = await uploadImage(imageFile).unwrap();
@@ -45,8 +41,6 @@ export const CookingSteps = () => {
             setPreviewUrl(null);
         } catch (error) {
             console.error('Ошибка при загрузке изображения:', error);
-        } finally {
-            setFileLoading(false);
         }
     };
 
@@ -100,7 +94,7 @@ export const CookingSteps = () => {
                 onSave={handleImageSave}
                 previewUrl={previewUrl}
                 onFileChange={handleFileChange}
-                isLoading={fileLoading}
+                isLoading={isLoading}
                 onRemoveImage={handleRemoveImage}
                 hasImage={!!steps[modalIdx ?? 0]?.image}
             />

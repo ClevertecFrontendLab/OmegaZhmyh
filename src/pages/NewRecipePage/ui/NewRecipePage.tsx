@@ -43,6 +43,8 @@ export const NewRecipePage = () => {
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
+            validateOnBlur={false}
+            validateOnChange={false}
             onSubmit={handleSubmit}
         >
             <RecipeForm />

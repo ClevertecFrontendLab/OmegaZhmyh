@@ -6,6 +6,7 @@ import {
     FormControl,
     FormLabel,
     HStack,
+    Image,
     Input,
     NumberDecrementStepper,
     NumberIncrementStepper,
@@ -20,10 +21,13 @@ import { useEffect, useState } from 'react';
 import { useBlocker } from 'react-router';
 
 import { CreateRecipe } from '~/entities/Recipe';
+import { useUploadImageMutation } from '~/shared/api/yeedaaApi';
 import { BsFillImageFill } from '~/shared/ui/Icons';
+import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { BUTTONS, FORM_FIELDS, LABELS, PLACEHOLDERS } from './constants';
 import { CookingSteps } from './CookingSteps';
+import { ImageUploadModal } from './ImageUploadModal';
 import { IngredientList } from './IngredientList';
 import { LeaveConfirmModal } from './LeaveConfirmModal';
 import { SubcategorySelect } from './SubcategorySelect';
@@ -36,6 +40,12 @@ export const RecipeForm = () => {
     const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(null);
 
     const blocker = useBlocker(() => dirty);
+
+    const [uploadImage, { isLoading }] = useUploadImageMutation();
+
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [imgUploadModal, setImgUploadModal] = useState<boolean>(false);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -53,6 +63,37 @@ export const RecipeForm = () => {
         setLeaveModalOpen(false);
     };
 
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        setImageFile(file);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setPreviewUrl(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleImageSave = async () => {
+        if (!imageFile) return;
+        try {
+            const formData = new FormData();
+            formData.append('file', imageFile);
+            const result = await uploadImage(imageFile).unwrap();
+            setFieldValue(FORM_FIELDS.IMAGE, result.url);
+            setImgUploadModal(false);
+            setPreviewUrl(null);
+        } catch (error) {
+            console.error('Ошибка при загрузке изображения:', error);
+        }
+    };
+
+    const handleRemoveImage = () => {
+        setFieldValue(FORM_FIELDS.IMAGE, undefined);
+        setPreviewUrl(null);
+    };
+
     return (
         <>
             <LeaveConfirmModal
@@ -60,6 +101,16 @@ export const RecipeForm = () => {
                 onClose={handleClose}
                 onLeave={handleLeave}
                 onSave={() => {}}
+            />
+            <ImageUploadModal
+                isOpen={imgUploadModal}
+                onClose={() => setImgUploadModal(false)}
+                onSave={handleImageSave}
+                previewUrl={previewUrl}
+                onFileChange={handleFileChange}
+                isLoading={isLoading}
+                onRemoveImage={handleRemoveImage}
+                hasImage={!!imageFile}
             />
             <Form>
                 <Flex
@@ -73,8 +124,13 @@ export const RecipeForm = () => {
                         w={{ base: '100%', md: '232px', lg: '353px', xl: '553px' }}
                         h={{ base: '224px', lg: '410px' }}
                         borderRadius='8px'
+                        onClick={() => setImgUploadModal(true)}
                     >
-                        <BsFillImageFill fontSize={48} />
+                        {values.image ? (
+                            <Image src={getImgUrlPath(values.image)} alt='Изображение рецепта' />
+                        ) : (
+                            <BsFillImageFill fontSize={48} />
+                        )}
                     </Center>
                     <VStack w='100%' maxW='668px' gap='24px'>
                         <FormControl as={Flex} alignItems='center' justifyContent='space-between'>
