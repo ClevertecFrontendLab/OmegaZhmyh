@@ -1,18 +1,18 @@
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-    title: Yup.string().required(),
-    description: Yup.string().required(),
-    time: Yup.string().required(),
+    title: Yup.string().max(50).required(),
+    description: Yup.string().max(500).required(),
+    time: Yup.number().positive().max(10000).required(),
     categoriesIds: Yup.array().of(Yup.string()).min(3).required(),
     portions: Yup.number().min(1).required(),
-    image: Yup.string(),
+    image: Yup.string().required(),
     steps: Yup.array()
         .of(
             Yup.object().shape({
                 stepNumber: Yup.number().required(),
-                description: Yup.string().required(),
-                image: Yup.string().required(),
+                description: Yup.string().max(300).required(),
+                image: Yup.string().optional().nullable(),
             }),
         )
         .min(1)
@@ -20,8 +20,8 @@ export const validationSchema = Yup.object().shape({
     ingredients: Yup.array()
         .of(
             Yup.object().shape({
-                title: Yup.string().required(),
-                count: Yup.number().min(0.1).required(),
+                title: Yup.string().max(50).required(),
+                count: Yup.number().positive().required(),
                 measureUnit: Yup.string().required(),
             }),
         )

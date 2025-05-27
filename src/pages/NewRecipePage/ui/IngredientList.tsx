@@ -7,7 +7,7 @@ import { useGetMeasureUnitsQuery } from '~/shared/api/yeedaaApi';
 import { BsPlusCircle, BsPlusCircleFill, BsTrash } from '~/shared/ui/Icons';
 
 export const IngredientList = () => {
-    const { values } = useFormikContext<CreateRecipe>();
+    const { values, isValid } = useFormikContext<CreateRecipe>();
     const { data: measureUnits } = useGetMeasureUnitsQuery();
 
     return (
@@ -36,6 +36,8 @@ export const IngredientList = () => {
                                         as={Input}
                                         name={`ingredients[${idx}].title`}
                                         placeholder='Ингредиент'
+                                        isInvalid={!isValid}
+                                        data-test-id={`recipe-ingredients-title-${idx}`}
                                     />
                                     <Field
                                         as={Input}
@@ -43,12 +45,16 @@ export const IngredientList = () => {
                                         placeholder='100'
                                         maxW='80px'
                                         type='number'
+                                        isInvalid={!isValid}
+                                        data-test-id={`recipe-ingredients-count-${idx}`}
                                     />
                                     <Field
                                         as={Select}
                                         name={`ingredients[${idx}].measureUnit`}
                                         placeholder='Единица измерения'
                                         maxW='215px'
+                                        isInvalid={!isValid}
+                                        data-test-id={`recipe-ingredients-measureUnit-${idx}`}
                                     >
                                         {measureUnits?.map((unit: MeasureUnit) => (
                                             <option key={unit._id} value={unit.name}>
@@ -62,6 +68,8 @@ export const IngredientList = () => {
                                         color='lime.600'
                                         boxSize='32px'
                                         onClick={() => remove(idx)}
+                                        data-test-id={`recipe-ingredients-remove-ingredients-${idx}`}
+                                        isDisabled={values.ingredients.length === 1}
                                     />
                                 </HStack>
                             ))}
@@ -75,6 +83,7 @@ export const IngredientList = () => {
                                 boxSize='32px'
                                 color='black'
                                 onClick={() => push({ title: '', count: 1, measureUnit: '' })}
+                                data-test-id='recipe-ingredients-add-ingredients'
                             />
                         </HStack>
                     </>

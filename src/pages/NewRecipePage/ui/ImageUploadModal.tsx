@@ -13,6 +13,7 @@ export interface ImageUploadModalProps {
     isLoading: boolean;
     onRemoveImage: () => void;
     hasImage: boolean;
+    inputDataTestId: string;
 }
 
 export const ImageUploadModal = ({
@@ -24,6 +25,7 @@ export const ImageUploadModal = ({
     isLoading,
     onRemoveImage,
     hasImage,
+    inputDataTestId,
 }: ImageUploadModalProps) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -32,7 +34,7 @@ export const ImageUploadModal = ({
     };
 
     return (
-        <ModalNotification isOpen={isOpen} onClose={onClose}>
+        <ModalNotification isOpen={isOpen} onClose={onClose} dataTestId='recipe-image-modal'>
             <VStack>
                 <Text fontWeight='bold' fontSize='2xl'>
                     Изображение
@@ -44,6 +46,7 @@ export const ImageUploadModal = ({
                         boxSize={{ base: '108px', lg: '206px' }}
                         cursor='pointer'
                         onClick={handleImageClick}
+                        data-test-id='recipe-image-modal-preview-image'
                     />
                 ) : (
                     <Center
@@ -53,6 +56,7 @@ export const ImageUploadModal = ({
                         cursor='pointer'
                         onClick={handleImageClick}
                         _hover={{ bg: 'gray.200' }}
+                        data-test-id='recipe-image-modal-image-block'
                     >
                         <BsFillImageFill fontSize={32} />
                     </Center>
@@ -64,6 +68,7 @@ export const ImageUploadModal = ({
                     onChange={onFileChange}
                     isDisabled={isLoading}
                     display='none'
+                    data-test-id={inputDataTestId}
                 />
                 {hasImage && (
                     <Button colorScheme='red' variant='ghost' size='sm' onClick={onRemoveImage}>

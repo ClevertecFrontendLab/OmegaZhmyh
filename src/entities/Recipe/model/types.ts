@@ -3,12 +3,12 @@ export type RecipesState = Recipe[];
 export type CreateRecipe = {
     title: string;
     description: string;
-    time: string;
+    time: number;
     categoriesIds: string[];
     meat?: string;
     garnish?: string;
     portions: number;
-    image?: string;
+    image: string;
     steps: StepType[];
     ingredients: IngredientType[];
 };
@@ -39,5 +39,5 @@ export type IngredientType = {
 export type StepType = {
     stepNumber: number;
     description: string;
-    image: string;
+    image?: string | null;
 };

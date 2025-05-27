@@ -17,102 +17,26 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { Field, Form, useFormikContext } from 'formik';
-import { useEffect, useState } from 'react';
-import { useBlocker } from 'react-router';
 
 import { CreateRecipe } from '~/entities/Recipe';
-import { useUploadImageMutation } from '~/shared/api/yeedaaApi';
 import { BsFillImageFill } from '~/shared/ui/Icons';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
+import { useImageInput } from '../lib/useImageInput';
 import { BUTTONS, FORM_FIELDS, LABELS, PLACEHOLDERS } from './constants';
 import { CookingSteps } from './CookingSteps';
-import { ImageUploadModal } from './ImageUploadModal';
 import { IngredientList } from './IngredientList';
-import { LeaveConfirmModal } from './LeaveConfirmModal';
 import { SubcategorySelect } from './SubcategorySelect';
 
 export const RecipeForm = () => {
-    const { errors, touched, values, setFieldValue, isSubmitting, dirty } =
+    const { values, setFieldValue, isSubmitting, isValid, errors } =
         useFormikContext<CreateRecipe>();
-
-    const [leaveModalOpen, setLeaveModalOpen] = useState(false);
-    const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(null);
-
-    const blocker = useBlocker(() => dirty);
-
-    const [uploadImage, { isLoading }] = useUploadImageMutation();
-
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [imgUploadModal, setImgUploadModal] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (blocker.state === 'blocked') {
-            setLeaveModalOpen(true);
-            setBlockerProceed(() => blocker.proceed);
-        }
-    }, [blocker, blocker.state]);
-
-    const handleLeave = () => {
-        setLeaveModalOpen(false);
-        if (blockerProceed) blockerProceed();
-    };
-
-    const handleClose = () => {
-        setLeaveModalOpen(false);
-    };
-
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        setImageFile(file);
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setPreviewUrl(reader.result as string);
-        };
-        reader.readAsDataURL(file);
-    };
-
-    const handleImageSave = async () => {
-        if (!imageFile) return;
-        try {
-            const formData = new FormData();
-            formData.append('file', imageFile);
-            const result = await uploadImage(imageFile).unwrap();
-            setFieldValue(FORM_FIELDS.IMAGE, result.url);
-            setImgUploadModal(false);
-            setPreviewUrl(null);
-        } catch (error) {
-            console.error('Ошибка при загрузке изображения:', error);
-        }
-    };
-
-    const handleRemoveImage = () => {
-        setFieldValue(FORM_FIELDS.IMAGE, undefined);
-        setPreviewUrl(null);
-    };
+    const { modal, openImageUploader } = useImageInput();
 
     return (
         <>
-            <LeaveConfirmModal
-                isOpen={leaveModalOpen}
-                onClose={handleClose}
-                onLeave={handleLeave}
-                onSave={() => {}}
-            />
-            <ImageUploadModal
-                isOpen={imgUploadModal}
-                onClose={() => setImgUploadModal(false)}
-                onSave={handleImageSave}
-                previewUrl={previewUrl}
-                onFileChange={handleFileChange}
-                isLoading={isLoading}
-                onRemoveImage={handleRemoveImage}
-                hasImage={!!imageFile}
-            />
-            <Form>
+            {modal}
+            <Form data-test-id='recipe-form'>
                 <Flex
                     alignItems='flex-start'
                     mt={{ base: '40px', lg: '56px' }}
@@ -124,16 +48,29 @@ export const RecipeForm = () => {
                         w={{ base: '100%', md: '232px', lg: '353px', xl: '553px' }}
                         h={{ base: '224px', lg: '410px' }}
                         borderRadius='8px'
-                        onClick={() => setImgUploadModal(true)}
+                        border={!isValid ? '1px solid red' : 'none'}
+                        onClick={() =>
+                            openImageUploader(FORM_FIELDS.IMAGE, 'recipe-image-block-input-file')
+                        }
+                        data-test-id='recipe-image-block'
                     >
                         {values.image ? (
-                            <Image src={getImgUrlPath(values.image)} alt='Изображение рецепта' />
+                            <Image
+                                src={getImgUrlPath(values.image)}
+                                alt='Изображение рецепта'
+                                data-test-id='recipe-image-block-preview-image'
+                            />
                         ) : (
                             <BsFillImageFill fontSize={48} />
                         )}
                     </Center>
                     <VStack w='100%' maxW='668px' gap='24px'>
-                        <FormControl as={Flex} alignItems='center' justifyContent='space-between'>
+                        <FormControl
+                            as={Flex}
+                            alignItems='center'
+                            justifyContent='space-between'
+                            isInvalid={!isValid}
+                        >
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.CATEGORIES}
                             </FormLabel>
@@ -143,20 +80,18 @@ export const RecipeForm = () => {
                             as={Input}
                             name={FORM_FIELDS.TITLE}
                             placeholder={PLACEHOLDERS.TITLE}
-                            isInvalid={!!errors.title && touched.title}
+                            isInvalid={!isValid}
                             mt={{ base: '0', lg: '12px' }}
+                            data-test-id='recipe-title'
                         />
                         <Field
                             as={Textarea}
                             name={FORM_FIELDS.DESCRIPTION}
                             placeholder={PLACEHOLDERS.DESCRIPTION}
-                            isInvalid={!!errors.description && touched.description}
+                            isInvalid={!isValid}
+                            data-test-id='recipe-description'
                         />
-                        <FormControl
-                            as={Flex}
-                            alignItems='center'
-                            isInvalid={!!errors.portions && touched.portions}
-                        >
+                        <FormControl as={Flex} alignItems='center' isInvalid={!isValid}>
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.PORTIONS}
                             </FormLabel>
@@ -171,18 +106,14 @@ export const RecipeForm = () => {
                                     )
                                 }
                             >
-                                <NumberInputField />
+                                <NumberInputField data-test-id='recipe-portions' />
                                 <NumberInputStepper>
                                     <NumberIncrementStepper />
                                     <NumberDecrementStepper />
                                 </NumberInputStepper>
                             </NumberInput>
                         </FormControl>
-                        <FormControl
-                            as={Flex}
-                            alignItems='center'
-                            isInvalid={!!errors.time && touched.time}
-                        >
+                        <FormControl as={Flex} alignItems='center' isInvalid={!isValid}>
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.TIME}
                             </FormLabel>
@@ -194,7 +125,7 @@ export const RecipeForm = () => {
                                     setFieldValue(FORM_FIELDS.TIME, val ? Number(val) : 0)
                                 }
                             >
-                                <NumberInputField />
+                                <NumberInputField data-test-id='recipe-time' />
                                 <NumberInputStepper>
                                     <NumberIncrementStepper />
                                     <NumberDecrementStepper />
@@ -206,10 +137,14 @@ export const RecipeForm = () => {
                 <Container maxW='668px' mt='40px' padding={0}>
                     <VStack gap={{ base: '32px', lg: '40px' }}>
                         <IngredientList />
-                        <CookingSteps />
+                        <CookingSteps openImageUploader={openImageUploader} />
 
                         <HStack justifyContent='center' mt={8} spacing={6}>
-                            <Button variant='outline' colorScheme='gray'>
+                            <Button
+                                variant='outline'
+                                colorScheme='gray'
+                                data-test-id='recipe-save-draft-button'
+                            >
                                 {BUTTONS.SAVE_DRAFT}
                             </Button>
                             <Button
@@ -218,11 +153,13 @@ export const RecipeForm = () => {
                                 color='white'
                                 type='submit'
                                 isLoading={isSubmitting}
+                                data-test-id='recipe-publish-recipe-button'
                             >
                                 {BUTTONS.PUBLISH}
                             </Button>
                         </HStack>
                     </VStack>
+                    {JSON.stringify(errors)}
                 </Container>
             </Form>
         </>

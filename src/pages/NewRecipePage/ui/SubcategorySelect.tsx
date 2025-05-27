@@ -43,22 +43,35 @@ export const SubcategorySelect = () => {
                 fontSize='md'
                 color='blackAlpha.700'
                 borderColor='blackAlpha.200'
+                data-test-id='recipe-categories'
             >
                 <Flex gap='8px' flexWrap='wrap'>
                     {values.categoriesIds?.length ? (
-                        values.categoriesIds.map((categoryId) => {
-                            const category = subcategories.find((c) => c._id === categoryId);
-                            return (
+                        <>
+                            {values.categoriesIds.slice(0, 2).map((categoryId) => {
+                                const category = subcategories.find((c) => c._id === categoryId);
+                                return (
+                                    <Tag
+                                        variant='outline'
+                                        colorScheme='lime'
+                                        color='lime.600'
+                                        key={categoryId}
+                                    >
+                                        {category?.title}
+                                    </Tag>
+                                );
+                            })}
+                            {values.categoriesIds.length > 2 && (
                                 <Tag
                                     variant='outline'
                                     colorScheme='lime'
                                     color='lime.600'
-                                    key={categoryId}
+                                    key='more-categories'
                                 >
-                                    {category?.title}
+                                    {`+${values.categoriesIds.length - 2}`}
                                 </Tag>
-                            );
-                        })
+                            )}
+                        </>
                     ) : (
                         <Text>Выберите категории</Text>
                     )}

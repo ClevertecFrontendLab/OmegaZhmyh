@@ -29,7 +29,7 @@ export const Header = () => {
             zIndex='modal'
             as='header'
         >
-            <Link to='/'>
+            <Link to='/' data-test-id='header-logo'>
                 <Image src={MobileLogo} display={{ base: 'block', md: 'none' }} />
                 <Image src={Logo} display={{ base: 'none', md: 'block' }} />
             </Link>
