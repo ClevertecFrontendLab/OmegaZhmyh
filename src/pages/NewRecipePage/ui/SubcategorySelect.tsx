@@ -19,7 +19,7 @@ import { useAppSelector } from '~/shared/store/hooks';
 import { FORM_FIELDS } from './constants';
 
 export const SubcategorySelect = () => {
-    const { setFieldValue, values } = useFormikContext<CreateRecipe>();
+    const { setFieldValue, values, errors } = useFormikContext<CreateRecipe>();
     const subcategories = useAppSelector(selectSubCategories);
 
     const onCheckCategory = (categoryId: string) => {
@@ -42,7 +42,7 @@ export const SubcategorySelect = () => {
                 minHeight='40px'
                 fontSize='md'
                 color='blackAlpha.700'
-                borderColor='blackAlpha.200'
+                borderColor={errors[FORM_FIELDS.CATEGORIES] ? 'red.500' : 'blackAlpha.200'}
                 data-test-id='recipe-categories'
             >
                 <Flex gap='8px' flexWrap='wrap'>

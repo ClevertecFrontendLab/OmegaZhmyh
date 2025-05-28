@@ -1,14 +1,19 @@
 import { HStack, Icon, IconButton, Input, Select, Text, VStack } from '@chakra-ui/react';
-import { Field, FieldArray, useFormikContext } from 'formik';
+import { Field, FieldArray, FormikErrors, useFormikContext } from 'formik';
 
 import { CreateRecipe, IngredientType } from '~/entities/Recipe';
 import { MeasureUnit } from '~/shared/api/types';
 import { useGetMeasureUnitsQuery } from '~/shared/api/yeedaaApi';
 import { BsPlusCircle, BsPlusCircleFill, BsTrash } from '~/shared/ui/Icons';
 
+import { FORM_FIELDS } from './constants';
+
 export const IngredientList = () => {
-    const { values, isValid } = useFormikContext<CreateRecipe>();
+    const { values, errors } = useFormikContext<CreateRecipe>();
     const { data: measureUnits } = useGetMeasureUnitsQuery();
+    const ingredientErrors = errors[FORM_FIELDS.INGREDIENTS] as
+        | FormikErrors<IngredientType>[]
+        | undefined;
 
     return (
         <VStack align='stretch' w='100%'>
@@ -36,7 +41,7 @@ export const IngredientList = () => {
                                         as={Input}
                                         name={`ingredients[${idx}].title`}
                                         placeholder='Ингредиент'
-                                        isInvalid={!isValid}
+                                        isInvalid={!!ingredientErrors?.[idx]?.title}
                                         data-test-id={`recipe-ingredients-title-${idx}`}
                                     />
                                     <Field
@@ -45,7 +50,7 @@ export const IngredientList = () => {
                                         placeholder='100'
                                         maxW='80px'
                                         type='number'
-                                        isInvalid={!isValid}
+                                        isInvalid={!!ingredientErrors?.[idx]?.count}
                                         data-test-id={`recipe-ingredients-count-${idx}`}
                                     />
                                     <Field
@@ -53,7 +58,7 @@ export const IngredientList = () => {
                                         name={`ingredients[${idx}].measureUnit`}
                                         placeholder='Единица измерения'
                                         maxW='215px'
-                                        isInvalid={!isValid}
+                                        isInvalid={!!ingredientErrors?.[idx]?.measureUnit}
                                         data-test-id={`recipe-ingredients-measureUnit-${idx}`}
                                     >
                                         {measureUnits?.map((unit: MeasureUnit) => (

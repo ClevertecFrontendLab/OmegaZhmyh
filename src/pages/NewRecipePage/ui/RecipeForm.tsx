@@ -28,9 +28,24 @@ import { CookingSteps } from './CookingSteps';
 import { IngredientList } from './IngredientList';
 import { SubcategorySelect } from './SubcategorySelect';
 
-export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
-    const { values, setFieldValue, isSubmitting, isValid } = useFormikContext<CreateRecipe>();
+export const RecipeForm = ({
+    setIsDraftSave,
+}: {
+    setIsDraftSave: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+    const { values, setFieldValue, isSubmitting, handleSubmit, errors } =
+        useFormikContext<CreateRecipe>();
     const { modal, openImageUploader } = useImageInput();
+
+    const handleDraftSave = () => {
+        setIsDraftSave(true);
+        handleSubmit();
+    };
+
+    const handlePublish = () => {
+        setIsDraftSave(false);
+        handleSubmit();
+    };
 
     return (
         <>
@@ -47,7 +62,7 @@ export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
                         w={{ base: '100%', md: '232px', lg: '353px', xl: '553px' }}
                         h={{ base: '224px', lg: '410px' }}
                         borderRadius='8px'
-                        border={!isValid ? '1px solid red' : 'none'}
+                        border={errors[FORM_FIELDS.IMAGE] ? '1px solid red' : 'none'}
                         onClick={() =>
                             openImageUploader(FORM_FIELDS.IMAGE, 'recipe-image-block-input-file')
                         }
@@ -64,12 +79,7 @@ export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
                         )}
                     </Center>
                     <VStack w='100%' maxW='668px' gap='24px'>
-                        <FormControl
-                            as={Flex}
-                            alignItems='center'
-                            justifyContent='space-between'
-                            isInvalid={!isValid}
-                        >
+                        <FormControl as={Flex} alignItems='center' justifyContent='space-between'>
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.CATEGORIES}
                             </FormLabel>
@@ -79,7 +89,7 @@ export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
                             as={Input}
                             name={FORM_FIELDS.TITLE}
                             placeholder={PLACEHOLDERS.TITLE}
-                            isInvalid={!isValid}
+                            isInvalid={!!errors[FORM_FIELDS.TITLE]}
                             mt={{ base: '0', lg: '12px' }}
                             data-test-id='recipe-title'
                         />
@@ -87,10 +97,14 @@ export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
                             as={Textarea}
                             name={FORM_FIELDS.DESCRIPTION}
                             placeholder={PLACEHOLDERS.DESCRIPTION}
-                            isInvalid={!isValid}
+                            isInvalid={!!errors[FORM_FIELDS.DESCRIPTION]}
                             data-test-id='recipe-description'
                         />
-                        <FormControl as={Flex} alignItems='center' isInvalid={!isValid}>
+                        <FormControl
+                            as={Flex}
+                            alignItems='center'
+                            isInvalid={!!errors[FORM_FIELDS.PORTIONS]}
+                        >
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.PORTIONS}
                             </FormLabel>
@@ -112,7 +126,11 @@ export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
                                 </NumberInputStepper>
                             </NumberInput>
                         </FormControl>
-                        <FormControl as={Flex} alignItems='center' isInvalid={!isValid}>
+                        <FormControl
+                            as={Flex}
+                            alignItems='center'
+                            isInvalid={!!errors[FORM_FIELDS.TIME]}
+                        >
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.TIME}
                             </FormLabel>
@@ -143,7 +161,7 @@ export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
                                 variant='outline'
                                 colorScheme='gray'
                                 data-test-id='recipe-save-draft-button'
-                                onClick={onDraftSave}
+                                onClick={handleDraftSave}
                             >
                                 {BUTTONS.SAVE_DRAFT}
                             </Button>
@@ -153,6 +171,7 @@ export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
                                 color='white'
                                 type='submit'
                                 isLoading={isSubmitting}
+                                onClick={handlePublish}
                                 data-test-id='recipe-publish-recipe-button'
                             >
                                 {BUTTONS.PUBLISH}

@@ -8,15 +8,16 @@ import breakfastImg from '~/shared/assets/breakfast.png'; // используй�
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 
 type LeaveConfirmModalProps = {
-    onDraftSave: () => void;
+    setIsDraftSave: (value: boolean) => void;
     isSuccess: boolean;
+    setIsSuccess: (value: boolean) => void;
 };
 
-export const LeaveConfirmModal = ({ onDraftSave: onSave }: LeaveConfirmModalProps) => {
+export const LeaveConfirmModal = ({ setIsDraftSave, setIsSuccess }: LeaveConfirmModalProps) => {
     const [leaveModalOpen, setLeaveModalOpen] = useState(false);
     const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(null);
 
-    const { dirty, isSubmitting } = useFormikContext<CreateRecipe>();
+    const { dirty, isSubmitting, handleSubmit } = useFormikContext<CreateRecipe>();
 
     const blocker = useBlocker(() => dirty && !isSubmitting);
 
@@ -28,12 +29,19 @@ export const LeaveConfirmModal = ({ onDraftSave: onSave }: LeaveConfirmModalProp
     }, [blocker, blocker.state]);
 
     const handleLeave = () => {
-        setLeaveModalOpen(false);
+        handleClose();
         if (blockerProceed) blockerProceed();
     };
 
     const handleClose = () => {
         setLeaveModalOpen(false);
+        setIsSuccess(false);
+    };
+
+    const handleSaveDraft = () => {
+        setIsDraftSave(true);
+        handleSubmit();
+        handleClose();
     };
 
     return (
@@ -59,7 +67,7 @@ export const LeaveConfirmModal = ({ onDraftSave: onSave }: LeaveConfirmModalProp
                 <Button
                     w='100%'
                     colorScheme='blackAlpha'
-                    onClick={onSave}
+                    onClick={handleSaveDraft}
                     leftIcon={<span>✏️</span>}
                 >
                     Сохранить черновик

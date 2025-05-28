@@ -1,25 +1,27 @@
 export type RecipesState = Recipe[];
 
 export type CreateRecipe = {
-    title: string;
-    description: string;
-    time: number;
-    categoriesIds: string[];
+    title?: string;
+    description?: string;
+    time?: number;
+    categoriesIds?: string[];
     meat?: string;
     garnish?: string;
-    portions: number;
-    image: string;
+    portions?: number;
+    image?: string;
     steps: StepType[];
     ingredients: IngredientType[];
 };
 
-export type Recipe = CreateRecipe & {
+export type Recipe = Required<CreateRecipe> & {
     authorId: string;
     nutritionValue: NutritionValueType;
     likes: number;
     views: number;
     bookmarks: number;
     createdAt: string;
+    meat?: string;
+    garnish?: string;
     _id: number;
 };
 
@@ -32,7 +34,7 @@ export type NutritionValueType = {
 
 export type IngredientType = {
     title: string;
-    count: number;
+    count?: number;
     measureUnit: string;
 };
 

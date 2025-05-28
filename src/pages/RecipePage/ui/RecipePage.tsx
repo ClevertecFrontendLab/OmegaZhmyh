@@ -5,6 +5,7 @@ import {
     Flex,
     Heading,
     HStack,
+    IconButton,
     Image,
     Tag,
     TagLabel,
@@ -14,11 +15,15 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 
+import { selectMainCategories, selectSubCategories } from '~/entities/Category';
 import { useGetRecipeByIdQuery } from '~/entities/Recipe/api/recipeApi';
+import { selectUserId } from '~/features/auth';
+import { EDIT_RECIPE } from '~/shared/config/routes.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
-import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
+import { useAppSelector } from '~/shared/store/hooks';
+import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes, BsTrash } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { RecipeTags } from '~/shared/ui/RecipeTags/';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert/hooks/useErrorAlert';
@@ -35,7 +40,9 @@ export const RecipePage = () => {
     const { data: recipe, isError, isLoading } = useGetRecipeByIdQuery(id as string);
 
     const dispatch = useDispatch();
-
+    const userId = useAppSelector(selectUserId);
+    const mainCategories = useAppSelector(selectMainCategories);
+    const subCategories = useAppSelector(selectSubCategories);
     const { handleError } = useErrorAlert();
 
     useEffect(() => {
@@ -68,7 +75,12 @@ export const RecipePage = () => {
         likes,
         bookmarks,
         steps,
+        authorId,
     } = recipe;
+
+    const subCategory = subCategories.find((sub) => sub._id === categoriesIds?.[0]);
+    const mainCategory = mainCategories.find((cat) => cat._id === subCategory?.rootCategoryId);
+
     return (
         <>
             <Flex
@@ -121,22 +133,36 @@ export const RecipePage = () => {
                             <TagLabel>{time + ' мин.'}</TagLabel>
                         </Tag>
                         <Flex gap={{ base: '12px', xl: '16px' }}>
-                            <Button
-                                size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
-                                variant='outline'
-                                colorScheme='black'
-                                leftIcon={<BsEmojiHeartEyes />}
-                            >
-                                Оценить рецепт
-                            </Button>
-                            <Button
-                                size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
-                                color='black'
-                                bgColor='lime.400'
-                                leftIcon={<BsBookmarkHeart />}
-                            >
-                                Сохранить в закладки
-                            </Button>
+                            {userId === authorId ? (
+                                <>
+                                    <IconButton aria-label='Удалить рецепт' icon={<BsTrash />} />
+                                    <Button
+                                        as={Link}
+                                        to={`${EDIT_RECIPE}/${mainCategory?.category}/${subCategory?.category}/${id}`}
+                                    >
+                                        Редактировать рецепт
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button
+                                        size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
+                                        variant='outline'
+                                        colorScheme='black'
+                                        leftIcon={<BsEmojiHeartEyes />}
+                                    >
+                                        Оценить рецепт
+                                    </Button>
+                                    <Button
+                                        size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
+                                        color='black'
+                                        bgColor='lime.400'
+                                        leftIcon={<BsBookmarkHeart />}
+                                    >
+                                        Сохранить в закладки
+                                    </Button>
+                                </>
+                            )}
                         </Flex>
                     </Flex>
                 </VStack>

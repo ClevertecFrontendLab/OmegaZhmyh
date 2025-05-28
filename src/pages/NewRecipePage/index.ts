@@ -1,1 +1,1 @@
-export { NewRecipePage } from './ui/NewRecipePage';
+export { RecipeFormPage } from './ui/RecipeFormPage';

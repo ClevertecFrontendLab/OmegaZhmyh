@@ -1,7 +1,7 @@
 import { Center, Flex, IconButton, Image, Tag, Textarea, VStack } from '@chakra-ui/react';
 import { Field, useFormikContext } from 'formik';
 
-import { StepType } from '~/entities/Recipe';
+import { CreateRecipe, StepType } from '~/entities/Recipe';
 import { BsFillImageFill, BsTrash } from '~/shared/ui/Icons';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
@@ -15,16 +15,10 @@ export interface StepItemProps {
 }
 
 export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps) => {
-    const { isValid } = useFormikContext();
+    const { errors } = useFormikContext<CreateRecipe>();
+
     return (
-        <Flex
-            alignItems='stretch'
-            border='1px solid'
-            borderColor='blackAlpha.200'
-            h='160px'
-            borderRadius='8px'
-            mb={2}
-        >
+        <Flex alignItems='stretch' border='1px solid' h='160px' borderRadius='8px' mb={2}>
             <Center
                 bg='rgba(0, 0, 0, 0.08)'
                 w={{ base: '100%', md: '180px' }}
@@ -57,7 +51,7 @@ export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps)
                     alignSelf='stretch'
                     flexGrow={1}
                     minH='80px'
-                    isInvalid={!isValid}
+                    isInvalid={!!errors[FORM_FIELDS.STEPS]}
                     data-test-id={`recipe-steps-description-${index}`}
                 />
                 {index === 0 || (

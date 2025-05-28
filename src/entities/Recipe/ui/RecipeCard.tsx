@@ -21,7 +21,7 @@ import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { RecipeTags } from '~/shared/ui/RecipeTags/';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
-import { Recipe } from '../types';
+import { Recipe } from '../model/types';
 export type RecipeCardProps = {
     recipe: Recipe;
     cardLinkId?: number;

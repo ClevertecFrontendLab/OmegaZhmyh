@@ -18,30 +18,59 @@ import { LeaveConfirmModal } from './LeaveConfirmModal';
 import { RecipeForm } from './RecipeForm';
 
 const initialValues: CreateRecipe = {
-    title: '',
-    description: '',
-    time: 0,
-    image: '',
-    categoriesIds: [],
+    title: undefined,
+    description: undefined,
+    time: undefined,
+    image: undefined,
+    categoriesIds: undefined,
     steps: [{ stepNumber: 1, description: '' }],
-    ingredients: [{ title: '', count: 1, measureUnit: '' }],
+    ingredients: [{ title: '', count: undefined, measureUnit: '' }],
     meat: undefined,
     garnish: undefined,
-    portions: 1,
+    portions: undefined,
 };
 
-export const NewRecipePage = () => {
+export const RecipeFormPage = () => {
     const navigate = useNavigate();
 
     const [createRecipe] = useCreateRecipeMutation();
     const [createRecipeDraft] = useCreateRecipeDraftMutation();
+
     const { handleError } = useErrorAlert();
     const mainCategories = useSelector(selectMainCategories);
     const subCategories = useSelector(selectSubCategories);
 
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isDraftSave, setIsDraftSave] = useState(true);
 
-    const handleSubmit = async (
+    const saveDraft = async (values: CreateRecipe) => {
+        const cleanedValues = deepClean(values);
+
+        try {
+            await createRecipeDraft(cleanedValues).unwrap();
+            handleError({
+                errorTitle: 'Черновик успешно сохранен',
+                status: 'success',
+            });
+            navigate('/');
+        } catch (error) {
+            if (isErrorResponse(error)) {
+                if (error.status === 409) {
+                    handleError({
+                        errorTitle: 'Ошибка',
+                        errorMessage: 'Рецепт с таким названием уже существует',
+                    });
+                } else if (error.status === 500) {
+                    handleError({
+                        errorTitle: 'Ошибка сервера',
+                        errorMessage: 'Не удалось сохранить черновик рецепта',
+                    });
+                }
+            }
+        }
+    };
+
+    const saveRecipe = async (
         values: CreateRecipe,
         { setSubmitting, resetForm }: FormikHelpers<CreateRecipe>,
     ) => {
@@ -54,7 +83,7 @@ export const NewRecipePage = () => {
             });
             resetForm();
 
-            const subCategory = subCategories.find((sub) => sub._id === categoriesIds[0]);
+            const subCategory = subCategories.find((sub) => sub._id === categoriesIds?.[0]);
             const mainCategory = mainCategories.find(
                 (cat) => cat._id === subCategory?.rootCategoryId,
             );
@@ -79,47 +108,30 @@ export const NewRecipePage = () => {
         }
     };
 
-    const handleSaveDraft = async (values: CreateRecipe) => {
-        const cleanedValues = deepClean(values);
-        const shema = getRecipeValidationSchema(true);
-        try {
-            await shema.validate(cleanedValues);
-        } catch (error) {
-            console.error(error);
-        }
-
-        try {
-            await createRecipeDraft(cleanedValues).unwrap();
-            handleError({
-                errorTitle: 'Черновик успешно сохранён',
-                status: 'success',
-            });
-            navigate('/');
-        } catch (_error) {
-            handleError({
-                errorTitle: 'Ошибка',
-                errorMessage: 'Не удалось сохранить черновик',
-            });
+    const handleSubmit = async (values: CreateRecipe, helpers: FormikHelpers<CreateRecipe>) => {
+        if (isDraftSave) {
+            await saveDraft(values);
+        } else {
+            await saveRecipe(values, helpers);
         }
     };
 
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={getRecipeValidationSchema(false)}
+            validationSchema={getRecipeValidationSchema(isDraftSave)}
             validateOnBlur={false}
             validateOnChange={false}
             onSubmit={handleSubmit}
         >
-            {({ values }) => (
-                <>
-                    <LeaveConfirmModal
-                        onDraftSave={() => handleSaveDraft(values)}
-                        isSuccess={isSuccess}
-                    />
-                    <RecipeForm onDraftSave={() => handleSaveDraft(values)} />
-                </>
-            )}
+            <>
+                <LeaveConfirmModal
+                    setIsDraftSave={setIsDraftSave}
+                    isSuccess={isSuccess}
+                    setIsSuccess={setIsSuccess}
+                />
+                <RecipeForm setIsDraftSave={setIsDraftSave} />
+            </>
         </Formik>
     );
 };
