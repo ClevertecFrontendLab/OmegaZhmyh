@@ -4,7 +4,7 @@ import { GetRecipeBySubategoryParams, GetRecipesParams, RecipeResponse } from '~
 import { API_BASE_URL } from '~/shared/config/api-urls.constants';
 import { ApplicationState } from '~/shared/store/configure-store';
 
-import { Recipe } from '../model/types';
+import { CreateRecipe, Recipe } from '../model/types';
 
 export const recipeApi = createApi({
     reducerPath: 'recipeApi',
@@ -37,9 +37,16 @@ export const recipeApi = createApi({
         getRecipeByUserId: builder.query<Recipe[], string>({
             query: (userId) => `/recipe/user/${userId}`,
         }),
-        createRecipe: builder.mutation<void, Partial<Recipe>>({
+        createRecipe: builder.mutation<Recipe, CreateRecipe>({
             query: (recipe) => ({
                 url: '/recipe',
+                method: 'POST',
+                body: recipe,
+            }),
+        }),
+        createRecipeDraft: builder.mutation<Recipe, Partial<CreateRecipe>>({
+            query: (recipe) => ({
+                url: '/recipe/draft',
                 method: 'POST',
                 body: recipe,
             }),
@@ -57,6 +64,18 @@ export const recipeApi = createApi({
                 method: 'DELETE',
             }),
         }),
+        likeRecipe: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `/recipe/${id}/like`,
+                method: 'POST',
+            }),
+        }),
+        bookmarkRecipe: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `/recipe/${id}/bookmark`,
+                method: 'POST',
+            }),
+        }),
     }),
 });
 
@@ -66,6 +85,9 @@ export const {
     useGetRecipeByIdQuery,
     useGetRecipeByUserIdQuery,
     useCreateRecipeMutation,
+    useCreateRecipeDraftMutation,
     useUpdateRecipeMutation,
     useDeleteRecipeMutation,
+    useLikeRecipeMutation,
+    useBookmarkRecipeMutation,
 } = recipeApi;

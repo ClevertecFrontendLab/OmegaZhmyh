@@ -1,12 +1,19 @@
 import { Formik, FormikHelpers } from 'formik';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
+import { selectMainCategories, selectSubCategories } from '~/entities/Category';
 import { CreateRecipe } from '~/entities/Recipe';
-import { useCreateRecipeMutation } from '~/entities/Recipe/api/recipeApi';
+import {
+    useCreateRecipeDraftMutation,
+    useCreateRecipeMutation,
+} from '~/entities/Recipe/api/recipeApi';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
-import { validationSchema } from '../model/validationSchema';
+import { deepClean } from '../lib/deepClean';
+import { getRecipeValidationSchema } from '../model/validationSchema';
 import { LeaveConfirmModal } from './LeaveConfirmModal';
 import { RecipeForm } from './RecipeForm';
 
@@ -26,21 +33,33 @@ const initialValues: CreateRecipe = {
 export const NewRecipePage = () => {
     const navigate = useNavigate();
 
-    const [createRecipe, { isSuccess }] = useCreateRecipeMutation();
+    const [createRecipe] = useCreateRecipeMutation();
+    const [createRecipeDraft] = useCreateRecipeDraftMutation();
     const { handleError } = useErrorAlert();
+    const mainCategories = useSelector(selectMainCategories);
+    const subCategories = useSelector(selectSubCategories);
+
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const handleSubmit = async (
         values: CreateRecipe,
         { setSubmitting, resetForm }: FormikHelpers<CreateRecipe>,
     ) => {
         try {
-            await createRecipe(values).unwrap();
+            const { _id, categoriesIds } = await createRecipe(values).unwrap();
+            setIsSuccess(true);
             handleError({
                 errorTitle: 'Рецепт успешно опубликован',
                 status: 'success',
             });
             resetForm();
-            navigate('/recipes');
+
+            const subCategory = subCategories.find((sub) => sub._id === categoriesIds[0]);
+            const mainCategory = mainCategories.find(
+                (cat) => cat._id === subCategory?.rootCategoryId,
+            );
+
+            navigate(`/${mainCategory?.category}/${subCategory?.category}/${_id}`);
         } catch (error) {
             if (isErrorResponse(error)) {
                 if (error.status === 409) {
@@ -60,18 +79,47 @@ export const NewRecipePage = () => {
         }
     };
 
+    const handleSaveDraft = async (values: CreateRecipe) => {
+        const cleanedValues = deepClean(values);
+        const shema = getRecipeValidationSchema(true);
+        try {
+            await shema.validate(cleanedValues);
+        } catch (error) {
+            console.error(error);
+        }
+
+        try {
+            await createRecipeDraft(cleanedValues).unwrap();
+            handleError({
+                errorTitle: 'Черновик успешно сохранён',
+                status: 'success',
+            });
+            navigate('/');
+        } catch (_error) {
+            handleError({
+                errorTitle: 'Ошибка',
+                errorMessage: 'Не удалось сохранить черновик',
+            });
+        }
+    };
+
     return (
         <Formik
             initialValues={initialValues}
-            validationSchema={validationSchema}
+            validationSchema={getRecipeValidationSchema(false)}
             validateOnBlur={false}
             validateOnChange={false}
             onSubmit={handleSubmit}
         >
-            <>
-                <LeaveConfirmModal onSave={() => {}} isSuccess={isSuccess} />
-                <RecipeForm />
-            </>
+            {({ values }) => (
+                <>
+                    <LeaveConfirmModal
+                        onDraftSave={() => handleSaveDraft(values)}
+                        isSuccess={isSuccess}
+                    />
+                    <RecipeForm onDraftSave={() => handleSaveDraft(values)} />
+                </>
+            )}
         </Formik>
     );
 };

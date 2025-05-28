@@ -8,17 +8,17 @@ import breakfastImg from '~/shared/assets/breakfast.png'; // используй�
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 
 type LeaveConfirmModalProps = {
-    onSave: () => void;
+    onDraftSave: () => void;
     isSuccess: boolean;
 };
 
-export const LeaveConfirmModal = ({ onSave, isSuccess }: LeaveConfirmModalProps) => {
+export const LeaveConfirmModal = ({ onDraftSave: onSave }: LeaveConfirmModalProps) => {
     const [leaveModalOpen, setLeaveModalOpen] = useState(false);
     const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(null);
 
-    const { dirty } = useFormikContext<CreateRecipe>();
+    const { dirty, isSubmitting } = useFormikContext<CreateRecipe>();
 
-    const blocker = useBlocker(() => dirty && !isSuccess);
+    const blocker = useBlocker(() => dirty && !isSubmitting);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {

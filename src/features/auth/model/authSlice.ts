@@ -1,15 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { jwtDecode } from 'jwt-decode';
+
+import { JwtPayload } from '../types/auth.types';
 
 type AuthState = {
     token: string | null;
     isAuthenticated: boolean;
+    userId: string | null;
 };
 
 const TOKEN_KEY = 'token';
 
+const getUserIdFromToken = (token: string | null) => {
+    if (!token) return null;
+    const decoded = jwtDecode<JwtPayload>(token);
+    return decoded.userId;
+};
+
+const initialToken = localStorage.getItem(TOKEN_KEY);
+
 const initialState: AuthState = {
-    token: localStorage.getItem(TOKEN_KEY),
-    isAuthenticated: !!localStorage.getItem(TOKEN_KEY),
+    token: initialToken,
+    isAuthenticated: !!initialToken,
+    userId: getUserIdFromToken(initialToken),
 };
 
 export const authSlice = createSlice({

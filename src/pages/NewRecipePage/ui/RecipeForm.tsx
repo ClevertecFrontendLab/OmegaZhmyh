@@ -28,9 +28,8 @@ import { CookingSteps } from './CookingSteps';
 import { IngredientList } from './IngredientList';
 import { SubcategorySelect } from './SubcategorySelect';
 
-export const RecipeForm = () => {
-    const { values, setFieldValue, isSubmitting, isValid, errors } =
-        useFormikContext<CreateRecipe>();
+export const RecipeForm = ({ onDraftSave }: { onDraftSave: () => void }) => {
+    const { values, setFieldValue, isSubmitting, isValid } = useFormikContext<CreateRecipe>();
     const { modal, openImageUploader } = useImageInput();
 
     return (
@@ -144,6 +143,7 @@ export const RecipeForm = () => {
                                 variant='outline'
                                 colorScheme='gray'
                                 data-test-id='recipe-save-draft-button'
+                                onClick={onDraftSave}
                             >
                                 {BUTTONS.SAVE_DRAFT}
                             </Button>
@@ -159,7 +159,6 @@ export const RecipeForm = () => {
                             </Button>
                         </HStack>
                     </VStack>
-                    {JSON.stringify(errors)}
                 </Container>
             </Form>
         </>
