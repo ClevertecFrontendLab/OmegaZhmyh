@@ -33,8 +33,7 @@ export const RecipeForm = ({
 }: {
     setIsDraftSave: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-    const { values, setFieldValue, isSubmitting, handleSubmit, errors } =
-        useFormikContext<CreateRecipe>();
+    const { values, isSubmitting, handleSubmit, errors } = useFormikContext<CreateRecipe>();
     const { modal, openImageUploader } = useImageInput();
 
     const handleDraftSave = () => {
@@ -108,18 +107,13 @@ export const RecipeForm = ({
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.PORTIONS}
                             </FormLabel>
-                            <NumberInput
-                                w='100px'
-                                min={1}
-                                value={values.portions || ''}
-                                onChange={(val) =>
-                                    setFieldValue(
-                                        FORM_FIELDS.PORTIONS,
-                                        val ? Number(val) : undefined,
-                                    )
-                                }
-                            >
-                                <NumberInputField data-test-id='recipe-portions' />
+                            <NumberInput w='100px'>
+                                <Field
+                                    as={NumberInputField}
+                                    name={FORM_FIELDS.PORTIONS}
+                                    type='number'
+                                    data-test-id='recipe-portions'
+                                />
                                 <NumberInputStepper>
                                     <NumberIncrementStepper />
                                     <NumberDecrementStepper />
@@ -134,15 +128,13 @@ export const RecipeForm = ({
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.TIME}
                             </FormLabel>
-                            <NumberInput
-                                w='100px'
-                                min={0}
-                                value={values.time}
-                                onChange={(val) =>
-                                    setFieldValue(FORM_FIELDS.TIME, val ? Number(val) : 0)
-                                }
-                            >
-                                <NumberInputField data-test-id='recipe-time' />
+                            <NumberInput w='100px'>
+                                <Field
+                                    as={NumberInputField}
+                                    name={FORM_FIELDS.TIME}
+                                    type='number'
+                                    data-test-id='recipe-time'
+                                />
                                 <NumberInputStepper>
                                     <NumberIncrementStepper />
                                     <NumberDecrementStepper />

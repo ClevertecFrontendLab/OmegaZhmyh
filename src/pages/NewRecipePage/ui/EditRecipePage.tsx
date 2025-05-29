@@ -19,8 +19,11 @@ export const EditRecipePage = () => {
 
     const handleSubmit = async (values: CreateRecipe, helpers: FormikHelpers<CreateRecipe>) => {
         try {
-            await updateRecipe({ ...values, _id: recipe._id }).unwrap();
-
+            await updateRecipe({ recipe: values, id: recipe._id }).unwrap();
+            handleError({
+                errorTitle: 'Рецепт успешно опубликован',
+                status: 'success',
+            });
             navigate(`/${category as string}/${subcategory as string}/${recipe._id}`);
         } catch (error) {
             if (isErrorResponse(error)) {

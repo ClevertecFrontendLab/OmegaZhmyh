@@ -18,7 +18,12 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/Category';
-import { useDeleteRecipeMutation, useGetRecipeByIdQuery } from '~/entities/Recipe/api/recipeApi';
+import {
+    useBookmarkRecipeMutation,
+    useDeleteRecipeMutation,
+    useGetRecipeByIdQuery,
+    useLikeRecipeMutation,
+} from '~/entities/Recipe/api/recipeApi';
 import { selectUserId } from '~/features/auth';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { EDIT_RECIPE, ROUTES } from '~/shared/config/routes.constants';
@@ -27,7 +32,7 @@ import { useAppSelector } from '~/shared/store/hooks';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes, BsTrash } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { RecipeTags } from '~/shared/ui/RecipeTags/';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert/hooks/useErrorAlert';
+import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 import { NewRecipes } from '~/widgets/NewRecipes';
 
@@ -41,6 +46,8 @@ export const RecipePage = () => {
     const { id } = useParams();
     const { data: recipe, isError, isLoading } = useGetRecipeByIdQuery(id as string);
     const [deleteRecipe] = useDeleteRecipeMutation();
+    const [likeRecipe] = useLikeRecipeMutation();
+    const [bookmarkRecipe] = useBookmarkRecipeMutation();
 
     const dispatch = useDispatch();
     const userId = useAppSelector(selectUserId);
@@ -84,12 +91,13 @@ export const RecipePage = () => {
     const subCategory = subCategories.find((sub) => sub._id === categoriesIds?.[0]);
     const mainCategory = mainCategories.find((cat) => cat._id === subCategory?.rootCategoryId);
 
-    const handleDeleteRecipe = () => {
+    const handleDeleteRecipe = async () => {
         if (id) {
             try {
-                deleteRecipe(id);
+                await deleteRecipe(id).unwrap();
                 handleError({
                     errorTitle: 'Рецепт успешно удален',
+                    status: 'success',
                 });
                 navigate(ROUTES.HOME);
             } catch (error) {
@@ -98,6 +106,40 @@ export const RecipePage = () => {
                         handleError({
                             errorTitle: 'Ошибка сервера',
                             errorMessage: 'Не удалось удалить рецепт',
+                        });
+                    }
+                }
+            }
+        }
+    };
+
+    const handleLikeRecipe = async () => {
+        if (id) {
+            try {
+                await likeRecipe(id).unwrap();
+            } catch (error) {
+                if (isErrorResponse(error)) {
+                    if (error.status === 500) {
+                        handleError({
+                            errorTitle: 'Ошибка сервера',
+                            errorMessage: 'Попробуйте немного позже',
+                        });
+                    }
+                }
+            }
+        }
+    };
+
+    const handleBookmarkRecipe = async () => {
+        if (id) {
+            try {
+                await bookmarkRecipe(id).unwrap();
+            } catch (error) {
+                if (isErrorResponse(error)) {
+                    if (error.status === 500) {
+                        handleError({
+                            errorTitle: 'Ошибка сервера',
+                            errorMessage: 'Попробуйте немного позже',
                         });
                     }
                 }
@@ -179,6 +221,7 @@ export const RecipePage = () => {
                                         variant='outline'
                                         colorScheme='black'
                                         leftIcon={<BsEmojiHeartEyes />}
+                                        onClick={handleLikeRecipe}
                                     >
                                         Оценить рецепт
                                     </Button>
@@ -187,6 +230,7 @@ export const RecipePage = () => {
                                         color='black'
                                         bgColor='lime.400'
                                         leftIcon={<BsBookmarkHeart />}
+                                        onClick={handleBookmarkRecipe}
                                     >
                                         Сохранить в закладки
                                     </Button>

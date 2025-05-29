@@ -47,6 +47,7 @@ export const recipeApi = createApi({
                 method: 'POST',
                 body: recipe,
             }),
+            invalidatesTags: ['Recipe'],
         }),
         createRecipeDraft: builder.mutation<Recipe, Partial<CreateRecipe>>({
             query: (recipe) => ({
@@ -55,9 +56,9 @@ export const recipeApi = createApi({
                 body: recipe,
             }),
         }),
-        updateRecipe: builder.mutation<void, Partial<Recipe> & { _id: number }>({
-            query: (recipe) => ({
-                url: `/recipe/${recipe._id}`,
+        updateRecipe: builder.mutation<void, { recipe: Partial<CreateRecipe>; id: string }>({
+            query: ({ recipe, id }) => ({
+                url: `/recipe/${id}`,
                 method: 'PATCH',
                 body: recipe,
             }),
@@ -68,18 +69,21 @@ export const recipeApi = createApi({
                 url: `/recipe/${id}`,
                 method: 'DELETE',
             }),
+            invalidatesTags: ['Recipe'],
         }),
         likeRecipe: builder.mutation<void, string>({
             query: (id) => ({
                 url: `/recipe/${id}/like`,
                 method: 'POST',
             }),
+            invalidatesTags: ['Recipe'],
         }),
         bookmarkRecipe: builder.mutation<void, string>({
             query: (id) => ({
                 url: `/recipe/${id}/bookmark`,
                 method: 'POST',
             }),
+            invalidatesTags: ['Recipe'],
         }),
     }),
 });

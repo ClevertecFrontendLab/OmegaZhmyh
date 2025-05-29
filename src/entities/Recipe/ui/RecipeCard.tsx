@@ -15,12 +15,15 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import { selectCategoryById, selectRecipeSubCategories } from '~/entities/Category';
+import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { selectSearch } from '~/features/recipe-filters';
 import { BsBookmarkHeart } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { RecipeTags } from '~/shared/ui/RecipeTags/';
+import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
+import { useBookmarkRecipeMutation } from '../api/recipeApi';
 import { Recipe } from '../model/types';
 export type RecipeCardProps = {
     recipe: Recipe;
@@ -34,6 +37,23 @@ export const RecipeCard = (props: RecipeCardProps) => {
     const subcategory = useSelector(selectRecipeSubCategories(categoriesIds));
     const category = useSelector(selectCategoryById(subcategory?.rootCategoryId));
 
+    const [bookmarkRecipe] = useBookmarkRecipeMutation();
+    const { handleError } = useErrorAlert();
+
+    const handleBookmarkRecipe = () => {
+        try {
+            bookmarkRecipe(recipe._id).unwrap();
+        } catch (error) {
+            if (isErrorResponse(error)) {
+                if (error.status === 500) {
+                    handleError({
+                        errorTitle: 'Ошибка сервера',
+                        errorMessage: 'Попробуйте немного позже',
+                    });
+                }
+            }
+        }
+    };
     return (
         <Card direction='row' variant='outline' overflow='hidden' borderRadius='8px'>
             <Box position='relative'>
@@ -121,6 +141,7 @@ export const RecipeCard = (props: RecipeCardProps) => {
                             borderColor='blackAlpha.600'
                             icon={<BsBookmarkHeart />}
                             aria-label='Сохранить'
+                            onClick={handleBookmarkRecipe}
                         >
                             Сохранить
                         </IconButton>

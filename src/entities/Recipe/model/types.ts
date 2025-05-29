@@ -22,7 +22,7 @@ export type Recipe = Required<CreateRecipe> & {
     createdAt: string;
     meat?: string;
     garnish?: string;
-    _id: number;
+    _id: string;
 };
 
 export type NutritionValueType = {
