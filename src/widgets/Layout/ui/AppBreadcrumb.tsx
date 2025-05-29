@@ -7,7 +7,7 @@ import {
     useBreakpointValue,
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useParams } from 'react-router';
 
 import { selectAllCategories } from '~/entities/Category';
 import { useGetRecipeByIdQuery } from '~/entities/Recipe/api/recipeApi';
@@ -21,6 +21,7 @@ type AppBreadcrumbProps = BreadcrumbProps & {
 
 export const AppBreadcrumb = ({ isMobile = false, ...props }: AppBreadcrumbProps) => {
     const location = useLocation();
+    console.log(useParams());
     const pathnames = location.pathname.split('/').filter((x) => x);
     const categorys = useSelector(selectAllCategories);
     const isMobileResolution = useBreakpointValue({ base: true, lg: false });

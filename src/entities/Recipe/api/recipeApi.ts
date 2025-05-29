@@ -18,12 +18,14 @@ export const recipeApi = createApi({
             return headers;
         },
     }),
+    tagTypes: ['Recipe'],
     endpoints: (builder) => ({
         getRecipes: builder.query<RecipeResponse, GetRecipesParams>({
             query: (params) => ({
                 url: '/recipe',
                 params,
             }),
+            providesTags: ['Recipe'],
         }),
         getRecipeBySubategory: builder.query<RecipeResponse, GetRecipeBySubategoryParams>({
             query: ({ subcategoryId, limit }) => ({
@@ -33,9 +35,11 @@ export const recipeApi = createApi({
         }),
         getRecipeById: builder.query<Recipe, string>({
             query: (id) => `/recipe/${id}`,
+            providesTags: ['Recipe'],
         }),
         getRecipeByUserId: builder.query<Recipe[], string>({
             query: (userId) => `/recipe/user/${userId}`,
+            providesTags: ['Recipe'],
         }),
         createRecipe: builder.mutation<Recipe, CreateRecipe>({
             query: (recipe) => ({
@@ -57,6 +61,7 @@ export const recipeApi = createApi({
                 method: 'PATCH',
                 body: recipe,
             }),
+            invalidatesTags: ['Recipe'],
         }),
         deleteRecipe: builder.mutation<void, string>({
             query: (id) => ({

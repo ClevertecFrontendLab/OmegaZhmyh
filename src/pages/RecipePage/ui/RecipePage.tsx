@@ -15,12 +15,13 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/Category';
-import { useGetRecipeByIdQuery } from '~/entities/Recipe/api/recipeApi';
+import { useDeleteRecipeMutation, useGetRecipeByIdQuery } from '~/entities/Recipe/api/recipeApi';
 import { selectUserId } from '~/features/auth';
-import { EDIT_RECIPE } from '~/shared/config/routes.constants';
+import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { EDIT_RECIPE, ROUTES } from '~/shared/config/routes.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { useAppSelector } from '~/shared/store/hooks';
 import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes, BsTrash } from '~/shared/ui/Icons';
@@ -36,8 +37,10 @@ import { IngredientsList } from './components/IngredientsList';
 import { NutrientBlock } from './components/NutrientBlock';
 
 export const RecipePage = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const { data: recipe, isError, isLoading } = useGetRecipeByIdQuery(id as string);
+    const [deleteRecipe] = useDeleteRecipeMutation();
 
     const dispatch = useDispatch();
     const userId = useAppSelector(selectUserId);
@@ -80,6 +83,27 @@ export const RecipePage = () => {
 
     const subCategory = subCategories.find((sub) => sub._id === categoriesIds?.[0]);
     const mainCategory = mainCategories.find((cat) => cat._id === subCategory?.rootCategoryId);
+
+    const handleDeleteRecipe = () => {
+        if (id) {
+            try {
+                deleteRecipe(id);
+                handleError({
+                    errorTitle: 'Рецепт успешно удален',
+                });
+                navigate(ROUTES.HOME);
+            } catch (error) {
+                if (isErrorResponse(error)) {
+                    if (error.status === 500) {
+                        handleError({
+                            errorTitle: 'Ошибка сервера',
+                            errorMessage: 'Не удалось удалить рецепт',
+                        });
+                    }
+                }
+            }
+        }
+    };
 
     return (
         <>
@@ -135,7 +159,12 @@ export const RecipePage = () => {
                         <Flex gap={{ base: '12px', xl: '16px' }}>
                             {userId === authorId ? (
                                 <>
-                                    <IconButton aria-label='Удалить рецепт' icon={<BsTrash />} />
+                                    <IconButton
+                                        aria-label='Удалить рецепт'
+                                        icon={<BsTrash />}
+                                        onClick={handleDeleteRecipe}
+                                        data-test-id='recipe-delete-button'
+                                    />
                                     <Button
                                         as={Link}
                                         to={`${EDIT_RECIPE}/${mainCategory?.category}/${subCategory?.category}/${id}`}
