@@ -16,7 +16,7 @@ import {
     Textarea,
     VStack,
 } from '@chakra-ui/react';
-import { Field, Form, useFormikContext } from 'formik';
+import { Field, FieldProps, Form, useFormikContext } from 'formik';
 
 import { CreateRecipe } from '~/entities/Recipe';
 import { BsFillImageFill } from '~/shared/ui/Icons';
@@ -107,18 +107,26 @@ export const RecipeForm = ({
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.PORTIONS}
                             </FormLabel>
-                            <NumberInput w='100px'>
-                                <Field
-                                    as={NumberInputField}
-                                    name={FORM_FIELDS.PORTIONS}
-                                    type='number'
-                                    data-test-id='recipe-portions'
-                                />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
+                            <Field name={FORM_FIELDS.PORTIONS}>
+                                {({ field, form }: FieldProps<number>) => (
+                                    <NumberInput
+                                        w='100px'
+                                        onChange={(val) =>
+                                            form.setFieldValue(
+                                                field.name,
+                                                val === '' || val === '-' ? undefined : Number(val),
+                                            )
+                                        }
+                                        value={field.value}
+                                    >
+                                        <NumberInputField data-test-id='recipe-portions' />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput>
+                                )}
+                            </Field>
                         </FormControl>
                         <FormControl
                             as={Flex}
@@ -128,18 +136,26 @@ export const RecipeForm = ({
                             <FormLabel fontSize='md' fontWeight='semibold'>
                                 {LABELS.TIME}
                             </FormLabel>
-                            <NumberInput w='100px'>
-                                <Field
-                                    as={NumberInputField}
-                                    name={FORM_FIELDS.TIME}
-                                    type='number'
-                                    data-test-id='recipe-time'
-                                />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
+                            <Field name={FORM_FIELDS.TIME}>
+                                {({ field, form }: FieldProps) => (
+                                    <NumberInput
+                                        w='100px'
+                                        onChange={(val) =>
+                                            form.setFieldValue(
+                                                field.name,
+                                                val === '' || val === '-' ? undefined : Number(val),
+                                            )
+                                        }
+                                        value={field.value}
+                                    >
+                                        <NumberInputField data-test-id='recipe-time' />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput>
+                                )}
+                            </Field>
                         </FormControl>
                     </VStack>
                 </Flex>
