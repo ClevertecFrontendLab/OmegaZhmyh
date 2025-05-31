@@ -63,7 +63,6 @@ export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps)
                     )}
                 </HStack>
                 <Field
-                    as={Textarea}
                     name={`${FORM_FIELDS.STEPS}[${index}].description`}
                     placeholder={PLACEHOLDERS.STEP_DESCRIPTION}
                     alignSelf='stretch'

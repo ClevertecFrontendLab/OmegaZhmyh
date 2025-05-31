@@ -17,15 +17,13 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { Field, FieldProps, Form, useFormikContext } from 'formik';
-import * as Yup from 'yup';
 
 import { CreateRecipe } from '~/entities/Recipe';
 import { BiEditAlt, BsFillImageFill } from '~/shared/ui/Icons';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
-import { handleValidationErrors } from '~/shared/utils/handleValidationErrors';
 
 import { useImageInput } from '../lib/useImageInput';
-import { draftSchema, requiredSchema } from '../model/validationSchema';
+import { useRecipeForm } from '../model/useRecipeForm';
 import { BUTTONS, FORM_FIELDS, PLACEHOLDERS } from './constants';
 import { CookingSteps } from './CookingSteps';
 import { IngredientList } from './IngredientList';
@@ -44,41 +42,14 @@ export const RecipeForm = ({
     isEdit,
     handleUpdateRecipe,
 }: RecipeFormProps) => {
-    const { values, setErrors, errors } = useFormikContext<CreateRecipe>();
+    const { values, errors } = useFormikContext<CreateRecipe>();
     const { modal, openImageUploader } = useImageInput();
-
-    const handleDraftSave = async () => {
-        try {
-            await draftSchema.validate(values, { abortEarly: false });
-            await onDraftSave(values);
-        } catch (err) {
-            if (err instanceof Yup.ValidationError) {
-                setErrors(handleValidationErrors(err));
-            }
-        }
-    };
-
-    const handlePublish = async () => {
-        try {
-            await requiredSchema.validate(values, { abortEarly: false });
-            await onSave(values);
-        } catch (err) {
-            if (err instanceof Yup.ValidationError) {
-                setErrors(handleValidationErrors(err));
-            }
-        }
-    };
-
-    const handleUpdate = async () => {
-        try {
-            await requiredSchema.validate(values, { abortEarly: false });
-            await handleUpdateRecipe(values);
-        } catch (err) {
-            if (err instanceof Yup.ValidationError) {
-                setErrors(handleValidationErrors(err));
-            }
-        }
-    };
+    const { handleDraftSave, handlePublish, handleUpdate } = useRecipeForm({
+        onDraftSave,
+        onSave,
+        isEdit,
+        handleUpdateRecipe,
+    });
 
     return (
         <>
@@ -162,6 +133,7 @@ export const RecipeForm = ({
                                             )
                                         }
                                         value={field.value}
+                                        min={-10}
                                     >
                                         <NumberInputField data-test-id='recipe-portions' />
                                         <NumberInputStepper>
@@ -194,6 +166,7 @@ export const RecipeForm = ({
                                             )
                                         }
                                         value={field.value}
+                                        min={-10}
                                     >
                                         <NumberInputField data-test-id='recipe-time' />
                                         <NumberInputStepper>

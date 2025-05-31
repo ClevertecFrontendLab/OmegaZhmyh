@@ -1,11 +1,17 @@
 import * as Yup from 'yup';
 
+type DraftShema = typeof draftSchema;
+type RequiredShema = typeof requiredSchema;
+
+export type ValidationSchema = DraftShema | RequiredShema;
+
 export const draftSchema = Yup.object().shape({
     title: Yup.string().max(50).required(),
     description: Yup.string().max(500),
-    categoriesIds: Yup.array().of(Yup.string()).min(3),
+    categoriesIds: Yup.array().of(Yup.string()),
     time: Yup.number().positive().max(10000),
-    portions: Yup.number().min(1),
+    portions: Yup.number().positive(),
+    image: Yup.string(),
     ingredients: Yup.array()
         .of(
             Yup.object().shape({
@@ -31,9 +37,10 @@ export const draftSchema = Yup.object().shape({
 export const requiredSchema = Yup.object().shape({
     title: Yup.string().max(50).required(),
     description: Yup.string().max(500).required(),
-    categoriesIds: Yup.array().of(Yup.string()).min(3).required(),
+    categoriesIds: Yup.array().of(Yup.string().required()).min(3).required(),
     time: Yup.number().positive().max(10000).required(),
-    portions: Yup.number().min(1).required(),
+    portions: Yup.number().positive().required(),
+    image: Yup.string().required(),
     ingredients: Yup.array()
         .of(
             Yup.object().shape({

@@ -1,14 +1,14 @@
 export type RecipesState = Recipe[];
 
 export type CreateRecipe = {
-    title?: string;
-    description?: string;
-    time?: number;
-    categoriesIds?: string[];
+    title: string;
+    description: string;
+    time: number;
+    categoriesIds: string[];
     meat?: string;
     garnish?: string;
-    portions?: number;
-    image?: string;
+    portions: number;
+    image: string;
     steps: StepType[];
     ingredients: IngredientType[];
 };

@@ -8,13 +8,15 @@ import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 import { ImageUploadModal } from '../ui/ImageUploadModal';
 
 export const useImageInput = () => {
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    const [isImgModalOpen, setImgModalOpen] = useState<boolean>(false);
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const [uploadImage, { isLoading }] = useUploadImageMutation();
     const { setFieldValue, values } = useFormikContext<CreateRecipe>();
+
     const [fieldName, setFieldName] = useState<string | null>(null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const [inputDataTestId, setInputDataTestId] = useState<string>('');
+    const [isImgModalOpen, setImgModalOpen] = useState<boolean>(false);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+    const [uploadImage, { isLoading }] = useUploadImageMutation();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];

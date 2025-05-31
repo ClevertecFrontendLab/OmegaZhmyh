@@ -1,16 +1,12 @@
 import { Button, Center, Text, VStack } from '@chakra-ui/react';
-import { useFormikContext } from 'formik';
-import { RefObject, useEffect, useState } from 'react';
-import { useBlocker } from 'react-router';
-import * as Yup from 'yup';
+import { RefObject } from 'react';
 
 import { CreateRecipe } from '~/entities/Recipe';
 import breakfastImg from '~/shared/assets/breakfast.png';
 import { BiEditAlt } from '~/shared/ui/Icons';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
-import { handleValidationErrors } from '~/shared/utils/handleValidationErrors';
 
-import { draftSchema } from '../model/validationSchema';
+import { useLeaveConfirm } from '../model/useLeaveConfirm';
 
 type LeaveConfirmModalProps = {
     isSuccess: RefObject<boolean>;
@@ -18,43 +14,10 @@ type LeaveConfirmModalProps = {
 };
 
 export const LeaveConfirmModal = ({ isSuccess, onDraftSave }: LeaveConfirmModalProps) => {
-    const [leaveModalOpen, setLeaveModalOpen] = useState(false);
-    const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(null);
-
-    const { dirty, values, setErrors, resetForm } = useFormikContext<CreateRecipe>();
-
-    const blocker = useBlocker(() => dirty && !isSuccess.current);
-
-    useEffect(() => {
-        if (blocker.state === 'blocked') {
-            setLeaveModalOpen(true);
-            setBlockerProceed(() => blocker.proceed);
-        }
-    }, [blocker, blocker.state]);
-
-    const handleLeave = () => {
-        handleClose();
-        if (blockerProceed) blockerProceed();
-    };
-
-    const handleClose = () => {
-        setLeaveModalOpen(false);
-        isSuccess.current = false;
-    };
-
-    const handleDraftSave = async () => {
-        try {
-            await draftSchema.validate(values, { abortEarly: false });
-            await onDraftSave(values);
-            resetForm();
-        } catch (err) {
-            if (err instanceof Yup.ValidationError) {
-                setErrors(handleValidationErrors(err));
-            }
-        } finally {
-            handleClose();
-        }
-    };
+    const { leaveModalOpen, handleLeave, handleClose, handleDraftSave } = useLeaveConfirm({
+        isSuccess,
+        onDraftSave,
+    });
 
     return (
         <ModalNotification

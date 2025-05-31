@@ -1,4 +1,4 @@
-import { Box, Center, Image, Link, Text } from '@chakra-ui/react';
+import { Box, Center, Image, Text } from '@chakra-ui/react';
 import { Link as RouteLink } from 'react-router';
 
 import ErrorImg from '~/shared/assets/breakfast.png';
@@ -12,9 +12,13 @@ export const ErrorPage = () => (
             </Text>
             <Text fontSize='md' color='backAlpha.600' marginTop='16px'>
                 Можете поискать другой рецепт{' '}
-                <Link as={RouteLink} to='/' textDecor='underline' data-test-id='error-page-go-home'>
+                <RouteLink
+                    to='/'
+                    style={{ textDecoration: 'underline' }}
+                    data-test-id='error-page-go-home'
+                >
                     здесь.
-                </Link>
+                </RouteLink>
             </Text>
         </Box>
     </Center>

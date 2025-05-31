@@ -23,9 +23,13 @@ import { RECIPE_MESSAGES } from './constants';
 import { LeaveConfirmModal } from './LeaveConfirmModal';
 import { RecipeForm } from './RecipeForm';
 
-const initialValues: CreateRecipe = {
+const initialValues: Partial<CreateRecipe> = {
     steps: [{ stepNumber: 1, description: '' }],
     ingredients: [{ title: '', measureUnit: '' }],
+    title: '',
+    description: '',
+    categoriesIds: [],
+    image: '',
 };
 
 export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
