@@ -1,19 +1,20 @@
-import { Formik, FormikHelpers } from 'formik';
-import { useState } from 'react';
+import { Formik } from 'formik';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/Category';
 import { CreateRecipe } from '~/entities/Recipe';
 import {
     useCreateRecipeDraftMutation,
     useCreateRecipeMutation,
+    useGetRecipeByIdQuery,
+    useUpdateRecipeMutation,
 } from '~/entities/Recipe/api/recipeApi';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { deepClean } from '../lib/deepClean';
-import { getRecipeValidationSchema } from '../model/validationSchema';
 import { LeaveConfirmModal } from './LeaveConfirmModal';
 import { RecipeForm } from './RecipeForm';
 
@@ -30,18 +31,20 @@ const initialValues: CreateRecipe = {
     portions: undefined,
 };
 
-export const RecipeFormPage = () => {
+export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
     const navigate = useNavigate();
 
     const [createRecipe] = useCreateRecipeMutation();
     const [createRecipeDraft] = useCreateRecipeDraftMutation();
+    const { id, category, subcategory } = useParams();
+    const { data: recipe } = useGetRecipeByIdQuery(id as string);
+    const [updateRecipe] = useUpdateRecipeMutation();
 
     const { handleError } = useErrorAlert();
     const mainCategories = useSelector(selectMainCategories);
     const subCategories = useSelector(selectSubCategories);
 
-    const [isSuccess, setIsSuccess] = useState(false);
-    const [isDraftSave, setIsDraftSave] = useState(true);
+    const isSuccess = useRef(false);
 
     const saveDraft = async (values: CreateRecipe) => {
         const cleanedValues = deepClean(values);
@@ -52,6 +55,7 @@ export const RecipeFormPage = () => {
                 errorTitle: 'Черновик успешно сохранен',
                 status: 'success',
             });
+            isSuccess.current = true;
             navigate('/');
         } catch (error) {
             if (isErrorResponse(error)) {
@@ -67,21 +71,19 @@ export const RecipeFormPage = () => {
                     });
                 }
             }
+        } finally {
+            isSuccess.current = false;
         }
     };
 
-    const saveRecipe = async (
-        values: CreateRecipe,
-        { setSubmitting, resetForm }: FormikHelpers<CreateRecipe>,
-    ) => {
+    const saveRecipe = async (values: CreateRecipe) => {
         try {
             const { _id, categoriesIds } = await createRecipe(values).unwrap();
-            setIsSuccess(true);
+            isSuccess.current = true;
             handleError({
                 errorTitle: 'Рецепт успешно опубликован',
                 status: 'success',
             });
-            resetForm();
 
             const subCategory = subCategories.find((sub) => sub._id === categoriesIds?.[0]);
             const mainCategory = mainCategories.find(
@@ -104,33 +106,54 @@ export const RecipeFormPage = () => {
                 }
             }
         } finally {
-            setSubmitting(false);
+            isSuccess.current = false;
         }
     };
 
-    const handleSubmit = async (values: CreateRecipe, helpers: FormikHelpers<CreateRecipe>) => {
-        if (isDraftSave) {
-            await saveDraft(values);
-        } else {
-            await saveRecipe(values, helpers);
+    const handleUpdateRecipe = async (values: CreateRecipe) => {
+        if (!recipe) return;
+
+        try {
+            await updateRecipe({ recipe: values, id: recipe._id }).unwrap();
+            handleError({
+                errorTitle: 'Рецепт успешно опубликован',
+                status: 'success',
+            });
+            navigate(`/${category as string}/${subcategory as string}/${recipe._id}`);
+        } catch (error) {
+            if (isErrorResponse(error)) {
+                if (error.status === 409) {
+                    handleError({
+                        errorTitle: 'Ошибка',
+                        errorMessage: 'Рецепт с таким названием уже существует',
+                    });
+                } else if (error.status === 500) {
+                    handleError({
+                        errorTitle: 'Ошибка сервера',
+                        errorMessage: 'Попробуйте пока сохранить в черновик',
+                    });
+                }
+            }
+        } finally {
+            isSuccess.current = false;
         }
     };
 
     return (
         <Formik
-            initialValues={initialValues}
-            validationSchema={getRecipeValidationSchema(isDraftSave)}
+            initialValues={isEdit && recipe ? recipe : initialValues}
             validateOnBlur={false}
             validateOnChange={false}
-            onSubmit={handleSubmit}
+            onSubmit={() => {}}
         >
             <>
-                <LeaveConfirmModal
-                    setIsDraftSave={setIsDraftSave}
-                    isSuccess={isSuccess}
-                    setIsSuccess={setIsSuccess}
+                <LeaveConfirmModal isSuccess={isSuccess} onDraftSave={saveDraft} />
+                <RecipeForm
+                    onDraftSave={saveDraft}
+                    onSave={saveRecipe}
+                    isEdit={isEdit}
+                    handleUpdateRecipe={handleUpdateRecipe}
                 />
-                <RecipeForm setIsDraftSave={setIsDraftSave} />
             </>
         </Formik>
     );

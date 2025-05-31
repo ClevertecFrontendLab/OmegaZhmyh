@@ -17,33 +17,68 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { Field, FieldProps, Form, useFormikContext } from 'formik';
+import * as Yup from 'yup';
 
 import { CreateRecipe } from '~/entities/Recipe';
 import { BsFillImageFill } from '~/shared/ui/Icons';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
+import { handleValidationErrors } from '~/shared/utils/handleValidationErrors';
 
 import { useImageInput } from '../lib/useImageInput';
+import { draftSchema, requiredSchema } from '../model/validationSchema';
 import { BUTTONS, FORM_FIELDS, LABELS, PLACEHOLDERS } from './constants';
 import { CookingSteps } from './CookingSteps';
 import { IngredientList } from './IngredientList';
 import { SubcategorySelect } from './SubcategorySelect';
 
 export const RecipeForm = ({
-    setIsDraftSave,
+    onDraftSave,
+    onSave,
+    isEdit,
+    handleUpdateRecipe,
 }: {
-    setIsDraftSave: React.Dispatch<React.SetStateAction<boolean>>;
+    onDraftSave: (values: CreateRecipe) => Promise<void>;
+    onSave: (values: CreateRecipe) => Promise<void>;
+    isEdit: boolean;
+    handleUpdateRecipe: (values: CreateRecipe) => Promise<void>;
 }) => {
-    const { values, isSubmitting, handleSubmit, errors } = useFormikContext<CreateRecipe>();
+    const { values, setErrors, errors } = useFormikContext<CreateRecipe>();
     const { modal, openImageUploader } = useImageInput();
 
-    const handleDraftSave = () => {
-        setIsDraftSave(true);
-        handleSubmit();
+    const handleDraftSave = async () => {
+        try {
+            await draftSchema.validate(values, { abortEarly: false });
+            await onDraftSave(values);
+        } catch (err) {
+            console.log('draft err', JSON.stringify(err));
+            if (err instanceof Yup.ValidationError) {
+                setErrors(handleValidationErrors(err));
+            }
+        }
     };
 
-    const handlePublish = () => {
-        setIsDraftSave(false);
-        handleSubmit();
+    const handlePublish = async () => {
+        try {
+            await requiredSchema.validate(values, { abortEarly: false });
+            await onSave(values);
+        } catch (err) {
+            console.log('publish err', JSON.stringify(err));
+            if (err instanceof Yup.ValidationError) {
+                setErrors(handleValidationErrors(err));
+            }
+        }
+    };
+
+    const handleUpdate = async () => {
+        try {
+            await requiredSchema.validate(values, { abortEarly: false });
+            await handleUpdateRecipe(values);
+        } catch (err) {
+            console.log('update err', JSON.stringify(err));
+            if (err instanceof Yup.ValidationError) {
+                setErrors(handleValidationErrors(err));
+            }
+        }
     };
 
     return (
@@ -177,9 +212,7 @@ export const RecipeForm = ({
                                 colorScheme='blackAlpha'
                                 bg='black'
                                 color='white'
-                                type='submit'
-                                isLoading={isSubmitting}
-                                onClick={handlePublish}
+                                onClick={isEdit ? handleUpdate : handlePublish}
                                 data-test-id='recipe-publish-recipe-button'
                             >
                                 {BUTTONS.PUBLISH}

@@ -1,25 +1,28 @@
 import { Button, Center, Text, VStack } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
-import { useEffect, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 import { useBlocker } from 'react-router';
+import * as Yup from 'yup';
 
 import { CreateRecipe } from '~/entities/Recipe';
-import breakfastImg from '~/shared/assets/breakfast.png'; // используйте свою SVG/PNG
+import breakfastImg from '~/shared/assets/breakfast.png';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
+import { handleValidationErrors } from '~/shared/utils/handleValidationErrors';
+
+import { draftSchema } from '../model/validationSchema';
 
 type LeaveConfirmModalProps = {
-    setIsDraftSave: (value: boolean) => void;
-    isSuccess: boolean;
-    setIsSuccess: (value: boolean) => void;
+    isSuccess: RefObject<boolean>;
+    onDraftSave: (values: CreateRecipe) => Promise<void>;
 };
 
-export const LeaveConfirmModal = ({ setIsDraftSave, setIsSuccess }: LeaveConfirmModalProps) => {
+export const LeaveConfirmModal = ({ isSuccess, onDraftSave }: LeaveConfirmModalProps) => {
     const [leaveModalOpen, setLeaveModalOpen] = useState(false);
     const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(null);
 
-    const { dirty, isSubmitting, handleSubmit } = useFormikContext<CreateRecipe>();
+    const { dirty, values, setErrors, resetForm } = useFormikContext<CreateRecipe>();
 
-    const blocker = useBlocker(() => dirty && !isSubmitting);
+    const blocker = useBlocker(() => dirty && !isSuccess.current);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -35,13 +38,21 @@ export const LeaveConfirmModal = ({ setIsDraftSave, setIsSuccess }: LeaveConfirm
 
     const handleClose = () => {
         setLeaveModalOpen(false);
-        setIsSuccess(false);
+        isSuccess.current = false;
     };
 
-    const handleSaveDraft = () => {
-        setIsDraftSave(true);
-        handleSubmit();
-        handleClose();
+    const handleDraftSave = async () => {
+        try {
+            await draftSchema.validate(values, { abortEarly: false });
+            await onDraftSave(values);
+            resetForm();
+        } catch (err) {
+            if (err instanceof Yup.ValidationError) {
+                setErrors(handleValidationErrors(err));
+            }
+        } finally {
+            handleClose();
+        }
     };
 
     return (
@@ -67,7 +78,7 @@ export const LeaveConfirmModal = ({ setIsDraftSave, setIsSuccess }: LeaveConfirm
                 <Button
                     w='100%'
                     colorScheme='blackAlpha'
-                    onClick={handleSaveDraft}
+                    onClick={handleDraftSave}
                     leftIcon={<span>✏️</span>}
                 >
                     Сохранить черновик

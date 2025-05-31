@@ -30,9 +30,9 @@ export const yeedaaApi = createApi({
                 try {
                     dispatch(setCategoriesLoading(true));
                     const { data } = await queryFulfilled;
-                    dispatch(setCategories(data));
-                } catch {
-                    console.log('Categories fetch failed, using backup if available');
+                    if (Array.isArray(data)) {
+                        dispatch(setCategories(data));
+                    }
                 } finally {
                     dispatch(setCategoriesLoading(false));
                 }
