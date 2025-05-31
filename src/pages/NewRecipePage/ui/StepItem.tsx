@@ -1,5 +1,5 @@
-import { Center, Flex, IconButton, Image, Tag, Textarea, VStack } from '@chakra-ui/react';
-import { Field, FormikErrors, useFormikContext } from 'formik';
+import { Center, Flex, HStack, IconButton, Image, Tag, Textarea, VStack } from '@chakra-ui/react';
+import { Field, FieldProps, FormikErrors, useFormikContext } from 'formik';
 
 import { CreateRecipe, StepType } from '~/entities/Recipe';
 import { BsFillImageFill, BsTrash } from '~/shared/ui/Icons';
@@ -18,10 +18,17 @@ export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps)
     const { errors } = useFormikContext<CreateRecipe>();
 
     return (
-        <Flex alignItems='stretch' border='1px solid' h='160px' borderRadius='8px' mb={2}>
+        <Flex
+            alignItems='stretch'
+            border='1px solid'
+            borderColor='blackAlpha.200'
+            flexDirection={{ base: 'column', md: 'row' }}
+            borderRadius='8px'
+        >
             <Center
                 bg='rgba(0, 0, 0, 0.08)'
-                w={{ base: '100%', md: '180px' }}
+                w={{ base: '100%', md: '346px' }}
+                h='160px'
                 borderRadius='8px'
                 cursor='pointer'
                 onClick={onImageClick}
@@ -32,8 +39,6 @@ export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps)
                     <Image
                         src={getImgUrlPath(step.image)}
                         alt={`Шаг ${index + 1}`}
-                        maxH='140px'
-                        maxW='100%'
                         objectFit='contain'
                         data-test-id={`recipe-steps-image-block-${index}-preview-image`}
                     />
@@ -42,32 +47,46 @@ export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps)
                 )}
             </Center>
 
-            <VStack align='start' flexGrow={1} padding='20px'>
-                <Tag fontWeight='bold'>Шаг {index + 1}</Tag>
+            <VStack align='start' flexGrow={1} padding='20px' gap='16px'>
+                <HStack justifyContent='space-between' w='100%'>
+                    <Tag fontWeight='bold'>Шаг {index + 1}</Tag>
+                    {index === 0 || (
+                        <IconButton
+                            aria-label='Удалить шаг'
+                            icon={<BsTrash boxSize='14px' />}
+                            color='lime.800'
+                            h='100%'
+                            variant='unstyled'
+                            onClick={onRemove}
+                            data-test-id={`recipe-steps-remove-button-${index}`}
+                        />
+                    )}
+                </HStack>
                 <Field
                     as={Textarea}
                     name={`${FORM_FIELDS.STEPS}[${index}].description`}
                     placeholder={PLACEHOLDERS.STEP_DESCRIPTION}
                     alignSelf='stretch'
-                    flexGrow={1}
-                    minH='80px'
-                    isInvalid={
-                        !!(errors[FORM_FIELDS.STEPS]?.[index] as FormikErrors<StepType>)
-                            ?.description
-                    }
-                    data-test-id={`recipe-steps-description-${index}`}
-                />
-                {index === 0 || (
-                    <IconButton
-                        aria-label='Удалить шаг'
-                        icon={<BsTrash />}
-                        color='red.400'
-                        cursor='pointer'
-                        ml='auto'
-                        onClick={onRemove}
-                        data-test-id={`recipe-steps-remove-button-${index}`}
-                    />
-                )}
+                    resize='none'
+                >
+                    {({ field }: FieldProps) => (
+                        <Textarea
+                            {...field}
+                            overflow='hidden'
+                            onChange={(e) => {
+                                field.onChange(e);
+                                const textarea = e.target;
+                                textarea.style.height = 'auto';
+                                textarea.style.height = `${textarea.scrollHeight}px`;
+                            }}
+                            isInvalid={
+                                !!(errors[FORM_FIELDS.STEPS]?.[index] as FormikErrors<StepType>)
+                                    ?.description
+                            }
+                            data-test-id={`recipe-steps-description-${index}`}
+                        />
+                    )}
+                </Field>
             </VStack>
         </Flex>
     );

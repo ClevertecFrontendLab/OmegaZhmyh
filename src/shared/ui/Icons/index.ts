@@ -1,4 +1,5 @@
 export { AvatarIcon } from './ui/AvatarIcon';
+export { BiEditAlt } from './ui/BiEditAlt';
 export { BiLogOut } from './ui/BiLogOut';
 export { BsAlarm } from './ui/BsAlarm';
 export { BsArrowLeft } from './ui/BsArrowLeft';

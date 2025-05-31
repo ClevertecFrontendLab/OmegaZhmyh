@@ -4,21 +4,21 @@ import { FieldArray, useFormikContext } from 'formik';
 import { StepType } from '~/entities/Recipe';
 import { BsPlusCircleFill } from '~/shared/ui/Icons';
 
-import { BUTTONS, FORM_FIELDS, LABELS } from './constants';
+import { BUTTONS, FORM_FIELDS } from './constants';
 import { StepItem } from './StepItem';
 
-export const CookingSteps = ({
-    openImageUploader,
-}: {
+type CookingStepsProps = {
     openImageUploader: (fieldName: string, inputDataTestId: string) => void;
-}) => {
+};
+
+export const CookingSteps = ({ openImageUploader }: CookingStepsProps) => {
     const { values } = useFormikContext<{ steps: StepType[] }>();
     const steps = values[FORM_FIELDS.STEPS] || [];
 
     return (
-        <VStack align='stretch' gap={4} w='100%'>
+        <VStack align='stretch' gap='16px' w='100%'>
             <Text fontSize='md' fontWeight='semibold'>
-                {LABELS.STEPS}
+                Добавьте шаги приготовления
             </Text>
             <FieldArray name={FORM_FIELDS.STEPS}>
                 {({ push, remove }) => (
@@ -39,8 +39,7 @@ export const CookingSteps = ({
                         ))}
                         <HStack justifyContent='end'>
                             <Button
-                                mt={4}
-                                leftIcon={<Icon as={BsPlusCircleFill} />}
+                                rightIcon={<Icon as={BsPlusCircleFill} />}
                                 variant='outline'
                                 colorScheme='gray'
                                 onClick={() =>

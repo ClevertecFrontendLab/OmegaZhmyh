@@ -2,6 +2,7 @@ export {
     recipeApi,
     useBookmarkRecipeMutation,
     useCreateRecipeDraftMutation,
+    useGetRecipeByIdQuery,
     useLikeRecipeMutation,
 } from './api/recipeApi';
 export { recipeReducer } from './model/slice';

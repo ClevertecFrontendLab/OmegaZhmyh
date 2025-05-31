@@ -32,6 +32,7 @@ export const recipeApi = createApi({
                 url: `/recipe/category/${subcategoryId}`,
                 params: { limit },
             }),
+            providesTags: ['Recipe'],
         }),
         getRecipeById: builder.query<Recipe, string>({
             query: (id) => `/recipe/${id}`,

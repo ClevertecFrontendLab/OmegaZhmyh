@@ -9,7 +9,7 @@ import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 import { UserCard } from '~/shared/ui/UserCard';
 
 import { selectIsBurgerOpen, toggleBurger } from '../model/slice';
-import { AppBreadcrumb } from './AppBreadcrumb';
+import { Breadcrumbs } from './Breadcrumb';
 
 export const Header = () => {
     const dispatch = useDispatch();
@@ -33,11 +33,7 @@ export const Header = () => {
                 <Image src={MobileLogo} display={{ base: 'block', md: 'none' }} />
                 <Image src={Logo} display={{ base: 'none', md: 'block' }} />
             </Link>
-            <AppBreadcrumb
-                isMobile={false}
-                marginLeft={32}
-                display={{ base: 'none', lg: 'block' }}
-            />
+            <Breadcrumbs marginLeft={32} display={{ base: 'none', lg: 'block' }} />
             <Box pos='absolute' right='80px' display={{ base: 'none', lg: 'flex' }}>
                 <UserCard
                     accountName='@bake_and_pie'
@@ -51,25 +47,14 @@ export const Header = () => {
                     <RepostBtn value={587} />
                     <LikeBtn value={589} />
                 </Flex>
-                {isBurgerOpen ? (
-                    <IconButton
-                        aria-label='Search database'
-                        size='lg'
-                        variant='ghost'
-                        icon={<CloseIcon boxSize={5} />}
-                        onClick={() => dispatch(toggleBurger())}
-                        data-test-id='close-icon'
-                    />
-                ) : (
-                    <IconButton
-                        aria-label='Search database'
-                        size='lg'
-                        variant='ghost'
-                        icon={<HamburgerIcon boxSize={5} />}
-                        onClick={() => dispatch(toggleBurger())}
-                        data-test-id='hamburger-icon'
-                    />
-                )}
+                <IconButton
+                    aria-label='toggle burger menu'
+                    size='lg'
+                    variant='ghost'
+                    icon={isBurgerOpen ? <CloseIcon boxSize={5} /> : <HamburgerIcon boxSize={5} />}
+                    onClick={() => dispatch(toggleBurger())}
+                    data-test-id={isBurgerOpen ? 'close-icon' : 'hamburger-icon'}
+                />
             </Flex>
         </Flex>
     );

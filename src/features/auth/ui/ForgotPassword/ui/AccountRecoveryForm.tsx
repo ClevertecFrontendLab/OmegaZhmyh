@@ -4,6 +4,7 @@ import { Form, Formik } from 'formik';
 import { useResetPasswordMutation } from '~/features/auth/api/authApi';
 import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
 import { resetPasswordSchema } from '~/features/auth/validation/auth.validation';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.ts';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
@@ -16,7 +17,6 @@ import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import {
     ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES,
-    SERVER_ERROR_MESSAGES,
     SUCCESS_STATUS,
 } from '../../../constants/form-messages.constants.ts';
 import { ResetPasswordStep } from './ResetPasswordStep';

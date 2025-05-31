@@ -18,14 +18,17 @@ import { ProtectedRoute } from './ProtectedRoute';
 
 export const router = createBrowserRouter([
     {
-        path: '/',
         element: <App />,
+        handle: { title: 'Главная', path: ROUTES.HOME },
         children: [
             { path: ROUTES.CATEGORY, element: <CategoryRedirect /> },
             {
                 element: <ProtectedRoute />,
                 children: [
-                    { path: ROUTES.HOME, element: <MainPage /> },
+                    {
+                        path: ROUTES.HOME,
+                        element: <MainPage />,
+                    },
                     {
                         path: ROUTES.SUBCATEGORY,
                         element: (
@@ -42,9 +45,17 @@ export const router = createBrowserRouter([
                             </CategoryValidator>
                         ),
                     },
-                    { path: ROUTES.NEW_RECIPE, element: <RecipeFormPage /> },
+                    {
+                        path: ROUTES.NEW_RECIPE,
+                        element: <RecipeFormPage />,
+                        handle: { title: 'Новый рецепт', path: ROUTES.NEW_RECIPE },
+                    },
                     { path: ROUTES.EDIT_RECIPE, element: <RecipeFormPage isEdit /> },
-                    { path: ROUTES.THE_JUICIEST, element: <JuiciestPage /> },
+                    {
+                        path: ROUTES.THE_JUICIEST,
+                        element: <JuiciestPage />,
+                        handle: { title: 'Самое сочное', path: ROUTES.THE_JUICIEST },
+                    },
                 ],
             },
             {

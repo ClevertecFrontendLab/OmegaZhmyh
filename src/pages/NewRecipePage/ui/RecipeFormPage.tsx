@@ -11,24 +11,21 @@ import {
     useGetRecipeByIdQuery,
     useUpdateRecipeMutation,
 } from '~/entities/Recipe/api/recipeApi';
+import { SUCCESS_STATUS } from '~/features/auth/constants/form-messages.constants.ts';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { deepClean } from '../lib/deepClean';
+import { RECIPE_MESSAGES } from './constants';
 import { LeaveConfirmModal } from './LeaveConfirmModal';
 import { RecipeForm } from './RecipeForm';
 
 const initialValues: CreateRecipe = {
-    title: undefined,
-    description: undefined,
-    time: undefined,
-    image: undefined,
-    categoriesIds: undefined,
     steps: [{ stepNumber: 1, description: '' }],
-    ingredients: [{ title: '', count: undefined, measureUnit: '' }],
-    meat: undefined,
-    garnish: undefined,
-    portions: undefined,
+    ingredients: [{ title: '', measureUnit: '' }],
 };
 
 export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
@@ -37,7 +34,7 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
     const [createRecipe] = useCreateRecipeMutation();
     const [createRecipeDraft] = useCreateRecipeDraftMutation();
     const { id, category, subcategory } = useParams();
-    const { data: recipe } = useGetRecipeByIdQuery(id as string);
+    const { data: recipe } = useGetRecipeByIdQuery(id as string, { skip: !id });
     const [updateRecipe] = useUpdateRecipeMutation();
 
     const { handleError } = useErrorAlert();
@@ -52,22 +49,22 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
         try {
             await createRecipeDraft(cleanedValues).unwrap();
             handleError({
-                errorTitle: 'Черновик успешно сохранен',
-                status: 'success',
+                errorTitle: RECIPE_MESSAGES.DRAFT.SUCCESS,
+                status: SUCCESS_STATUS,
             });
             isSuccess.current = true;
-            navigate('/');
+            navigate(ROUTES.HOME);
         } catch (error) {
             if (isErrorResponse(error)) {
-                if (error.status === 409) {
+                if (error.status === HTTP_STATUS.CONFLICT) {
                     handleError({
-                        errorTitle: 'Ошибка',
-                        errorMessage: 'Рецепт с таким названием уже существует',
+                        errorTitle: SERVER_ERROR_MESSAGES.ERROR,
+                        errorMessage: RECIPE_MESSAGES.RECIPE.DUPLICATE_ENTITY,
                     });
-                } else if (error.status === 500) {
+                } else if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                     handleError({
-                        errorTitle: 'Ошибка сервера',
-                        errorMessage: 'Не удалось сохранить черновик рецепта',
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                        errorMessage: RECIPE_MESSAGES.DRAFT.SAVE_ERROR,
                     });
                 }
             }
@@ -81,8 +78,8 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
             const { _id, categoriesIds } = await createRecipe(values).unwrap();
             isSuccess.current = true;
             handleError({
-                errorTitle: 'Рецепт успешно опубликован',
-                status: 'success',
+                errorTitle: RECIPE_MESSAGES.RECIPE.SUCCESS,
+                status: SUCCESS_STATUS,
             });
 
             const subCategory = subCategories.find((sub) => sub._id === categoriesIds?.[0]);
@@ -93,15 +90,15 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
             navigate(`/${mainCategory?.category}/${subCategory?.category}/${_id}`);
         } catch (error) {
             if (isErrorResponse(error)) {
-                if (error.status === 409) {
+                if (error.status === HTTP_STATUS.CONFLICT) {
                     handleError({
-                        errorTitle: 'Ошибка',
-                        errorMessage: 'Рецепт с таким названием уже существует',
+                        errorTitle: SERVER_ERROR_MESSAGES.ERROR,
+                        errorMessage: RECIPE_MESSAGES.RECIPE.DUPLICATE_ENTITY,
                     });
-                } else if (error.status === 500) {
+                } else if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                     handleError({
-                        errorTitle: 'Ошибка сервера',
-                        errorMessage: 'Попробуйте пока сохранить в черновик',
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                        errorMessage: RECIPE_MESSAGES.RECIPE.SAVE_ERROR,
                     });
                 }
             }
@@ -116,21 +113,21 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
         try {
             await updateRecipe({ recipe: values, id: recipe._id }).unwrap();
             handleError({
-                errorTitle: 'Рецепт успешно опубликован',
-                status: 'success',
+                errorTitle: RECIPE_MESSAGES.RECIPE.SUCCESS,
+                status: SUCCESS_STATUS,
             });
             navigate(`/${category as string}/${subcategory as string}/${recipe._id}`);
         } catch (error) {
             if (isErrorResponse(error)) {
-                if (error.status === 409) {
+                if (error.status === HTTP_STATUS.CONFLICT) {
                     handleError({
-                        errorTitle: 'Ошибка',
-                        errorMessage: 'Рецепт с таким названием уже существует',
+                        errorTitle: SERVER_ERROR_MESSAGES.ERROR,
+                        errorMessage: RECIPE_MESSAGES.RECIPE.DUPLICATE_ENTITY,
                     });
-                } else if (error.status === 500) {
+                } else if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                     handleError({
-                        errorTitle: 'Ошибка сервера',
-                        errorMessage: 'Попробуйте пока сохранить в черновик',
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                        errorMessage: RECIPE_MESSAGES.RECIPE.SAVE_ERROR,
                     });
                 }
             }

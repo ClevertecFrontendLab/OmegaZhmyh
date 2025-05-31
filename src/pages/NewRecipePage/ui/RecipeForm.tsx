@@ -5,7 +5,7 @@ import {
     Flex,
     FormControl,
     FormLabel,
-    HStack,
+    Icon,
     Image,
     Input,
     NumberDecrementStepper,
@@ -20,28 +20,30 @@ import { Field, FieldProps, Form, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 
 import { CreateRecipe } from '~/entities/Recipe';
-import { BsFillImageFill } from '~/shared/ui/Icons';
+import { BiEditAlt, BsFillImageFill } from '~/shared/ui/Icons';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 import { handleValidationErrors } from '~/shared/utils/handleValidationErrors';
 
 import { useImageInput } from '../lib/useImageInput';
 import { draftSchema, requiredSchema } from '../model/validationSchema';
-import { BUTTONS, FORM_FIELDS, LABELS, PLACEHOLDERS } from './constants';
+import { BUTTONS, FORM_FIELDS, PLACEHOLDERS } from './constants';
 import { CookingSteps } from './CookingSteps';
 import { IngredientList } from './IngredientList';
 import { SubcategorySelect } from './SubcategorySelect';
+
+type RecipeFormProps = {
+    onDraftSave: (values: CreateRecipe) => Promise<void>;
+    onSave: (values: CreateRecipe) => Promise<void>;
+    isEdit: boolean;
+    handleUpdateRecipe: (values: CreateRecipe) => Promise<void>;
+};
 
 export const RecipeForm = ({
     onDraftSave,
     onSave,
     isEdit,
     handleUpdateRecipe,
-}: {
-    onDraftSave: (values: CreateRecipe) => Promise<void>;
-    onSave: (values: CreateRecipe) => Promise<void>;
-    isEdit: boolean;
-    handleUpdateRecipe: (values: CreateRecipe) => Promise<void>;
-}) => {
+}: RecipeFormProps) => {
     const { values, setErrors, errors } = useFormikContext<CreateRecipe>();
     const { modal, openImageUploader } = useImageInput();
 
@@ -50,7 +52,6 @@ export const RecipeForm = ({
             await draftSchema.validate(values, { abortEarly: false });
             await onDraftSave(values);
         } catch (err) {
-            console.log('draft err', JSON.stringify(err));
             if (err instanceof Yup.ValidationError) {
                 setErrors(handleValidationErrors(err));
             }
@@ -62,7 +63,6 @@ export const RecipeForm = ({
             await requiredSchema.validate(values, { abortEarly: false });
             await onSave(values);
         } catch (err) {
-            console.log('publish err', JSON.stringify(err));
             if (err instanceof Yup.ValidationError) {
                 setErrors(handleValidationErrors(err));
             }
@@ -74,7 +74,6 @@ export const RecipeForm = ({
             await requiredSchema.validate(values, { abortEarly: false });
             await handleUpdateRecipe(values);
         } catch (err) {
-            console.log('update err', JSON.stringify(err));
             if (err instanceof Yup.ValidationError) {
                 setErrors(handleValidationErrors(err));
             }
@@ -109,13 +108,18 @@ export const RecipeForm = ({
                                 data-test-id='recipe-image-block-preview-image'
                             />
                         ) : (
-                            <BsFillImageFill fontSize={48} />
+                            <BsFillImageFill boxSize='32px' />
                         )}
                     </Center>
                     <VStack w='100%' maxW='668px' gap='24px'>
-                        <FormControl as={Flex} alignItems='center' justifyContent='space-between'>
-                            <FormLabel fontSize='md' fontWeight='semibold'>
-                                {LABELS.CATEGORIES}
+                        <FormControl
+                            as={Flex}
+                            gap='16px'
+                            alignItems='center'
+                            justifyContent='space-between'
+                        >
+                            <FormLabel fontSize='md' fontWeight='semibold' margin='0'>
+                                Выберите не менее 3-х тегов
                             </FormLabel>
                             <SubcategorySelect />
                         </FormControl>
@@ -124,6 +128,8 @@ export const RecipeForm = ({
                             name={FORM_FIELDS.TITLE}
                             placeholder={PLACEHOLDERS.TITLE}
                             isInvalid={!!errors[FORM_FIELDS.TITLE]}
+                            size='lg'
+                            borderColor='lime.150'
                             mt={{ base: '0', lg: '12px' }}
                             data-test-id='recipe-title'
                         />
@@ -137,15 +143,18 @@ export const RecipeForm = ({
                         <FormControl
                             as={Flex}
                             alignItems='center'
+                            justifyContent={{ base: 'space-between', md: 'flex-start' }}
                             isInvalid={!!errors[FORM_FIELDS.PORTIONS]}
+                            gap={{ base: '16px', lg: '24px' }}
                         >
-                            <FormLabel fontSize='md' fontWeight='semibold'>
-                                {LABELS.PORTIONS}
+                            <FormLabel fontSize='md' fontWeight='semibold' margin='0'>
+                                На сколько человек ваш рецепт?
                             </FormLabel>
                             <Field name={FORM_FIELDS.PORTIONS}>
                                 {({ field, form }: FieldProps<number>) => (
                                     <NumberInput
-                                        w='100px'
+                                        w='90px'
+                                        minW='90px'
                                         onChange={(val) =>
                                             form.setFieldValue(
                                                 field.name,
@@ -166,15 +175,18 @@ export const RecipeForm = ({
                         <FormControl
                             as={Flex}
                             alignItems='center'
+                            justifyContent={{ base: 'space-between', md: 'flex-start' }}
                             isInvalid={!!errors[FORM_FIELDS.TIME]}
+                            gap={{ base: '16px', lg: '24px' }}
                         >
-                            <FormLabel fontSize='md' fontWeight='semibold'>
-                                {LABELS.TIME}
+                            <FormLabel fontSize='md' fontWeight='semibold' margin='0'>
+                                Время приготовления
                             </FormLabel>
                             <Field name={FORM_FIELDS.TIME}>
                                 {({ field, form }: FieldProps) => (
                                     <NumberInput
-                                        w='100px'
+                                        w='90px'
+                                        minW='90px'
                                         onChange={(val) =>
                                             form.setFieldValue(
                                                 field.name,
@@ -194,21 +206,30 @@ export const RecipeForm = ({
                         </FormControl>
                     </VStack>
                 </Flex>
-                <Container maxW='668px' mt='40px' padding={0}>
+                <Container maxW='668px' mt='40px' pb={{ base: '16px', lg: '32px' }} px='0'>
                     <VStack gap={{ base: '32px', lg: '40px' }}>
                         <IngredientList />
                         <CookingSteps openImageUploader={openImageUploader} />
 
-                        <HStack justifyContent='center' mt={8} spacing={6}>
+                        <Flex
+                            justifyContent='center'
+                            gap='20px'
+                            w='100%'
+                            flexDirection={{ base: 'column', md: 'row' }}
+                            alignItems={{ base: 'stretch', md: 'center' }}
+                        >
                             <Button
+                                size='lg'
                                 variant='outline'
                                 colorScheme='gray'
+                                leftIcon={<Icon as={BiEditAlt} />}
                                 data-test-id='recipe-save-draft-button'
                                 onClick={handleDraftSave}
                             >
                                 {BUTTONS.SAVE_DRAFT}
                             </Button>
                             <Button
+                                size='lg'
                                 colorScheme='blackAlpha'
                                 bg='black'
                                 color='white'
@@ -217,7 +238,7 @@ export const RecipeForm = ({
                             >
                                 {BUTTONS.PUBLISH}
                             </Button>
-                        </HStack>
+                        </Flex>
                     </VStack>
                 </Container>
             </Form>

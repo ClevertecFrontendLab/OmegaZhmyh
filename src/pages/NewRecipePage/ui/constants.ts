@@ -18,17 +18,25 @@ export const PLACEHOLDERS = {
     PORTIONS: 'Количество порций',
     TIME: 'Время приготовления',
     STEP_DESCRIPTION: 'Шаг',
-} as const;
-
-export const LABELS = {
-    CATEGORIES: 'Выберите не менее 3-х тегов',
-    PORTIONS: 'На сколько человек ваш рецепт?',
-    TIME: 'Сколько времени готовить в минутах?',
-    STEPS: 'Добавьте шаги приготовления',
+    INGREDIENT: 'Ингредиент',
+    INGREDIENT_COUNT: '100',
+    MEASURE_UNIT: 'Единица измерения',
 } as const;
 
 export const BUTTONS = {
     NEW_STEP: 'Новый шаг',
     SAVE_DRAFT: 'Сохранить черновик',
     PUBLISH: 'Опубликовать рецепт',
+} as const;
+
+export const RECIPE_MESSAGES = {
+    DRAFT: {
+        SUCCESS: 'Черновик успешно сохранен',
+        SAVE_ERROR: 'Не удалось сохранить черновик рецепта',
+    },
+    RECIPE: {
+        SUCCESS: 'Рецепт успешно опубликован',
+        DUPLICATE_ENTITY: 'Рецепт с таким названием уже существует',
+        SAVE_ERROR: 'Попробуйте пока сохранить в черновик',
+    },
 } as const;

@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import { CreateRecipe } from '~/entities/Recipe';
 import breakfastImg from '~/shared/assets/breakfast.png';
+import { BiEditAlt } from '~/shared/ui/Icons';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { handleValidationErrors } from '~/shared/utils/handleValidationErrors';
 
@@ -61,7 +62,7 @@ export const LeaveConfirmModal = ({ isSuccess, onDraftSave }: LeaveConfirmModalP
             onClose={handleClose}
             dataTestId='recipe-preventive-modal'
         >
-            <VStack p={6} minW='300px'>
+            <VStack>
                 <Center>
                     <img
                         src={breakfastImg}
@@ -77,9 +78,10 @@ export const LeaveConfirmModal = ({ isSuccess, onDraftSave }: LeaveConfirmModalP
                 </Text>
                 <Button
                     w='100%'
-                    colorScheme='blackAlpha'
+                    bg='black'
+                    color='white'
                     onClick={handleDraftSave}
-                    leftIcon={<span>✏️</span>}
+                    leftIcon={<BiEditAlt />}
                 >
                     Сохранить черновик
                 </Button>

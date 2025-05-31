@@ -1,4 +1,4 @@
-import { HStack, Icon, IconButton, Input, Select, Text, VStack } from '@chakra-ui/react';
+import { Box, Grid, HStack, Icon, IconButton, Input, Select, Text, VStack } from '@chakra-ui/react';
 import { Field, FieldArray, FormikErrors, useFormikContext } from 'formik';
 
 import { CreateRecipe, IngredientType } from '~/entities/Recipe';
@@ -6,7 +6,7 @@ import { MeasureUnit } from '~/shared/api/types';
 import { useGetMeasureUnitsQuery } from '~/shared/api/yeedaaApi';
 import { BsPlusCircle, BsPlusCircleFill, BsTrash } from '~/shared/ui/Icons';
 
-import { FORM_FIELDS } from './constants';
+import { FORM_FIELDS, PLACEHOLDERS } from './constants';
 
 export const IngredientList = () => {
     const { values, errors } = useFormikContext<CreateRecipe>();
@@ -16,48 +16,73 @@ export const IngredientList = () => {
         | undefined;
 
     return (
-        <VStack align='stretch' w='100%'>
+        <VStack align='stretch' w='100%' gap='16px'>
             <Text fontSize='md' fontWeight='semibold'>
                 Добавьте ингредиенты рецепта, нажав на <Icon as={BsPlusCircle} color='black' />
             </Text>
+            <HStack justifyContent='start' w='100%' display={{ base: 'none', md: 'flex' }}>
+                <Box padding='4px 24px' minW='295px'>
+                    <Text color='lime.600' fontSize='xs' fontWeight='bold'>
+                        Ингредиент
+                    </Text>
+                </Box>
+                <Box paddingY='4px' minW='125px'>
+                    <Text color='lime.600' fontSize='xs' fontWeight='bold'>
+                        Количество
+                    </Text>
+                </Box>
+                <Box padding='4px 18px' minW='166px'>
+                    <Text color='lime.600' fontSize='xs' fontWeight='bold'>
+                        Единица измерения
+                    </Text>
+                </Box>
+            </HStack>
             <FieldArray name='ingredients'>
                 {({ push, remove }) => (
                     <>
-                        <HStack justifyContent='space-around' w='100%'>
-                            <Text color='lime.600' fontSize='xs' fontWeight='bold'>
-                                Ингредиент
-                            </Text>
-                            <Text color='lime.600' fontSize='xs' fontWeight='bold'>
-                                Количество
-                            </Text>
-                            <Text color='lime.600' fontSize='xs' fontWeight='bold'>
-                                Единица измерения
-                            </Text>
-                        </HStack>
                         {values.ingredients &&
                             values.ingredients.map((_: IngredientType, idx: number) => (
-                                <HStack spacing={4} mb={2} key={idx}>
+                                <Grid
+                                    key={idx}
+                                    templateColumns={{
+                                        base: '80px 1fr 32px',
+                                        md: '1fr 80px 215px 32px',
+                                    }}
+                                    templateAreas={{
+                                        base: `
+                                            "title title title"
+                                            "count measure delete"
+                                        `,
+                                        md: `"title count measure delete"`,
+                                    }}
+                                    gap={{ base: '12px', lg: '16px' }}
+                                    w='100%'
+                                >
                                     <Field
                                         as={Input}
                                         name={`ingredients[${idx}].title`}
-                                        placeholder='Ингредиент'
+                                        placeholder={PLACEHOLDERS.INGREDIENT}
+                                        gridArea='title'
                                         isInvalid={!!ingredientErrors?.[idx]?.title}
                                         data-test-id={`recipe-ingredients-title-${idx}`}
                                     />
                                     <Field
                                         as={Input}
                                         name={`ingredients[${idx}].count`}
-                                        placeholder='100'
-                                        maxW='80px'
+                                        placeholder={PLACEHOLDERS.INGREDIENT_COUNT}
                                         type='number'
+                                        gridArea='count'
                                         isInvalid={!!ingredientErrors?.[idx]?.count}
                                         data-test-id={`recipe-ingredients-count-${idx}`}
                                     />
                                     <Field
                                         as={Select}
                                         name={`ingredients[${idx}].measureUnit`}
-                                        placeholder='Единица измерения'
-                                        maxW='215px'
+                                        placeholder={PLACEHOLDERS.MEASURE_UNIT}
+                                        gridArea='measure'
+                                        textOverflow='ellipsis'
+                                        overflow='hidden'
+                                        whiteSpace='nowrap'
                                         isInvalid={!!ingredientErrors?.[idx]?.measureUnit}
                                         data-test-id={`recipe-ingredients-measureUnit-${idx}`}
                                     >
@@ -71,26 +96,53 @@ export const IngredientList = () => {
                                         aria-label='Удалить ингредиент'
                                         icon={<BsTrash boxSize='14px' />}
                                         color='lime.600'
-                                        boxSize='32px'
+                                        w='32px'
+                                        variant='ghost'
+                                        gridArea='delete'
                                         onClick={() => remove(idx)}
                                         data-test-id={`recipe-ingredients-remove-ingredients-${idx}`}
                                         isDisabled={values.ingredients.length === 1}
                                     />
-                                </HStack>
+                                </Grid>
                             ))}
-                        <HStack>
-                            <Input placeholder='Ингредиент' isDisabled />
-                            <Input placeholder='100' isDisabled maxW='80px' />
-                            <Input placeholder='Единица измерения' isDisabled maxW='215px' />
+                        <Grid
+                            templateColumns={{ base: '80px 1fr 32px', md: '1fr 80px 215px 32px' }}
+                            templateAreas={{
+                                base: `
+                                            "title title title"
+                                            "count measure delete"
+                                        `,
+                                md: `"title count measure delete"`,
+                            }}
+                            gap={{ base: '12px', lg: '16px' }}
+                            w='100%'
+                        >
+                            <Input
+                                placeholder={PLACEHOLDERS.INGREDIENT}
+                                isDisabled
+                                gridArea='title'
+                            />
+                            <Input
+                                placeholder={PLACEHOLDERS.INGREDIENT_COUNT}
+                                isDisabled
+                                gridArea='count'
+                            />
+                            <Input
+                                placeholder={PLACEHOLDERS.MEASURE_UNIT}
+                                isDisabled
+                                gridArea='measure'
+                            />
                             <IconButton
                                 aria-label='Добавить ингредиент'
                                 icon={<BsPlusCircleFill boxSize='32px' />}
-                                boxSize='32px'
+                                w='32px'
+                                variant='ghost'
                                 color='black'
+                                gridArea='delete'
                                 onClick={() => push({ title: '', count: 1, measureUnit: '' })}
                                 data-test-id='recipe-ingredients-add-ingredients'
                             />
-                        </HStack>
+                        </Grid>
                     </>
                 )}
             </FieldArray>

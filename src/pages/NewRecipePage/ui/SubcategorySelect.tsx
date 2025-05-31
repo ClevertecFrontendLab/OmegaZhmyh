@@ -9,6 +9,7 @@ import {
     MenuList,
     Tag,
     Text,
+    useBreakpointValue,
 } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 
@@ -21,6 +22,7 @@ import { FORM_FIELDS } from './constants';
 export const SubcategorySelect = () => {
     const { setFieldValue, values, errors } = useFormikContext<CreateRecipe>();
     const subcategories = useAppSelector(selectSubCategories);
+    const tagCount = useBreakpointValue({ base: 1, lg: 2 }) ?? 1;
 
     const onCheckCategory = (categoryId: string) => {
         const currentCategories = values.categoriesIds || [];
@@ -35,20 +37,18 @@ export const SubcategorySelect = () => {
             <MenuButton
                 as={Button}
                 rightIcon={<ChevronDownIcon />}
-                variant='outline'
-                width={{ base: '196px', md: '232px', lg: '350px' }}
-                height='none'
-                paddingY='10px'
-                minHeight='40px'
-                fontSize='md'
                 color='blackAlpha.700'
+                flexShrink={0}
+                size='md'
+                variant='outline'
+                border={errors[FORM_FIELDS.CATEGORIES] ? '2px solid' : '1px solid'}
                 borderColor={errors[FORM_FIELDS.CATEGORIES] ? 'red.500' : 'blackAlpha.200'}
                 data-test-id='recipe-categories'
             >
-                <Flex gap='8px' flexWrap='wrap'>
+                <Flex gap='8px' flexWrap='nowrap'>
                     {values.categoriesIds?.length ? (
                         <>
-                            {values.categoriesIds.slice(0, 2).map((categoryId) => {
+                            {values.categoriesIds.slice(0, tagCount).map((categoryId) => {
                                 const category = subcategories.find((c) => c._id === categoryId);
                                 return (
                                     <Tag
@@ -61,19 +61,26 @@ export const SubcategorySelect = () => {
                                     </Tag>
                                 );
                             })}
-                            {values.categoriesIds.length > 2 && (
+                            {values.categoriesIds.length > tagCount && (
                                 <Tag
                                     variant='outline'
                                     colorScheme='lime'
                                     color='lime.600'
                                     key='more-categories'
                                 >
-                                    {`+${values.categoriesIds.length - 2}`}
+                                    {`+${values.categoriesIds.length - tagCount}`}
                                 </Tag>
                             )}
                         </>
                     ) : (
-                        <Text>Выберите категории</Text>
+                        <Text
+                            textAlign='left'
+                            textOverflow='ellipsis'
+                            overflow='hidden'
+                            whiteSpace='nowrap'
+                        >
+                            Выберите категории
+                        </Text>
                     )}
                 </Flex>
             </MenuButton>

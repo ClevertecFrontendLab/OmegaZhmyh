@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik';
 import { useState } from 'react';
 
 import { isErrorResponse, SignupRequest } from '~/features/auth/types/auth.types';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.ts';
 import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setEmailVerificationModal } from '~/shared/store/notificationSlice';
@@ -10,7 +11,6 @@ import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { useSignupMutation } from '../../../api/authApi';
 import {
-    SERVER_ERROR_MESSAGES,
     SIGNUP_FORM_ERROR_MESSAGES,
     SIGNUP_STEP_TITLES,
 } from '../../../constants/form-messages.constants.ts';

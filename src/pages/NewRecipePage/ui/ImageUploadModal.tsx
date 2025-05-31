@@ -71,8 +71,8 @@ export const ImageUploadModal = ({
                     data-test-id={inputDataTestId}
                 />
                 {hasImage && (
-                    <Button colorScheme='red' variant='ghost' size='sm' onClick={onRemoveImage}>
-                        Удалить фото
+                    <Button variant='ghost' mt='16px' size='lg' onClick={onRemoveImage}>
+                        Удалить
                     </Button>
                 )}
                 {previewUrl && (
@@ -82,7 +82,7 @@ export const ImageUploadModal = ({
                         onClick={onSave}
                         isLoading={isLoading}
                         w='100%'
-                        mt={2}
+                        mt='32px'
                     >
                         Сохранить
                     </Button>
