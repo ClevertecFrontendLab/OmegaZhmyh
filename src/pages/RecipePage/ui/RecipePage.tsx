@@ -29,7 +29,7 @@ import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { EDIT_RECIPE, ROUTES } from '~/shared/config/routes.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { useAppSelector } from '~/shared/store/hooks';
-import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes, BsTrash } from '~/shared/ui/Icons';
+import { BiEditAlt, BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes, BsTrash } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { RecipeTags } from '~/shared/ui/RecipeTags/';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
@@ -161,7 +161,7 @@ export const RecipePage = () => {
                     width={{ base: '328px', md: '232px', lg: '353px', xl: '553px' }}
                     height={{ base: '224px', lg: '410px' }}
                 />
-                <VStack alignItems='stretch' justifyContent='space-between' gap='0'>
+                <VStack alignItems='stretch' justifyContent='space-between' flex='1' gap='0'>
                     <Box>
                         <HStack justifyContent='space-between' alignItems='start'>
                             <RecipeTags
@@ -205,11 +205,18 @@ export const RecipePage = () => {
                                         aria-label='Удалить рецепт'
                                         icon={<BsTrash />}
                                         onClick={handleDeleteRecipe}
+                                        size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
+                                        variant='unstyled'
+                                        color='black'
                                         data-test-id='recipe-delete-button'
                                     />
                                     <Button
                                         as={Link}
                                         to={`${EDIT_RECIPE}/${mainCategory?.category}/${subCategory?.category}/${id}`}
+                                        size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
+                                        variant='outline'
+                                        colorScheme='black'
+                                        leftIcon={<BiEditAlt />}
                                     >
                                         Редактировать рецепт
                                     </Button>

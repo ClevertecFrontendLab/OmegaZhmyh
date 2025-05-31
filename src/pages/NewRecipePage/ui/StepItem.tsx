@@ -1,4 +1,14 @@
-import { Center, Flex, HStack, IconButton, Image, Tag, Textarea, VStack } from '@chakra-ui/react';
+import {
+    Center,
+    Flex,
+    FlexProps,
+    HStack,
+    IconButton,
+    Image,
+    Tag,
+    Textarea,
+    VStack,
+} from '@chakra-ui/react';
 import { Field, FieldProps, FormikErrors, useFormikContext } from 'formik';
 
 import { CreateRecipe, StepType } from '~/entities/Recipe';
@@ -7,14 +17,14 @@ import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { FORM_FIELDS, PLACEHOLDERS } from './constants';
 
-export interface StepItemProps {
+export type StepItemProps = FlexProps & {
     step: StepType;
     index: number;
     onImageClick: () => void;
     onRemove: () => void;
-}
+};
 
-export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps) => {
+export const StepItem = ({ step, index, onImageClick, onRemove, ...props }: StepItemProps) => {
     const { errors } = useFormikContext<CreateRecipe>();
 
     return (
@@ -24,11 +34,12 @@ export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps)
             borderColor='blackAlpha.200'
             flexDirection={{ base: 'column', md: 'row' }}
             borderRadius='8px'
+            {...props}
         >
             <Center
                 bg='rgba(0, 0, 0, 0.08)'
                 w={{ base: '100%', md: '346px' }}
-                h='160px'
+                minH='160px'
                 borderRadius='8px'
                 cursor='pointer'
                 onClick={onImageClick}
@@ -62,16 +73,16 @@ export const StepItem = ({ step, index, onImageClick, onRemove }: StepItemProps)
                         />
                     )}
                 </HStack>
-                <Field
-                    name={`${FORM_FIELDS.STEPS}[${index}].description`}
-                    placeholder={PLACEHOLDERS.STEP_DESCRIPTION}
-                    alignSelf='stretch'
-                    resize='none'
-                >
+                <Field name={`${FORM_FIELDS.STEPS}[${index}].description`}>
                     {({ field }: FieldProps) => (
                         <Textarea
                             {...field}
                             overflow='hidden'
+                            color='blackAlpha.900'
+                            _placeholder={{ color: 'blackAlpha.700' }}
+                            placeholder={PLACEHOLDERS.STEP_DESCRIPTION}
+                            alignSelf='stretch'
+                            resize='none'
                             onChange={(e) => {
                                 field.onChange(e);
                                 const textarea = e.target;

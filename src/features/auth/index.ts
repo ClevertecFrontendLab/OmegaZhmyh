@@ -1,5 +1,4 @@
 export { authApi } from './api/authApi';
-export { useCheckAuthQuery, useRefreshTokenQuery } from './api/authApi';
 export {
     logout,
     selectAuthToken,

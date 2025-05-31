@@ -39,6 +39,7 @@ export const SubcategorySelect = () => {
                 rightIcon={<ChevronDownIcon />}
                 color='blackAlpha.700'
                 flexShrink={0}
+                maxW={{ base: '190px', md: 'none' }}
                 size='md'
                 variant='outline'
                 border={errors[FORM_FIELDS.CATEGORIES] ? '2px solid' : '1px solid'}
@@ -51,13 +52,15 @@ export const SubcategorySelect = () => {
                             {values.categoriesIds.slice(0, tagCount).map((categoryId) => {
                                 const category = subcategories.find((c) => c._id === categoryId);
                                 return (
-                                    <Tag
-                                        variant='outline'
-                                        colorScheme='lime'
-                                        color='lime.600'
-                                        key={categoryId}
-                                    >
-                                        {category?.title}
+                                    <Tag variant='outline' colorScheme='lime' key={categoryId}>
+                                        <Text
+                                            color='lime.600'
+                                            overflow='hidden'
+                                            textOverflow='ellipsis'
+                                            whiteSpace='nowrap'
+                                        >
+                                            {category?.title}
+                                        </Text>
                                     </Tag>
                                 );
                             })}

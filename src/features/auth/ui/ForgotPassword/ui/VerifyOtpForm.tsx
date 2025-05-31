@@ -84,7 +84,10 @@ export const VerifyOtpForm = () => {
                     </Text>
                 ) : null}
                 <Text textAlign='center' color='blackAlpha.900'>
-                    Мы отправили вам на e-mail <Text fontWeight='semibold'>{email}</Text>{' '}
+                    Мы отправили вам на e-mail{' '}
+                    <Text as='span' fontWeight='semibold'>
+                        {email}
+                    </Text>{' '}
                     шестизначный код. Введите его ниже.
                 </Text>
             </Box>

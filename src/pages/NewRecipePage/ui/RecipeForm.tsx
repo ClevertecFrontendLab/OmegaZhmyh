@@ -76,6 +76,8 @@ export const RecipeForm = ({
                             <Image
                                 src={getImgUrlPath(values.image)}
                                 alt='Изображение рецепта'
+                                boxSize='100%'
+                                objectFit='contain'
                                 data-test-id='recipe-image-block-preview-image'
                             />
                         ) : (
@@ -100,6 +102,9 @@ export const RecipeForm = ({
                             placeholder={PLACEHOLDERS.TITLE}
                             isInvalid={!!errors[FORM_FIELDS.TITLE]}
                             size='lg'
+                            fontSize='lg'
+                            color='blackAlpha.900'
+                            _placeholder={{ color: 'blackAlpha.700' }}
                             borderColor='lime.150'
                             mt={{ base: '0', lg: '12px' }}
                             data-test-id='recipe-title'
@@ -109,6 +114,9 @@ export const RecipeForm = ({
                             name={FORM_FIELDS.DESCRIPTION}
                             placeholder={PLACEHOLDERS.DESCRIPTION}
                             isInvalid={!!errors[FORM_FIELDS.DESCRIPTION]}
+                            color='blackAlpha.900'
+                            _placeholder={{ color: 'blackAlpha.700' }}
+                            fontSize='sm'
                             data-test-id='recipe-description'
                         />
                         <FormControl
@@ -118,7 +126,11 @@ export const RecipeForm = ({
                             isInvalid={!!errors[FORM_FIELDS.PORTIONS]}
                             gap={{ base: '16px', lg: '24px' }}
                         >
-                            <FormLabel fontSize='md' fontWeight='semibold' margin='0'>
+                            <FormLabel
+                                fontSize={{ base: 'sm', md: 'md' }}
+                                fontWeight='semibold'
+                                margin='0'
+                            >
                                 На сколько человек ваш рецепт?
                             </FormLabel>
                             <Field name={FORM_FIELDS.PORTIONS}>
@@ -151,8 +163,12 @@ export const RecipeForm = ({
                             isInvalid={!!errors[FORM_FIELDS.TIME]}
                             gap={{ base: '16px', lg: '24px' }}
                         >
-                            <FormLabel fontSize='md' fontWeight='semibold' margin='0'>
-                                Время приготовления
+                            <FormLabel
+                                fontSize={{ base: 'sm', md: 'md' }}
+                                fontWeight='semibold'
+                                margin='0'
+                            >
+                                Сколько времени готовить в минутах?
                             </FormLabel>
                             <Field name={FORM_FIELDS.TIME}>
                                 {({ field, form }: FieldProps) => (
@@ -196,6 +212,7 @@ export const RecipeForm = ({
                                 variant='outline'
                                 colorScheme='gray'
                                 leftIcon={<Icon as={BiEditAlt} />}
+                                borderColor='black'
                                 data-test-id='recipe-save-draft-button'
                                 onClick={handleDraftSave}
                             >

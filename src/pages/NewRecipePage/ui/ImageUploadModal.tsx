@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { BsFillImageFill } from '~/shared/ui/Icons';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 
-export interface ImageUploadModalProps {
+export type ImageUploadModalProps = {
     isOpen: boolean;
     onClose: () => void;
     onSave: () => void;
@@ -14,7 +14,7 @@ export interface ImageUploadModalProps {
     onRemoveImage: () => void;
     hasImage: boolean;
     inputDataTestId: string;
-}
+};
 
 export const ImageUploadModal = ({
     isOpen,
@@ -35,7 +35,7 @@ export const ImageUploadModal = ({
 
     return (
         <ModalNotification isOpen={isOpen} onClose={onClose} dataTestId='recipe-image-modal'>
-            <VStack>
+            <VStack gap='32px'>
                 <Text fontWeight='bold' fontSize='2xl'>
                     Изображение
                 </Text>
@@ -70,23 +70,24 @@ export const ImageUploadModal = ({
                     display='none'
                     data-test-id={inputDataTestId}
                 />
-                {hasImage && (
-                    <Button variant='ghost' mt='16px' size='lg' onClick={onRemoveImage}>
-                        Удалить
-                    </Button>
-                )}
-                {previewUrl && (
-                    <Button
-                        bgColor='black'
-                        color='white'
-                        onClick={onSave}
-                        isLoading={isLoading}
-                        w='100%'
-                        mt='32px'
-                    >
-                        Сохранить
-                    </Button>
-                )}
+                <VStack gap='16px' w='100%'>
+                    {previewUrl && (
+                        <Button
+                            bgColor='black'
+                            color='white'
+                            onClick={onSave}
+                            isLoading={isLoading}
+                            w='100%'
+                        >
+                            Сохранить
+                        </Button>
+                    )}
+                    {hasImage && (
+                        <Button variant='ghost' size='lg' w='100%' onClick={onRemoveImage}>
+                            Удалить
+                        </Button>
+                    )}
+                </VStack>
             </VStack>
         </ModalNotification>
     );

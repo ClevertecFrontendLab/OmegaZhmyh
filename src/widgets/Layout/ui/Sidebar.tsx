@@ -1,17 +1,19 @@
 import { Center, Flex, IconButton, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router';
+import { useMatch, useNavigate } from 'react-router';
 
+import { ROUTES } from '~/shared/config/routes.constants';
 import { BsPencil } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 
 export const Sidebar = () => {
     const navigate = useNavigate();
+    const match = useMatch(ROUTES.NEW_RECIPE);
 
     const handleWriteRecipe = () => {
         navigate('/new-recipe');
     };
 
-    return (
+    return match ? null : (
         <Flex
             flexDirection='column'
             justifyContent='space-between'

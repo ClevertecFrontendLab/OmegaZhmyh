@@ -17,7 +17,7 @@ export const CookingSteps = ({ openImageUploader }: CookingStepsProps) => {
 
     return (
         <VStack align='stretch' gap='16px' w='100%'>
-            <Text fontSize='md' fontWeight='semibold'>
+            <Text fontSize={{ base: 'sm', md: 'md' }} fontWeight='semibold'>
                 Добавьте шаги приготовления
             </Text>
             <FieldArray name={FORM_FIELDS.STEPS}>
@@ -42,6 +42,8 @@ export const CookingSteps = ({ openImageUploader }: CookingStepsProps) => {
                                 rightIcon={<Icon as={BsPlusCircleFill} />}
                                 variant='outline'
                                 colorScheme='gray'
+                                size='sm'
+                                borderColor='black'
                                 onClick={() =>
                                     push({
                                         stepNumber: steps.length + 1,

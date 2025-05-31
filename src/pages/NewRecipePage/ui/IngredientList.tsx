@@ -17,7 +17,7 @@ export const IngredientList = () => {
 
     return (
         <VStack align='stretch' w='100%' gap='16px'>
-            <Text fontSize='md' fontWeight='semibold'>
+            <Text fontSize={{ base: 'sm', md: 'md' }} fontWeight='semibold'>
                 Добавьте ингредиенты рецепта, нажав на <Icon as={BsPlusCircle} color='black' />
             </Text>
             <HStack justifyContent='start' w='100%' display={{ base: 'none', md: 'flex' }}>
@@ -63,6 +63,8 @@ export const IngredientList = () => {
                                         name={`ingredients[${idx}].title`}
                                         placeholder={PLACEHOLDERS.INGREDIENT}
                                         gridArea='title'
+                                        color='blackAlpha.900'
+                                        _placeholder={{ color: 'blackAlpha.700' }}
                                         isInvalid={!!ingredientErrors?.[idx]?.title}
                                         data-test-id={`recipe-ingredients-title-${idx}`}
                                     />
@@ -72,6 +74,8 @@ export const IngredientList = () => {
                                         placeholder={PLACEHOLDERS.INGREDIENT_COUNT}
                                         type='number'
                                         gridArea='count'
+                                        color='blackAlpha.900'
+                                        _placeholder={{ color: 'blackAlpha.700' }}
                                         isInvalid={!!ingredientErrors?.[idx]?.count}
                                         data-test-id={`recipe-ingredients-count-${idx}`}
                                     />
@@ -80,6 +84,8 @@ export const IngredientList = () => {
                                         name={`ingredients[${idx}].measureUnit`}
                                         placeholder={PLACEHOLDERS.MEASURE_UNIT}
                                         gridArea='measure'
+                                        color='blackAlpha.900'
+                                        _placeholder={{ color: 'blackAlpha.700' }}
                                         textOverflow='ellipsis'
                                         overflow='hidden'
                                         whiteSpace='nowrap'
