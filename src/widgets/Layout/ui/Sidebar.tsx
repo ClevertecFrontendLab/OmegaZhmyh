@@ -10,7 +10,7 @@ export const Sidebar = () => {
     const match = useMatch(ROUTES.NEW_RECIPE);
 
     const handleWriteRecipe = () => {
-        navigate('/new-recipe');
+        navigate(ROUTES.NEW_RECIPE);
     };
 
     return match ? null : (

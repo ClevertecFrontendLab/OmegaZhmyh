@@ -26,6 +26,9 @@ import {
 } from '~/entities/Recipe/api/recipeApi';
 import { selectUserId } from '~/features/auth';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { RECIPE_ERROR_MESSAGES } from '~/pages/RecipePage/ui/recipe-messages.constants';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { EDIT_RECIPE, ROUTES } from '~/shared/config/routes.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { useAppSelector } from '~/shared/store/hooks';
@@ -62,8 +65,8 @@ export const RecipePage = () => {
     useEffect(() => {
         if (isError) {
             handleError({
-                errorTitle: 'Ошибка при загрузке рецепта',
-                errorMessage: 'Не удалось загрузить рецепт',
+                errorTitle: RECIPE_ERROR_MESSAGES.RECIPE_LOAD_ERROR_TITLE,
+                errorMessage: RECIPE_ERROR_MESSAGES.RECIPE_LOAD_ERROR,
                 redirectBack: true,
             });
         }
@@ -96,16 +99,16 @@ export const RecipePage = () => {
             try {
                 await deleteRecipe(id).unwrap();
                 handleError({
-                    errorTitle: 'Рецепт успешно удален',
+                    errorTitle: RECIPE_ERROR_MESSAGES.RECIPE_DELETE_SUCCESS,
                     status: 'success',
                 });
                 navigate(ROUTES.HOME);
             } catch (error) {
                 if (isErrorResponse(error)) {
-                    if (error.status === 500) {
+                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                         handleError({
-                            errorTitle: 'Ошибка сервера',
-                            errorMessage: 'Не удалось удалить рецепт',
+                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                            errorMessage: RECIPE_ERROR_MESSAGES.RECIPE_DELETE_ERROR,
                         });
                     }
                 }
@@ -119,10 +122,10 @@ export const RecipePage = () => {
                 await likeRecipe(id).unwrap();
             } catch (error) {
                 if (isErrorResponse(error)) {
-                    if (error.status === 500) {
+                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                         handleError({
-                            errorTitle: 'Ошибка сервера',
-                            errorMessage: 'Попробуйте немного позже',
+                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                            errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
                         });
                     }
                 }
@@ -136,10 +139,10 @@ export const RecipePage = () => {
                 await bookmarkRecipe(id).unwrap();
             } catch (error) {
                 if (isErrorResponse(error)) {
-                    if (error.status === 500) {
+                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                         handleError({
-                            errorTitle: 'Ошибка сервера',
-                            errorMessage: 'Попробуйте немного позже',
+                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                            errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
                         });
                     }
                 }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 
 import AvatarImg from '~/shared/assets/avatar.png';
 import { MOBILE_FOOTER_VARIANT } from '~/shared/config/chakra-variants.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { BsHouse, BsPencil, BsSearch } from '~/shared/ui/Icons';
 
 import { createIconTab } from '../lib/createIconTab';
@@ -16,7 +17,7 @@ export const MobileFooter = () => {
     const navigate = useNavigate();
 
     const handleWriteRecipe = () => {
-        navigate('/new-recipe');
+        navigate(ROUTES.NEW_RECIPE);
     };
 
     return (

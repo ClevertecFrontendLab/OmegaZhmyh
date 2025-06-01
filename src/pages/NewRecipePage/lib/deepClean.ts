@@ -1,6 +1,5 @@
 export function deepClean<T>(obj: T): T {
     if (Array.isArray(obj)) {
-        // Очищаем каждый элемент массива и фильтруем пустые
         return obj
             .map(deepClean)
             .filter(

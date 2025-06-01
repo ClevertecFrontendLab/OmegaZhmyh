@@ -1,7 +1,7 @@
 import { Button, HStack, Icon, Text, VStack } from '@chakra-ui/react';
 import { FieldArray, useFormikContext } from 'formik';
 
-import { StepType } from '~/entities/Recipe';
+import { CreateRecipe } from '~/entities/Recipe';
 import { BsPlusCircleFill } from '~/shared/ui/Icons';
 
 import { BUTTONS, FORM_FIELDS } from './constants';
@@ -12,7 +12,7 @@ type CookingStepsProps = {
 };
 
 export const CookingSteps = ({ openImageUploader }: CookingStepsProps) => {
-    const { values } = useFormikContext<{ steps: StepType[] }>();
+    const { values } = useFormikContext<CreateRecipe>();
     const steps = values[FORM_FIELDS.STEPS] || [];
 
     return (

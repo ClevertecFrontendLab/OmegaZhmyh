@@ -17,6 +17,8 @@ import { Link } from 'react-router';
 import { selectCategoryById, selectRecipeSubCategories } from '~/entities/Category';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { selectSearch } from '~/features/recipe-filters';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { BsBookmarkHeart } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { RecipeTags } from '~/shared/ui/RecipeTags/';
@@ -45,10 +47,10 @@ export const RecipeCard = (props: RecipeCardProps) => {
             bookmarkRecipe(recipe._id).unwrap();
         } catch (error) {
             if (isErrorResponse(error)) {
-                if (error.status === 500) {
+                if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
                     handleError({
-                        errorTitle: 'Ошибка сервера',
-                        errorMessage: 'Попробуйте немного позже',
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                        errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
                     });
                 }
             }
