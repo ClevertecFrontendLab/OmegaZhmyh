@@ -6,6 +6,13 @@ import { ApplicationState } from '~/shared/store/configure-store';
 
 import { CreateRecipe, Recipe } from '../model/types';
 
+const TAG_TYPES = {
+    RECIPE: 'Recipe',
+    RECIPE_LIST: 'RecipeList',
+    BOOKMARK: 'Bookmark',
+    LIKE: 'Like',
+};
+
 export const recipeApi = createApi({
     reducerPath: 'recipeApi',
     baseQuery: fetchBaseQuery({
@@ -18,29 +25,29 @@ export const recipeApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ['Recipe'],
+    tagTypes: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
     endpoints: (builder) => ({
         getRecipes: builder.query<RecipeResponse, GetRecipesParams>({
             query: (params) => ({
                 url: '/recipe',
                 params,
             }),
-            providesTags: ['Recipe'],
+            providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
         getRecipeBySubategory: builder.query<RecipeResponse, GetRecipeBySubategoryParams>({
             query: ({ subcategoryId, limit }) => ({
                 url: `/recipe/category/${subcategoryId}`,
                 params: { limit },
             }),
-            providesTags: ['Recipe'],
+            providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
         getRecipeById: builder.query<Recipe, string>({
             query: (id) => `/recipe/${id}`,
-            providesTags: ['Recipe'],
+            providesTags: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
         getRecipeByUserId: builder.query<Recipe[], string>({
             query: (userId) => `/recipe/user/${userId}`,
-            providesTags: ['Recipe'],
+            providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
         createRecipe: builder.mutation<Recipe, CreateRecipe>({
             query: (recipe) => ({
@@ -48,7 +55,7 @@ export const recipeApi = createApi({
                 method: 'POST',
                 body: recipe,
             }),
-            invalidatesTags: ['Recipe'],
+            invalidatesTags: [TAG_TYPES.RECIPE_LIST],
         }),
         createRecipeDraft: builder.mutation<Recipe, Partial<CreateRecipe>>({
             query: (recipe) => ({
@@ -63,28 +70,28 @@ export const recipeApi = createApi({
                 method: 'PATCH',
                 body: recipe,
             }),
-            invalidatesTags: ['Recipe'],
+            invalidatesTags: [TAG_TYPES.RECIPE],
         }),
         deleteRecipe: builder.mutation<void, string>({
             query: (id) => ({
                 url: `/recipe/${id}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['Recipe'],
+            invalidatesTags: [TAG_TYPES.RECIPE_LIST],
         }),
         likeRecipe: builder.mutation<void, string>({
             query: (id) => ({
                 url: `/recipe/${id}/like`,
                 method: 'POST',
             }),
-            invalidatesTags: ['Recipe'],
+            invalidatesTags: [TAG_TYPES.LIKE],
         }),
         bookmarkRecipe: builder.mutation<void, string>({
             query: (id) => ({
                 url: `/recipe/${id}/bookmark`,
                 method: 'POST',
             }),
-            invalidatesTags: ['Recipe'],
+            invalidatesTags: [TAG_TYPES.BOOKMARK],
         }),
     }),
 });

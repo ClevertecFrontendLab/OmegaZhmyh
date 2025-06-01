@@ -5,12 +5,12 @@ export type CreateRecipe = {
     description: string;
     time: number;
     categoriesIds: string[];
-    meat?: string;
-    garnish?: string;
     portions: number;
     image: string;
     steps: StepType[];
     ingredients: IngredientType[];
+    meat?: string;
+    garnish?: string;
 };
 
 export type Recipe = Required<CreateRecipe> & {
@@ -20,9 +20,9 @@ export type Recipe = Required<CreateRecipe> & {
     views: number;
     bookmarks: number;
     createdAt: string;
-    meat?: string;
-    garnish?: string;
     _id: string;
+    garnish?: string;
+    meat?: string;
 };
 
 export type NutritionValueType = {
@@ -34,8 +34,8 @@ export type NutritionValueType = {
 
 export type IngredientType = {
     title: string;
-    count?: number;
     measureUnit: string;
+    count?: number;
 };
 
 export type StepType = {

@@ -6,9 +6,9 @@ import {
     Heading,
     Highlight,
     HStack,
-    IconButton,
     Image,
     Text,
+    useBreakpointValue,
     VStack,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
@@ -38,6 +38,8 @@ export const RecipeCard = (props: RecipeCardProps) => {
     const { bookmarks, description, _id, image, likes, categoriesIds, title } = recipe;
     const subcategory = useSelector(selectRecipeSubCategories(categoriesIds));
     const category = useSelector(selectCategoryById(subcategory?.rootCategoryId));
+
+    const isMobile = useBreakpointValue({ base: true, lg: false });
 
     const [bookmarkRecipe] = useBookmarkRecipeMutation();
     const { handleError } = useErrorAlert();
@@ -124,29 +126,20 @@ export const RecipeCard = (props: RecipeCardProps) => {
 
                     <HStack justifyContent='end' spacing={2}>
                         <Button
-                            size='sm'
-                            display={{ lg: 'block', base: 'none' }}
+                            height={{ base: '24px', lg: '32px' }}
+                            minWidth='24px'
                             variant='outline'
                             color='blackAlpha.800'
                             backgroundColor='whiteAlpha.100'
                             borderColor='blackAlpha.600'
-                            leftIcon={<BsBookmarkHeart />}
-                        >
-                            Сохранить
-                        </Button>
-                        <IconButton
-                            size='xs'
-                            display={{ lg: 'none', base: 'flex' }}
-                            variant='outline'
-                            color='blackAlpha.800'
-                            backgroundColor='whiteAlpha.100'
-                            borderColor='blackAlpha.600'
-                            icon={<BsBookmarkHeart />}
-                            aria-label='Сохранить'
+                            paddingX={{ base: '6px', lg: '12px' }}
+                            leftIcon={<BsBookmarkHeart boxSize={{ base: '12px', lg: '14px' }} />}
+                            iconSpacing={{ base: '0px', lg: '8px' }}
                             onClick={handleBookmarkRecipe}
                         >
-                            Сохранить
-                        </IconButton>
+                            {isMobile ? null : 'Сохранить'}
+                        </Button>
+
                         <Button
                             size={{ base: 'xs', lg: 'sm' }}
                             variant='solid'

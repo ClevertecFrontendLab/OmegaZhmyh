@@ -8,18 +8,18 @@ import { useValidation } from '../lib/useValidation';
 import { draftSchema } from './validationSchema';
 
 type UseLeaveConfirmProps = {
-    isSuccess: RefObject<boolean>;
+    isNavigationAllowed: RefObject<boolean>;
     onDraftSave: (values: CreateRecipe) => Promise<void>;
 };
 
-export const useLeaveConfirm = ({ isSuccess, onDraftSave }: UseLeaveConfirmProps) => {
+export const useLeaveConfirm = ({ isNavigationAllowed, onDraftSave }: UseLeaveConfirmProps) => {
     const [leaveModalOpen, setLeaveModalOpen] = useState(false);
     const [blockerProceed, setBlockerProceed] = useState<null | (() => void)>(null);
 
     const { dirty, resetForm } = useFormikContext<CreateRecipe>();
     const { validateAndExecute } = useValidation();
 
-    const blocker = useBlocker(() => dirty && !isSuccess.current);
+    const blocker = useBlocker(() => dirty && !isNavigationAllowed.current);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -35,7 +35,6 @@ export const useLeaveConfirm = ({ isSuccess, onDraftSave }: UseLeaveConfirmProps
 
     const handleClose = () => {
         setLeaveModalOpen(false);
-        isSuccess.current = false;
     };
 
     const handleDraftSave = async () => {

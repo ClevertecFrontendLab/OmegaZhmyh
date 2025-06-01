@@ -45,7 +45,7 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
     const mainCategories = useSelector(selectMainCategories);
     const subCategories = useSelector(selectSubCategories);
 
-    const isSuccess = useRef(false);
+    const isNavigationAllowed = useRef(false);
 
     const saveDraft = async (values: CreateRecipe) => {
         const cleanedValues = deepClean(values);
@@ -56,7 +56,8 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
                 errorTitle: RECIPE_MESSAGES.DRAFT.SUCCESS,
                 status: SUCCESS_STATUS,
             });
-            isSuccess.current = true;
+
+            isNavigationAllowed.current = true;
             navigate(ROUTES.HOME);
         } catch (error) {
             if (isErrorResponse(error)) {
@@ -73,14 +74,13 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
                 }
             }
         } finally {
-            isSuccess.current = false;
+            isNavigationAllowed.current = false;
         }
     };
 
     const saveRecipe = async (values: CreateRecipe) => {
         try {
             const { _id, categoriesIds } = await createRecipe(values).unwrap();
-            isSuccess.current = true;
             handleError({
                 errorTitle: RECIPE_MESSAGES.RECIPE.SUCCESS,
                 status: SUCCESS_STATUS,
@@ -91,6 +91,7 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
                 (cat) => cat._id === subCategory?.rootCategoryId,
             );
 
+            isNavigationAllowed.current = true;
             navigate(`/${mainCategory?.category}/${subCategory?.category}/${_id}`);
         } catch (error) {
             if (isErrorResponse(error)) {
@@ -107,7 +108,7 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
                 }
             }
         } finally {
-            isSuccess.current = false;
+            isNavigationAllowed.current = false;
         }
     };
 
@@ -120,6 +121,8 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
                 errorTitle: RECIPE_MESSAGES.RECIPE.SUCCESS,
                 status: SUCCESS_STATUS,
             });
+
+            isNavigationAllowed.current = true;
             navigate(`/${category as string}/${subcategory as string}/${recipe._id}`);
         } catch (error) {
             if (isErrorResponse(error)) {
@@ -136,7 +139,7 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
                 }
             }
         } finally {
-            isSuccess.current = false;
+            isNavigationAllowed.current = false;
         }
     };
 
@@ -148,7 +151,10 @@ export const RecipeFormPage = ({ isEdit = false }: { isEdit?: boolean }) => {
             onSubmit={() => {}}
         >
             <>
-                <LeaveConfirmModal isSuccess={isSuccess} onDraftSave={saveDraft} />
+                <LeaveConfirmModal
+                    isNavigationAllowed={isNavigationAllowed}
+                    onDraftSave={saveDraft}
+                />
                 <RecipeForm
                     onDraftSave={saveDraft}
                     onSave={saveRecipe}

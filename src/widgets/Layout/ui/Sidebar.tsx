@@ -8,12 +8,14 @@ import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
 export const Sidebar = () => {
     const navigate = useNavigate();
     const match = useMatch(ROUTES.NEW_RECIPE);
+    const matchEdit = useMatch(ROUTES.EDIT_RECIPE);
+    const shouldShowSidebar = !match && !matchEdit;
 
     const handleWriteRecipe = () => {
         navigate(ROUTES.NEW_RECIPE);
     };
 
-    return match ? null : (
+    return shouldShowSidebar ? (
         <Flex
             flexDirection='column'
             justifyContent='space-between'
@@ -64,5 +66,5 @@ export const Sidebar = () => {
                 </Text>
             </Center>
         </Flex>
-    );
+    ) : null;
 };

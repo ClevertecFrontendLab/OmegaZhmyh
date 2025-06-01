@@ -9,13 +9,13 @@ import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useLeaveConfirm } from '../model/useLeaveConfirm';
 
 type LeaveConfirmModalProps = {
-    isSuccess: RefObject<boolean>;
+    isNavigationAllowed: RefObject<boolean>;
     onDraftSave: (values: CreateRecipe) => Promise<void>;
 };
 
-export const LeaveConfirmModal = ({ isSuccess, onDraftSave }: LeaveConfirmModalProps) => {
+export const LeaveConfirmModal = ({ isNavigationAllowed, onDraftSave }: LeaveConfirmModalProps) => {
     const { leaveModalOpen, handleLeave, handleClose, handleDraftSave } = useLeaveConfirm({
-        isSuccess,
+        isNavigationAllowed,
         onDraftSave,
     });
 

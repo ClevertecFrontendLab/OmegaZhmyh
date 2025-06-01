@@ -39,7 +39,7 @@ export const SubcategorySelect = () => {
                 rightIcon={<ChevronDownIcon />}
                 color='blackAlpha.700'
                 flexShrink={0}
-                maxW={{ base: '190px', md: 'none' }}
+                maxW={{ base: '185px', md: 'none' }}
                 size='md'
                 variant='outline'
                 border={errors[FORM_FIELDS.CATEGORIES] ? '2px solid' : '1px solid'}
