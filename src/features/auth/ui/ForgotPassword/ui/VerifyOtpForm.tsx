@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useVerifyOtpMutation } from '~/features/auth/api/authApi';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import emailCodeVerification from '~/shared/assets/email-code-verification.png';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.ts';
 import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
@@ -15,8 +16,6 @@ import {
 } from '~/shared/store/notificationSlice';
 import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
-
-import { SERVER_ERROR_MESSAGES } from '../../../constants/form-messages.constants.ts';
 
 const OTP_LENGTH = 6;
 
@@ -85,7 +84,10 @@ export const VerifyOtpForm = () => {
                     </Text>
                 ) : null}
                 <Text textAlign='center' color='blackAlpha.900'>
-                    Мы отправили вам на e-mail <Text fontWeight='semibold'>{email}</Text>{' '}
+                    Мы отправили вам на e-mail{' '}
+                    <Text as='span' fontWeight='semibold'>
+                        {email}
+                    </Text>{' '}
                     шестизначный код. Введите его ниже.
                 </Text>
             </Box>

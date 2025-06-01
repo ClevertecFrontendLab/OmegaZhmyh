@@ -16,6 +16,7 @@ import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { forgotPasswordSchema } from '~/features/auth/validation/auth.validation';
 import breakfast from '~/shared/assets/breakfast.png';
 import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.ts';
 import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
@@ -28,10 +29,7 @@ import { ModalNotification } from '~/shared/ui/ModalNotification';
 import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 
 import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
-import {
-    FORGOT_PASSWORD_FORM_ERROR_MESSAGES,
-    SERVER_ERROR_MESSAGES,
-} from '../../../constants/form-messages.constants.ts';
+import { FORGOT_PASSWORD_FORM_ERROR_MESSAGES } from '../../../constants/form-messages.constants.ts';
 
 export const ForgotPasswordForm = () => {
     const dispatch = useAppDispatch();

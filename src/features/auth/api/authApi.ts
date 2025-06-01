@@ -12,6 +12,8 @@ import {
     VerifyOtpRequest,
 } from '../types/auth.types';
 
+const TOKEN_KEY = 'token';
+
 export const authApi = createApi({
     reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({
@@ -34,7 +36,7 @@ export const authApi = createApi({
             transformResponse: (response: AuthResponse, meta) => {
                 const token = meta?.response?.headers.get('authentication-access');
                 if (token) {
-                    localStorage.setItem('token', token);
+                    localStorage.setItem(TOKEN_KEY, token);
                 }
                 return response;
             },

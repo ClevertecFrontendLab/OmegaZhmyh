@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/Category';
-import { useGetRecipeBySubategoryQuery } from '~/shared/api/yeedaaApi';
+import { useGetRecipeBySubategoryQuery } from '~/entities/Recipe/api/recipeApi';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { setRelevantKitchenLoader } from '~/shared/store/app-slice';
 import { setError } from '~/shared/store/notificationSlice';

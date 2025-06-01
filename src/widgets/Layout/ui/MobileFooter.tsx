@@ -1,7 +1,9 @@
 import { TabList, Tabs } from '@chakra-ui/react';
+import { useNavigate } from 'react-router';
 
 import AvatarImg from '~/shared/assets/avatar.png';
 import { MOBILE_FOOTER_VARIANT } from '~/shared/config/chakra-variants.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { BsHouse, BsPencil, BsSearch } from '~/shared/ui/Icons';
 
 import { createIconTab } from '../lib/createIconTab';
@@ -11,6 +13,13 @@ export const MobileFooter = () => {
     const SearchTab = createIconTab(BsSearch);
     const EditTab = createIconTab(BsPencil);
     const AvatarTab = createIconTab(AvatarImg);
+
+    const navigate = useNavigate();
+
+    const handleWriteRecipe = () => {
+        navigate(ROUTES.NEW_RECIPE);
+    };
+
     return (
         <Tabs
             variant={MOBILE_FOOTER_VARIANT}
@@ -22,7 +31,7 @@ export const MobileFooter = () => {
             <TabList>
                 <MainTab>Главная</MainTab>
                 <SearchTab>Поиск</SearchTab>
-                <EditTab>Записать</EditTab>
+                <EditTab onClick={handleWriteRecipe}>Записать</EditTab>
                 <AvatarTab>Мой профиль</AvatarTab>
             </TabList>
         </Tabs>

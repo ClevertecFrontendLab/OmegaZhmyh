@@ -1,19 +1,7 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import {
-    Button,
-    Checkbox,
-    Flex,
-    IconButton,
-    Input,
-    InputGroup,
-    Menu,
-    MenuButton,
-    MenuList,
-    Tag,
-    Text,
-} from '@chakra-ui/react';
+import { Button, Checkbox, Flex, Menu, MenuButton, MenuList, Tag, Text } from '@chakra-ui/react';
 
-import { BsPlusCircleFill } from '../../Icons';
+import { CustomItemInput } from './CustomItemInput';
 
 type MultiSelectProps = {
     allergensOptions: string[];
@@ -86,33 +74,23 @@ export const MultiSelect = ({
                         {allergen}
                     </Checkbox>
                 ))}
-                <InputGroup padding='8px 8px 8px 24px' alignItems='center' gap='8px'>
-                    <Input
-                        onChange={onSetCustomAllergenInput}
-                        onKeyDown={handleKeyDown}
-                        placeholder='Другой аллерген'
-                        value={customAllergen}
-                        size='sm'
-                        data-test-id={
-                            (isDrawerFilter && isDrawerOpen) || (!isDrawerFilter && !isDrawerOpen)
-                                ? 'add-other-allergen'
-                                : ''
-                        }
-                    />
-                    <IconButton
-                        onClick={onAddCustomAllergen}
-                        aria-label='123'
-                        color='lime.800'
-                        size='xs'
-                        variant='ghost'
-                        icon={<BsPlusCircleFill color='lime.600' />}
-                        data-test-id={
-                            (isDrawerFilter && isDrawerOpen) || (!isDrawerFilter && !isDrawerOpen)
-                                ? 'add-allergen-button'
-                                : ''
-                        }
-                    />
-                </InputGroup>
+                <CustomItemInput
+                    onInput={onSetCustomAllergenInput}
+                    onKeyDown={handleKeyDown}
+                    placeholder='Другой аллерген'
+                    customItemValue={customAllergen}
+                    onAddItem={onAddCustomAllergen}
+                    inputDataTestId={
+                        (isDrawerFilter && isDrawerOpen) || (!isDrawerFilter && !isDrawerOpen)
+                            ? 'add-other-allergen'
+                            : ''
+                    }
+                    iconButtonDataTestId={
+                        (isDrawerFilter && isDrawerOpen) || (!isDrawerFilter && !isDrawerOpen)
+                            ? 'add-allergen-button'
+                            : ''
+                    }
+                />
             </Flex>
         </MenuList>
     </Menu>

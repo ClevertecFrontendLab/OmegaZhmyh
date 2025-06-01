@@ -3,6 +3,10 @@ export type LoginRequest = {
     password: string;
 };
 
+export type JwtPayload = {
+    userId: string;
+};
+
 export type SignupRequest = {
     firstName: string;
     lastName: string;

@@ -18,12 +18,6 @@ export const FORGOT_PASSWORD_FORM_ERROR_MESSAGES = {
     EMAIL_NOT_FOUND_MESSAGE: 'Попробуйте другой e-mail или проверьте правильность его написания',
 } as const;
 
-export const SERVER_ERROR_MESSAGES = {
-    SERVER_ERROR: 'Ошибка сервера',
-    SERVER_UNKNOWN_ERROR: 'Неизвестная ошибка',
-    SERVER_ERROR_MESSAGE: 'Попробуйте немного позже',
-} as const;
-
 export const ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES = {
     SUCCESS: 'Восстановление данных успешно',
 } as const;

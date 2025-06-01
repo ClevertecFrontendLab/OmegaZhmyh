@@ -6,22 +6,27 @@ import {
     Heading,
     Highlight,
     HStack,
-    IconButton,
     Image,
     Text,
+    useBreakpointValue,
     VStack,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import { selectCategoryById, selectRecipeSubCategories } from '~/entities/Category';
+import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { selectSearch } from '~/features/recipe-filters';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { BsBookmarkHeart } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { RecipeTags } from '~/shared/ui/RecipeTags/';
+import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
-import { Recipe } from '../types';
+import { useBookmarkRecipeMutation } from '../api/recipeApi';
+import { Recipe } from '../model/types';
 export type RecipeCardProps = {
     recipe: Recipe;
     cardLinkId?: number;
@@ -34,6 +39,25 @@ export const RecipeCard = (props: RecipeCardProps) => {
     const subcategory = useSelector(selectRecipeSubCategories(categoriesIds));
     const category = useSelector(selectCategoryById(subcategory?.rootCategoryId));
 
+    const isMobile = useBreakpointValue({ base: true, lg: false });
+
+    const [bookmarkRecipe] = useBookmarkRecipeMutation();
+    const { handleError } = useErrorAlert();
+
+    const handleBookmarkRecipe = () => {
+        try {
+            bookmarkRecipe(recipe._id).unwrap();
+        } catch (error) {
+            if (isErrorResponse(error)) {
+                if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
+                    handleError({
+                        errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                        errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
+                    });
+                }
+            }
+        }
+    };
     return (
         <Card direction='row' variant='outline' overflow='hidden' borderRadius='8px'>
             <Box position='relative'>
@@ -102,28 +126,20 @@ export const RecipeCard = (props: RecipeCardProps) => {
 
                     <HStack justifyContent='end' spacing={2}>
                         <Button
-                            size='sm'
-                            display={{ lg: 'block', base: 'none' }}
+                            height={{ base: '24px', lg: '32px' }}
+                            minWidth='24px'
                             variant='outline'
                             color='blackAlpha.800'
                             backgroundColor='whiteAlpha.100'
                             borderColor='blackAlpha.600'
-                            leftIcon={<BsBookmarkHeart />}
+                            paddingX={{ base: '6px', lg: '12px' }}
+                            leftIcon={<BsBookmarkHeart boxSize={{ base: '12px', lg: '14px' }} />}
+                            iconSpacing={{ base: '0px', lg: '8px' }}
+                            onClick={handleBookmarkRecipe}
                         >
-                            Сохранить
+                            {isMobile ? null : 'Сохранить'}
                         </Button>
-                        <IconButton
-                            size='xs'
-                            display={{ lg: 'none', base: 'flex' }}
-                            variant='outline'
-                            color='blackAlpha.800'
-                            backgroundColor='whiteAlpha.100'
-                            borderColor='blackAlpha.600'
-                            icon={<BsBookmarkHeart />}
-                            aria-label='Сохранить'
-                        >
-                            Сохранить
-                        </IconButton>
+
                         <Button
                             size={{ base: 'xs', lg: 'sm' }}
                             variant='solid'

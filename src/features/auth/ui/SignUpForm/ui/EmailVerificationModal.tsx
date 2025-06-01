@@ -39,8 +39,11 @@ export const EmailVerificationModal = () => {
                 Остался последний шаг. Нужно верифицировать ваш e-mail
             </Text>
             <Text textAlign='center' color='blackAlpha.900' mt='16px'>
-                Мы отправили вам на почту <Text fontWeight='semibold'>{email}</Text> ссылку для
-                верификации.
+                Мы отправили вам на почту{' '}
+                <Text as='span' fontWeight='semibold'>
+                    {email}
+                </Text>{' '}
+                ссылку для верификации.
             </Text>
             <Box color='blackAlpha.600' textAlign='center' fontSize='xs' mt='32px'>
                 Не пришло письмо? Проверьте папку Спам. По другим вопросам свяжитесь с поддержкой

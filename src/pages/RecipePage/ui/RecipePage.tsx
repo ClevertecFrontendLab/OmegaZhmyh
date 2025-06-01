@@ -5,6 +5,7 @@ import {
     Flex,
     Heading,
     HStack,
+    IconButton,
     Image,
     Tag,
     TagLabel,
@@ -14,14 +15,27 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 
-import { useGetRecipeByIdQuery } from '~/shared/api/yeedaaApi';
+import { selectMainCategories, selectSubCategories } from '~/entities/Category';
+import {
+    useBookmarkRecipeMutation,
+    useDeleteRecipeMutation,
+    useGetRecipeByIdQuery,
+    useLikeRecipeMutation,
+} from '~/entities/Recipe/api/recipeApi';
+import { selectUserId } from '~/features/auth';
+import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { RECIPE_ERROR_MESSAGES } from '~/pages/RecipePage/ui/recipe-messages.constants';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { EDIT_RECIPE, ROUTES } from '~/shared/config/routes.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
-import { BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes } from '~/shared/ui/Icons';
+import { useAppSelector } from '~/shared/store/hooks';
+import { BiEditAlt, BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes, BsTrash } from '~/shared/ui/Icons';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
 import { RecipeTags } from '~/shared/ui/RecipeTags/';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert/hooks/useErrorAlert';
+import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 import { NewRecipes } from '~/widgets/NewRecipes';
 
@@ -31,11 +45,17 @@ import { IngredientsList } from './components/IngredientsList';
 import { NutrientBlock } from './components/NutrientBlock';
 
 export const RecipePage = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
     const { data: recipe, isError, isLoading } = useGetRecipeByIdQuery(id as string);
+    const [deleteRecipe] = useDeleteRecipeMutation();
+    const [likeRecipe] = useLikeRecipeMutation();
+    const [bookmarkRecipe] = useBookmarkRecipeMutation();
 
     const dispatch = useDispatch();
-
+    const userId = useAppSelector(selectUserId);
+    const mainCategories = useAppSelector(selectMainCategories);
+    const subCategories = useAppSelector(selectSubCategories);
     const { handleError } = useErrorAlert();
 
     useEffect(() => {
@@ -45,8 +65,8 @@ export const RecipePage = () => {
     useEffect(() => {
         if (isError) {
             handleError({
-                errorTitle: 'Ошибка при загрузке рецепта',
-                errorMessage: 'Не удалось загрузить рецепт',
+                errorTitle: RECIPE_ERROR_MESSAGES.RECIPE_LOAD_ERROR_TITLE,
+                errorMessage: RECIPE_ERROR_MESSAGES.RECIPE_LOAD_ERROR,
                 redirectBack: true,
             });
         }
@@ -68,7 +88,68 @@ export const RecipePage = () => {
         likes,
         bookmarks,
         steps,
+        authorId,
     } = recipe;
+
+    const subCategory = subCategories.find((sub) => sub._id === categoriesIds?.[0]);
+    const mainCategory = mainCategories.find((cat) => cat._id === subCategory?.rootCategoryId);
+
+    const handleDeleteRecipe = async () => {
+        if (id) {
+            try {
+                await deleteRecipe(id).unwrap();
+                handleError({
+                    errorTitle: RECIPE_ERROR_MESSAGES.RECIPE_DELETE_SUCCESS,
+                    status: 'success',
+                });
+                navigate(ROUTES.HOME);
+            } catch (error) {
+                if (isErrorResponse(error)) {
+                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
+                        handleError({
+                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                            errorMessage: RECIPE_ERROR_MESSAGES.RECIPE_DELETE_ERROR,
+                        });
+                    }
+                }
+            }
+        }
+    };
+
+    const handleLikeRecipe = async () => {
+        if (id) {
+            try {
+                await likeRecipe(id).unwrap();
+            } catch (error) {
+                if (isErrorResponse(error)) {
+                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
+                        handleError({
+                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                            errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
+                        });
+                    }
+                }
+            }
+        }
+    };
+
+    const handleBookmarkRecipe = async () => {
+        if (id) {
+            try {
+                await bookmarkRecipe(id).unwrap();
+            } catch (error) {
+                if (isErrorResponse(error)) {
+                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
+                        handleError({
+                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                            errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
+                        });
+                    }
+                }
+            }
+        }
+    };
+
     return (
         <>
             <Flex
@@ -83,7 +164,7 @@ export const RecipePage = () => {
                     width={{ base: '328px', md: '232px', lg: '353px', xl: '553px' }}
                     height={{ base: '224px', lg: '410px' }}
                 />
-                <VStack alignItems='stretch' justifyContent='space-between' gap='0'>
+                <VStack alignItems='stretch' justifyContent='space-between' flex='1' gap='0'>
                     <Box>
                         <HStack justifyContent='space-between' alignItems='start'>
                             <RecipeTags
@@ -121,22 +202,50 @@ export const RecipePage = () => {
                             <TagLabel>{time + ' мин.'}</TagLabel>
                         </Tag>
                         <Flex gap={{ base: '12px', xl: '16px' }}>
-                            <Button
-                                size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
-                                variant='outline'
-                                colorScheme='black'
-                                leftIcon={<BsEmojiHeartEyes />}
-                            >
-                                Оценить рецепт
-                            </Button>
-                            <Button
-                                size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
-                                color='black'
-                                bgColor='lime.400'
-                                leftIcon={<BsBookmarkHeart />}
-                            >
-                                Сохранить в закладки
-                            </Button>
+                            {userId === authorId ? (
+                                <>
+                                    <IconButton
+                                        aria-label='Удалить рецепт'
+                                        icon={<BsTrash />}
+                                        onClick={handleDeleteRecipe}
+                                        size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
+                                        variant='unstyled'
+                                        color='black'
+                                        data-test-id='recipe-delete-button'
+                                    />
+                                    <Button
+                                        as={Link}
+                                        to={`${EDIT_RECIPE}/${mainCategory?.category}/${subCategory?.category}/${id}`}
+                                        size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
+                                        variant='outline'
+                                        colorScheme='black'
+                                        leftIcon={<BiEditAlt />}
+                                    >
+                                        Редактировать рецепт
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button
+                                        size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
+                                        variant='outline'
+                                        colorScheme='black'
+                                        leftIcon={<BsEmojiHeartEyes />}
+                                        onClick={handleLikeRecipe}
+                                    >
+                                        Оценить рецепт
+                                    </Button>
+                                    <Button
+                                        size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
+                                        color='black'
+                                        bgColor='lime.400'
+                                        leftIcon={<BsBookmarkHeart />}
+                                        onClick={handleBookmarkRecipe}
+                                    >
+                                        Сохранить в закладки
+                                    </Button>
+                                </>
+                            )}
                         </Flex>
                     </Flex>
                 </VStack>
