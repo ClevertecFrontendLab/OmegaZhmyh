@@ -41,6 +41,13 @@ export const authApi = createApi({
                 return response;
             },
         }),
+        refreshToken: builder.mutation<AuthResponse, void>({
+            query: () => ({
+                url: '/auth/refresh',
+                method: 'GET',
+                credentials: 'include',
+            }),
+        }),
         signup: builder.mutation<AuthResponse, SignupRequest>({
             query: (userData) => ({
                 url: '/auth/signup',
@@ -78,4 +85,5 @@ export const {
     useForgotPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
+    useRefreshTokenMutation,
 } = authApi;

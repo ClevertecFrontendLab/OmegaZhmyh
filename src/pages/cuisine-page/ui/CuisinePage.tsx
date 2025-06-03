@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router';
 
-import { selectMainCategories, selectSubCategories } from '~/entities/Category';
-import { useGetRecipeBySubategoryQuery } from '~/entities/Recipe/api/recipeApi';
+import { selectMainCategories, selectSubCategories } from '~/entities/category';
+import { useGetRecipeBySubategoryQuery } from '~/entities/recipe/';
 import { selectCountSearchedRecipes, selectIsSearchActive } from '~/features/recipe-filters/';
 import { LINK_VARIANT } from '~/shared/config/chakra-variants.constants';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';

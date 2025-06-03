@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { MainCategory, selectMainCategories } from '~/entities/category';
-import { useGetRecipesQuery } from '~/entities/recipe/api/recipeApi';
+import { useGetRecipesQuery } from '~/entities/recipe/';
 import {
     selectActiveSearchQuery,
     selectAllergenFilters,

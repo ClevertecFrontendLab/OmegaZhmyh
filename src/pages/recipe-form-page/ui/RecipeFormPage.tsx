@@ -10,7 +10,7 @@ import {
     useCreateRecipeMutation,
     useGetRecipeByIdQuery,
     useUpdateRecipeMutation,
-} from '~/entities/recipe/api/recipeApi';
+} from '~/entities/recipe/';
 import { SUCCESS_STATUS } from '~/features/auth/constants/form-messages.constants.ts';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';

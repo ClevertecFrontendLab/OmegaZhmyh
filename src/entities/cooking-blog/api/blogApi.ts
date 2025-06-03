@@ -3,27 +3,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_BASE_URL } from '~/shared/config/api-urls.constants';
 import { ApplicationState } from '~/shared/store/configure-store';
 
-type Note = {
-    date: string;
-    text: string;
-};
+import { Bloger } from '../model/types';
 
-type Bloger = {
-    bookmarksCount: number;
-    firstName: string;
-    isFavorite: boolean;
-    lastName: string;
-    login: string;
-    newRecipesCount: number;
-    notes: Note[];
-    subscribersCount: number;
-    _id: string;
-};
-
-type AllBlogersResponse = {
+export type AllBlogersResponse = Partial<{
     favorite: Bloger[];
     others: Bloger[];
-};
+}>;
 
 type AllBlogersRequest = {
     limit: number;

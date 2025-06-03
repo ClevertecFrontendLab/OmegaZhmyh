@@ -2,8 +2,8 @@ import { Button, Flex, Spinner } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Recipe } from '~/entities/Recipe';
-import { useGetRecipesQuery } from '~/entities/Recipe/api/recipeApi';
+import { useGetRecipesQuery } from '~/entities/recipe/';
+import { Recipe } from '~/entities/recipe/';
 import {
     selectCountSearchedRecipes,
     selectIsSearchActive,

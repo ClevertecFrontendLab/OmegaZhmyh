@@ -3,7 +3,7 @@ import 'swiper/swiper-bundle.css';
 import { Box, LinkBox, Text, useBreakpointValue } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { useGetRecipesQuery } from '~/entities/Recipe/api/recipeApi';
+import { useGetRecipesQuery } from '~/entities/recipe/';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { SORT } from '~/shared/config/sort.constants';
 

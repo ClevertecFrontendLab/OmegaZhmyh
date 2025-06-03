@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router';
 
 import { ROUTES } from '~/shared/config/routes.constants';
-import { Layout } from '~/widgets/Layout';
+import { Layout } from '~/widgets/layout';
 
 export const ProtectedRoute = () => {
     const isAuthenticated = localStorage.getItem('token') !== null;

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { useGetRecipesQuery } from '~/entities/Recipe/api/recipeApi';
+import { useGetRecipesQuery } from '~/entities/recipe/';
 import { selectCountSearchedRecipes } from '~/features/recipe-filters';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { SORT } from '~/shared/config/sort.constants';

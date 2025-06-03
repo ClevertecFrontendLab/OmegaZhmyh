@@ -35,25 +35,39 @@ export const CookingBlogs = () => (
             flexDirection={{ base: 'column', md: 'row' }}
         >
             <CookingBlog
-                userName='Елена Высоцкая'
-                accountName='@elenapovar'
-                avatarImg='ElenaVysotskayaImg'
-                text='Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.'
+                firstName='Елена'
+                lastName='Высоцкая'
+                login='@elenapovar'
+                notes={[
+                    {
+                        text: 'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
+                    },
+                ]}
             />
             <CookingBlog
-                userName='Alex Cook'
-                accountName='@funtasticooking'
-                avatarImg='AlexCookImg'
-                text='Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.'
+                firstName='Alex'
+                lastName='Cook'
+                login='@funtasticooking'
+                notes={[
+                    {
+                        text: 'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
+                    },
+                ]}
             />
             <CookingBlog
-                userName='Екатерина Константинопольская'
-                accountName='@bake_and_pie'
-                avatarImg='CatherineConstantinopleImg'
-                text='Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.'
+                firstName='Екатерина'
+                lastName='Константинопольская'
+                login='@funtastbake_and_pieicooking'
+                notes={[
+                    {
+                        text: 'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
+                    },
+                ]}
             />
         </Flex>
         <Button
+            as={Link}
+            to={ROUTES.BLOGS}
             display={{ base: 'flex', lg: 'none' }}
             margin={{ base: '12px auto 0 auto' }}
             rightIcon={<ArrowForwardIcon />}
