@@ -9,7 +9,7 @@ import {
     selectEmailVerificationModal,
     selectEmailVerificationModalEmail,
 } from '~/shared/store/notificationSlice';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 export const EmailVerificationModal = () => {
     const dispatch = useAppDispatch();

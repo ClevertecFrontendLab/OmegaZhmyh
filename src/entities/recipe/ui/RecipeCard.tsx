@@ -14,15 +14,15 @@ import {
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { selectCategoryById, selectRecipeSubCategories } from '~/entities/Category';
+import { selectCategoryById, selectRecipeSubCategories } from '~/entities/category';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { selectSearch } from '~/features/recipe-filters';
 import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
 import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
-import { BsBookmarkHeart } from '~/shared/ui/Icons';
-import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
-import { RecipeTags } from '~/shared/ui/RecipeTags/';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
+import { BsBookmarkHeart } from '~/shared/ui/icon';
+import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
+import { RecipeTags } from '~/shared/ui/recipe-tags';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { useBookmarkRecipeMutation } from '../api/recipeApi';

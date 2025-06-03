@@ -23,7 +23,7 @@ import {
     SideDishesFilters,
 } from '~/features/recipe-filters';
 import { resetFilters, setFiltersActive } from '~/features/recipe-filters/';
-import { BsFillXCircleFill } from '~/shared/ui/Icons';
+import { BsFillXCircleFill } from '~/shared/ui/icon';
 
 import { selectIsDrawerOpen, toggleIsOpenDrawer } from '../model/slice';
 

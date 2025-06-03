@@ -2,8 +2,8 @@ import { Grid, GridItem, GridProps } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectMainCategories, selectSubCategories } from '~/entities/Category';
-import { useGetRecipeBySubategoryQuery } from '~/entities/Recipe/api/recipeApi';
+import { selectMainCategories, selectSubCategories } from '~/entities/category';
+import { useGetRecipeBySubategoryQuery } from '~/entities/recipe/api/recipeApi';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { setRelevantKitchenLoader } from '~/shared/store/app-slice';
 import { setError } from '~/shared/store/notificationSlice';

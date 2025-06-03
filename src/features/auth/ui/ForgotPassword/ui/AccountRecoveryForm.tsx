@@ -12,8 +12,8 @@ import {
     selectAccountRecoveryModal,
     selectAccountRecoveryModalEmail,
 } from '~/shared/store/notificationSlice';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 import {
     ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES,

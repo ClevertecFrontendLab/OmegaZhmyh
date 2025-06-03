@@ -1,8 +1,8 @@
 import { Button, Center, Image, Input, Text, VStack } from '@chakra-ui/react';
 import { useRef } from 'react';
 
-import { BsFillImageFill } from '~/shared/ui/Icons';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
+import { BsFillImageFill } from '~/shared/ui/icon';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 export type ImageUploadModalProps = {
     isOpen: boolean;

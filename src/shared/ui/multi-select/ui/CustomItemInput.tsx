@@ -1,6 +1,6 @@
 import { IconButton, Input, InputGroup } from '@chakra-ui/react';
 
-import { BsPlusCircleFill } from '../../Icons';
+import { BsPlusCircleFill } from '~/shared/ui/icon';
 
 type CustomItemInputProps = {
     onInput: (e: React.ChangeEvent<HTMLInputElement>) => void;

@@ -1,20 +1,20 @@
 import { createBrowserRouter } from 'react-router';
 
-import { AuthPage } from '~/pages/AuthPage';
-import { VerificationPage } from '~/pages/AuthPage/ui/VerificationPage';
-import { CuisinePage } from '~/pages/CuisinePage';
-import { ErrorPage } from '~/pages/ErrorPage';
-import { JuiciestPage } from '~/pages/JuiciestPage';
-import { MainPage } from '~/pages/MainPage';
-import { RecipeFormPage } from '~/pages/NewRecipePage';
-import { RecipePage } from '~/pages/RecipePage';
+import { AuthPage } from '~/pages/auth-page';
+import { VerificationPage } from '~/pages/auth-page/ui/VerificationPage';
+import { CuisinePage } from '~/pages/cuisine-page';
+import { ErrorPage } from '~/pages/error-page';
+import { JuiciestPage } from '~/pages/juiciest-page';
+import { MainPage } from '~/pages/main-page';
+import { RecipeFormPage } from '~/pages/recipe-form-page';
+import { RecipePage } from '~/pages/recipe-page';
 import { ROUTES } from '~/shared/config/routes.constants';
-import { Layout } from '~/widgets/Layout';
+import { Layout } from '~/widgets/layout';
 
 import App from './App';
-import { CategoryRedirect } from './CategoryRedirect';
-import { CategoryValidator } from './CategoryValidator';
-import { ProtectedRoute } from './ProtectedRoute';
+import { CategoryRedirect } from './category-redirect';
+import { CategoryValidator } from './category-validator';
+import { ProtectedRoute } from './protected-route';
 
 export const router = createBrowserRouter([
     {

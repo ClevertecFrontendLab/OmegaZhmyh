@@ -1,7 +1,7 @@
 import { IconButton } from '@chakra-ui/react';
 import { useSwiper } from 'swiper/react';
 
-import { BsArrowRight } from '~/shared/ui/Icons';
+import { BsArrowRight } from '~/shared/ui/icon';
 
 export const SlideNextButton = () => {
     const swiper = useSwiper();

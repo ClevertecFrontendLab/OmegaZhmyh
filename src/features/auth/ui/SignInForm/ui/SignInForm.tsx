@@ -7,7 +7,7 @@ import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { ROUTES } from '~/shared/config/routes.constants';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch } from '~/shared/store/hooks';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
 
 import { useLoginMutation } from '../../../api/authApi';
 import { SIGNIN_FORM_ERROR_MESSAGES } from '../../../constants/form-messages.constants.ts';

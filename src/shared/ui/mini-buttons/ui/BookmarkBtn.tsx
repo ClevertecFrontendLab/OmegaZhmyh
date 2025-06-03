@@ -1,4 +1,4 @@
-import { BsBookmarkHeart } from '../../Icons';
+import { BsBookmarkHeart } from '../../icon';
 import { MiniBtn, MiniBtnProps } from './MiniBtn';
 
 type BookmarkBtnProps = Omit<MiniBtnProps, 'icon'> & {

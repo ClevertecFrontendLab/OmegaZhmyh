@@ -3,20 +3,20 @@ import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
-import { selectMainCategories, selectSubCategories } from '~/entities/Category';
-import { CreateRecipe } from '~/entities/Recipe';
+import { selectMainCategories, selectSubCategories } from '~/entities/category';
+import { CreateRecipe } from '~/entities/recipe';
 import {
     useCreateRecipeDraftMutation,
     useCreateRecipeMutation,
     useGetRecipeByIdQuery,
     useUpdateRecipeMutation,
-} from '~/entities/Recipe/api/recipeApi';
+} from '~/entities/recipe/api/recipeApi';
 import { SUCCESS_STATUS } from '~/features/auth/constants/form-messages.constants.ts';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
 import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { ROUTES } from '~/shared/config/routes.constants';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
 
 import { deepClean } from '../lib/deepClean';
 import { RECIPE_MESSAGES } from './constants';

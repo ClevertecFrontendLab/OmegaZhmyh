@@ -1,4 +1,4 @@
-import { BsEmojiHeartEyes } from '../../Icons';
+import { BsEmojiHeartEyes } from '../../icon';
 import { MiniBtn, MiniBtnProps } from './MiniBtn';
 
 type LikeBtnProps = Omit<MiniBtnProps, 'icon'> & {

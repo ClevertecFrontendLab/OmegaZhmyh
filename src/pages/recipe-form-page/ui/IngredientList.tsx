@@ -4,7 +4,7 @@ import { Field, FieldArray, FormikErrors, useFormikContext } from 'formik';
 import { CreateRecipe, IngredientType } from '~/entities/Recipe';
 import { MeasureUnit } from '~/shared/api/types';
 import { useGetMeasureUnitsQuery } from '~/shared/api/yeedaaApi';
-import { BsPlusCircle, BsPlusCircleFill, BsTrash } from '~/shared/ui/Icons';
+import { BsPlusCircle, BsPlusCircleFill, BsTrash } from '~/shared/ui/icon';
 
 import { FORM_FIELDS, PLACEHOLDERS } from './constants';
 

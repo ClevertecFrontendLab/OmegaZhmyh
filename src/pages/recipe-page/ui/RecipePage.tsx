@@ -17,27 +17,27 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router';
 
-import { selectMainCategories, selectSubCategories } from '~/entities/Category';
+import { selectMainCategories, selectSubCategories } from '~/entities/category';
 import {
     useBookmarkRecipeMutation,
     useDeleteRecipeMutation,
     useGetRecipeByIdQuery,
     useLikeRecipeMutation,
-} from '~/entities/Recipe/api/recipeApi';
+} from '~/entities/recipe/';
 import { selectUserId } from '~/features/auth';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
-import { RECIPE_ERROR_MESSAGES } from '~/pages/RecipePage/ui/recipe-messages.constants';
+import { RECIPE_ERROR_MESSAGES } from '~/pages/recipe-page/ui/recipe-messages.constants';
 import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
 import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { EDIT_RECIPE, ROUTES } from '~/shared/config/routes.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { useAppSelector } from '~/shared/store/hooks';
-import { BiEditAlt, BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes, BsTrash } from '~/shared/ui/Icons';
-import { BookmarkBtn, LikeBtn } from '~/shared/ui/MiniButtons';
-import { RecipeTags } from '~/shared/ui/RecipeTags/';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
+import { BiEditAlt, BsAlarm, BsBookmarkHeart, BsEmojiHeartEyes, BsTrash } from '~/shared/ui/icon';
+import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
+import { RecipeTags } from '~/shared/ui/recipe-tags';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
-import { NewRecipes } from '~/widgets/NewRecipes';
+import { NewRecipes } from '~/widgets/new-recipes';
 
 import { AuthorCard } from './components/AuthorCard';
 import { CookingSteps } from './components/CookingSteps';

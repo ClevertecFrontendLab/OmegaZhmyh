@@ -1,4 +1,4 @@
-import { BsPeopleFill } from '../../Icons';
+import { BsPeopleFill } from '../../icon';
 import { MiniBtn, MiniBtnProps } from './MiniBtn';
 
 type RepostBtnProps = Omit<MiniBtnProps, 'icon'> & {

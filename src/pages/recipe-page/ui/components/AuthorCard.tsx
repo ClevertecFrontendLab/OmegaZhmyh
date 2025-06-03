@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react';
 
 import SergeyImg from '~/shared/assets/avatar_img/@serge25.png';
-import { BsPeople, BsPersonPlusFill } from '~/shared/ui/Icons';
+import { BsPeople, BsPersonPlusFill } from '~/shared/ui/icon';
 
 type AuthorCardProps = {
     image?: string;

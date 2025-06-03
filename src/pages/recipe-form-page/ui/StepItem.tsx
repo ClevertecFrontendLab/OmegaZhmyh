@@ -11,8 +11,8 @@ import {
 } from '@chakra-ui/react';
 import { Field, FieldProps, FormikErrors, useFormikContext } from 'formik';
 
-import { CreateRecipe, StepType } from '~/entities/Recipe';
-import { BsFillImageFill, BsTrash } from '~/shared/ui/Icons';
+import { CreateRecipe, StepType } from '~/entities/recipe';
+import { BsFillImageFill, BsTrash } from '~/shared/ui/icon';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { FORM_FIELDS, PLACEHOLDERS } from './constants';

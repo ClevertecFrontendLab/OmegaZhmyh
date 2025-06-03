@@ -3,8 +3,8 @@ import { RefObject } from 'react';
 
 import { CreateRecipe } from '~/entities/Recipe';
 import breakfastImg from '~/shared/assets/breakfast.png';
-import { BiEditAlt } from '~/shared/ui/Icons';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
+import { BiEditAlt } from '~/shared/ui/icon';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 import { useLeaveConfirm } from '../model/useLeaveConfirm';
 

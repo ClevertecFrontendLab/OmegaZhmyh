@@ -25,8 +25,8 @@ import {
     setVerificationErrorModal,
     setVerifyOtpModal,
 } from '~/shared/store/notificationSlice';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
 import { FORGOT_PASSWORD_FORM_ERROR_MESSAGES } from '../../../constants/form-messages.constants.ts';

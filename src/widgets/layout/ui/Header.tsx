@@ -5,8 +5,8 @@ import { Link } from 'react-router';
 
 import Logo from '~/shared/assets/logo.svg';
 import MobileLogo from '~/shared/assets/mobile-logo.svg';
-import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
-import { UserCard } from '~/shared/ui/UserCard';
+import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/mini-buttons';
+import { UserCard } from '~/shared/ui/user-card';
 
 import { selectIsBurgerOpen, toggleBurger } from '../model/slice';
 import { Breadcrumbs } from './Breadcrumb';

@@ -13,8 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
 
-import { selectSubCategories } from '~/entities/Category';
-import { CreateRecipe } from '~/entities/Recipe';
+import { selectSubCategories } from '~/entities/category';
+import { CreateRecipe } from '~/entities/recipe';
 import { useAppSelector } from '~/shared/store/hooks';
 
 import { FORM_FIELDS } from './constants';

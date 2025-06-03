@@ -2,6 +2,7 @@ export {
     recipeApi,
     useBookmarkRecipeMutation,
     useCreateRecipeDraftMutation,
+    useDeleteRecipeMutation,
     useGetRecipeByIdQuery,
     useLikeRecipeMutation,
 } from './api/recipeApi';

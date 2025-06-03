@@ -9,7 +9,7 @@ import {
 import { ROUTES } from '~/shared/config/routes.constants';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setVerificationErrorModal } from '~/shared/store/notificationSlice';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
 
 export const VerificationPage = () => {
     const navigate = useNavigate();

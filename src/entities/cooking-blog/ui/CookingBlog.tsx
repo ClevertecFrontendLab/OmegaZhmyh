@@ -1,7 +1,7 @@
 import { Box, BoxProps, Text } from '@chakra-ui/react';
 
 import { AvatarImagesType } from '~/shared/ui/AvatarImages';
-import { UserCard } from '~/shared/ui/UserCard';
+import { UserCard } from '~/shared/ui/user-card';
 
 type CookingBlogProps = BoxProps & {
     userName: string;

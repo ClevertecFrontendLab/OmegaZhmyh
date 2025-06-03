@@ -9,12 +9,12 @@ import { selectCountSearchedRecipes } from '~/features/recipe-filters';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { SORT } from '~/shared/config/sort.constants';
 import { setError } from '~/shared/store/notificationSlice';
-import { RecipeCardList } from '~/shared/ui/RecipeCardList';
-import { CookingBlogs } from '~/widgets/CookingBlogs';
-import { FoundRecipes } from '~/widgets/foundRecipes';
-import { NewRecipes } from '~/widgets/NewRecipes';
-import { RelevantKitchen } from '~/widgets/RelevantKitchen';
-import { SearchPanel } from '~/widgets/SearchPanel';
+import { RecipeCardList } from '~/shared/ui/recipe-card-list';
+import { CookingBlogs } from '~/widgets/blog-list';
+import { FoundRecipes } from '~/widgets/founded-recipes';
+import { NewRecipes } from '~/widgets/new-recipes';
+import { RelevantKitchen } from '~/widgets/relevant-kitchen';
+import { SearchPanel } from '~/widgets/search-panel';
 
 export const MainPage = () => {
     const dispatch = useDispatch();

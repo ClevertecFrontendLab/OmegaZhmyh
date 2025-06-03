@@ -1,7 +1,7 @@
 import { IconButton } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 
-import { BsFilter } from '~/shared/ui/Icons';
+import { BsFilter } from '~/shared/ui/icon';
 import { toggleIsOpenDrawer } from '~/widgets/Drawer/model/slice';
 
 export const DrawerToggle = () => {

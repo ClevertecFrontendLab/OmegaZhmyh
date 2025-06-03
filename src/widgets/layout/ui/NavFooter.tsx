@@ -1,6 +1,6 @@
 import { Button, Stack, Text } from '@chakra-ui/react';
 
-import { BiLogOut } from '~/shared/ui/Icons';
+import { BiLogOut } from '~/shared/ui/icon';
 
 export const NavFooter = () => (
     <Stack

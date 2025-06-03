@@ -9,10 +9,10 @@ import { selectCountSearchedRecipes, selectIsSearchActive } from '~/features/rec
 import { LINK_VARIANT } from '~/shared/config/chakra-variants.constants';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
-import { RecipeCardList } from '~/shared/ui/RecipeCardList';
-import { FoundRecipes } from '~/widgets/foundRecipes';
-import { RelevantKitchen } from '~/widgets/RelevantKitchen';
-import { SearchPanel } from '~/widgets/SearchPanel';
+import { RecipeCardList } from '~/shared/ui/recipe-card-list';
+import { FoundRecipes } from '~/widgets/founded-recipes';
+import { RelevantKitchen } from '~/widgets/relevant-kitchen';
+import { SearchPanel } from '~/widgets/search-panel';
 
 export const CuisinePage = () => {
     const dispatch = useDispatch();

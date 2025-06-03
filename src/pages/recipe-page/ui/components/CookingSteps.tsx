@@ -1,6 +1,6 @@
 import { Box, Card, CardBody, Flex, Image, Tag, Text } from '@chakra-ui/react';
 
-import { StepType } from '~/features/types';
+import { StepType } from '~/entities/Recipe';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 type CookingStepsProps = {

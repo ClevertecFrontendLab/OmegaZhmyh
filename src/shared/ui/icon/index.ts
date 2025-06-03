@@ -6,6 +6,8 @@ export { BsArrowLeft } from './ui/BsArrowLeft';
 export { BsArrowRight } from './ui/BsArrowRight';
 export { BsBookmarkHeart } from './ui/BsBookmarkHeart';
 export { BsEmojiHeartEyes } from './ui/BsEmojiHeartEyes';
+export { BsEyeFill } from './ui/BsEyeFill';
+export { BsEyeSlashFill } from './ui/BsEyeSlashFill';
 export { BsFillImageFill } from './ui/BsFillImageFill';
 export { BsFillXCircleFill } from './ui/BsFillXCircleFill';
 export { BsFilter } from './ui/BsFilter';

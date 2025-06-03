@@ -14,8 +14,8 @@ import {
     selectVerifyOtpModalEmail,
     setAccountRecoveryModal,
 } from '~/shared/store/notificationSlice';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 const OTP_LENGTH = 6;
 

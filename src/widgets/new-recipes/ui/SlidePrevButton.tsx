@@ -1,7 +1,7 @@
 import { IconButton } from '@chakra-ui/react';
 import { useSwiper } from 'swiper/react';
 
-import { BsArrowLeft } from '~/shared/ui/Icons';
+import { BsArrowLeft } from '~/shared/ui/icon';
 
 export const SlidePrevButton = () => {
     const swiper = useSwiper();

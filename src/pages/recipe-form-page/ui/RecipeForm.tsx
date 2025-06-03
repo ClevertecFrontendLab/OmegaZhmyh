@@ -19,7 +19,7 @@ import {
 import { Field, FieldProps, Form, useFormikContext } from 'formik';
 
 import { CreateRecipe } from '~/entities/Recipe';
-import { BiEditAlt, BsFillImageFill } from '~/shared/ui/Icons';
+import { BiEditAlt, BsFillImageFill } from '~/shared/ui/icon';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { useImageInput } from '../lib/useImageInput';

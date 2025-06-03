@@ -12,10 +12,10 @@ import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { SORT } from '~/shared/config/sort.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { setError } from '~/shared/store/notificationSlice';
-import { RecipeCardList } from '~/shared/ui/RecipeCardList';
-import { FoundRecipes } from '~/widgets/foundRecipes';
-import { RelevantKitchen } from '~/widgets/RelevantKitchen';
-import { SearchPanel } from '~/widgets/SearchPanel';
+import { RecipeCardList } from '~/shared/ui/recipe-card-list';
+import { FoundRecipes } from '~/widgets/founded-recipes';
+import { RelevantKitchen } from '~/widgets/relevant-kitchen';
+import { SearchPanel } from '~/widgets/search-panel';
 
 export const JuiciestPage = () => {
     const [page, setPage] = useState(1);

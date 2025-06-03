@@ -7,7 +7,7 @@ import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.t
 import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setEmailVerificationModal } from '~/shared/store/notificationSlice';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
 
 import { useSignupMutation } from '../../../api/authApi';
 import {

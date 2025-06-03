@@ -2,8 +2,8 @@ import { Center, Flex, IconButton, Text } from '@chakra-ui/react';
 import { useMatch, useNavigate } from 'react-router';
 
 import { ROUTES } from '~/shared/config/routes.constants';
-import { BsPencil } from '~/shared/ui/Icons';
-import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/MiniButtons';
+import { BsPencil } from '~/shared/ui/icon';
+import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/mini-buttons';
 
 export const Sidebar = () => {
     const navigate = useNavigate();

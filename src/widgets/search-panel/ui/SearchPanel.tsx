@@ -8,8 +8,8 @@ import {
     selectSearchLoading,
 } from '~/features/recipe-filters';
 import { SearchInput } from '~/features/recipe-filters';
-import { AppSpiner } from '~/shared/ui/AppSpiner';
-import { AppDrawer } from '~/widgets/Drawer';
+import { AppSpiner } from '~/shared/ui/app-spiner';
+import { AppDrawer } from '~/widgets/drawer';
 
 import { DrawerToggle } from './AppDrawerToggle';
 

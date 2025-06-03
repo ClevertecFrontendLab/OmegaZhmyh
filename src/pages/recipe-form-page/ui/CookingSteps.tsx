@@ -2,7 +2,7 @@ import { Button, HStack, Icon, Text, VStack } from '@chakra-ui/react';
 import { FieldArray, useFormikContext } from 'formik';
 
 import { CreateRecipe } from '~/entities/Recipe';
-import { BsPlusCircleFill } from '~/shared/ui/Icons';
+import { BsPlusCircleFill } from '~/shared/ui/icon';
 
 import { BUTTONS, FORM_FIELDS } from './constants';
 import { StepItem } from './StepItem';

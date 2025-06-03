@@ -9,8 +9,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useMatches } from 'react-router';
 
-import { selectMainCategories, selectSubCategories } from '~/entities/Category';
-import { useGetRecipeByIdQuery } from '~/entities/Recipe';
+import { selectMainCategories, selectSubCategories } from '~/entities/category';
+import { useGetRecipeByIdQuery } from '~/entities/recipe';
 
 import { closeBurger } from '../model/slice';
 

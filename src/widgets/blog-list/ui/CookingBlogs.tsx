@@ -1,7 +1,7 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 
-import { CookingBlog } from '~/entities/CookingBlog';
+import { CookingBlog } from '~/entities/cooking-blog';
 
 export const CookingBlogs = () => (
     <Box

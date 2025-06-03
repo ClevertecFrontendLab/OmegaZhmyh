@@ -15,8 +15,7 @@ import { useState } from 'react';
 
 import { SignupRequest } from '~/features/auth/types/auth.types';
 import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
-import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
-import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
+import { BsEyeFill, BsEyeSlashFill } from '~/shared/ui/icon';
 
 import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
 
