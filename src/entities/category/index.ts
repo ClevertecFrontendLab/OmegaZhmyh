@@ -1,4 +1,5 @@
 export {
+    categorySlice,
     selectAllCategories,
     selectCategoryById,
     selectMainCategories,

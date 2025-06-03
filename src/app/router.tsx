@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router';
 
 import { AuthPage } from '~/pages/auth-page';
 import { VerificationPage } from '~/pages/auth-page/ui/VerificationPage';
+import { BlogPage } from '~/pages/blog-page';
 import { CuisinePage } from '~/pages/cuisine-page';
 import { ErrorPage } from '~/pages/error-page';
 import { JuiciestPage } from '~/pages/juiciest-page';
@@ -55,6 +56,11 @@ export const router = createBrowserRouter([
                         path: ROUTES.THE_JUICIEST,
                         element: <JuiciestPage />,
                         handle: { title: 'Самое сочное', path: ROUTES.THE_JUICIEST },
+                    },
+                    {
+                        path: ROUTES.BLOGS,
+                        element: <BlogPage />,
+                        handle: { title: 'Блоги', path: ROUTES.BLOGS },
                     },
                 ],
             },

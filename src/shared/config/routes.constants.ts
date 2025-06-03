@@ -12,4 +12,5 @@ export const ROUTES = {
     SIGN_UP: '/sign-up',
     VERIFICATION: '/verification',
     NOT_FOUND: '/not-found',
+    BLOGS: '/blogs',
 } as const;

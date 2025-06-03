@@ -1,7 +1,9 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Link } from 'react-router';
 
 import { CookingBlog } from '~/entities/cooking-blog';
+import { ROUTES } from '~/shared/config/routes.constants';
 
 export const CookingBlogs = () => (
     <Box
@@ -15,6 +17,8 @@ export const CookingBlogs = () => (
                 Кулинарные блоги
             </Text>
             <Button
+                as={Link}
+                to={ROUTES.BLOGS}
                 rightIcon={<ArrowForwardIcon />}
                 variant='ghost'
                 fontSize='xl'
