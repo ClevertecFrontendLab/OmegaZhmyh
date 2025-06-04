@@ -1,7 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-import { API_BASE_URL } from '~/shared/config/api-urls.constants';
-import { ApplicationState } from '~/shared/store/configure-store';
+import { yeedaaApi } from '~/shared/api/yeedaaApi';
 
 import {
     AuthResponse,
@@ -14,24 +11,14 @@ import {
 
 const TOKEN_KEY = 'token';
 
-export const authApi = createApi({
-    reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: API_BASE_URL,
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as ApplicationState).auth.token;
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`);
-            }
-            return headers;
-        },
-    }),
+export const authApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation<AuthResponse, LoginRequest>({
             query: (credentials) => ({
                 url: '/auth/login',
                 method: 'POST',
                 body: credentials,
+                credentials: 'include',
             }),
             transformResponse: (response: AuthResponse, meta) => {
                 const token = meta?.response?.headers.get('authentication-access');
@@ -47,6 +34,13 @@ export const authApi = createApi({
                 method: 'GET',
                 credentials: 'include',
             }),
+            transformResponse: (response: AuthResponse, meta) => {
+                const token = meta?.response?.headers.get('authentication-access');
+                if (token) {
+                    localStorage.setItem(TOKEN_KEY, token);
+                }
+                return response;
+            },
         }),
         signup: builder.mutation<AuthResponse, SignupRequest>({
             query: (userData) => ({

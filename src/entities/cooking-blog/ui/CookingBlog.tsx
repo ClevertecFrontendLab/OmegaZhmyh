@@ -5,6 +5,10 @@ import { UserCard } from '~/shared/ui/user-card';
 
 import { Bloger } from '../model/types';
 
+type CookingBlogProps = Bloger & {
+    action?: React.ReactNode;
+};
+
 export const CookingBlog = ({
     firstName = 'Имя',
     lastName = 'Фамилия',
@@ -13,7 +17,8 @@ export const CookingBlog = ({
     newRecipesCount = 0,
     bookmarksCount = 0,
     subscribersCount = 0,
-}: Partial<Bloger>) => {
+    action,
+}: CookingBlogProps) => {
     const { text } = notes?.[0] ?? {};
     const userName = `${firstName} ${lastName}`;
 
@@ -37,9 +42,7 @@ export const CookingBlog = ({
             </Text>
             <HStack mt='16px' justifyContent='space-between'>
                 <HStack>
-                    <Button size='xs' variant='solid' bgColor='lime.400'>
-                        Рецепты
-                    </Button>
+                    {action && action}
                     <Button size='xs' variant='outline'>
                         Читать
                     </Button>

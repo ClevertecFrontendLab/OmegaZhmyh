@@ -1,7 +1,8 @@
-import { Heading } from '@chakra-ui/react';
+import { Button, Heading } from '@chakra-ui/react';
 
 import { useGetAllBloggersQuery } from '~/entities/cooking-blog';
 import { selectUserId } from '~/features/auth';
+import { useRefreshTokenMutation } from '~/features/auth/api/authApi';
 import { useAppSelector } from '~/shared/store/hooks';
 import { FavoriteBlogs } from '~/widgets/favorite-blogs';
 import { OtherBlogs } from '~/widgets/other-blogs';
@@ -13,10 +14,14 @@ export const BlogPage = () => {
         currentUserId: currentUserId ?? '',
     });
 
+    const [refreshToken] = useRefreshTokenMutation();
+
+    const favoriteBlogs = data?.favorites || [];
     const otherBlogs = data?.others || [];
 
     return (
         <div>
+            <Button onClick={() => refreshToken()}>Refresh</Button>
             <Heading
                 fontSize={{ base: '2xl', lg: '5xl' }}
                 textAlign='center'
@@ -24,7 +29,7 @@ export const BlogPage = () => {
             >
                 Кулинарные блоги
             </Heading>
-            <FavoriteBlogs blogers={otherBlogs} mt='24px' />
+            <FavoriteBlogs blogers={favoriteBlogs} mt='24px' />
             <OtherBlogs blogers={otherBlogs} mt={{ base: '32px', lg: '40px' }} />
         </div>
     );

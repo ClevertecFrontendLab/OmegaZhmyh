@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 import { NavLink } from 'react-router';
 
-import { SubCategory } from '~/entities/Category/types';
+import { SubCategory } from '~/entities/category/types';
 
 import navlinkStyles from './navlink.module.css';
 

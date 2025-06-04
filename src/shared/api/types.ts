@@ -1,5 +1,5 @@
-import { MainCategory, SubCategory } from '~/entities/Category/types';
-import { Recipe } from '~/features/types';
+import { MainCategory, SubCategory } from '~/entities/category/types';
+import { Recipe } from '~/entities/recipe';
 
 export type Meta = {
     total: number;

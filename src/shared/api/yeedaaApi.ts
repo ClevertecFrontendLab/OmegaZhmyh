@@ -1,13 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { setCategories } from '~/entities/Category/model/slice';
-import { SubCategory } from '~/entities/Category/types';
-import { MainCategory } from '~/entities/Category/types';
+import { setCategories } from '~/entities/category/model/slice';
+import { MainCategory, SubCategory } from '~/entities/category/types';
 
 import { API_BASE_URL } from '../config/api-urls.constants';
 import { setCategoriesLoading } from '../store/app-slice';
 import { ApplicationState } from '../store/configure-store';
 import { CategoriesResponse, ImageUploadResponse, MeasureUnit } from './types';
+
+export const TAG_TYPES = {
+    RECIPE: 'Recipe',
+    RECIPE_LIST: 'RecipeList',
+    BOOKMARK: 'Bookmark',
+    LIKE: 'Like',
+    SUBSCRIPTION: 'Subscription',
+};
 
 export const yeedaaApi = createApi({
     reducerPath: 'yeedaaApi',
@@ -21,7 +28,7 @@ export const yeedaaApi = createApi({
             return headers;
         },
     }),
-
+    tagTypes: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE, TAG_TYPES.SUBSCRIPTION],
     endpoints: (builder) => ({
         getCategories: builder.query<CategoriesResponse, void>({
             query: () => '/category',

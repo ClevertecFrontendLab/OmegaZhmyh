@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router';
 
-import { MainCategory } from '~/entities/Category/types';
+import { MainCategory } from '~/entities/category/types';
 import { useGetCategoriesQuery } from '~/shared/api/yeedaaApi';
 
 export const CategoryValidator = ({ children }: { children: React.ReactNode }) => {
