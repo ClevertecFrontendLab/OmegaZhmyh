@@ -23,16 +23,23 @@ export const BloggerProfilePage = () => {
 
     const { data: recipesByBlogger } = useGetRecipeByUserIdQuery(bloggerId);
 
-    const { _id = '' } = blogger ?? {};
+    const { bloggerInfo, isFavorite } = blogger ?? {};
+    const { _id = '' } = bloggerInfo ?? {};
     return (
         <Box py='16px'>
             <BloggerProfileHeader
-                imgUrl='https://via.placeholder.com/150'
+                imgUrl=''
                 userName='John Doe'
                 accountName='@john_doe'
                 bookmarksCount={100}
                 subscribersCount={1000}
-                action={<SubscribeButton fromUserId={currentUserId} toUserId={_id} />}
+                action={
+                    <SubscribeButton
+                        fromUserId={currentUserId}
+                        toUserId={_id}
+                        isFavorite={isFavorite ?? false}
+                    />
+                }
             />
             <RecipeCardList recipes={recipesByBlogger?.recipes} />
         </Box>

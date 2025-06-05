@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
 
-import { Bloger } from '../model/types';
+import { Bloger } from '../types';
 
 type CookingBlogProps = Pick<
     Bloger,

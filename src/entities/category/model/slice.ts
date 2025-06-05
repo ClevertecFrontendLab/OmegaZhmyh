@@ -1,7 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CategoriesResponse } from '~/shared/api/types';
-
+import { CategoriesResponse } from '../types';
 import { CategoryState, MainCategory, SubCategory } from '../types';
 
 export const initialState: CategoryState = {

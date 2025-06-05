@@ -1,26 +1,31 @@
 import { Button, Icon } from '@chakra-ui/react';
 
-import { BsPersonPlusFill } from '~/shared/ui/icon';
+import { BsPersonCheck, BsPersonPlusFill } from '~/shared/ui/icon';
 
 import { SupscriptionRequest, useGetSupscriptionMutation } from '../api/supscription';
 
-export const SubscribeButton = ({ fromUserId, toUserId }: SupscriptionRequest) => {
+type SubscribeButtonProps = SupscriptionRequest & {
+    isFavorite: boolean;
+};
+export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeButtonProps) => {
     const [getSupscription] = useGetSupscriptionMutation();
 
     const handleSubscribe = () => {
-        getSupscription({ fromUserId, toUserId });
+        if (fromUserId && toUserId) {
+            getSupscription({ fromUserId, toUserId });
+        }
     };
 
     return (
         <Button
-            leftIcon={<Icon as={BsPersonPlusFill} />}
+            leftIcon={isFavorite ? <Icon as={BsPersonCheck} /> : <Icon as={BsPersonPlusFill} />}
             size='xs'
-            variant='solid'
-            bgColor='black'
-            color='white'
+            variant={isFavorite ? 'outline' : 'solid'}
+            bgColor={isFavorite ? 'white' : 'black'}
+            color={isFavorite ? 'black' : 'white'}
             onClick={handleSubscribe}
         >
-            Подписаться
+            {isFavorite ? 'Вы подписаны' : 'Подписаться'}
         </Button>
     );
 };

@@ -1,5 +1,3 @@
-import { CategoriesResponse } from '~/shared/api/types';
-
 export type CategoryState = {
     mainCategories: MainCategory[];
     subCategories: SubCategory[];
@@ -21,3 +19,4 @@ export type MainCategory = BaseCategory & {
 export type SubCategory = BaseCategory & {
     rootCategoryId: string;
 };
+export type CategoriesResponse = (MainCategory | SubCategory)[];

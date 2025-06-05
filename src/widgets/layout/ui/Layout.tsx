@@ -1,7 +1,7 @@
 import { Container, Flex } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-import { useGetCategoriesQuery } from '~/shared/api/yeedaaApi';
+import { useGetCategoriesQuery } from '~/entities/category';
 
 import { BurgerMenu } from './BurgerMenu';
 import { Header } from './Header';

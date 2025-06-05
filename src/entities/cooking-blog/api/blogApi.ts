@@ -1,21 +1,11 @@
 import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
 
-import { Bloger } from '../model/types';
-
-export type AllBlogersResponse = Partial<{
-    favorites: Bloger[];
-    others: Bloger[];
-}>;
-
-type AllBlogersRequest = {
-    limit: number;
-    currentUserId: string;
-};
-
-type BlogerByIdRequest = {
-    bloggerId: string;
-    currentUserId: string;
-};
+import {
+    AllBlogersRequest,
+    AllBlogersResponse,
+    BlogerByIdRequest,
+    BloggerByIdResponse,
+} from '../types';
 
 export const blogApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -26,7 +16,7 @@ export const blogApi = yeedaaApi.injectEndpoints({
             }),
             providesTags: [TAG_TYPES.SUBSCRIPTION],
         }),
-        getBloggerById: builder.query<Bloger, BlogerByIdRequest>({
+        getBloggerById: builder.query<BloggerByIdResponse, BlogerByIdRequest>({
             query: ({ bloggerId, currentUserId }) => ({
                 url: `/bloggers/${bloggerId}`,
                 params: {
@@ -34,6 +24,7 @@ export const blogApi = yeedaaApi.injectEndpoints({
                     currentUserId,
                 },
             }),
+            providesTags: [TAG_TYPES.SUBSCRIPTION],
         }),
     }),
 });

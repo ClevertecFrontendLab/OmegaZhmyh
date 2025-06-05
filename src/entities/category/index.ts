@@ -1,3 +1,4 @@
+export { useGetCategoriesQuery, useGetCategoryByIdQuery } from './api/categoryApi';
 export {
     categorySlice,
     selectAllCategories,

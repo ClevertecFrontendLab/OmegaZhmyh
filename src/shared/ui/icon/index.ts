@@ -15,6 +15,7 @@ export { BsHouse } from './ui/BsHouse';
 export { BsPencil } from './ui/BsPencil';
 export { BsPeople } from './ui/BsPeople';
 export { BsPeopleFill } from './ui/BsPeopleFill';
+export { BsPersonCheck } from './ui/BsPersonCheck';
 export { BsPersonPlusFill } from './ui/BsPersonPlusFill';
 export { BsPlusCircle } from './ui/BsPlusCircle';
 export { BsPlusCircleFill } from './ui/BsPlusCircleFill';

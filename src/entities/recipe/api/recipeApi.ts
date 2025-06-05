@@ -1,11 +1,11 @@
+import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
+
 import {
     GetRecipeBySubategoryParams,
     GetRecipesParams,
     RecipeResponse,
     RecipeResponseByUser,
-} from '~/shared/api/types';
-import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
-
+} from '../model/types';
 import { CreateRecipe, Recipe } from '../model/types';
 
 export const recipeApi = yeedaaApi.injectEndpoints({

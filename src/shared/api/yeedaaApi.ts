@@ -1,12 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { setCategories } from '~/entities/category/model/slice';
-import { MainCategory, SubCategory } from '~/entities/category/types';
-
 import { API_BASE_URL } from '../config/api-urls.constants';
-import { setCategoriesLoading } from '../store/app-slice';
 import { ApplicationState } from '../store/configure-store';
-import { CategoriesResponse, ImageUploadResponse, MeasureUnit } from './types';
+import { ImageUploadResponse, MeasureUnit } from './types';
 
 export const TAG_TYPES = {
     RECIPE: 'Recipe',
@@ -30,24 +26,6 @@ export const yeedaaApi = createApi({
     }),
     tagTypes: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE, TAG_TYPES.SUBSCRIPTION],
     endpoints: (builder) => ({
-        getCategories: builder.query<CategoriesResponse, void>({
-            query: () => '/category',
-            keepUnusedDataFor: Infinity,
-            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-                try {
-                    dispatch(setCategoriesLoading(true));
-                    const { data } = await queryFulfilled;
-                    if (Array.isArray(data)) {
-                        dispatch(setCategories(data));
-                    }
-                } finally {
-                    dispatch(setCategoriesLoading(false));
-                }
-            },
-        }),
-        getCategoryById: builder.query<MainCategory | SubCategory, string>({
-            query: (id) => `/category/${id}`,
-        }),
         getMeasureUnits: builder.query<MeasureUnit[], void>({
             query: () => '/measure-units',
             keepUnusedDataFor: Infinity,
@@ -66,9 +44,4 @@ export const yeedaaApi = createApi({
     }),
 });
 
-export const {
-    useGetCategoriesQuery,
-    useGetCategoryByIdQuery,
-    useGetMeasureUnitsQuery,
-    useUploadImageMutation,
-} = yeedaaApi;
+export const { useGetMeasureUnitsQuery, useUploadImageMutation } = yeedaaApi;
