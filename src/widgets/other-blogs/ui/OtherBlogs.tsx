@@ -2,6 +2,7 @@ import { Box, BoxProps, Grid } from '@chakra-ui/react';
 
 import { CookingBlog } from '~/entities/cooking-blog';
 import { Bloger } from '~/entities/cooking-blog';
+import { UserCard } from '~/entities/user';
 import { selectUserId } from '~/features/auth';
 import { SubscribeButton } from '~/features/supscription';
 import { useAppSelector } from '~/shared/store/hooks';
@@ -24,18 +25,30 @@ export const OtherBlogs = ({ blogers, ...boxProps }: OtherBlogsProps) => {
                 gap={4}
                 mt={{ base: '12px', lg: '16px' }}
             >
-                {blogers.map((bloger) => (
-                    <CookingBlog
-                        key={bloger._id}
-                        action={
-                            currentUserId &&
-                            bloger._id && (
-                                <SubscribeButton fromUserId={currentUserId} toUserId={bloger._id} />
-                            )
-                        }
-                        {...bloger}
-                    />
-                ))}
+                {blogers.map((bloger) => {
+                    const { firstName, lastName, login } = bloger;
+                    return (
+                        <CookingBlog
+                            key={bloger._id}
+                            user={
+                                <UserCard
+                                    userName={`${firstName} ${lastName}`}
+                                    accountName={`@${login}`}
+                                />
+                            }
+                            action={
+                                currentUserId &&
+                                bloger._id && (
+                                    <SubscribeButton
+                                        fromUserId={currentUserId}
+                                        toUserId={bloger._id}
+                                    />
+                                )
+                            }
+                            {...bloger}
+                        />
+                    );
+                })}
             </Grid>
         </Box>
     );

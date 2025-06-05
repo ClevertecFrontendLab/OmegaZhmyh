@@ -1,4 +1,9 @@
-import { GetRecipeBySubategoryParams, GetRecipesParams, RecipeResponse } from '~/shared/api/types';
+import {
+    GetRecipeBySubategoryParams,
+    GetRecipesParams,
+    RecipeResponse,
+    RecipeResponseByUser,
+} from '~/shared/api/types';
 import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
 
 import { CreateRecipe, Recipe } from '../model/types';
@@ -19,11 +24,11 @@ export const recipeApi = yeedaaApi.injectEndpoints({
             }),
             providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
-        getRecipeById: builder.query<Recipe, string>({
+        getRecipeById: builder.query<RecipeResponse, string>({
             query: (id) => `/recipe/${id}`,
             providesTags: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
-        getRecipeByUserId: builder.query<Recipe[], string>({
+        getRecipeByUserId: builder.query<RecipeResponseByUser, string>({
             query: (userId) => `/recipe/user/${userId}`,
             providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),

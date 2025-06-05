@@ -7,7 +7,7 @@ import { useAppSelector } from '~/shared/store/hooks';
 import { FavoriteBlogs } from '~/widgets/favorite-blogs';
 import { OtherBlogs } from '~/widgets/other-blogs';
 
-export const BlogPage = () => {
+export const BlogsPage = () => {
     const currentUserId = useAppSelector(selectUserId);
     const { data } = useGetAllBloggersQuery({
         limit: 10,

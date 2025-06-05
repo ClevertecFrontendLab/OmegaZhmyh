@@ -2,7 +2,8 @@ import { createBrowserRouter } from 'react-router';
 
 import { AuthPage } from '~/pages/auth-page';
 import { VerificationPage } from '~/pages/auth-page/ui/VerificationPage';
-import { BlogPage } from '~/pages/blog-page';
+import { BloggerProfilePage } from '~/pages/blogger-profile-page/ui/BloggerProfilePage';
+import { BlogsPage } from '~/pages/blogs-page';
 import { CuisinePage } from '~/pages/cuisine-page';
 import { ErrorPage } from '~/pages/error-page';
 import { JuiciestPage } from '~/pages/juiciest-page';
@@ -59,8 +60,12 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: ROUTES.BLOGS,
-                        element: <BlogPage />,
+                        element: <BlogsPage />,
                         handle: { title: 'Блоги', path: ROUTES.BLOGS },
+                    },
+                    {
+                        path: ROUTES.BLOGGER_PROFILE,
+                        element: <BloggerProfilePage />,
                     },
                 ],
             },

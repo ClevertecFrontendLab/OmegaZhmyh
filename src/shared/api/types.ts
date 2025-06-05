@@ -13,6 +13,17 @@ export type RecipeResponse = Partial<{
     meta: Meta;
 }>;
 
+export type RecipeResponseByUser = Partial<{
+    recipes: Recipe[];
+    totalBookmarks: number;
+    totalSubscribers: number;
+    userId: string;
+    notes: {
+        date: string;
+        text: string;
+    }[];
+}>;
+
 export type CategoriesResponse = (MainCategory | SubCategory)[];
 
 export type GetRecipesParams = Partial<{

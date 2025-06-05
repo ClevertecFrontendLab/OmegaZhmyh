@@ -3,10 +3,10 @@ import { Box, Flex, IconButton, Image } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
+import { UserCard } from '~/entities/user';
 import Logo from '~/shared/assets/logo.svg';
 import MobileLogo from '~/shared/assets/mobile-logo.svg';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/mini-buttons';
-import { UserCard } from '~/shared/ui/user-card';
 
 import { selectIsBurgerOpen, toggleBurger } from '../model/slice';
 import { Breadcrumbs } from './Breadcrumb';

@@ -1,26 +1,28 @@
 import { Box, Button, HStack, Tag, Text } from '@chakra-ui/react';
+import { Link } from 'react-router';
 
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
-import { UserCard } from '~/shared/ui/user-card';
 
 import { Bloger } from '../model/types';
 
-type CookingBlogProps = Bloger & {
+type CookingBlogProps = Pick<
+    Bloger,
+    'notes' | 'newRecipesCount' | 'bookmarksCount' | 'subscribersCount' | '_id'
+> & {
     action?: React.ReactNode;
+    user: React.ReactNode;
 };
 
 export const CookingBlog = ({
-    firstName = 'Имя',
-    lastName = 'Фамилия',
-    login = 'логин',
+    _id,
+    user,
     notes,
-    newRecipesCount = 0,
-    bookmarksCount = 0,
-    subscribersCount = 0,
+    newRecipesCount,
+    bookmarksCount,
+    subscribersCount,
     action,
 }: CookingBlogProps) => {
     const { text } = notes?.[0] ?? {};
-    const userName = `${firstName} ${lastName}`;
 
     return (
         <Box
@@ -29,21 +31,23 @@ export const CookingBlog = ({
             bgColor='white'
             borderRadius='8px'
         >
-            <Tag
-                position='absolute'
-                top={{ base: '4px', lg: '8px' }}
-                right={{ base: '4px', lg: '8px' }}
-            >
-                {newRecipesCount} новый рецепт
-            </Tag>
-            <UserCard userName={userName} accountName={`@${login}`}></UserCard>
+            {newRecipesCount === undefined ? null : (
+                <Tag
+                    position='absolute'
+                    top={{ base: '4px', lg: '8px' }}
+                    right={{ base: '4px', lg: '8px' }}
+                >
+                    {newRecipesCount} новый рецепт
+                </Tag>
+            )}
+            {user && user}
             <Text marginTop={{ base: '12px' }} fontSize='sm' lineHeight='21px' noOfLines={3}>
                 {text}
             </Text>
             <HStack mt='16px' justifyContent='space-between'>
                 <HStack>
                     {action && action}
-                    <Button size='xs' variant='outline'>
+                    <Button as={Link} to={`/blogs/${_id}`} size='xs' variant='outline'>
                         Читать
                     </Button>
                 </HStack>
