@@ -8,6 +8,7 @@ import { SubscribeButton } from '~/features/supscription';
 import { useAppSelector } from '~/shared/store/hooks';
 import { RecipeCardList } from '~/shared/ui/recipe-card-list';
 import { BloggerProfileHeader } from '~/widgets/blogger-profile-header';
+import { NoteList } from '~/widgets/notes';
 
 export const BloggerProfilePage = () => {
     const { bloggerId = '' } = useParams();
@@ -42,6 +43,7 @@ export const BloggerProfilePage = () => {
                 }
             />
             <RecipeCardList recipes={recipesByBlogger?.recipes} />
+            <NoteList limit={3} notes={blogger?.bloggerInfo?.notes ?? []} />
         </Box>
     );
 };

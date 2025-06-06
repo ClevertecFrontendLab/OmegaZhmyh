@@ -1,4 +1,5 @@
-import { Box, BoxProps, Grid, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Button, Grid, Text } from '@chakra-ui/react';
+import { Link } from 'react-router';
 
 import { CookingBlog } from '~/entities/cooking-blog';
 import { Bloger } from '~/entities/cooking-blog';
@@ -28,6 +29,19 @@ export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
                                 accountName={`@${login}`}
                             />
                         }
+                        isFavorite
+                        action={
+                            <Button
+                                as={Link}
+                                to={`/blogs/${_id}`}
+                                size='xs'
+                                variant='solid'
+                                bgColor='lime.400'
+                            >
+                                Рецепты
+                            </Button>
+                        }
+                        {...bloger}
                     />
                 );
             })}

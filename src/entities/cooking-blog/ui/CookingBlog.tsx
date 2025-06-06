@@ -11,6 +11,7 @@ type CookingBlogProps = Pick<
 > & {
     action?: React.ReactNode;
     user: React.ReactNode;
+    isFavorite?: boolean;
 };
 
 export const CookingBlog = ({
@@ -20,6 +21,7 @@ export const CookingBlog = ({
     newRecipesCount,
     bookmarksCount,
     subscribersCount,
+    isFavorite,
     action,
 }: CookingBlogProps) => {
     const { text } = notes?.[0] ?? {};
@@ -28,10 +30,11 @@ export const CookingBlog = ({
         <Box
             position='relative'
             padding={{ base: '16px', lg: '24px' }}
+            paddingTop='24px'
             bgColor='white'
             borderRadius='8px'
         >
-            {newRecipesCount === undefined ? null : (
+            {newRecipesCount && isFavorite ? (
                 <Tag
                     position='absolute'
                     top={{ base: '4px', lg: '8px' }}
@@ -39,7 +42,7 @@ export const CookingBlog = ({
                 >
                     {newRecipesCount} новый рецепт
                 </Tag>
-            )}
+            ) : null}
             {user && user}
             <Text marginTop={{ base: '12px' }} fontSize='sm' lineHeight='21px' noOfLines={3}>
                 {text}
@@ -47,7 +50,14 @@ export const CookingBlog = ({
             <HStack mt='16px' justifyContent='space-between'>
                 <HStack>
                     {action && action}
-                    <Button as={Link} to={`/blogs/${_id}`} size='xs' variant='outline'>
+                    <Button
+                        as={Link}
+                        to={`/blogs/${_id}`}
+                        size='xs'
+                        variant='outline'
+                        color='lime.600'
+                        borderColor='lime.600'
+                    >
                         Читать
                     </Button>
                 </HStack>

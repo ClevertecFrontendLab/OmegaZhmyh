@@ -8,7 +8,7 @@ export type UserCardProps = {
 
 export const UserCard = ({ userName, accountName, avatarImg }: UserCardProps) => (
     <Flex flex='1' gap={{ base: 2, lg: 3 }} alignItems='center' flexWrap='nowrap'>
-        <Avatar name={userName} size={{ base: 'sm', lg: 'md' }} src={avatarImg} />
+        <Avatar name={userName} size='md' src={avatarImg} />
         <Box>
             <Text
                 fontWeight='500'

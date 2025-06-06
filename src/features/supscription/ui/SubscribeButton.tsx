@@ -5,9 +5,13 @@ import { BsPersonCheck, BsPersonPlusFill } from '~/shared/ui/icon';
 import { SupscriptionRequest, useGetSupscriptionMutation } from '../api/supscription';
 
 type SubscribeButtonProps = SupscriptionRequest & {
-    isFavorite: boolean;
+    isFavorite?: boolean;
 };
-export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeButtonProps) => {
+export const SubscribeButton = ({
+    fromUserId,
+    toUserId,
+    isFavorite = false,
+}: SubscribeButtonProps) => {
     const [getSupscription] = useGetSupscriptionMutation();
 
     const handleSubscribe = () => {
