@@ -24,7 +24,7 @@ export const recipeApi = yeedaaApi.injectEndpoints({
             }),
             providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
-        getRecipeById: builder.query<RecipeResponse, string>({
+        getRecipeById: builder.query<Recipe, string>({
             query: (id) => `/recipe/${id}`,
             providesTags: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),

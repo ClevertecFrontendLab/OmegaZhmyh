@@ -1,5 +1,6 @@
 import { yeedaaApi } from '~/shared/api/yeedaaApi';
 
+import { setCredentials } from '../model/authSlice';
 import {
     AuthResponse,
     ForgotPasswordRequest,
@@ -20,12 +21,13 @@ export const authApi = yeedaaApi.injectEndpoints({
                 body: credentials,
                 credentials: 'include',
             }),
-            transformResponse: (response: AuthResponse, meta) => {
+            onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
+                const { meta } = await queryFulfilled;
                 const token = meta?.response?.headers.get('authentication-access');
                 if (token) {
                     localStorage.setItem(TOKEN_KEY, token);
+                    dispatch(setCredentials({ token }));
                 }
-                return response;
             },
         }),
         refreshToken: builder.mutation<AuthResponse, void>({

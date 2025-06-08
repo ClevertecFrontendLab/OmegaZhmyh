@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Text, VStack } from '@chakra-ui/react';
+import { Button, Center, Grid, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { Note } from '~/entities/cooking-blog';
@@ -19,18 +19,40 @@ export const NoteList = ({ notes }: NoteListProps) => {
     };
 
     return (
-        <VStack gap='16px' padding='16px' mt='24px' bgColor='blackAlpha.50' borderRadius='16px'>
+        <VStack
+            id='notes'
+            gap='16px'
+            padding='16px'
+            mt='24px'
+            bgColor='blackAlpha.50'
+            borderRadius='16px'
+            data-test-id='blog-notes-box'
+        >
             <Text alignSelf='start' fontSize={{ base: 'xl', lg: '4xl' }}>
-                Заметки ({notes.length})
+                Заметки <span data-test-id='blogger-user-notes-count'>({notes.length})</span>
             </Text>
-            <Flex flexDirection={{ base: 'column', md: 'row' }} gap={{ base: '12px', lg: '16px' }}>
-                {notes.slice(0, isShowMore ? notes.length : NOTES_PREVIEW_LIMIT).map((note) => (
-                    <Note key={note.date} date={String(note.date)} text={String(note.text)} />
+            <Grid
+                templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
+                gap={{ base: '12px', lg: '16px' }}
+                data-test-id='blogger-user-notes-grid'
+            >
+                {notes.map((note, index) => (
+                    <Note
+                        key={note.date}
+                        date={String(note.date)}
+                        text={String(note.text)}
+                        isDisplayed={isShowMore || index < NOTES_PREVIEW_LIMIT}
+                    />
                 ))}
-            </Flex>
+            </Grid>
             <Center>
                 {notes.length > NOTES_PREVIEW_LIMIT && (
-                    <Button variant='ghost' colorScheme='black' onClick={handleShowMore}>
+                    <Button
+                        variant='ghost'
+                        colorScheme='black'
+                        onClick={handleShowMore}
+                        data-test-id='blogger-user-notes-button'
+                    >
                         {isShowMore ? 'Свернуть' : 'Показать больше'}
                     </Button>
                 )}

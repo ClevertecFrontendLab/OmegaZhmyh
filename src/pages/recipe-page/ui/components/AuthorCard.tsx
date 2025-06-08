@@ -1,16 +1,16 @@
 import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react';
 
+import { BloggerInfo } from '~/entities/cooking-blog/types';
 import SergeyImg from '~/shared/assets/avatar_img/@serge25.png';
-import { BsPeople, BsPersonPlusFill } from '~/shared/ui/icon';
+import { BsPeople } from '~/shared/ui/icon';
 
-type AuthorCardProps = {
-    image?: string;
-    name?: string;
-    accountName?: string;
+type AuthorBlogProps = {
+    blog: Pick<BloggerInfo, 'firstName' | 'lastName' | 'login' | 'subscribers'>;
+    action: React.ReactNode;
 };
 
-export const AuthorCard = (props: AuthorCardProps) => {
-    const { name = 'Сергей Разумов', image = SergeyImg, accountName = '@serge25' } = props;
+export const AuthorBlog = ({ blog, action }: AuthorBlogProps) => {
+    const { subscribers, firstName, lastName, login } = blog;
     return (
         <Card
             direction='row'
@@ -20,7 +20,7 @@ export const AuthorCard = (props: AuthorCardProps) => {
             bgColor='lime.300'
             marginTop={{ base: '24px', lg: '40px' }}
         >
-            <Avatar src={image} boxSize='96px' />
+            <Avatar src={SergeyImg} boxSize='96px' />
             <Flex direction='column' justifyContent='end' flexGrow={1}>
                 <Text
                     position='absolute'
@@ -32,18 +32,16 @@ export const AuthorCard = (props: AuthorCardProps) => {
                 </Text>
                 <Box>
                     <Text fontSize={{ base: 'lg', md: '2xl' }} fontWeight='bold'>
-                        {name}
+                        {firstName} {lastName}
                     </Text>
                     <Text color='blackAlpha.700' fontSize='sm'>
-                        {accountName}
+                        {login}
                     </Text>
                 </Box>
                 <HStack marginTop='16px' justifyContent='space-between'>
-                    <Button size='xs' bgColor='black' color='white' leftIcon={<BsPersonPlusFill />}>
-                        Подписаться
-                    </Button>
+                    {action}
                     <Button size='xs' leftIcon={<BsPeople />} variant='ghost'>
-                        125
+                        {subscribers}
                     </Button>
                 </HStack>
             </Flex>

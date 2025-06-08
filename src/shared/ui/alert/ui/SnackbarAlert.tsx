@@ -27,8 +27,10 @@ export const SnackbarAlert = () => {
         >
             <AlertIcon />
             <Box>
-                <Text fontWeight='medium'>{title}</Text>
-                <Text>{message}</Text>
+                <Text fontWeight='medium' data-test-id='error-notification-title'>
+                    {title}
+                </Text>
+                <Text data-test-id='error-notification-description'>{message}</Text>
             </Box>
             <CloseButton
                 alignSelf='flex-start'

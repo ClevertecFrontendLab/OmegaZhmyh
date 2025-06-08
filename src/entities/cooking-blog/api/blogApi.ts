@@ -12,7 +12,7 @@ export const blogApi = yeedaaApi.injectEndpoints({
         getAllBloggers: builder.query<AllBlogersResponse, AllBlogersRequest>({
             query: ({ limit, currentUserId }) => ({
                 url: '/bloggers',
-                params: { limit, currentUserId },
+                params: { currentUserId, limit },
             }),
             providesTags: [TAG_TYPES.SUBSCRIPTION],
         }),
@@ -20,7 +20,6 @@ export const blogApi = yeedaaApi.injectEndpoints({
             query: ({ bloggerId, currentUserId }) => ({
                 url: `/bloggers/${bloggerId}`,
                 params: {
-                    bloggerId,
                     currentUserId,
                 },
             }),

@@ -33,18 +33,26 @@ export const CookingBlog = ({
             paddingTop='24px'
             bgColor='white'
             borderRadius='8px'
+            data-test-id='blogs-card'
         >
             {newRecipesCount && isFavorite ? (
                 <Tag
                     position='absolute'
                     top={{ base: '4px', lg: '8px' }}
                     right={{ base: '4px', lg: '8px' }}
+                    data-test-id='blogs-card-new-recipes-badge'
                 >
-                    {newRecipesCount} новый рецепт
+                    {newRecipesCount} новых рецептов
                 </Tag>
             ) : null}
             {user && user}
-            <Text marginTop={{ base: '12px' }} fontSize='sm' lineHeight='21px' noOfLines={3}>
+            <Text
+                marginTop={{ base: '12px' }}
+                fontSize='sm'
+                lineHeight='21px'
+                noOfLines={3}
+                data-test-id='blogs-card-notes-text'
+            >
                 {text}
             </Text>
             <HStack mt='16px' justifyContent='space-between'>
@@ -52,11 +60,12 @@ export const CookingBlog = ({
                     {action && action}
                     <Button
                         as={Link}
-                        to={`/blogs/${_id}`}
+                        to={`/blogs/${_id}#notes`}
                         size='xs'
                         variant='outline'
                         color='lime.600'
                         borderColor='lime.600'
+                        data-test-id='blogs-card-notes-button'
                     >
                         Читать
                     </Button>

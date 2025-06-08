@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/category';
+import { useGetBloggerByIdQuery } from '~/entities/cooking-blog';
 import {
     useBookmarkRecipeMutation,
     useDeleteRecipeMutation,
@@ -39,23 +40,32 @@ import { RecipeTags } from '~/shared/ui/recipe-tags';
 import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 import { NewRecipes } from '~/widgets/new-recipes';
 
-import { AuthorCard } from './components/AuthorCard';
+import { AuthorBlog } from './components/AuthorCard';
 import { CookingSteps } from './components/CookingSteps';
 import { IngredientsList } from './components/IngredientsList';
 import { NutrientBlock } from './components/NutrientBlock';
 
 export const RecipePage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { id } = useParams();
+    const userId = useAppSelector(selectUserId);
+
     const { data: recipe, isError, isLoading } = useGetRecipeByIdQuery(id as string);
+    const { data: authorBlog } = useGetBloggerByIdQuery(
+        { bloggerId: recipe?.authorId as string, currentUserId: userId as string },
+        { skip: !recipe?.authorId },
+    );
+
     const [deleteRecipe] = useDeleteRecipeMutation();
+
     const [likeRecipe] = useLikeRecipeMutation();
+
     const [bookmarkRecipe] = useBookmarkRecipeMutation();
 
-    const dispatch = useDispatch();
-    const userId = useAppSelector(selectUserId);
     const mainCategories = useAppSelector(selectMainCategories);
     const subCategories = useAppSelector(selectSubCategories);
+
     const { handleError } = useErrorAlert();
 
     useEffect(() => {
@@ -262,7 +272,12 @@ export const RecipePage = () => {
             >
                 <IngredientsList ingredients={ingredients} portions={portions} />
                 <CookingSteps steps={steps} />
-                <AuthorCard />
+                {authorBlog?.bloggerInfo && (
+                    <AuthorBlog
+                        blog={authorBlog.bloggerInfo}
+                        action={<Button>Подписаться</Button>}
+                    />
+                )}
             </Container>
             <Box marginTop={{ base: '40px', lg: '56px' }}>
                 <NewRecipes />

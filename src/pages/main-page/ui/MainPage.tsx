@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import { useGetRecipesQuery } from '~/entities/recipe/';
 import { selectCountSearchedRecipes } from '~/features/recipe-filters';
 import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { SORT } from '~/shared/config/sort.constants';
 import { setError } from '~/shared/store/notificationSlice';
 import { RecipeCardList } from '~/shared/ui/recipe-card-list';
@@ -87,7 +88,7 @@ export const MainPage = () => {
                         justifyContent='center'
                         data-test-id='juiciest-link-mobile'
                     >
-                        <Link to='/the-juiciest'>
+                        <Link to={ROUTES.THE_JUICIEST}>
                             <Button
                                 margin='12px auto 0 auto'
                                 color='black'

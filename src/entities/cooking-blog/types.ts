@@ -31,8 +31,8 @@ export type BloggerInfo = Partial<{
 }>;
 
 export type AllBlogersRequest = {
-    limit: number;
     currentUserId: string;
+    limit?: number | string;
 };
 
 export type AllBlogersResponse = Partial<{
@@ -40,12 +40,12 @@ export type AllBlogersResponse = Partial<{
     others: Bloger[];
 }>;
 
-export type BloggerByIdResponse = Partial<{
+export type BloggerByIdResponse = {
     bloggerInfo: BloggerInfo;
     totalSubscribers: number;
     totalBookmarks: number;
     isFavorite: boolean;
-}>;
+};
 
 export type BlogerByIdRequest = {
     bloggerId: string;

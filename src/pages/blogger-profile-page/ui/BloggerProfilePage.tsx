@@ -1,20 +1,34 @@
-import { Box } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router';
 
-import { useGetBloggerByIdQuery } from '~/entities/cooking-blog';
+import {
+    CookingBlog,
+    useGetAllBloggersQuery,
+    useGetBloggerByIdQuery,
+} from '~/entities/cooking-blog';
 import { useGetRecipeByUserIdQuery } from '~/entities/recipe/api/recipeApi';
+import { UserCard } from '~/entities/user';
 import { selectUserId } from '~/features/auth';
+import { isErrorResponse } from '~/features/auth/types/auth.types';
 import { SubscribeButton } from '~/features/supscription';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
 import { useAppSelector } from '~/shared/store/hooks';
+import { useErrorAlert } from '~/shared/ui/alert';
 import { RecipeCardList } from '~/shared/ui/recipe-card-list';
 import { BloggerProfileHeader } from '~/widgets/blogger-profile-header';
 import { NoteList } from '~/widgets/notes';
 
 export const BloggerProfilePage = () => {
+    const navigate = useNavigate();
     const { bloggerId = '' } = useParams();
+    const { handleError } = useErrorAlert();
     const currentUserId = useAppSelector(selectUserId) ?? '';
 
-    const { data: blogger } = useGetBloggerByIdQuery(
+    const { data: blogger, error: bloggerByIdError } = useGetBloggerByIdQuery(
         {
             bloggerId,
             currentUserId,
@@ -22,18 +36,53 @@ export const BloggerProfilePage = () => {
         { skip: !bloggerId || !currentUserId },
     );
 
-    const { data: recipesByBlogger } = useGetRecipeByUserIdQuery(bloggerId);
+    const { data: recipesByBlogger, error: recipesByBloggerError } =
+        useGetRecipeByUserIdQuery(bloggerId);
+
+    const { data: otherBlogs } = useGetAllBloggersQuery(
+        {
+            currentUserId: currentUserId as string,
+            limit: '',
+        },
+        { skip: !currentUserId },
+    );
 
     const { bloggerInfo, isFavorite } = blogger ?? {};
     const { _id = '' } = bloggerInfo ?? {};
+
+    useEffect(() => {
+        if (bloggerByIdError && isErrorResponse(bloggerByIdError)) {
+            if (bloggerByIdError.status === HTTP_STATUS.NOT_FOUND) {
+                navigate(ROUTES.NOT_FOUND);
+            } else {
+                handleError({
+                    errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
+                });
+            }
+        }
+    }, [bloggerByIdError]);
+
+    useEffect(() => {
+        if (recipesByBloggerError && isErrorResponse(recipesByBloggerError)) {
+            if (recipesByBloggerError.status === HTTP_STATUS.NOT_FOUND) {
+                navigate(ROUTES.NOT_FOUND);
+            } else {
+                handleError({
+                    errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
+                });
+            }
+        }
+    }, [recipesByBloggerError]);
+
     return (
         <Box py='16px'>
             <BloggerProfileHeader
-                imgUrl=''
-                userName='John Doe'
-                accountName='@john_doe'
-                bookmarksCount={100}
-                subscribersCount={1000}
+                userName={`${blogger?.bloggerInfo?.firstName ?? ''} ${blogger?.bloggerInfo?.lastName ?? ''}`}
+                accountName={`@${blogger?.bloggerInfo?.login ?? ''}`}
+                bookmarksCount={blogger?.bloggerInfo?.subscriptions?.length ?? 0}
+                subscribersCount={blogger?.bloggerInfo?.subscribers?.length ?? 0}
                 action={
                     <SubscribeButton
                         fromUserId={currentUserId}
@@ -42,8 +91,44 @@ export const BloggerProfilePage = () => {
                     />
                 }
             />
-            <RecipeCardList recipes={recipesByBlogger?.recipes} />
+            <RecipeCardList recipes={recipesByBlogger?.recipes} dataTestId='recipe-card-list' />
             <NoteList limit={3} notes={blogger?.bloggerInfo?.notes ?? []} />
+            <Flex justifyContent='space-between' alignItems='center'>
+                <Text fontSize={{ base: '2xl', lg: '5xl' }} fontWeight='semibold'>
+                    Другие блоги
+                </Text>
+                <Button
+                    as={Link}
+                    to={ROUTES.BLOGS}
+                    variant='unstyled'
+                    display='flex'
+                    alignItems='center'
+                    fontSize={{ base: 'xs', lg: 'lg' }}
+                    fontWeight='bold'
+                    rightIcon={<ArrowForwardIcon />}
+                    data-test-id='blogger-user-other-blogs-button'
+                >
+                    Все авторы
+                </Button>
+            </Flex>
+            <Grid
+                templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
+                gap={{ base: '12px', md: '16px' }}
+                data-test-id='blogger-user-other-blogs-grid'
+            >
+                {otherBlogs?.others?.map((blog) => (
+                    <CookingBlog
+                        key={blog._id}
+                        {...blog}
+                        user={
+                            <UserCard
+                                userName={`${blog.firstName} ${blog.lastName}`}
+                                accountName={blog.login}
+                            />
+                        }
+                    />
+                ))}
+            </Grid>
         </Box>
     );
 };

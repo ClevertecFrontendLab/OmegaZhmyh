@@ -1,1 +1,1 @@
-export { CookingBlogs } from './ui/CookingBlogs';
+export { BlogsPreview as CookingBlogs } from './ui/CookingBlogs';

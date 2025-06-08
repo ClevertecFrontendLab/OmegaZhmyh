@@ -10,12 +10,20 @@ type FavoriteBlogsProps = BoxProps & {
 };
 
 export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
-    <Box bgColor='lime.300' borderRadius='16px' p={{ base: '12px', lg: '24px' }} {...boxProps}>
+    <Box
+        bgColor='lime.300'
+        borderRadius='16px'
+        p={{ base: '12px', lg: '24px' }}
+        display={blogers.length > 0 ? 'block' : 'none'}
+        {...boxProps}
+        data-test-id='blogs-favorites-box'
+    >
         <Text fontSize={{ base: '2xl', lg: '4xl' }}>Избранные блоги</Text>
         <Grid
             templateColumns={{ base: 'auto', md: '1fr 1fr' }}
             gap={4}
             mt={{ base: '12px', lg: '16px' }}
+            data-test-id='blogs-favorites-grid'
         >
             {blogers.map((bloger) => {
                 const { firstName, lastName, login, _id } = bloger;
@@ -37,6 +45,7 @@ export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
                                 size='xs'
                                 variant='solid'
                                 bgColor='lime.400'
+                                data-test-id='blogs-card-recipes-button'
                             >
                                 Рецепты
                             </Button>

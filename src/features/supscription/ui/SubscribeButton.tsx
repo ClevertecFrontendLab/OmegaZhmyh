@@ -1,5 +1,6 @@
 import { Button, Icon } from '@chakra-ui/react';
 
+import { AppSpiner } from '~/shared/ui/app-spiner';
 import { BsPersonCheck, BsPersonPlusFill } from '~/shared/ui/icon';
 
 import { SupscriptionRequest, useGetSupscriptionMutation } from '../api/supscription';
@@ -12,7 +13,7 @@ export const SubscribeButton = ({
     toUserId,
     isFavorite = false,
 }: SubscribeButtonProps) => {
-    const [getSupscription] = useGetSupscriptionMutation();
+    const [getSupscription, { isLoading }] = useGetSupscriptionMutation();
 
     const handleSubscribe = () => {
         if (fromUserId && toUserId) {
@@ -21,15 +22,27 @@ export const SubscribeButton = ({
     };
 
     return (
-        <Button
-            leftIcon={isFavorite ? <Icon as={BsPersonCheck} /> : <Icon as={BsPersonPlusFill} />}
-            size='xs'
-            variant={isFavorite ? 'outline' : 'solid'}
-            bgColor={isFavorite ? 'white' : 'black'}
-            color={isFavorite ? 'black' : 'white'}
-            onClick={handleSubscribe}
-        >
-            {isFavorite ? 'Вы подписаны' : 'Подписаться'}
-        </Button>
+        <>
+            {isLoading && (
+                <AppSpiner
+                    position='absolute'
+                    top='50%'
+                    left='50%'
+                    transform='translate(-50%, -50%)'
+                    dataTestId='mobile-loader'
+                />
+            )}
+            <Button
+                leftIcon={isFavorite ? <Icon as={BsPersonCheck} /> : <Icon as={BsPersonPlusFill} />}
+                size='xs'
+                variant={isFavorite ? 'outline' : 'solid'}
+                bgColor={isFavorite ? 'white' : 'black'}
+                color={isFavorite ? 'black' : 'white'}
+                onClick={handleSubscribe}
+                data-test-id={isFavorite ? 'blog-toggle-unsubscribe' : 'blog-toggle-subscribe'}
+            >
+                {isFavorite ? 'Вы подписаны' : 'Подписаться'}
+            </Button>
+        </>
     );
 };
