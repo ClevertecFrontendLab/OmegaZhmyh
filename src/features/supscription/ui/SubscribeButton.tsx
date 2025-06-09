@@ -1,5 +1,4 @@
 import { Button, Icon, Tooltip } from '@chakra-ui/react';
-import { useState } from 'react';
 
 import { AppSpiner } from '~/shared/ui/app-spiner';
 import { BsPersonCheck, BsPersonPlusFill } from '~/shared/ui/icon';
@@ -11,31 +10,21 @@ const TOOLTIP_TEXT = {
     unsubscribe: 'Нажмите, если хотите отписаться',
 };
 
-const TOGGLE_SUBSCRIPTION_RESPONSE_TEXT = {
+/* const TOGGLE_SUBSCRIPTION_RESPONSE_TEXT = {
     SUBSCRIBED: 'Подписка выполнена успешно',
     UNSUBSCRIBED: 'Отписка выполнена успешно',
-};
+} as const; */
 
 type SubscribeButtonProps = SupscriptionRequest & {
     isFavorite?: boolean;
 };
 
-export const SubscribeButton = ({
-    fromUserId,
-    toUserId,
-    isFavorite = false,
-}: SubscribeButtonProps) => {
-    const [isSubscribed, setIsSubscribed] = useState(isFavorite);
+export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeButtonProps) => {
     const [getSupscription, { isLoading }] = useGetSupscriptionMutation();
 
-    const handleSubscribe = async () => {
+    const handleSubscribe = () => {
         if (fromUserId && toUserId) {
-            const result = await getSupscription({ fromUserId, toUserId });
-            if (result.data?.message === TOGGLE_SUBSCRIPTION_RESPONSE_TEXT.SUBSCRIBED) {
-                setIsSubscribed(true);
-            } else if (result.data?.message === TOGGLE_SUBSCRIPTION_RESPONSE_TEXT.UNSUBSCRIBED) {
-                setIsSubscribed(false);
-            }
+            getSupscription({ fromUserId, toUserId });
         }
     };
 
@@ -55,19 +44,31 @@ export const SubscribeButton = ({
                 placement='top'
                 data-test-id='blog-tooltip'
             >
-                <Button
-                    leftIcon={
-                        isFavorite ? <Icon as={BsPersonCheck} /> : <Icon as={BsPersonPlusFill} />
-                    }
-                    size='xs'
-                    variant={isFavorite ? 'outline' : 'solid'}
-                    bgColor={isFavorite ? 'white' : 'black'}
-                    color={isFavorite ? 'black' : 'white'}
-                    onClick={handleSubscribe}
-                    data-test-id={isFavorite ? 'blog-toggle-unsubscribe' : 'blog-toggle-subscribe'}
-                >
-                    {isSubscribed ? 'Вы подписаны' : 'Подписаться'}
-                </Button>
+                {isFavorite ? (
+                    <Button
+                        leftIcon={<Icon as={BsPersonCheck} />}
+                        size='xs'
+                        variant='outline'
+                        bgColor='white'
+                        color='black'
+                        onClick={handleSubscribe}
+                        data-test-id='blog-toggle-unsubscribe'
+                    >
+                        Вы подписаны
+                    </Button>
+                ) : (
+                    <Button
+                        leftIcon={<Icon as={BsPersonPlusFill} />}
+                        size='xs'
+                        variant='solid'
+                        bgColor='black'
+                        color='white'
+                        onClick={handleSubscribe}
+                        data-test-id='blog-toggle-subscribe'
+                    >
+                        Подписаться
+                    </Button>
+                )}
             </Tooltip>
         </>
     );

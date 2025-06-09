@@ -67,9 +67,10 @@ export const BloggerProfilePage = () => {
             if (bloggerByIdError.status === HTTP_STATUS.NOT_FOUND) {
                 navigate(ROUTES.NOT_FOUND);
             } else {
+                navigate(ROUTES.HOME);
                 handleError({
                     errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
-                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
+                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE_DOT,
                 });
             }
         }
@@ -82,7 +83,7 @@ export const BloggerProfilePage = () => {
             } else {
                 handleError({
                     errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
-                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
+                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE_DOT,
                 });
             }
         }
@@ -99,7 +100,7 @@ export const BloggerProfilePage = () => {
                     <SubscribeButton
                         fromUserId={currentUserId}
                         toUserId={_id}
-                        isFavorite={isFavorite ?? false}
+                        isFavorite={isFavorite}
                     />
                 }
             />
@@ -132,7 +133,7 @@ export const BloggerProfilePage = () => {
                     rightIcon={<ArrowForwardIcon />}
                     data-test-id='blogger-user-other-blogs-button'
                 >
-                    Все авторы
+                    Всe авторы
                 </Button>
             </Flex>
             <Grid

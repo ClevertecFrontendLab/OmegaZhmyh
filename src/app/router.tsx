@@ -66,6 +66,10 @@ export const router = createBrowserRouter([
                     {
                         path: ROUTES.BLOGGER_PROFILE,
                         element: <BloggerProfilePage />,
+                        handle: {
+                            title: 'Блоги',
+                            path: ROUTES.BLOGS,
+                        },
                     },
                 ],
             },
