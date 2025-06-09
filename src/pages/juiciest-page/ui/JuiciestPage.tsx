@@ -1,4 +1,4 @@
-import { Button, Flex, Spinner } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,6 +12,7 @@ import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
 import { SORT } from '~/shared/config/sort.constants';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { setError } from '~/shared/store/notificationSlice';
+import { LoadMoreButton } from '~/shared/ui/load-more-button';
 import { RecipeCardList } from '~/shared/ui/recipe-card-list';
 import { FoundRecipes } from '~/widgets/founded-recipes';
 import { RelevantKitchen } from '~/widgets/relevant-kitchen';
@@ -85,22 +86,7 @@ export const JuiciestPage = () => {
                         rowGap='16px'
                     />
                     {!hasMore && !isFetching ? null : (
-                        <Button
-                            display='block'
-                            margin='0 auto'
-                            marginTop='16px'
-                            bgColor='lime.400'
-                            color='black'
-                            _hover={{ bgColor: 'lime.50' }}
-                            onClick={handleLoadMore}
-                            isDisabled={isFetching}
-                            data-test-id='load-more-button'
-                        >
-                            <Flex alignItems='center' gap='8px'>
-                                {isFetching ? <Spinner boxSize='12px' /> : null}
-                                {isFetching ? 'Загрузка' : 'Загрузить еще'}
-                            </Flex>
-                        </Button>
+                        <LoadMoreButton handleLoadMore={handleLoadMore} isFetching={isFetching} />
                     )}
                 </>
             ) : null}

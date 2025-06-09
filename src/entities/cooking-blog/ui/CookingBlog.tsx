@@ -26,6 +26,21 @@ export const CookingBlog = ({
 }: CookingBlogProps) => {
     const { text } = notes?.[0] ?? {};
 
+    const pluralRule = new Intl.PluralRules('ru');
+    const getRecipeWord = (count: number): string => {
+        const word = pluralRule.select(count);
+        switch (word) {
+            case 'one':
+                return 'рецепт';
+            case 'few':
+                return 'рецепта';
+            case 'many':
+                return 'рецептов';
+            default:
+                return 'рецептов';
+        }
+    };
+
     return (
         <Box
             position='relative'
@@ -42,7 +57,7 @@ export const CookingBlog = ({
                     right={{ base: '4px', lg: '8px' }}
                     data-test-id='blogs-card-new-recipes-badge'
                 >
-                    {newRecipesCount} новых рецептов
+                    {newRecipesCount} новых {getRecipeWord(newRecipesCount)}
                 </Tag>
             ) : null}
             {user && user}

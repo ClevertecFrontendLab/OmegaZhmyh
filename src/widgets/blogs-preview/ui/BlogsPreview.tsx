@@ -24,7 +24,7 @@ export const BlogsPreview = () => {
     const allBlogs = [...(blogs?.favorites || []), ...(blogs?.others || [])];
     const previewBlogs = allBlogs.slice(0, PREVIEW_BLOGS_LIMIT);
 
-    const isMobile = useBreakpointValue({ base: true, lg: false });
+    const isDesktop = useBreakpointValue({ base: false, lg: true });
     const { handleError } = useErrorAlert();
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export const BlogsPreview = () => {
         }
     }, [isError]);
 
-    return (
+    return isError ? null : (
         <Box
             bgColor='lime.300'
             padding={{ base: '12px', lg: '24px' }}
@@ -48,7 +48,7 @@ export const BlogsPreview = () => {
                 <Text fontSize={{ base: '2xl' }} fontWeight='medium' lineHeight='32px'>
                     Кулинарные блоги
                 </Text>
-                {!isMobile && (
+                {isDesktop && (
                     <Button
                         as={Link}
                         to={ROUTES.BLOGS}
@@ -82,7 +82,7 @@ export const BlogsPreview = () => {
                     />
                 ))}
             </Grid>
-            {isMobile && (
+            {!isDesktop && (
                 <Button
                     as={Link}
                     to={ROUTES.BLOGS}

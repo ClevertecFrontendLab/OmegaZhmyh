@@ -11,7 +11,7 @@ import { ROUTES } from '~/shared/config/routes.constants';
 import { SORT } from '~/shared/config/sort.constants';
 import { setError } from '~/shared/store/notificationSlice';
 import { RecipeCardList } from '~/shared/ui/recipe-card-list';
-import { CookingBlogs } from '~/widgets/blog-list';
+import { BlogsPreview } from '~/widgets/blogs-preview';
 import { FoundRecipes } from '~/widgets/founded-recipes';
 import { NewRecipes } from '~/widgets/new-recipes';
 import { RelevantKitchen } from '~/widgets/relevant-kitchen';
@@ -103,7 +103,7 @@ export const MainPage = () => {
                             </Button>
                         </Link>
                     </Flex>
-                    <CookingBlogs />
+                    <BlogsPreview />
                 </>
             )}
             <RelevantKitchen marginTop='40px' />

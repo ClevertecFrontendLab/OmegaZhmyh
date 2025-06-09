@@ -1,6 +1,6 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import {
@@ -18,9 +18,12 @@ import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
 import { ROUTES } from '~/shared/config/routes.constants';
 import { useAppSelector } from '~/shared/store/hooks';
 import { useErrorAlert } from '~/shared/ui/alert';
+import { LoadMoreButton } from '~/shared/ui/load-more-button';
 import { RecipeCardList } from '~/shared/ui/recipe-card-list';
 import { BloggerProfileHeader } from '~/widgets/blogger-profile-header';
 import { NoteList } from '~/widgets/notes';
+
+const BLOG_RECIPES_LIMIT = 8;
 
 export const BloggerProfilePage = () => {
     const navigate = useNavigate();
@@ -36,8 +39,13 @@ export const BloggerProfilePage = () => {
         { skip: !bloggerId || !currentUserId },
     );
 
-    const { data: recipesByBlogger, error: recipesByBloggerError } =
-        useGetRecipeByUserIdQuery(bloggerId);
+    const {
+        data: recipesByBlogger,
+        error: recipesByBloggerError,
+        isFetching: isFetchingRecipes,
+    } = useGetRecipeByUserIdQuery(bloggerId);
+
+    const [showMoreRecipes, setShowMoreRecipes] = useState(false);
 
     const { data: otherBlogs } = useGetAllBloggersQuery(
         {
@@ -46,6 +54,10 @@ export const BloggerProfilePage = () => {
         },
         { skip: !currentUserId },
     );
+
+    const handleShowMoreRecipes = () => {
+        setShowMoreRecipes(true);
+    };
 
     const { bloggerInfo, isFavorite } = blogger ?? {};
     const { _id = '' } = bloggerInfo ?? {};
@@ -81,8 +93,8 @@ export const BloggerProfilePage = () => {
             <BloggerProfileHeader
                 userName={`${blogger?.bloggerInfo?.firstName ?? ''} ${blogger?.bloggerInfo?.lastName ?? ''}`}
                 accountName={`@${blogger?.bloggerInfo?.login ?? ''}`}
-                bookmarksCount={blogger?.bloggerInfo?.subscriptions?.length ?? 0}
-                subscribersCount={blogger?.bloggerInfo?.subscribers?.length ?? 0}
+                bookmarksCount={blogger?.totalBookmarks || 0}
+                subscribersCount={blogger?.totalSubscribers || 0}
                 action={
                     <SubscribeButton
                         fromUserId={currentUserId}
@@ -91,7 +103,19 @@ export const BloggerProfilePage = () => {
                     />
                 }
             />
-            <RecipeCardList recipes={recipesByBlogger?.recipes} dataTestId='recipe-card-list' />
+            <RecipeCardList
+                recipes={recipesByBlogger?.recipes?.slice(
+                    0,
+                    showMoreRecipes ? undefined : BLOG_RECIPES_LIMIT,
+                )}
+                dataTestId='recipe-card-list'
+            />
+            {!showMoreRecipes && (
+                <LoadMoreButton
+                    handleLoadMore={handleShowMoreRecipes}
+                    isFetching={isFetchingRecipes}
+                />
+            )}
             <NoteList limit={3} notes={blogger?.bloggerInfo?.notes ?? []} />
             <Flex justifyContent='space-between' alignItems='center'>
                 <Text fontSize={{ base: '2xl', lg: '5xl' }} fontWeight='semibold'>

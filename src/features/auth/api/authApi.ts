@@ -1,3 +1,5 @@
+import { FetchBaseQueryMeta } from '@reduxjs/toolkit/query';
+
 import { yeedaaApi } from '~/shared/api/yeedaaApi';
 
 import { setCredentials } from '../model/authSlice';
@@ -23,25 +25,13 @@ export const authApi = yeedaaApi.injectEndpoints({
             }),
             onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
                 const { meta } = await queryFulfilled;
-                const token = meta?.response?.headers.get('authentication-access');
+                const token = (meta as FetchBaseQueryMeta)?.response?.headers.get(
+                    'authentication-access',
+                );
                 if (token) {
                     localStorage.setItem(TOKEN_KEY, token);
                     dispatch(setCredentials({ token }));
                 }
-            },
-        }),
-        refreshToken: builder.mutation<AuthResponse, void>({
-            query: () => ({
-                url: '/auth/refresh',
-                method: 'GET',
-                credentials: 'include',
-            }),
-            transformResponse: (response: AuthResponse, meta) => {
-                const token = meta?.response?.headers.get('authentication-access');
-                if (token) {
-                    localStorage.setItem(TOKEN_KEY, token);
-                }
-                return response;
             },
         }),
         signup: builder.mutation<AuthResponse, SignupRequest>({
@@ -81,5 +71,4 @@ export const {
     useForgotPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
-    useRefreshTokenMutation,
 } = authApi;
