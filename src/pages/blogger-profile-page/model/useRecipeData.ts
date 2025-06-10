@@ -1,0 +1,45 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+
+import { useGetRecipeByUserIdQuery } from '~/entities/recipe/api/recipeApi';
+import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { ROUTES } from '~/shared/config/routes.constants';
+import { useErrorAlert } from '~/shared/ui/alert';
+
+const BLOG_RECIPES_LIMIT = 8;
+export const useRecipeData = (bloggerId: string) => {
+    const navigate = useNavigate();
+    const { handleError } = useErrorAlert();
+
+    const {
+        data: recipesByBlogger,
+        error: recipesByBloggerError,
+        isFetching: isFetchingRecipes,
+    } = useGetRecipeByUserIdQuery(bloggerId as string, { skip: !bloggerId });
+
+    const [showMoreRecipes, setShowMoreRecipes] = useState(false);
+
+    const handleShowMoreRecipes = () => {
+        setShowMoreRecipes(true);
+    };
+
+    const paginatedRecipes =
+        recipesByBlogger?.recipes?.slice(0, showMoreRecipes ? undefined : BLOG_RECIPES_LIMIT) ?? [];
+
+    useEffect(() => {
+        if (recipesByBloggerError && isErrorResponse(recipesByBloggerError)) {
+            if (recipesByBloggerError.status === HTTP_STATUS.NOT_FOUND) {
+                navigate(ROUTES.NOT_FOUND);
+            } else {
+                handleError({
+                    errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE_DOT,
+                });
+            }
+        }
+    }, [handleError, navigate, recipesByBloggerError]);
+
+    return { paginatedRecipes, isFetchingRecipes, handleShowMoreRecipes, showMoreRecipes };
+};

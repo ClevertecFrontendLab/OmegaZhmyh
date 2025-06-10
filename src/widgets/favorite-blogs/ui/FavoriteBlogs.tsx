@@ -33,8 +33,9 @@ export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
                         _id={_id}
                         user={
                             <UserCard
-                                userName={`${firstName} ${lastName}`}
-                                accountName={`@${login}`}
+                                firstName={firstName ?? 'Имя'}
+                                lastName={lastName ?? 'Фамилия'}
+                                login={login ?? 'Логин'}
                             />
                         }
                         isFavorite

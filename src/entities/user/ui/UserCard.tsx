@@ -1,18 +1,18 @@
 import { Avatar, Box, Flex, Text } from '@chakra-ui/react';
 
+import { formatAccountLogin } from '../lib/formatAccountLogin';
+import { formatFullName } from '../lib/formatFullName';
+
 export type UserCardProps = {
-    userName?: string;
-    accountName?: string;
+    firstName: string;
+    lastName: string;
+    login: string;
     avatarImg?: string;
 };
 
-export const UserCard = ({
-    userName = 'noname',
-    accountName = 'noaccount',
-    avatarImg,
-}: UserCardProps) => (
+export const UserCard = ({ firstName, lastName, login, avatarImg }: UserCardProps) => (
     <Flex flex='1' gap={{ base: 2, lg: 3 }} alignItems='center' flexWrap='nowrap'>
-        <Avatar name={userName} size='md' src={avatarImg} />
+        <Avatar name={formatFullName(firstName, lastName)} size='md' src={avatarImg} />
         <Box>
             <Text
                 fontWeight='500'
@@ -23,14 +23,14 @@ export const UserCard = ({
                 style={{ wordWrap: 'break-word' }}
                 data-test-id='blogs-card-name'
             >
-                {userName}
+                {formatFullName(firstName, lastName)}
             </Text>
             <Text
                 color='blackAlpha.700'
                 fontSize={{ base: 'xs', lg: 'sm' }}
                 data-test-id='blogs-card-login'
             >
-                {accountName}
+                {formatAccountLogin(login)}
             </Text>
         </Box>
     </Flex>

@@ -1,2 +1,2 @@
-export { useErrorAlert } from './hooks/useErrorAlert';
+export { useErrorAlert } from './model/useErrorAlert';
 export { SnackbarAlert } from './ui/SnackbarAlert';

@@ -36,9 +36,9 @@ export const Header = () => {
             <Breadcrumbs marginLeft={32} display={{ base: 'none', lg: 'block' }} />
             <Box pos='absolute' right='80px' display={{ base: 'none', lg: 'flex' }}>
                 <UserCard
-                    accountName='@bake_and_pie'
-                    avatarImg='CatherineConstantinopleImg2'
-                    userName='Екатерина Константинопольская'
+                    firstName='Екатерина'
+                    lastName='Константинопольская'
+                    login='@bake_and_pie'
                 />
             </Box>
             <Flex gap={{ base: 2, sm: 4 }} display={{ base: 'flex', lg: 'none' }}>

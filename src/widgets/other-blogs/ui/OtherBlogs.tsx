@@ -42,8 +42,9 @@ export const OtherBlogs = ({ blogers, setShowMore, isShowMore, ...boxProps }: Ot
                             key={bloger._id}
                             user={
                                 <UserCard
-                                    userName={`${firstName} ${lastName}`}
-                                    accountName={`@${login}`}
+                                    firstName={firstName ?? 'Имя'}
+                                    lastName={lastName ?? 'Фамилия'}
+                                    login={login ?? 'Логин'}
                                 />
                             }
                             action={

@@ -4,21 +4,21 @@ import { useState } from 'react';
 import { Note } from '~/entities/cooking-blog';
 import { Note as NoteType } from '~/entities/cooking-blog/types';
 
-type NoteListProps = {
+type BlogNotesBoxProps = {
     limit: number;
     notes: NoteType[];
 };
 
 const NOTES_PREVIEW_LIMIT = 3;
 
-export const NoteList = ({ notes }: NoteListProps) => {
+export const BlogNotesBox = ({ notes }: BlogNotesBoxProps) => {
     const [isShowMore, setIsShowMore] = useState(false);
 
     const handleShowMore = () => {
         setIsShowMore((prev) => !prev);
     };
 
-    return (
+    return notes.length ? (
         <VStack
             id='notes'
             gap='16px'
@@ -58,5 +58,5 @@ export const NoteList = ({ notes }: NoteListProps) => {
                 )}
             </Center>
         </VStack>
-    );
+    ) : null;
 };

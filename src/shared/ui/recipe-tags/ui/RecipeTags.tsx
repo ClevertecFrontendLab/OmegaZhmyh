@@ -1,7 +1,7 @@
 import { Flex, FlexProps } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
-import { selectMainCategories, selectSubCategories } from '~/entities/Category/';
+import { selectMainCategories, selectSubCategories } from '~/entities/category';
 
 import { CategoryTag } from './CategoryTag';
 

@@ -1,45 +1,14 @@
 import { Box, Heading } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 
-import { useGetAllBloggersQuery } from '~/entities/cooking-blog';
-import { selectUserId } from '~/features/auth';
-import { isErrorResponse } from '~/features/auth/types/auth.types';
-import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
-import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
-import { ROUTES } from '~/shared/config/routes.constants';
-import { useAppSelector } from '~/shared/store/hooks';
-import { useErrorAlert } from '~/shared/ui/alert';
 import { FavoriteBlogs } from '~/widgets/favorite-blogs';
 import { NewRecipes } from '~/widgets/new-recipes';
 import { OtherBlogs } from '~/widgets/other-blogs';
 
+import { useBlogsPage } from '../model/useBlogsPage';
+
 export const BlogsPage = () => {
-    const navigate = useNavigate();
-    const currentUserId = useAppSelector(selectUserId);
-
-    const [isShowMoreOtherBlogs, setIsShowMoreOtherBlogs] = useState(false);
-
-    const { data, error } = useGetAllBloggersQuery({
-        currentUserId: currentUserId ?? '',
-        limit: isShowMoreOtherBlogs ? 'all' : 9,
-    });
-    const { handleError } = useErrorAlert();
-
-    const favoriteBlogs = data?.favorites || [];
-    const otherBlogs = data?.others || [];
-
-    useEffect(() => {
-        if (error && isErrorResponse(error)) {
-            if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
-                handleError({
-                    errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
-                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE_DOT,
-                });
-                navigate(ROUTES.HOME);
-            }
-        }
-    }, [error]);
+    const { favoriteBlogs, otherBlogs, isShowMoreOtherBlogs, setIsShowMoreOtherBlogs } =
+        useBlogsPage();
 
     return (
         <Box pt={{ base: '16px', lg: '32px' }} pb={{ base: '16px', lg: '0' }}>

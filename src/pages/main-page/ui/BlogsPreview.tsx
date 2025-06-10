@@ -3,7 +3,7 @@ import { Box, Button, Flex, Grid, Text, useBreakpointValue } from '@chakra-ui/re
 import { useEffect } from 'react';
 import { Link } from 'react-router';
 
-import { CookingBlog, useGetAllBloggersQuery } from '~/entities/cooking-blog';
+import { CookingBlogPreview, useGetAllBloggersQuery } from '~/entities/cooking-blog';
 import { UserCard } from '~/entities/user';
 import { selectUserId } from '~/features/auth';
 import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
@@ -34,7 +34,7 @@ export const BlogsPreview = () => {
                 errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE_DOT,
             });
         }
-    }, [isError]);
+    }, [handleError, isError]);
 
     return isError ? null : (
         <Box
@@ -70,13 +70,14 @@ export const BlogsPreview = () => {
                 data-test-id='main-page-blogs-grid'
             >
                 {previewBlogs.map((blog) => (
-                    <CookingBlog
+                    <CookingBlogPreview
                         key={blog._id}
-                        {...blog}
+                        text={blog.notes?.[0]?.text ?? 'Текст не найден'}
                         user={
                             <UserCard
-                                userName={`${blog.firstName} ${blog.lastName}`}
-                                accountName={`@${blog.login}`}
+                                firstName={blog.firstName ?? 'Имя'}
+                                lastName={blog.lastName ?? 'Фамилия'}
+                                login={blog.login ?? 'Логин'}
                             />
                         }
                     />
