@@ -44,7 +44,6 @@ type BreadcrumbsProps = BreadcrumbProps & {
 
 export function Breadcrumbs({ isBurgerBreadcrumbs = false, ...props }: BreadcrumbsProps) {
     const matches = useMatches() as Match[];
-    console.log(matches);
     const crumbs = matches
         .filter((match) => match.handle?.title && match.handle?.path)
         .map((match) => ({

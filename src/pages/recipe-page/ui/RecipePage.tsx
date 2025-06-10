@@ -27,6 +27,7 @@ import {
 } from '~/entities/recipe/';
 import { selectUserId } from '~/features/auth';
 import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { SubscribeButton } from '~/features/supscription';
 import { RECIPE_ERROR_MESSAGES } from '~/pages/recipe-page/ui/recipe-messages.constants';
 import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
 import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
@@ -274,8 +275,14 @@ export const RecipePage = () => {
                 <CookingSteps steps={steps} />
                 {authorBlog?.bloggerInfo && (
                     <AuthorBlog
-                        blog={authorBlog.bloggerInfo}
-                        action={<Button>Подписаться</Button>}
+                        blog={authorBlog}
+                        action={
+                            <SubscribeButton
+                                fromUserId={userId as string}
+                                toUserId={authorBlog.bloggerInfo._id as string}
+                                isFavorite={!!authorBlog.isFavorite}
+                            />
+                        }
                     />
                 )}
             </Container>

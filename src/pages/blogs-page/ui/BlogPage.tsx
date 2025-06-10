@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -11,6 +11,7 @@ import { ROUTES } from '~/shared/config/routes.constants';
 import { useAppSelector } from '~/shared/store/hooks';
 import { useErrorAlert } from '~/shared/ui/alert';
 import { FavoriteBlogs } from '~/widgets/favorite-blogs';
+import { NewRecipes } from '~/widgets/new-recipes';
 import { OtherBlogs } from '~/widgets/other-blogs';
 
 export const BlogsPage = () => {
@@ -41,12 +42,8 @@ export const BlogsPage = () => {
     }, [error]);
 
     return (
-        <div>
-            <Heading
-                fontSize={{ base: '2xl', lg: '5xl' }}
-                textAlign='center'
-                mt={{ base: '16px', lg: '32px' }}
-            >
+        <Box pt={{ base: '16px', lg: '32px' }} pb={{ base: '16px', lg: '0' }}>
+            <Heading fontSize={{ base: '2xl', lg: '5xl' }} textAlign='center'>
                 Кулинарные блоги
             </Heading>
             <FavoriteBlogs blogers={favoriteBlogs} mt='24px' />
@@ -56,6 +53,7 @@ export const BlogsPage = () => {
                 isShowMore={isShowMoreOtherBlogs}
                 mt={{ base: '32px', lg: '40px' }}
             />
-        </div>
+            <NewRecipes mt={{ base: '12px', md: '32px', lg: '40px' }} />
+        </Box>
     );
 };

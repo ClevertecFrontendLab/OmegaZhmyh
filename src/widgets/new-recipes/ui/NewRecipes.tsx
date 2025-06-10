@@ -1,6 +1,6 @@
 import 'swiper/swiper-bundle.css';
 
-import { Box, LinkBox, Text, useBreakpointValue } from '@chakra-ui/react';
+import { Box, BoxProps, LinkBox, Text, useBreakpointValue } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { useGetRecipesQuery } from '~/entities/recipe/';
@@ -11,7 +11,7 @@ import { NewRecipeCard } from './NewRecipeCard';
 import { SlideNextButton } from './SlideNextButton';
 import { SlidePrevButton } from './SlidePrevButton';
 
-export const NewRecipes = () => {
+export const NewRecipes = (props: BoxProps) => {
     const slideWidth = useBreakpointValue({ base: '153px', lg: '277px', xl: '322px' });
     const slideGap = useBreakpointValue({ base: '10px', xl: '24px' });
     const sliderOverflow = useBreakpointValue({ base: 'visible', md: 'hidden' });
@@ -23,7 +23,7 @@ export const NewRecipes = () => {
     });
 
     return newRecipes?.data ? (
-        <Box>
+        <Box {...props}>
             <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight='medium'>
                 Новые рецепты
             </Text>

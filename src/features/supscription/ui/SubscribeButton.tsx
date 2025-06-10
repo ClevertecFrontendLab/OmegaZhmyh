@@ -1,4 +1,5 @@
 import { Button, Icon, Tooltip } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { AppSpiner } from '~/shared/ui/app-spiner';
 import { BsPersonCheck, BsPersonPlusFill } from '~/shared/ui/icon';
@@ -10,21 +11,22 @@ const TOOLTIP_TEXT = {
     unsubscribe: 'Нажмите, если хотите отписаться',
 };
 
-/* const TOGGLE_SUBSCRIPTION_RESPONSE_TEXT = {
-    SUBSCRIBED: 'Подписка выполнена успешно',
-    UNSUBSCRIBED: 'Отписка выполнена успешно',
-} as const; */
-
 type SubscribeButtonProps = SupscriptionRequest & {
-    isFavorite?: boolean;
+    isFavorite: boolean;
 };
 
 export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeButtonProps) => {
+    const [isSubscribed, setIsSubscribed] = useState(isFavorite);
     const [getSupscription, { isLoading }] = useGetSupscriptionMutation();
 
-    const handleSubscribe = () => {
+    const handleSubscribe = async () => {
         if (fromUserId && toUserId) {
-            getSupscription({ fromUserId, toUserId });
+            try {
+                await getSupscription({ fromUserId, toUserId }).unwrap();
+                setIsSubscribed(!isSubscribed);
+            } catch (error) {
+                console.error('Failed to toggle subscription:', error);
+            }
         }
     };
 
@@ -40,11 +42,16 @@ export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeB
                 />
             )}
             <Tooltip
-                label={TOOLTIP_TEXT[isFavorite ? 'unsubscribe' : 'subscribe']}
-                placement='top'
+                label={TOOLTIP_TEXT[isSubscribed ? 'unsubscribe' : 'subscribe']}
+                w='150px'
+                fontSize='sm'
+                bgColor='blackAlpha.900'
+                borderRadius='4px'
+                placement='bottom'
+                hasArrow
                 data-test-id='blog-tooltip'
             >
-                {isFavorite ? (
+                {isSubscribed ? (
                     <Button
                         leftIcon={<Icon as={BsPersonCheck} />}
                         size='xs'

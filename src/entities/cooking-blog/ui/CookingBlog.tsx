@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Tag, Text } from '@chakra-ui/react';
+import { Box, Button, HStack, Tag, Text, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
@@ -42,36 +42,56 @@ export const CookingBlog = ({
     };
 
     return (
-        <Box
+        <VStack
+            justifyContent='space-between'
+            alignItems='flex-start'
+            gap='16px'
             position='relative'
             padding={{ base: '16px', lg: '24px' }}
             paddingTop='24px'
             bgColor='white'
+            border='1px'
+            borderColor='blackAlpha.200'
             borderRadius='8px'
             data-test-id='blogs-card'
         >
-            {newRecipesCount && isFavorite ? (
-                <Tag
-                    position='absolute'
-                    top={{ base: '4px', lg: '8px' }}
-                    right={{ base: '4px', lg: '8px' }}
-                    data-test-id='blogs-card-new-recipes-badge'
-                >
-                    {newRecipesCount} новых {getRecipeWord(newRecipesCount)}
-                </Tag>
-            ) : null}
-            {user && user}
-            <Text
-                marginTop={{ base: '12px' }}
-                fontSize='sm'
-                lineHeight='21px'
-                noOfLines={3}
-                data-test-id='blogs-card-notes-text'
+            <Box>
+                {newRecipesCount && isFavorite ? (
+                    <Tag
+                        position='absolute'
+                        top={{ base: '4px', lg: '8px' }}
+                        right={{ base: '4px', lg: '8px' }}
+                        data-test-id='blogs-card-new-recipes-badge'
+                    >
+                        {newRecipesCount} новых {getRecipeWord(newRecipesCount)}
+                    </Tag>
+                ) : null}
+                {user && user}
+                {text && (
+                    <Text
+                        marginTop={{ base: '12px' }}
+                        fontSize='sm'
+                        lineHeight='21px'
+                        noOfLines={3}
+                        data-test-id='blogs-card-notes-text'
+                    >
+                        {text}
+                    </Text>
+                )}
+            </Box>
+
+            <HStack
+                justifyContent='space-between'
+                flexWrap='wrap-reverse'
+                gap='16px'
+                w='100%'
+                style={{ direction: 'rtl' }}
             >
-                {text}
-            </Text>
-            <HStack mt='16px' justifyContent='space-between'>
-                <HStack>
+                <HStack spacing={2} style={{ direction: 'ltr' }}>
+                    <BookmarkBtn value={bookmarksCount} />
+                    <LikeBtn value={subscribersCount} />
+                </HStack>
+                <HStack style={{ direction: 'ltr' }}>
                     {action && action}
                     <Button
                         as={Link}
@@ -85,11 +105,7 @@ export const CookingBlog = ({
                         Читать
                     </Button>
                 </HStack>
-                <HStack spacing={2}>
-                    <BookmarkBtn value={bookmarksCount} />
-                    <LikeBtn value={subscribersCount} />
-                </HStack>
             </HStack>
-        </Box>
+        </VStack>
     );
 };

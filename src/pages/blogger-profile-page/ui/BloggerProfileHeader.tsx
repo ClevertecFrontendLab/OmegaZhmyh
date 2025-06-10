@@ -30,7 +30,11 @@ export const BloggerProfileHeader = ({
             data-test-id='blogger-user-info-box'
         >
             <Avatar src={imgUrl} size={{ base: 'xl', lg: '2xl' }} />
-            <VStack gap='12px' w={{ base: '100%', md: '268px' }}>
+            <VStack
+                alignItems={{ base: 'center', md: 'flex-start' }}
+                gap='12px'
+                w={{ base: '100%', md: '268px' }}
+            >
                 <Text
                     fontSize={{ base: '2xl', lg: '5xl' }}
                     fontWeight='bold'

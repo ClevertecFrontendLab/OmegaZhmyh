@@ -6,6 +6,7 @@ import { UserCard } from '~/entities/user';
 import { selectUserId } from '~/features/auth';
 import { SubscribeButton } from '~/features/supscription';
 import { useAppSelector } from '~/shared/store/hooks';
+import { BsArrowLeft, BsArrowRight } from '~/shared/ui/icon';
 
 type OtherBlogsProps = BoxProps & {
     blogers: Bloger[];
@@ -25,14 +26,13 @@ export const OtherBlogs = ({ blogers, setShowMore, isShowMore, ...boxProps }: Ot
         <Box
             bgColor='blackAlpha.50'
             borderRadius='16px'
-            p={{ base: '12px', lg: '24px' }}
+            p={{ base: '16px', lg: '24px' }}
             {...boxProps}
             data-test-id='blogs-others-box'
         >
             <Grid
-                templateColumns={{ base: 'auto', md: '1fr 1fr' }}
+                templateColumns={{ base: '1fr', md: '1fr 1fr', xl: '1fr 1fr 1fr' }}
                 gap={4}
-                mt={{ base: '12px', lg: '16px' }}
                 data-test-id='blogs-others-grid'
             >
                 {blogers.map((bloger) => {
@@ -52,6 +52,7 @@ export const OtherBlogs = ({ blogers, setShowMore, isShowMore, ...boxProps }: Ot
                                     <SubscribeButton
                                         fromUserId={currentUserId}
                                         toUserId={bloger._id}
+                                        isFavorite={!!bloger.isFavorite}
                                     />
                                 )
                             }
@@ -61,23 +62,18 @@ export const OtherBlogs = ({ blogers, setShowMore, isShowMore, ...boxProps }: Ot
                 })}
             </Grid>
             <Center>
-                {/* {blogers.length > BLOGS_PREVIEW_LIMIT && (
-                    <Button
-                        variant='ghost'
-                        colorScheme='black'
-                        onClick={handleShowMore}
-                        data-test-id='blogs-others-button'
-                    >
-                        {isShowMore ? 'Свернуть' : 'Показать больше'}
-                    </Button>
-                )} */}
                 <Button
+                    mt='16px'
+                    fontSize='lg'
+                    fontWeight='semibold'
                     variant='ghost'
                     colorScheme='black'
                     onClick={handleShowMore}
                     data-test-id='blogs-others-button'
+                    leftIcon={isShowMore ? <BsArrowLeft /> : undefined}
+                    rightIcon={isShowMore ? undefined : <BsArrowRight />}
                 >
-                    {isShowMore ? 'Свернуть' : 'Показать больше'}
+                    {isShowMore ? 'Свернуть' : 'Все авторы'}
                 </Button>
             </Center>
         </Box>

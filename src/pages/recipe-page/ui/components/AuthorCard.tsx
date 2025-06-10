@@ -1,16 +1,17 @@
 import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react';
 
-import { BloggerInfo } from '~/entities/cooking-blog/types';
+import { BloggerByIdResponse } from '~/entities/cooking-blog/types';
 import SergeyImg from '~/shared/assets/avatar_img/@serge25.png';
 import { BsPeople } from '~/shared/ui/icon';
 
 type AuthorBlogProps = {
-    blog: Pick<BloggerInfo, 'firstName' | 'lastName' | 'login' | 'subscribers'>;
+    blog: BloggerByIdResponse;
     action: React.ReactNode;
 };
 
 export const AuthorBlog = ({ blog, action }: AuthorBlogProps) => {
-    const { subscribers, firstName, lastName, login } = blog;
+    const { bloggerInfo, totalSubscribers } = blog;
+    const { firstName, lastName, login } = bloggerInfo;
     return (
         <Card
             direction='row'
@@ -35,13 +36,18 @@ export const AuthorBlog = ({ blog, action }: AuthorBlogProps) => {
                         {firstName} {lastName}
                     </Text>
                     <Text color='blackAlpha.700' fontSize='sm'>
-                        {login}
+                        {`@${login}`}
                     </Text>
                 </Box>
                 <HStack marginTop='16px' justifyContent='space-between'>
                     {action}
-                    <Button size='xs' leftIcon={<BsPeople />} variant='ghost'>
-                        {subscribers}
+                    <Button
+                        size='xs'
+                        leftIcon={<BsPeople color='black' />}
+                        variant='ghost'
+                        color='lime.600'
+                    >
+                        {totalSubscribers}
                     </Button>
                 </HStack>
             </Flex>

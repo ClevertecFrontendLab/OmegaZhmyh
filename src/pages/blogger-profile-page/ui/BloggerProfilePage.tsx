@@ -20,21 +20,26 @@ import { useAppSelector } from '~/shared/store/hooks';
 import { useErrorAlert } from '~/shared/ui/alert';
 import { LoadMoreButton } from '~/shared/ui/load-more-button';
 import { RecipeCardList } from '~/shared/ui/recipe-card-list';
-import { BloggerProfileHeader } from '~/widgets/blogger-profile-header';
 import { NoteList } from '~/widgets/notes';
+
+import { BloggerProfileHeader } from './BloggerProfileHeader';
 
 const BLOG_RECIPES_LIMIT = 8;
 
 export const BloggerProfilePage = () => {
     const navigate = useNavigate();
-    const { bloggerId = '' } = useParams();
+    const { bloggerId } = useParams();
     const { handleError } = useErrorAlert();
-    const currentUserId = useAppSelector(selectUserId) ?? '';
+    const currentUserId = useAppSelector(selectUserId);
 
-    const { data: blogger, error: bloggerByIdError } = useGetBloggerByIdQuery(
+    const {
+        data: bloggerData,
+        error: bloggerByIdError,
+        isSuccess: isSuccessBloggerById,
+    } = useGetBloggerByIdQuery(
         {
-            bloggerId,
-            currentUserId,
+            bloggerId: bloggerId as string,
+            currentUserId: currentUserId as string,
         },
         { skip: !bloggerId || !currentUserId },
     );
@@ -43,7 +48,7 @@ export const BloggerProfilePage = () => {
         data: recipesByBlogger,
         error: recipesByBloggerError,
         isFetching: isFetchingRecipes,
-    } = useGetRecipeByUserIdQuery(bloggerId);
+    } = useGetRecipeByUserIdQuery(bloggerId as string, { skip: !bloggerId });
 
     const [showMoreRecipes, setShowMoreRecipes] = useState(false);
 
@@ -59,7 +64,7 @@ export const BloggerProfilePage = () => {
         setShowMoreRecipes(true);
     };
 
-    const { bloggerInfo, isFavorite } = blogger ?? {};
+    const { bloggerInfo, isFavorite } = bloggerData ?? {};
     const { _id = '' } = bloggerInfo ?? {};
 
     useEffect(() => {
@@ -91,24 +96,30 @@ export const BloggerProfilePage = () => {
 
     return (
         <Box py='16px'>
-            <BloggerProfileHeader
-                userName={`${blogger?.bloggerInfo?.firstName ?? ''} ${blogger?.bloggerInfo?.lastName ?? ''}`}
-                accountName={`@${blogger?.bloggerInfo?.login ?? ''}`}
-                bookmarksCount={blogger?.totalBookmarks || 0}
-                subscribersCount={blogger?.totalSubscribers || 0}
-                action={
-                    <SubscribeButton
-                        fromUserId={currentUserId}
-                        toUserId={_id}
-                        isFavorite={isFavorite}
-                    />
-                }
-            />
+            {isSuccessBloggerById && (
+                <BloggerProfileHeader
+                    userName={`${bloggerData?.bloggerInfo?.firstName ?? ''} ${bloggerData?.bloggerInfo?.lastName ?? ''}`}
+                    accountName={`@${bloggerData?.bloggerInfo?.login ?? ''}`}
+                    bookmarksCount={bloggerData?.totalBookmarks || 0}
+                    subscribersCount={bloggerData?.totalSubscribers || 0}
+                    action={
+                        <SubscribeButton
+                            fromUserId={currentUserId as string}
+                            toUserId={_id}
+                            isFavorite={!!isFavorite}
+                        />
+                    }
+                />
+            )}
             <RecipeCardList
                 recipes={recipesByBlogger?.recipes?.slice(
                     0,
                     showMoreRecipes ? undefined : BLOG_RECIPES_LIMIT,
                 )}
+                mt={{ base: '24px', md: '16px', lg: '40px', xl: '56px' }}
+                columns={{ base: 1, md: 2, lg: 1, xl: 2 }}
+                rowGap={{ base: '12px', md: '16px' }}
+                columnGap={{ base: '16px', xl: '24px' }}
                 dataTestId='recipe-card-list'
             />
             {!showMoreRecipes && (
@@ -117,8 +128,14 @@ export const BloggerProfilePage = () => {
                     isFetching={isFetchingRecipes}
                 />
             )}
-            <NoteList limit={3} notes={blogger?.bloggerInfo?.notes ?? []} />
-            <Flex justifyContent='space-between' alignItems='center'>
+            {bloggerData?.bloggerInfo?.notes?.length && (
+                <NoteList limit={3} notes={bloggerData?.bloggerInfo?.notes ?? []} />
+            )}
+            <Flex
+                justifyContent='space-between'
+                alignItems='center'
+                mt={{ base: '32px', lg: '64px' }}
+            >
                 <Text fontSize={{ base: '2xl', lg: '5xl' }} fontWeight='semibold'>
                     Другие блоги
                 </Text>
@@ -137,6 +154,7 @@ export const BloggerProfilePage = () => {
                 </Button>
             </Flex>
             <Grid
+                mt={{ base: '16px', lg: '24px' }}
                 templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
                 gap={{ base: '12px', md: '16px' }}
                 data-test-id='blogger-user-other-blogs-grid'
@@ -149,6 +167,13 @@ export const BloggerProfilePage = () => {
                             <UserCard
                                 userName={`${blog.firstName} ${blog.lastName}`}
                                 accountName={blog.login}
+                            />
+                        }
+                        action={
+                            <SubscribeButton
+                                fromUserId={currentUserId as string}
+                                toUserId={blog._id as string}
+                                isFavorite={!!blog.isFavorite}
                             />
                         }
                     />
