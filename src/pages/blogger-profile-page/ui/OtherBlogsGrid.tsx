@@ -1,4 +1,3 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
@@ -6,6 +5,7 @@ import { Bloger, CookingBlog } from '~/entities/cooking-blog';
 import { UserCard } from '~/entities/user';
 import { SubscribeButton } from '~/features/supscription';
 import { ROUTES } from '~/shared/config/routes.constants';
+import { BsArrowRight } from '~/shared/ui/icon';
 
 type OtherBlogsGridProps = {
     otherBlogs: Bloger[];
@@ -26,7 +26,7 @@ export const OtherBlogsGrid = ({ otherBlogs, currentUserId }: OtherBlogsGridProp
                 alignItems='center'
                 fontSize={{ base: 'xs', lg: 'lg' }}
                 fontWeight='bold'
-                rightIcon={<ArrowForwardIcon />}
+                rightIcon={<BsArrowRight />}
                 data-test-id='blogger-user-other-blogs-button'
             >
                 Всe авторы
@@ -42,6 +42,7 @@ export const OtherBlogsGrid = ({ otherBlogs, currentUserId }: OtherBlogsGridProp
                 <CookingBlog
                     key={blog._id}
                     {...blog}
+                    isFavorite={!blog.isFavorite}
                     user={
                         <UserCard
                             firstName={blog.firstName ?? 'Имя'}

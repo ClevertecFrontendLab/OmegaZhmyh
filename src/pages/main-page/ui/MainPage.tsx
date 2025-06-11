@@ -51,6 +51,7 @@ export const MainPage = () => {
                     <Flex
                         justifyContent='space-between'
                         alignItems='end'
+                        display={theJuiciestRecipes?.length ? 'flex' : 'none'}
                         marginTop={{ base: '32px', lg: '40px' }}
                     >
                         <Text fontSize={{ base: '2xl', lg: '4xl' }} fontWeight={{ base: 'medium' }}>

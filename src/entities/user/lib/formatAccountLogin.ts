@@ -1,1 +1,1 @@
-export const formatAccountLogin = (login: string) => `@${login}`;
+export const formatAccountLogin = (login?: string) => (login ? `@${login}` : '');

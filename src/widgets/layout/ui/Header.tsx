@@ -38,7 +38,7 @@ export const Header = () => {
                 <UserCard
                     firstName='Екатерина'
                     lastName='Константинопольская'
-                    login='@bake_and_pie'
+                    login='bake_and_pie'
                 />
             </Box>
             <Flex gap={{ base: 2, sm: 4 }} display={{ base: 'flex', lg: 'none' }}>

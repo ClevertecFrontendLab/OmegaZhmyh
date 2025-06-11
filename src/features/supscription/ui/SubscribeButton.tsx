@@ -56,7 +56,8 @@ export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeB
                         leftIcon={<Icon as={BsPersonCheck} />}
                         size='xs'
                         variant='outline'
-                        bgColor='white'
+                        bgColor='whiteAlpha.100'
+                        borderColor='blackAlpha.600'
                         color='black'
                         onClick={handleSubscribe}
                         data-test-id='blog-toggle-unsubscribe'

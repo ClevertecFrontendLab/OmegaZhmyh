@@ -16,7 +16,11 @@ const PREVIEW_BLOGS_LIMIT = 3;
 export const BlogsPreview = () => {
     const currentUserId = useAppSelector(selectUserId);
 
-    const { data: blogs, isError } = useGetAllBloggersQuery({
+    const {
+        data: blogs,
+        isError,
+        isLoading,
+    } = useGetAllBloggersQuery({
         limit: '',
         currentUserId: currentUserId as string,
     });
@@ -36,7 +40,7 @@ export const BlogsPreview = () => {
         }
     }, [handleError, isError]);
 
-    return isError ? null : (
+    return isError || isLoading ? null : (
         <Box
             bgColor='lime.300'
             padding={{ base: '12px', lg: '24px' }}
@@ -87,6 +91,7 @@ export const BlogsPreview = () => {
                 <Button
                     as={Link}
                     to={ROUTES.BLOGS}
+                    display='flex'
                     margin={{ base: '12px auto 0 auto' }}
                     rightIcon={<ArrowForwardIcon />}
                     variant='ghost'

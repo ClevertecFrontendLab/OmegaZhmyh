@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Tag, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, StackProps, Tag, Text, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
@@ -12,7 +12,7 @@ type CookingBlogProps = Pick<
     action?: React.ReactNode;
     user: React.ReactNode;
     isFavorite?: boolean;
-};
+} & StackProps;
 
 export const CookingBlog = ({
     _id,
@@ -23,6 +23,7 @@ export const CookingBlog = ({
     subscribersCount,
     isFavorite,
     action,
+    ...props
 }: CookingBlogProps) => {
     const { text } = notes?.[0] ?? {};
 
@@ -48,12 +49,12 @@ export const CookingBlog = ({
             gap='16px'
             position='relative'
             padding={{ base: '16px', lg: '24px' }}
-            paddingTop='24px'
             bgColor='white'
             border='1px'
             borderColor='blackAlpha.200'
             borderRadius='8px'
             data-test-id='blogs-card'
+            {...props}
         >
             <Box>
                 {newRecipesCount && isFavorite ? (
@@ -82,7 +83,7 @@ export const CookingBlog = ({
 
             <HStack
                 justifyContent='space-between'
-                flexWrap='wrap-reverse'
+                flexWrap='wrap'
                 gap='16px'
                 w='100%'
                 style={{ direction: 'rtl' }}

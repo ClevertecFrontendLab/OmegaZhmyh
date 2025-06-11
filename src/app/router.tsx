@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router';
 
 import { AuthPage } from '~/pages/auth-page';
 import { VerificationPage } from '~/pages/auth-page/ui/VerificationPage';
-import { BloggerProfilePage } from '~/pages/blogger-profile-page/ui/BloggerProfilePage';
+import { BloggerProfilePage } from '~/pages/blogger-profile-page';
 import { BlogsPage } from '~/pages/blogs-page';
 import { CuisinePage } from '~/pages/cuisine-page';
 import { ErrorPage } from '~/pages/error-page';

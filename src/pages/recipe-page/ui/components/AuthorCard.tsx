@@ -1,6 +1,7 @@
 import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react';
 
 import { BloggerByIdResponse } from '~/entities/cooking-blog/types';
+import { formatAccountLogin } from '~/entities/user/lib/formatAccountLogin';
 import SergeyImg from '~/shared/assets/avatar_img/@serge25.png';
 import { BsPeople } from '~/shared/ui/icon';
 
@@ -36,7 +37,7 @@ export const AuthorBlog = ({ blog, action }: AuthorBlogProps) => {
                         {firstName} {lastName}
                     </Text>
                     <Text color='blackAlpha.700' fontSize='sm'>
-                        {`@${login}`}
+                        {formatAccountLogin(login)}
                     </Text>
                 </Box>
                 <HStack marginTop='16px' justifyContent='space-between'>

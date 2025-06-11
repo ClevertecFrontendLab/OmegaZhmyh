@@ -30,6 +30,7 @@ export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
                 return (
                     <CookingBlog
                         key={_id}
+                        pt='24px'
                         _id={_id}
                         user={
                             <UserCard
@@ -38,7 +39,6 @@ export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
                                 login={login ?? 'Логин'}
                             />
                         }
-                        isFavorite
                         action={
                             <Button
                                 as={Link}

@@ -26,6 +26,7 @@ export const OtherBlogs = ({ blogers, setShowMore, isShowMore, ...boxProps }: Ot
         <Box
             bgColor='blackAlpha.50'
             borderRadius='16px'
+            display={blogers.length > 0 ? 'block' : 'none'}
             p={{ base: '16px', lg: '24px' }}
             {...boxProps}
             data-test-id='blogs-others-box'
