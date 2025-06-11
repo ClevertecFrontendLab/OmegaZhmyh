@@ -1,10 +1,12 @@
 import { Button, Icon, Tooltip } from '@chakra-ui/react';
 import { useState } from 'react';
 
+import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { useErrorAlert } from '~/shared/ui/alert';
 import { AppSpiner } from '~/shared/ui/app-spiner';
 import { BsPersonCheck, BsPersonPlusFill } from '~/shared/ui/icon';
 
-import { SupscriptionRequest, useGetSupscriptionMutation } from '../api/supscription';
+import { SupscriptionRequest, useGetSupscriptionMutation } from '../api/supscriptionApi';
 
 const TOOLTIP_TEXT = {
     subscribe: 'Нажмите, если хотите подписаться',
@@ -18,14 +20,18 @@ type SubscribeButtonProps = SupscriptionRequest & {
 export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeButtonProps) => {
     const [isSubscribed, setIsSubscribed] = useState(isFavorite);
     const [getSupscription, { isLoading }] = useGetSupscriptionMutation();
+    const { handleError } = useErrorAlert();
 
     const handleSubscribe = async () => {
         if (fromUserId && toUserId) {
             try {
                 await getSupscription({ fromUserId, toUserId }).unwrap();
                 setIsSubscribed(!isSubscribed);
-            } catch (error) {
-                console.error('Failed to toggle subscription:', error);
+            } catch {
+                handleError({
+                    errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                    errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
+                });
             }
         }
     };

@@ -1,6 +1,8 @@
 import { BaseQueryFn, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { API_BASE_URL } from '../config/api-urls.constants';
+import { API_BASE_URL, API_URLS, TOKEN_KEY } from '../config/api.constants';
+import { HTTP_METHODS } from '../config/http-methods.constants';
+import { HTTP_STATUS } from '../config/http-status-codes.constants';
 import { ApplicationState } from '../store/configure-store';
 import { ImageUploadResponse, MeasureUnit } from './types';
 
@@ -25,16 +27,16 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
-    if (result.error && result.error.status === 403) {
+    if (result.error && result.error.status === HTTP_STATUS.FORBIDDEN) {
         const refreshResult = await baseQuery(
-            { url: '/auth/refresh', method: 'GET', credentials: 'include' },
+            { url: API_URLS.REFRESH_TOKEN, method: HTTP_METHODS.GET, credentials: 'include' },
             api,
             extraOptions,
         );
         if (refreshResult.meta) {
             const token = refreshResult.meta.response?.headers.get('authentication-access');
             if (token) {
-                localStorage.setItem('token', token);
+                localStorage.setItem(TOKEN_KEY, token);
                 api.dispatch({ type: 'auth/setCredentials', payload: { token } });
                 result = await baseQuery(args, api, extraOptions);
             } else {
@@ -51,7 +53,7 @@ export const yeedaaApi = createApi({
     tagTypes: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE, TAG_TYPES.SUBSCRIPTION],
     endpoints: (builder) => ({
         getMeasureUnits: builder.query<MeasureUnit[], void>({
-            query: () => '/measure-units',
+            query: () => API_URLS.MEASURE_UNITS,
             keepUnusedDataFor: Infinity,
         }),
         uploadImage: builder.mutation<ImageUploadResponse, File>({
@@ -59,8 +61,8 @@ export const yeedaaApi = createApi({
                 const formData = new FormData();
                 formData.append('file', file);
                 return {
-                    url: '/file/upload',
-                    method: 'POST',
+                    url: API_URLS.FILE_UPLOAD,
+                    method: HTTP_METHODS.POST,
                     body: formData,
                 };
             },

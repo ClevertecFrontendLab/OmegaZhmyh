@@ -1,4 +1,5 @@
 import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
+import { API_URLS } from '~/shared/config/api.constants';
 
 import {
     AllBlogersRequest,
@@ -11,14 +12,14 @@ export const blogApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllBloggers: builder.query<AllBlogersResponse, AllBlogersRequest>({
             query: ({ limit, currentUserId }) => ({
-                url: '/bloggers',
+                url: API_URLS.BLOGGERS,
                 params: { currentUserId, limit },
             }),
             providesTags: [TAG_TYPES.SUBSCRIPTION],
         }),
         getBloggerById: builder.query<BloggerByIdResponse, BlogerByIdRequest>({
             query: ({ bloggerId, currentUserId }) => ({
-                url: `/bloggers/${bloggerId}`,
+                url: `${API_URLS.BLOGGERS}/${bloggerId}`,
                 params: {
                     currentUserId,
                 },

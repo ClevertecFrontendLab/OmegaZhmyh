@@ -11,7 +11,7 @@ import { useRecipeData } from '../model/useRecipeData';
 import { BloggerProfileHeader } from './BloggerProfileHeader';
 import { BlogNotesBox } from './BlogNotesBox';
 import { OtherBlogsGrid } from './OtherBlogsGrid';
-import { RecipeCardBox } from './RecipeCardList';
+import { RecipeCardBox } from './RecipeCardBox';
 
 export const BloggerProfilePage = () => {
     const { bloggerId } = useParams();

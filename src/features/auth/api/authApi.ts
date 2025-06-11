@@ -1,6 +1,8 @@
 import { FetchBaseQueryMeta } from '@reduxjs/toolkit/query';
 
 import { yeedaaApi } from '~/shared/api/yeedaaApi';
+import { API_URLS, TOKEN_KEY } from '~/shared/config/api.constants';
+import { HTTP_METHODS } from '~/shared/config/http-methods.constants';
 
 import { setCredentials } from '../model/authSlice';
 import {
@@ -12,14 +14,12 @@ import {
     VerifyOtpRequest,
 } from '../types/auth.types';
 
-const TOKEN_KEY = 'token';
-
 export const authApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation<AuthResponse, LoginRequest>({
             query: (credentials) => ({
-                url: '/auth/login',
-                method: 'POST',
+                url: API_URLS.AUTH.LOGIN,
+                method: HTTP_METHODS.POST,
                 body: credentials,
                 credentials: 'include',
             }),
@@ -36,29 +36,29 @@ export const authApi = yeedaaApi.injectEndpoints({
         }),
         signup: builder.mutation<AuthResponse, SignupRequest>({
             query: (userData) => ({
-                url: '/auth/signup',
-                method: 'POST',
+                url: API_URLS.AUTH.SIGNUP,
+                method: HTTP_METHODS.POST,
                 body: userData,
             }),
         }),
         forgotPassword: builder.mutation<AuthResponse, ForgotPasswordRequest>({
             query: (email) => ({
-                url: '/auth/forgot-password',
-                method: 'POST',
+                url: API_URLS.AUTH.FORGOT_PASSWORD,
+                method: HTTP_METHODS.POST,
                 body: email,
             }),
         }),
         verifyOtp: builder.mutation<AuthResponse, VerifyOtpRequest>({
             query: (otpData) => ({
-                url: '/auth/verify-otp',
-                method: 'POST',
+                url: API_URLS.AUTH.VERIFY_OTP,
+                method: HTTP_METHODS.POST,
                 body: otpData,
             }),
         }),
         resetPassword: builder.mutation<AuthResponse, ResetPasswordRequest>({
             query: (passwordData) => ({
-                url: '/auth/reset-password',
-                method: 'POST',
+                url: API_URLS.AUTH.RESET_PASSWORD,
+                method: HTTP_METHODS.POST,
                 body: passwordData,
             }),
         }),

@@ -20,7 +20,7 @@ export const CookingBlogPreview = ({ user, text }: CookingBlogProps) => (
         data-test-id='blogs-card'
     >
         <Box>
-            {user && user}
+            {user}
             {text && (
                 <Text
                     marginTop={{ base: '12px' }}

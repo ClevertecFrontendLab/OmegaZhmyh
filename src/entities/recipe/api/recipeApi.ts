@@ -1,4 +1,6 @@
 import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
+import { API_URLS } from '~/shared/config/api.constants';
+import { HTTP_METHODS } from '~/shared/config/http-methods.constants';
 
 import {
     GetRecipeBySubategoryParams,
@@ -12,67 +14,67 @@ export const recipeApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({
         getRecipes: builder.query<RecipeResponse, GetRecipesParams>({
             query: (params) => ({
-                url: '/recipe',
+                url: API_URLS.RECIPES.BASE,
                 params,
             }),
             providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
         getRecipeBySubategory: builder.query<RecipeResponse, GetRecipeBySubategoryParams>({
             query: ({ subcategoryId, limit }) => ({
-                url: `/recipe/category/${subcategoryId}`,
+                url: `${API_URLS.RECIPES.CATEGORIES}/${subcategoryId}`,
                 params: { limit },
             }),
             providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
         getRecipeById: builder.query<Recipe, string>({
-            query: (id) => `/recipe/${id}`,
+            query: (id) => `${API_URLS.RECIPES.BASE}/${id}`,
             providesTags: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
         getRecipeByUserId: builder.query<RecipeResponseByUser, string>({
-            query: (userId) => `/recipe/user/${userId}`,
+            query: (userId) => `${API_URLS.RECIPES.USER}/${userId}`,
             providesTags: [TAG_TYPES.RECIPE_LIST, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE],
         }),
         createRecipe: builder.mutation<Recipe, CreateRecipe>({
             query: (recipe) => ({
-                url: '/recipe',
-                method: 'POST',
+                url: API_URLS.RECIPES.BASE,
+                method: HTTP_METHODS.POST,
                 body: recipe,
             }),
             invalidatesTags: [TAG_TYPES.RECIPE_LIST],
         }),
         createRecipeDraft: builder.mutation<Recipe, Partial<CreateRecipe>>({
             query: (recipe) => ({
-                url: '/recipe/draft',
-                method: 'POST',
+                url: API_URLS.RECIPES.DRAFT,
+                method: HTTP_METHODS.POST,
                 body: recipe,
             }),
         }),
         updateRecipe: builder.mutation<void, { recipe: Partial<CreateRecipe>; id: string }>({
             query: ({ recipe, id }) => ({
-                url: `/recipe/${id}`,
-                method: 'PATCH',
+                url: `${API_URLS.RECIPES.BASE}/${id}`,
+                method: HTTP_METHODS.PATCH,
                 body: recipe,
             }),
             invalidatesTags: [TAG_TYPES.RECIPE],
         }),
         deleteRecipe: builder.mutation<void, string>({
             query: (id) => ({
-                url: `/recipe/${id}`,
-                method: 'DELETE',
+                url: `${API_URLS.RECIPES.BASE}/${id}`,
+                method: HTTP_METHODS.DELETE,
             }),
             invalidatesTags: [TAG_TYPES.RECIPE_LIST],
         }),
         likeRecipe: builder.mutation<void, string>({
             query: (id) => ({
-                url: `/recipe/${id}/like`,
-                method: 'POST',
+                url: `${API_URLS.RECIPES.BASE}/${id}${API_URLS.RECIPES.LIKE}`,
+                method: HTTP_METHODS.POST,
             }),
             invalidatesTags: [TAG_TYPES.LIKE],
         }),
         bookmarkRecipe: builder.mutation<void, string>({
             query: (id) => ({
-                url: `/recipe/${id}/bookmark`,
-                method: 'POST',
+                url: `${API_URLS.RECIPES.BASE}/${id}${API_URLS.RECIPES.BOOKMARK}`,
+                method: HTTP_METHODS.POST,
             }),
             invalidatesTags: [TAG_TYPES.BOOKMARK],
         }),

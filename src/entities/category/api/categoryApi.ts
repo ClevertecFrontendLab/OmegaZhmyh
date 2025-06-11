@@ -1,4 +1,5 @@
 import { yeedaaApi } from '~/shared/api/yeedaaApi';
+import { API_URLS } from '~/shared/config/api.constants';
 import { setCategoriesLoading } from '~/shared/store/app-slice';
 
 import { setCategories } from '../model/slice';
@@ -7,7 +8,7 @@ import { CategoriesResponse } from '../types';
 export const categoryApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({
         getCategories: builder.query<CategoriesResponse, void>({
-            query: () => '/category',
+            query: () => API_URLS.CATEGORIES,
             keepUnusedDataFor: Infinity,
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 try {
@@ -22,7 +23,7 @@ export const categoryApi = yeedaaApi.injectEndpoints({
             },
         }),
         getCategoryById: builder.query<CategoriesResponse, string>({
-            query: (id) => `/category/${id}`,
+            query: (id) => `${API_URLS.CATEGORIES}/${id}`,
         }),
     }),
 });

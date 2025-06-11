@@ -9,8 +9,8 @@ type CookingBlogProps = Pick<
     Bloger,
     'notes' | 'newRecipesCount' | 'bookmarksCount' | 'subscribersCount' | '_id'
 > & {
-    action?: React.ReactNode;
     user: React.ReactNode;
+    action?: React.ReactNode;
     isFavorite?: boolean;
 } & StackProps;
 
@@ -67,7 +67,7 @@ export const CookingBlog = ({
                         {newRecipesCount} новых {getRecipeWord(newRecipesCount)}
                     </Tag>
                 ) : null}
-                {user && user}
+                {user}
                 {text && (
                     <Text
                         marginTop={{ base: '12px' }}
