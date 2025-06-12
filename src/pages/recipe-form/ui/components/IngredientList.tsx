@@ -5,7 +5,7 @@ import { CreateRecipe, IngredientType } from '~/entities/recipe';
 import { MeasureUnit, useGetMeasureUnitsQuery } from '~/shared/api';
 import { BsPlusCircle, BsPlusCircleFill, BsTrash } from '~/shared/ui/icon';
 
-import { FORM_FIELDS, PLACEHOLDERS } from './constants';
+import { FORM_FIELDS, PLACEHOLDERS } from '../recipe-form.constants';
 
 export const IngredientList = () => {
     const { values, errors } = useFormikContext<CreateRecipe>();

@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router';
 
 import { useGetRecipeByUserIdQuery } from '~/entities/recipe/api/recipeApi';
 import { isErrorResponse } from '~/features/auth/';
-import { HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
+import { BLOG_RECIPES_LIMIT, HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
 import { useErrorAlert } from '~/shared/ui/alert';
 
-const BLOG_RECIPES_LIMIT = 8;
 export const useRecipeData = (bloggerId: string) => {
     const navigate = useNavigate();
     const { handleError } = useErrorAlert();

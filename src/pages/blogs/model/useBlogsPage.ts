@@ -4,11 +4,9 @@ import { useNavigate } from 'react-router';
 import { useGetAllBloggersQuery } from '~/entities/cooking-blog';
 import { selectUserId } from '~/features/auth';
 import { isErrorResponse } from '~/features/auth/';
-import { HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
+import { BLOG_LIMIT, HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
 import { useAppSelector } from '~/shared/store/hooks';
 import { useErrorAlert } from '~/shared/ui/alert';
-
-const BLOG_LIMIT = 9;
 
 export const useBlogsPage = () => {
     const navigate = useNavigate();

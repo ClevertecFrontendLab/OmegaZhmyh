@@ -17,9 +17,9 @@ import { HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
 import { useErrorAlert } from '~/shared/ui/alert';
 
 import { deepClean } from '../lib/deepClean';
-import { RECIPE_MESSAGES } from './constants';
+import { RecipeForm } from './components/RecipeForm';
 import { LeaveConfirmModal } from './LeaveConfirmModal';
-import { RecipeForm } from './RecipeForm';
+import { RECIPE_MESSAGES } from './recipe-form.constants';
 
 const initialValues: Partial<CreateRecipe> = {
     steps: [{ stepNumber: 1, description: '' }],

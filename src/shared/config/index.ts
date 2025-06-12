@@ -1,3 +1,5 @@
+export { BLOG_RECIPES_LIMIT } from './bloger-profile.config';
+export { BLOG_LIMIT } from './blogs-page.config';
 export { API_BASE_IMG_URL, API_BASE_URL, API_URLS, TOKEN_KEY } from './constants/api.constants';
 export {
     ACCORDION_VARIANT,

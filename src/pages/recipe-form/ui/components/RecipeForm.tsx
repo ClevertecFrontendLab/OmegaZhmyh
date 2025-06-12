@@ -22,9 +22,9 @@ import { CreateRecipe } from '~/entities/recipe';
 import { getImgUrlPath } from '~/shared/lib';
 import { BiEditAlt, BsFillImageFill } from '~/shared/ui/icon';
 
-import { useImageInput } from '../lib/useImageInput';
-import { useRecipeForm } from '../model/useRecipeForm';
-import { BUTTONS, FORM_FIELDS, PLACEHOLDERS } from './constants';
+import { useImageInput } from '../../lib/useImageInput';
+import { useRecipeForm } from '../../model/useRecipeForm';
+import { BUTTONS, FORM_FIELDS, PLACEHOLDERS } from '../recipe-form.constants';
 import { CookingSteps } from './CookingSteps';
 import { IngredientList } from './IngredientList';
 import { SubcategorySelect } from './SubcategorySelect';

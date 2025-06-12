@@ -2,7 +2,7 @@ import { useFormikContext } from 'formik';
 import { RefObject, useEffect, useState } from 'react';
 import { useBlocker } from 'react-router';
 
-import { CreateRecipe } from '~/entities/Recipe';
+import { CreateRecipe } from '~/entities/recipe';
 
 import { useValidation } from '../lib/useValidation';
 import { draftSchema } from './validationSchema';

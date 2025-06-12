@@ -1,10 +1,10 @@
 import { Button, HStack, Icon, Text, VStack } from '@chakra-ui/react';
 import { FieldArray, useFormikContext } from 'formik';
 
-import { CreateRecipe } from '~/entities/Recipe';
+import { CreateRecipe } from '~/entities/recipe';
 import { BsPlusCircleFill } from '~/shared/ui/icon';
 
-import { BUTTONS, FORM_FIELDS } from './constants';
+import { BUTTONS, FORM_FIELDS } from '../recipe-form.constants';
 import { StepItem } from './StepItem';
 
 type CookingStepsProps = {

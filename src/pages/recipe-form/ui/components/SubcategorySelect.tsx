@@ -17,7 +17,7 @@ import { selectSubCategories } from '~/entities/category';
 import { CreateRecipe } from '~/entities/recipe';
 import { useAppSelector } from '~/shared/store/hooks';
 
-import { FORM_FIELDS } from './constants';
+import { FORM_FIELDS } from '../recipe-form.constants';
 
 export const SubcategorySelect = () => {
     const { setFieldValue, values, errors } = useFormikContext<CreateRecipe>();

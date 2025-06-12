@@ -15,7 +15,7 @@ import { CreateRecipe, StepType } from '~/entities/recipe';
 import { getImgUrlPath } from '~/shared/lib';
 import { BsFillImageFill, BsTrash } from '~/shared/ui/icon';
 
-import { FORM_FIELDS, PLACEHOLDERS } from './constants';
+import { FORM_FIELDS, PLACEHOLDERS } from '../recipe-form.constants';
 
 export type StepItemProps = FlexProps & {
     step: StepType;

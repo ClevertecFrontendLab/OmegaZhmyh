@@ -1,4 +1,4 @@
-import { CreateRecipe } from '~/entities/Recipe';
+import { CreateRecipe } from '~/entities/recipe';
 
 import { useValidation } from '../lib/useValidation';
 import { draftSchema, requiredSchema } from './validationSchema';
