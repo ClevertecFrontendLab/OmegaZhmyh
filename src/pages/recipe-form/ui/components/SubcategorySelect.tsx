@@ -12,34 +12,75 @@ import {
     useBreakpointValue,
 } from '@chakra-ui/react';
 import { useFormikContext } from 'formik';
+import { memo, useCallback, useMemo } from 'react';
 
 import { selectSubCategories } from '~/entities/category';
 import { CreateRecipe } from '~/entities/recipe';
-import { useAppSelector } from '~/shared/store/hooks';
+import { useAppSelector } from '~/shared/store';
 
 import { FORM_FIELDS } from '../recipe-form.constants';
+
+const CategoryMenuItem = memo(
+    ({
+        id,
+        title,
+        isChecked,
+        onCheck,
+        bgColor,
+    }: {
+        id: string;
+        title: string;
+        isChecked: boolean;
+        onCheck: () => void;
+        bgColor: string;
+    }) => (
+        <MenuItem>
+            <Checkbox isChecked={isChecked} onChange={onCheck} bgColor={bgColor} key={id}>
+                {title}
+            </Checkbox>
+        </MenuItem>
+    ),
+);
 
 export const SubcategorySelect = () => {
     const { setFieldValue, values, errors } = useFormikContext<CreateRecipe>();
     const subcategories = useAppSelector(selectSubCategories);
     const tagCount = useBreakpointValue({ base: 1, lg: 2 }) ?? 1;
 
-    const onCheckCategory = (categoryId: string) => {
-        const currentCategories = values.categoriesIds || [];
-        const newCategories = currentCategories.includes(categoryId)
-            ? currentCategories.filter((id) => id !== categoryId)
-            : [...currentCategories, categoryId];
-        setFieldValue(FORM_FIELDS.CATEGORIES, newCategories);
-    };
+    const onCheckCategory = useCallback(
+        (categoryId: string) => {
+            const currentCategories = values.categoriesIds || [];
+            const newCategories = currentCategories.includes(categoryId)
+                ? currentCategories.filter((id) => id !== categoryId)
+                : [...currentCategories, categoryId];
+            setFieldValue(FORM_FIELDS.CATEGORIES, newCategories);
+        },
+        [values.categoriesIds, setFieldValue],
+    );
+
+    const categoryItems = useMemo(
+        () =>
+            subcategories.map(({ _id, title }, index) => (
+                <CategoryMenuItem
+                    key={_id}
+                    id={_id}
+                    title={title}
+                    isChecked={values.categoriesIds?.includes(_id)}
+                    onCheck={() => onCheckCategory(_id)}
+                    bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
+                />
+            )),
+        [subcategories, values.categoriesIds, onCheckCategory],
+    );
 
     return (
-        <Menu closeOnSelect={false}>
+        <Menu closeOnSelect={false} matchWidth>
             <MenuButton
                 as={Button}
                 rightIcon={<ChevronDownIcon />}
                 color='blackAlpha.700'
                 flexShrink={0}
-                maxW={{ base: '185px', md: 'none' }}
+                w={{ base: '185px', md: '232px', lg: '350px' }}
                 size='md'
                 variant='outline'
                 border={errors[FORM_FIELDS.CATEGORIES] ? '2px solid' : '1px solid'}
@@ -82,23 +123,13 @@ export const SubcategorySelect = () => {
                             overflow='hidden'
                             whiteSpace='nowrap'
                         >
-                            Выберите категории
+                            Выберите из списка...
                         </Text>
                     )}
                 </Flex>
             </MenuButton>
-            <MenuList>
-                {subcategories.map(({ _id, title }, index) => (
-                    <MenuItem
-                        as={Checkbox}
-                        isChecked={values.categoriesIds?.includes(_id)}
-                        onChange={() => onCheckCategory(_id)}
-                        bgColor={index % 2 === 0 ? 'blackAlpha.100' : 'white'}
-                        key={_id}
-                    >
-                        {title}
-                    </MenuItem>
-                ))}
+            <MenuList maxH='336px' overflowY='auto' sx={{ scrollbarWidth: 'none' }}>
+                {categoryItems}
             </MenuList>
         </Menu>
     );
