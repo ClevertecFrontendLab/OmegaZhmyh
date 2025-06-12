@@ -4,15 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/category';
 import { useGetRecipeBySubategoryQuery } from '~/entities/recipe/';
-import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
-import { setRelevantKitchenLoader } from '~/shared/store/app-slice';
-import { setError } from '~/shared/store/notificationSlice';
+import { RECIPES_LIMITS, SERVER_ERROR_MESSAGES } from '~/shared/config';
+import { setRelevantKitchenLoader } from '~/shared/store';
+import { useErrorAlert } from '~/shared/ui/alert';
 
 import { TextCard } from './TextCard';
 import { TextTagDecsCard } from './TextTagDecsCard';
 
 export const RelevantKitchen = (props: GridProps) => {
     const dispatch = useDispatch();
+    const { handleError } = useErrorAlert();
 
     const subcategories = useSelector(selectSubCategories);
     const maincategories = useSelector(selectMainCategories);
@@ -36,14 +37,12 @@ export const RelevantKitchen = (props: GridProps) => {
 
     useEffect(() => {
         if (isError) {
-            dispatch(
-                setError({
-                    title: 'Ошибка сервера',
-                    message: 'Попробуйте поискать снова попозже',
-                }),
-            );
+            handleError({
+                errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
+                errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_TRY_AGAIN_LATER,
+            });
         }
-    }, [dispatch, isError]);
+    }, [dispatch, handleError, isError]);
 
     useEffect(() => {
         dispatch(setRelevantKitchenLoader(isLoading));

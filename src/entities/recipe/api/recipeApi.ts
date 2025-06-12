@@ -1,14 +1,13 @@
-import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
-import { API_URLS } from '~/shared/config/api.constants';
-import { HTTP_METHODS } from '~/shared/config/http-methods.constants';
+import { TAG_TYPES, yeedaaApi } from '~/shared/api';
+import { API_URLS, HTTP_METHODS } from '~/shared/config';
 
 import {
     GetRecipeBySubategoryParams,
     GetRecipesParams,
     RecipeResponse,
     RecipeResponseByUser,
-} from '../model/types';
-import { CreateRecipe, Recipe } from '../model/types';
+} from '../model/recipe.types';
+import { CreateRecipe, Recipe } from '../model/recipe.types';
 
 export const recipeApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({

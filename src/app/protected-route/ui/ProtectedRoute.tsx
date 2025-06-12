@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router';
 
-import { ROUTES } from '~/shared/config/routes.constants';
+import { ROUTES } from '~/shared/config';
 import { Layout } from '~/widgets/layout';
 
 export const ProtectedRoute = () => {

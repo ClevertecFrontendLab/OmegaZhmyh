@@ -5,9 +5,9 @@ import { Link } from 'react-router';
 import { selectAllCategories } from '~/entities/category';
 import { Recipe } from '~/entities/recipe';
 import { selectSearch } from '~/features/recipe-filters';
+import { getImgUrlPath } from '~/shared/lib';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
 import { RecipeTags } from '~/shared/ui/recipe-tags';
-import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 type NewRecipeCardProps = {
     recipe: Recipe;

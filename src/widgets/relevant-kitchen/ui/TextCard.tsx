@@ -2,7 +2,7 @@ import { Button, Grid, Text } from '@chakra-ui/react';
 
 import { MainCategory } from '~/entities/category';
 import { Recipe } from '~/entities/recipe';
-import { getImgUrlPath } from '~/shared/utils/getUrlPath';
+import { getImgUrlPath } from '~/shared/lib';
 
 type TextCardProps = {
     recipe: Recipe;

@@ -1,10 +1,8 @@
 import { FetchBaseQueryMeta } from '@reduxjs/toolkit/query';
 
 import { yeedaaApi } from '~/shared/api/yeedaaApi';
-import { API_URLS, TOKEN_KEY } from '~/shared/config/api.constants';
-import { HTTP_METHODS } from '~/shared/config/http-methods.constants';
+import { API_URLS, HTTP_METHODS, TOKEN_KEY } from '~/shared/config';
 
-import { setCredentials } from '../model/authSlice';
 import {
     AuthResponse,
     ForgotPasswordRequest,
@@ -12,7 +10,8 @@ import {
     ResetPasswordRequest,
     SignupRequest,
     VerifyOtpRequest,
-} from '../types/auth.types';
+} from '../model/auth.types';
+import { setCredentials } from '../model/authSlice';
 
 export const authApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({

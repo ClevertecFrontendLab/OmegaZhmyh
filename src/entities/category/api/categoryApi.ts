@@ -1,9 +1,9 @@
 import { yeedaaApi } from '~/shared/api/yeedaaApi';
-import { API_URLS } from '~/shared/config/api.constants';
+import { API_URLS } from '~/shared/config';
 import { setCategoriesLoading } from '~/shared/store/app-slice';
 
+import { CategoriesResponse } from '../model/category.types';
 import { setCategories } from '../model/slice';
-import { CategoriesResponse } from '../types';
 
 export const categoryApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({

@@ -11,9 +11,9 @@ import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { selectMainCategories } from '~/entities/Category/model/slice';
-import { ACCORDION_VARIANT } from '~/shared/config/chakra-variants.constants';
-import { getImgUrlPath } from '~/shared/utils/getUrlPath';
+import { selectMainCategories } from '~/entities/category';
+import { ACCORDION_VARIANT } from '~/shared/config';
+import { getImgUrlPath } from '~/shared/lib';
 
 import { useOverflow } from '../../lib/useOverflow';
 import { SubcategoryList } from './SubcategoryList';

@@ -1,7 +1,7 @@
 import { Center, Flex, IconButton, Text } from '@chakra-ui/react';
 import { useMatch, useNavigate } from 'react-router';
 
-import { ROUTES } from '~/shared/config/routes.constants';
+import { ROUTES } from '~/shared/config';
 import { BsPencil } from '~/shared/ui/icon';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/mini-buttons';
 

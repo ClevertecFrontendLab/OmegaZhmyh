@@ -1,7 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CategoriesResponse } from '../types';
-import { CategoryState, MainCategory, SubCategory } from '../types';
+import { CategoriesResponse } from './category.types';
+import { CategoryState, MainCategory, SubCategory } from './category.types';
 
 export const initialState: CategoryState = {
     mainCategories: [],

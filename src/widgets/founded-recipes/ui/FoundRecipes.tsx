@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { MainCategory, selectMainCategories } from '~/entities/category';
-import { useGetRecipesQuery } from '~/entities/recipe/';
+import { RecipeCardList, useGetRecipesQuery } from '~/entities/recipe/';
 import {
     selectActiveSearchQuery,
     selectAllergenFilters,
@@ -13,7 +13,6 @@ import {
     setSearchLoading,
 } from '~/features/recipe-filters';
 import { selectCurrentFilters } from '~/features/recipe-filters/model/slice';
-import { RecipeCardList } from '~/shared/ui/recipe-card-list';
 
 export function FoundRecipes({ cuisinePageFilter }: { cuisinePageFilter?: string }) {
     const dispatch = useDispatch();

@@ -1,9 +1,8 @@
 import { Flex, Spinner } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 
-import { userLoadingSelector } from '~/shared/store/app-slice';
-import { useAppSelector } from '~/shared/store/hooks';
-import { closeBurger } from '~/widgets/Layout';
+import { useAppSelector, userLoadingSelector } from '~/shared/store';
+import { closeBurger } from '~/widgets/layout';
 
 export const FullscreenSpinner = () => {
     const idAppLoading = useAppSelector(userLoadingSelector);

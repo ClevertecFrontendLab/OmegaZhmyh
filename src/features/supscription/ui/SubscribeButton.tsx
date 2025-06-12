@@ -1,7 +1,7 @@
 import { Button, Icon, Tooltip } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config';
 import { useErrorAlert } from '~/shared/ui/alert';
 import { AppSpiner } from '~/shared/ui/app-spiner';
 import { BsPersonCheck, BsPersonPlusFill } from '~/shared/ui/icon';

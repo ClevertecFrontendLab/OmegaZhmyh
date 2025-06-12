@@ -4,8 +4,7 @@ import { Box, BoxProps, LinkBox, Text, useBreakpointValue } from '@chakra-ui/rea
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { useGetRecipesQuery } from '~/entities/recipe/';
-import { RECIPES_LIMITS } from '~/shared/config/limits.constants';
-import { SORT } from '~/shared/config/sort.constants';
+import { RECIPES_LIMITS, SORT } from '~/shared/config';
 
 import { NewRecipeCard } from './NewRecipeCard';
 import { SlideNextButton } from './SlideNextButton';

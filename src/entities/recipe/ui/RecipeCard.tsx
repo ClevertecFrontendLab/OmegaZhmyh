@@ -14,19 +14,18 @@ import {
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { selectCategoryById, selectRecipeSubCategories } from '~/entities/category';
-import { isErrorResponse } from '~/features/auth/types/auth.types';
+import { selectCategoryById, selectRecipeSubCategories } from '~/entities/category/@x/recipe';
+import { isErrorResponse } from '~/features/auth/';
 import { selectSearch } from '~/features/recipe-filters';
-import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants';
-import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { HTTP_STATUS, SERVER_ERROR_MESSAGES } from '~/shared/config';
+import { getImgUrlPath } from '~/shared/lib';
 import { useErrorAlert } from '~/shared/ui/alert';
 import { BsBookmarkHeart } from '~/shared/ui/icon';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
 import { RecipeTags } from '~/shared/ui/recipe-tags';
-import { getImgUrlPath } from '~/shared/utils/getUrlPath';
 
 import { useBookmarkRecipeMutation } from '../api/recipeApi';
-import { Recipe } from '../model/types';
+import { Recipe } from '../model/recipe.types';
 export type RecipeCardProps = {
     recipe: Recipe;
     cardLinkId?: number;

@@ -1,8 +1,6 @@
 import { BaseQueryFn, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { API_BASE_URL, API_URLS, TOKEN_KEY } from '../config/api.constants';
-import { HTTP_METHODS } from '../config/http-methods.constants';
-import { HTTP_STATUS } from '../config/http-status-codes.constants';
+import { API_BASE_URL, API_URLS, HTTP_METHODS, HTTP_STATUS, TOKEN_KEY } from '../config';
 import { ApplicationState } from '../store/configure-store';
 import { ImageUploadResponse, MeasureUnit } from './types';
 

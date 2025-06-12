@@ -13,13 +13,13 @@ import { Field, Form, useFormikContext } from 'formik';
 import { useState } from 'react';
 
 import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
-import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
+import { FORM_FIELD } from '~/shared/config';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setForgotPasswordModal } from '~/shared/store/notificationSlice';
 import { BsEyeFill, BsEyeSlashFill } from '~/shared/ui/icon';
 
-import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
-import { LoginRequest } from '../../../types/auth.types';
+import { LoginRequest } from '../../../model/auth.types';
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../fields.constants';
 
 type SignInFormContentProps = {
     isInvalid: boolean;

@@ -11,13 +11,12 @@ import {
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 
+import { isErrorResponse } from '~/features/auth/';
 import { useForgotPasswordMutation } from '~/features/auth/api/authApi';
-import { isErrorResponse } from '~/features/auth/types/auth.types';
-import { forgotPasswordSchema } from '~/features/auth/validation/auth.validation';
+import { forgotPasswordSchema } from '~/features/auth/model/auth.validation';
 import breakfast from '~/shared/assets/breakfast.png';
-import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
-import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.ts';
-import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { FORM_FIELD } from '~/shared/config';
+import { HTTP_STATUS, SERVER_ERROR_MESSAGES } from '~/shared/config';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearForgotPasswordModal,
@@ -28,8 +27,8 @@ import {
 import { useErrorAlert } from '~/shared/ui/alert';
 import { ModalNotification } from '~/shared/ui/modal-notification';
 
-import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
-import { FORGOT_PASSWORD_FORM_ERROR_MESSAGES } from '../../../constants/form-messages.constants.ts';
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../fields.constants';
+import { FORGOT_PASSWORD_FORM_ERROR_MESSAGES } from '../../form-messages.constants';
 
 export const ForgotPasswordForm = () => {
     const dispatch = useAppDispatch();

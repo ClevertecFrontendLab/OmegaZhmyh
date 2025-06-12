@@ -1,4 +1,5 @@
 export { useGetCategoriesQuery, useGetCategoryByIdQuery } from './api/categoryApi';
+export type { MainCategory, SubCategory } from './model/category.types';
 export {
     categorySlice,
     selectAllCategories,
@@ -7,6 +8,4 @@ export {
     selectRecipeSubCategories,
     selectSubCategories,
 } from './model/slice';
-export { categoryReducer } from './model/slice';
-export { setCategories } from './model/slice';
-export type { MainCategory, SubCategory } from './types';
+export { categoryReducer, setCategories } from './model/slice';

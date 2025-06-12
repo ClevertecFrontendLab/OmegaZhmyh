@@ -1,6 +1,6 @@
 import { Tag, TagLabel, TagProps } from '@chakra-ui/react';
 
-import { getImgUrlPath } from '~/shared/utils/getUrlPath';
+import { getImgUrlPath } from '~/shared/lib';
 
 type CategoryTagProps = TagProps & {
     title: string;

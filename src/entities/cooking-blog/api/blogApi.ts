@@ -1,12 +1,12 @@
-import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
-import { API_URLS } from '~/shared/config/api.constants';
+import { TAG_TYPES, yeedaaApi } from '~/shared/api';
+import { API_URLS } from '~/shared/config';
 
 import {
     AllBlogersRequest,
     AllBlogersResponse,
     BlogerByIdRequest,
     BloggerByIdResponse,
-} from '../types';
+} from '../model/blog.types';
 
 export const blogApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({

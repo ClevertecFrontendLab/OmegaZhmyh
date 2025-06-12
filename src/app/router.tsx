@@ -1,16 +1,15 @@
 import { createBrowserRouter } from 'react-router';
 
-import { AuthPage } from '~/pages/auth-page';
-import { VerificationPage } from '~/pages/auth-page/ui/VerificationPage';
-import { BloggerProfilePage } from '~/pages/blogger-profile-page';
-import { BlogsPage } from '~/pages/blogs-page';
-import { CuisinePage } from '~/pages/cuisine-page';
-import { ErrorPage } from '~/pages/error-page';
-import { JuiciestPage } from '~/pages/juiciest-page';
-import { MainPage } from '~/pages/main-page';
-import { RecipeFormPage } from '~/pages/recipe-form-page';
-import { RecipePage } from '~/pages/recipe-page';
-import { ROUTES } from '~/shared/config/routes.constants';
+import { AuthPage, VerificationPage } from '~/pages/auth';
+import { BloggerProfilePage } from '~/pages/blogger-profile';
+import { BlogsPage } from '~/pages/blogs';
+import { CuisinePage } from '~/pages/cuisine';
+import { JuiciestPage } from '~/pages/juiciest';
+import { MainPage } from '~/pages/main';
+import { ErrorPage } from '~/pages/not-found';
+import { RecipePage } from '~/pages/recipe';
+import { RecipeFormPage } from '~/pages/recipe-form';
+import { ROUTES } from '~/shared/config';
 import { Layout } from '~/widgets/layout';
 
 import App from './App';

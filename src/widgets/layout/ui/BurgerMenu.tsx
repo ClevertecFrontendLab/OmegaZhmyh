@@ -1,7 +1,7 @@
 import { Flex, Modal, ModalBody, ModalContent, ModalOverlay } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MODAL_VARIANT } from '~/shared/config/chakra-variants.constants';
+import { MODAL_VARIANT } from '~/shared/config';
 
 import { selectIsBurgerOpen } from '../model/slice';
 import { closeBurger } from '../model/slice';

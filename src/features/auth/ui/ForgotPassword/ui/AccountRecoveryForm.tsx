@@ -2,9 +2,9 @@ import { Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 
 import { useResetPasswordMutation } from '~/features/auth/api/authApi';
-import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
-import { resetPasswordSchema } from '~/features/auth/validation/auth.validation';
-import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.ts';
+import { ResetPasswordRequest } from '~/features/auth/model/auth.types';
+import { resetPasswordSchema } from '~/features/auth/model/auth.validation';
+import { SERVER_ERROR_MESSAGES } from '~/shared/config';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
@@ -18,7 +18,7 @@ import { ModalNotification } from '~/shared/ui/modal-notification';
 import {
     ACCOUNT_RECOVERY_FORM_SUCCESS_MESSAGES,
     SUCCESS_STATUS,
-} from '../../../constants/form-messages.constants.ts';
+} from '../../form-messages.constants';
 import { ResetPasswordStep } from './ResetPasswordStep';
 
 const initialValues: ResetPasswordRequest = {

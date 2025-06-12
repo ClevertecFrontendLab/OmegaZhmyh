@@ -2,8 +2,7 @@ import { TabList, Tabs } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 
 import AvatarImg from '~/shared/assets/avatar.png';
-import { MOBILE_FOOTER_VARIANT } from '~/shared/config/chakra-variants.constants';
-import { ROUTES } from '~/shared/config/routes.constants';
+import { MOBILE_FOOTER_VARIANT, ROUTES } from '~/shared/config';
 import { BsHouse, BsPencil, BsSearch } from '~/shared/ui/icon';
 
 import { createIconTab } from '../lib/createIconTab';

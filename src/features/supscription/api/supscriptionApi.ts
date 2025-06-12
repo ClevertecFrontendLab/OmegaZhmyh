@@ -1,6 +1,5 @@
-import { TAG_TYPES, yeedaaApi } from '~/shared/api/yeedaaApi';
-import { API_URLS } from '~/shared/config/api.constants';
-import { HTTP_METHODS } from '~/shared/config/http-methods.constants';
+import { TAG_TYPES, yeedaaApi } from '~/shared/api';
+import { API_URLS, HTTP_METHODS } from '~/shared/config';
 
 export type SupscriptionRequest = {
     fromUserId: string;
