@@ -2,14 +2,14 @@ import { Box, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 
 import verificationImage from '~/shared/assets/email-code-verification2.png';
-import { ROUTES } from '~/shared/config/routes.constants';
+import { ROUTES } from '~/shared/config';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
     clearEmailVerificationModal,
     selectEmailVerificationModal,
     selectEmailVerificationModalEmail,
 } from '~/shared/store/notificationSlice';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 export const EmailVerificationModal = () => {
     const dispatch = useAppDispatch();

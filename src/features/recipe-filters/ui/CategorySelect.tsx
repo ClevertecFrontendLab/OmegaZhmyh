@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectMainCategories } from '~/entities/Category';
+import { selectMainCategories } from '~/entities/category';
 
 import { selectUiState } from '../model/slice';
 import { toggleCategory } from '../model/slice';

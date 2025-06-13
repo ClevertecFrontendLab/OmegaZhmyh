@@ -1,7 +1,7 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { FetchBaseQueryMeta } from '@reduxjs/toolkit/query';
 
-import { API_BASE_URL } from '~/shared/config/api-urls.constants';
-import { ApplicationState } from '~/shared/store/configure-store';
+import { yeedaaApi } from '~/shared/api/yeedaaApi';
+import { API_URLS, HTTP_METHODS, TOKEN_KEY } from '~/shared/config';
 
 import {
     AuthResponse,
@@ -10,62 +10,54 @@ import {
     ResetPasswordRequest,
     SignupRequest,
     VerifyOtpRequest,
-} from '../types/auth.types';
+} from '../model/auth.types';
+import { setCredentials } from '../model/authSlice';
 
-const TOKEN_KEY = 'token';
-
-export const authApi = createApi({
-    reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: API_BASE_URL,
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as ApplicationState).auth.token;
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`);
-            }
-            return headers;
-        },
-    }),
+export const authApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation<AuthResponse, LoginRequest>({
             query: (credentials) => ({
-                url: '/auth/login',
-                method: 'POST',
+                url: API_URLS.AUTH.LOGIN,
+                method: HTTP_METHODS.POST,
                 body: credentials,
+                credentials: 'include',
             }),
-            transformResponse: (response: AuthResponse, meta) => {
-                const token = meta?.response?.headers.get('authentication-access');
+            onQueryStarted: async (_, { queryFulfilled, dispatch }) => {
+                const { meta } = await queryFulfilled;
+                const token = (meta as FetchBaseQueryMeta)?.response?.headers.get(
+                    'authentication-access',
+                );
                 if (token) {
                     localStorage.setItem(TOKEN_KEY, token);
+                    dispatch(setCredentials({ token }));
                 }
-                return response;
             },
         }),
         signup: builder.mutation<AuthResponse, SignupRequest>({
             query: (userData) => ({
-                url: '/auth/signup',
-                method: 'POST',
+                url: API_URLS.AUTH.SIGNUP,
+                method: HTTP_METHODS.POST,
                 body: userData,
             }),
         }),
         forgotPassword: builder.mutation<AuthResponse, ForgotPasswordRequest>({
             query: (email) => ({
-                url: '/auth/forgot-password',
-                method: 'POST',
+                url: API_URLS.AUTH.FORGOT_PASSWORD,
+                method: HTTP_METHODS.POST,
                 body: email,
             }),
         }),
         verifyOtp: builder.mutation<AuthResponse, VerifyOtpRequest>({
             query: (otpData) => ({
-                url: '/auth/verify-otp',
-                method: 'POST',
+                url: API_URLS.AUTH.VERIFY_OTP,
+                method: HTTP_METHODS.POST,
                 body: otpData,
             }),
         }),
         resetPassword: builder.mutation<AuthResponse, ResetPasswordRequest>({
             query: (passwordData) => ({
-                url: '/auth/reset-password',
-                method: 'POST',
+                url: API_URLS.AUTH.RESET_PASSWORD,
+                method: HTTP_METHODS.POST,
                 body: passwordData,
             }),
         }),

@@ -1,11 +1,10 @@
 import { Box, HStack, Image, Link, PinInput, PinInputField, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 
+import { isErrorResponse } from '~/features/auth/';
 import { useVerifyOtpMutation } from '~/features/auth/api/authApi';
-import { isErrorResponse } from '~/features/auth/types/auth.types';
 import emailCodeVerification from '~/shared/assets/email-code-verification.png';
-import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.ts';
-import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { HTTP_STATUS, SERVER_ERROR_MESSAGES } from '~/shared/config';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import {
@@ -14,8 +13,8 @@ import {
     selectVerifyOtpModalEmail,
     setAccountRecoveryModal,
 } from '~/shared/store/notificationSlice';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 const OTP_LENGTH = 6;
 

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { FilterGroup } from '~/shared/ui/FilterGroup';
+import { FilterGroup } from '~/shared/ui/filter-group';
 
 import { selectFiltersOptions, selectUiState } from '../model/slice';
 import { toggleSideDishe } from '../model/slice';

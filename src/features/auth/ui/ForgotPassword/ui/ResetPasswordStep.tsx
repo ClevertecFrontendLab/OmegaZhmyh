@@ -13,12 +13,11 @@ import { Field, useFormikContext } from 'formik';
 import { useState } from 'react';
 
 import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
-import { ResetPasswordRequest } from '~/features/auth/types/auth.types';
-import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
-import { BsEyeFill } from '~/shared/ui/Icons/ui/BsEyeFill';
-import { BsEyeSlashFill } from '~/shared/ui/Icons/ui/BsEyeSlashFill';
+import { ResetPasswordRequest } from '~/features/auth/model/auth.types';
+import { FORM_FIELD } from '~/shared/config';
+import { BsEyeFill, BsEyeSlashFill } from '~/shared/ui/icon';
 
-import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../fields.constants';
 
 export const ResetPasswordStep = () => {
     const { errors, touched } = useFormikContext<ResetPasswordRequest>();

@@ -1,7 +1,7 @@
 import { Button, Image, Text } from '@chakra-ui/react';
 
 import BreakfastImg from '~/shared/assets/breakfast.png';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 export const ServerErrorModal = ({
     isOpen,

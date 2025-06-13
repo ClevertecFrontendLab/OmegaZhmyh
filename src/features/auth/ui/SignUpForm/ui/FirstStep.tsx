@@ -10,10 +10,10 @@ import {
 import { Field, useFormikContext } from 'formik';
 
 import { useHandleTrimBlur } from '~/features/auth/lib/useHandleTrimBlur';
-import { SignupRequest } from '~/features/auth/types/auth.types';
-import { FORM_FIELD } from '~/shared/config/chakra-variants.constants';
+import { SignupRequest } from '~/features/auth/model/auth.types';
+import { FORM_FIELD } from '~/shared/config';
 
-import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../../constants/fields.constants';
+import { AUTH_FIELD_NAMES, AUTH_PLACEHOLDERS } from '../../fields.constants';
 
 export const FirstStep = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
     const { errors, touched, validateForm, setTouched } = useFormikContext<SignupRequest>();

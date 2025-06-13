@@ -1,20 +1,21 @@
 import { createBrowserRouter } from 'react-router';
 
-import { AuthPage } from '~/pages/AuthPage';
-import { VerificationPage } from '~/pages/AuthPage/ui/VerificationPage';
-import { CuisinePage } from '~/pages/CuisinePage';
-import { ErrorPage } from '~/pages/ErrorPage';
-import { JuiciestPage } from '~/pages/JuiciestPage';
-import { MainPage } from '~/pages/MainPage';
-import { RecipeFormPage } from '~/pages/NewRecipePage';
-import { RecipePage } from '~/pages/RecipePage';
-import { ROUTES } from '~/shared/config/routes.constants';
-import { Layout } from '~/widgets/Layout';
+import { AuthPage, VerificationPage } from '~/pages/auth';
+import { BloggerProfilePage } from '~/pages/blogger-profile';
+import { BlogsPage } from '~/pages/blogs';
+import { CuisinePage } from '~/pages/cuisine';
+import { JuiciestPage } from '~/pages/juiciest';
+import { MainPage } from '~/pages/main';
+import { ErrorPage } from '~/pages/not-found';
+import { RecipePage } from '~/pages/recipe';
+import { RecipeFormPage } from '~/pages/recipe-form';
+import { ROUTES } from '~/shared/config';
+import { Layout } from '~/widgets/layout';
 
 import App from './App';
-import { CategoryRedirect } from './CategoryRedirect';
-import { CategoryValidator } from './CategoryValidator';
-import { ProtectedRoute } from './ProtectedRoute';
+import { CategoryRedirect } from './category-redirect';
+import { CategoryValidator } from './category-validator';
+import { ProtectedRoute } from './protected-route';
 
 export const router = createBrowserRouter([
     {
@@ -55,6 +56,19 @@ export const router = createBrowserRouter([
                         path: ROUTES.THE_JUICIEST,
                         element: <JuiciestPage />,
                         handle: { title: 'Самое сочное', path: ROUTES.THE_JUICIEST },
+                    },
+                    {
+                        path: ROUTES.BLOGS,
+                        element: <BlogsPage />,
+                        handle: { title: 'Блоги', path: ROUTES.BLOGS },
+                    },
+                    {
+                        path: ROUTES.BLOGGER_PROFILE,
+                        element: <BloggerProfilePage />,
+                        handle: {
+                            title: 'Блоги',
+                            path: ROUTES.BLOGS,
+                        },
                     },
                 ],
             },

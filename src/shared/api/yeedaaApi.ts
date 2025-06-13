@@ -1,48 +1,57 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BaseQueryFn, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { setCategories } from '~/entities/Category/model/slice';
-import { SubCategory } from '~/entities/Category/types';
-import { MainCategory } from '~/entities/Category/types';
-
-import { API_BASE_URL } from '../config/api-urls.constants';
-import { setCategoriesLoading } from '../store/app-slice';
+import { API_BASE_URL, API_URLS, HTTP_METHODS, HTTP_STATUS, TOKEN_KEY } from '../config';
 import { ApplicationState } from '../store/configure-store';
-import { CategoriesResponse, ImageUploadResponse, MeasureUnit } from './types';
+import { ImageUploadResponse, MeasureUnit } from './types';
+
+export const TAG_TYPES = {
+    RECIPE: 'Recipe',
+    RECIPE_LIST: 'RecipeList',
+    BOOKMARK: 'Bookmark',
+    LIKE: 'Like',
+    SUBSCRIPTION: 'Subscription',
+};
+
+const baseQuery = fetchBaseQuery({
+    baseUrl: API_BASE_URL,
+    prepareHeaders: (headers, { getState }) => {
+        const token = (getState() as ApplicationState).auth.token;
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`);
+        }
+        return headers;
+    },
+});
+
+const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
+    let result = await baseQuery(args, api, extraOptions);
+    if (result.error && result.error.status === HTTP_STATUS.FORBIDDEN) {
+        const refreshResult = await baseQuery(
+            { url: API_URLS.REFRESH_TOKEN, method: HTTP_METHODS.GET, credentials: 'include' },
+            api,
+            extraOptions,
+        );
+        if (refreshResult.meta) {
+            const token = refreshResult.meta.response?.headers.get('authentication-access');
+            if (token) {
+                localStorage.setItem(TOKEN_KEY, token);
+                api.dispatch({ type: 'auth/setCredentials', payload: { token } });
+                result = await baseQuery(args, api, extraOptions);
+            } else {
+                api.dispatch({ type: 'auth/logout' });
+            }
+        }
+    }
+    return result;
+};
 
 export const yeedaaApi = createApi({
     reducerPath: 'yeedaaApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: API_BASE_URL,
-        prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as ApplicationState).auth.token;
-            if (token) {
-                headers.set('Authorization', `Bearer ${token}`);
-            }
-            return headers;
-        },
-    }),
-
+    baseQuery: baseQueryWithReauth,
+    tagTypes: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE, TAG_TYPES.SUBSCRIPTION],
     endpoints: (builder) => ({
-        getCategories: builder.query<CategoriesResponse, void>({
-            query: () => '/category',
-            keepUnusedDataFor: Infinity,
-            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-                try {
-                    dispatch(setCategoriesLoading(true));
-                    const { data } = await queryFulfilled;
-                    if (Array.isArray(data)) {
-                        dispatch(setCategories(data));
-                    }
-                } finally {
-                    dispatch(setCategoriesLoading(false));
-                }
-            },
-        }),
-        getCategoryById: builder.query<MainCategory | SubCategory, string>({
-            query: (id) => `/category/${id}`,
-        }),
         getMeasureUnits: builder.query<MeasureUnit[], void>({
-            query: () => '/measure-units',
+            query: () => API_URLS.MEASURE_UNITS,
             keepUnusedDataFor: Infinity,
         }),
         uploadImage: builder.mutation<ImageUploadResponse, File>({
@@ -50,8 +59,8 @@ export const yeedaaApi = createApi({
                 const formData = new FormData();
                 formData.append('file', file);
                 return {
-                    url: '/file/upload',
-                    method: 'POST',
+                    url: API_URLS.FILE_UPLOAD,
+                    method: HTTP_METHODS.POST,
                     body: formData,
                 };
             },
@@ -59,9 +68,4 @@ export const yeedaaApi = createApi({
     }),
 });
 
-export const {
-    useGetCategoriesQuery,
-    useGetCategoryByIdQuery,
-    useGetMeasureUnitsQuery,
-    useUploadImageMutation,
-} = yeedaaApi;
+export const { useGetMeasureUnitsQuery, useUploadImageMutation } = yeedaaApi;

@@ -6,7 +6,7 @@ import {
     clearVerificationErrorModal,
     selectVerificationErrorModal,
 } from '~/shared/store/notificationSlice';
-import { ModalNotification } from '~/shared/ui/ModalNotification';
+import { ModalNotification } from '~/shared/ui/modal-notification';
 
 export const VerificationErrorModal = () => {
     const dispatch = useAppDispatch();

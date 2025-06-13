@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MultiSelect } from '~/shared/ui/MultiSelect';
-import { selectIsDrawerOpen } from '~/widgets/Drawer';
+import { MultiSelect } from '~/shared/ui/multi-select';
+import { selectIsDrawerOpen } from '~/widgets/drawer';
 
 import { selectAllergenFilters, selectFiltersOptions } from '../model/slice';
 import { addCustomAllergen, setCustomAllergenInput, toggleAllergen } from '../model/slice';

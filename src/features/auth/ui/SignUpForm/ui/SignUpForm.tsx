@@ -2,19 +2,16 @@ import { Box, Progress, Text } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
 
-import { isErrorResponse, SignupRequest } from '~/features/auth/types/auth.types';
-import { SERVER_ERROR_MESSAGES } from '~/shared/config/form-messages.constants.ts';
-import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
+import { isErrorResponse } from '~/features/auth/';
+import { SignupRequest } from '~/features/auth/model/auth.types';
+import { HTTP_STATUS, SERVER_ERROR_MESSAGES } from '~/shared/config';
 import { useAppDispatch } from '~/shared/store/hooks';
 import { setEmailVerificationModal } from '~/shared/store/notificationSlice';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
 
 import { useSignupMutation } from '../../../api/authApi';
-import {
-    SIGNUP_FORM_ERROR_MESSAGES,
-    SIGNUP_STEP_TITLES,
-} from '../../../constants/form-messages.constants.ts';
-import { validationSchema } from '../../../validation/auth.validation';
+import { validationSchema } from '../../../model/auth.validation';
+import { SIGNUP_FORM_ERROR_MESSAGES, SIGNUP_STEP_TITLES } from '../../form-messages.constants';
 import { EmailVerificationModal } from './EmailVerificationModal';
 import { FirstStep } from './FirstStep';
 import { SecondStep } from './SecondStep';

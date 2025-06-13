@@ -2,19 +2,19 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { isErrorResponse, LoginRequest } from '~/features/auth/types/auth.types';
-import { HTTP_STATUS } from '~/shared/config/http-status-codes.constants';
-import { ROUTES } from '~/shared/config/routes.constants';
+import { isErrorResponse } from '~/features/auth/';
+import { LoginRequest } from '~/features/auth/model/auth.types';
+import { HTTP_STATUS, ROUTES } from '~/shared/config';
 import { setAuthLoading } from '~/shared/store/app-slice';
 import { useAppDispatch } from '~/shared/store/hooks';
-import { useErrorAlert } from '~/shared/ui/SnackbarAlert';
+import { useErrorAlert } from '~/shared/ui/alert';
 
 import { useLoginMutation } from '../../../api/authApi';
-import { SIGNIN_FORM_ERROR_MESSAGES } from '../../../constants/form-messages.constants.ts';
-import { loginSchema } from '../../../validation/auth.validation';
+import { loginSchema } from '../../../model/auth.validation';
 import { AccountRecoveryForm } from '../../ForgotPassword';
 import { ForgotPasswordForm } from '../../ForgotPassword/ui/ForgotPasswordForm';
 import { VerifyOtpForm } from '../../ForgotPassword/ui/VerifyOtpForm';
+import { SIGNIN_FORM_ERROR_MESSAGES } from '../../form-messages.constants';
 import { ServerErrorModal } from './ServerErrorModal';
 import { SignInFormContent } from './SignInFormContent';
 
