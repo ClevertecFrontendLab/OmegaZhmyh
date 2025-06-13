@@ -10,7 +10,13 @@ export {
     useLikeRecipeMutation,
     useUpdateRecipeMutation,
 } from './api/recipeApi';
-export type { CreateRecipe, IngredientType, Recipe, StepType } from './model/recipe.types';
+export type {
+    CreateRecipe,
+    IngredientType,
+    NutritionValueType,
+    Recipe,
+    StepType,
+} from './model/recipe.types';
 export { recipeReducer, recipeSlice } from './model/slice';
 export { setRecipes } from './model/slice';
 export { RecipeCard } from './ui/RecipeCard';

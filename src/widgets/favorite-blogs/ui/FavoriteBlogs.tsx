@@ -31,8 +31,13 @@ export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
                 return (
                     <CookingBlog
                         key={_id}
-                        pt='24px'
+                        paddingTop='24px'
                         _id={_id}
+                        bookmarksCount={bloger.bookmarksCount}
+                        newRecipesCount={bloger.newRecipesCount}
+                        subscribersCount={bloger.subscribersCount}
+                        isFavorite={bloger.isFavorite}
+                        notes={bloger.notes}
                         user={
                             <UserCard
                                 firstName={firstName ?? 'Имя'}
@@ -52,7 +57,6 @@ export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
                                 Рецепты
                             </Button>
                         }
-                        {...bloger}
                     />
                 );
             })}

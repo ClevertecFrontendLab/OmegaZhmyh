@@ -1,4 +1,4 @@
-import { Box, Button, HStack, StackProps, Tag, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, HStack, Tag, Text, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
 import { BLOG_NOTES_ANCHOR } from '~/shared/config';
@@ -11,9 +11,10 @@ type CookingBlogProps = Pick<
     'notes' | 'newRecipesCount' | 'bookmarksCount' | 'subscribersCount' | '_id'
 > & {
     user: React.ReactNode;
+    paddingTop?: string;
     action?: React.ReactNode;
     isFavorite?: boolean;
-} & StackProps;
+};
 
 export const CookingBlog = ({
     _id,
@@ -24,7 +25,7 @@ export const CookingBlog = ({
     subscribersCount,
     isFavorite,
     action,
-    ...props
+    paddingTop,
 }: CookingBlogProps) => {
     const { text } = notes?.[0] ?? {};
 
@@ -50,12 +51,12 @@ export const CookingBlog = ({
             gap='16px'
             position='relative'
             padding={{ base: '16px', lg: '24px' }}
+            paddingTop={paddingTop}
             bgColor='white'
             border='1px'
             borderColor='blackAlpha.200'
             borderRadius='8px'
             data-test-id='blogs-card'
-            {...props}
         >
             <Box>
                 {newRecipesCount && isFavorite ? (
@@ -94,7 +95,7 @@ export const CookingBlog = ({
                     <LikeBtn value={subscribersCount} />
                 </HStack>
                 <HStack style={{ direction: 'ltr' }}>
-                    {action && action}
+                    {action}
                     <Button
                         as={Link}
                         to={`/blogs/${_id}#${BLOG_NOTES_ANCHOR}`}

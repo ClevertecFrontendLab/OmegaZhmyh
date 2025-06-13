@@ -48,7 +48,7 @@ export const BloggerProfileHeader = ({
                     {accountName}
                 </Text>
                 <HStack justifyContent='space-between' w='100%'>
-                    {action && action}{' '}
+                    {action}
                     <HStack>
                         <StatWithIcon
                             icon={<BsBookmarkHeart />}

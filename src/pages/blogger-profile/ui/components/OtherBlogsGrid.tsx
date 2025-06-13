@@ -41,8 +41,10 @@ export const OtherBlogsGrid = ({ otherBlogs, currentUserId }: OtherBlogsGridProp
             {otherBlogs.map((blog) => (
                 <CookingBlog
                     key={blog._id}
-                    {...blog}
-                    isFavorite={!blog.isFavorite}
+                    bookmarksCount={blog.bookmarksCount}
+                    newRecipesCount={blog.newRecipesCount}
+                    subscribersCount={blog.subscribersCount}
+                    notes={blog.notes}
                     user={
                         <UserCard
                             firstName={blog.firstName ?? 'Имя'}

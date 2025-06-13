@@ -19,10 +19,13 @@ export const useBlogsPage = () => {
 
     const limit = useBreakpointValue({ base: BLOG_LIMIT.DEFAULT, xl: BLOG_LIMIT.XL });
 
-    const { data, error, isLoading } = useGetAllBloggersQuery({
-        currentUserId: currentUserId ?? '',
-        limit: isShowMoreOtherBlogs ? 'all' : limit,
-    });
+    const { data, error, isLoading } = useGetAllBloggersQuery(
+        {
+            currentUserId: currentUserId ?? '',
+            limit: isShowMoreOtherBlogs ? 'all' : limit,
+        },
+        { skip: !currentUserId },
+    );
     const { handleError } = useErrorAlert();
 
     const favoriteBlogs = data?.favorites || [];
@@ -30,6 +33,9 @@ export const useBlogsPage = () => {
 
     useEffect(() => {
         dispatch(setPageLoader(isLoading));
+        return () => {
+            dispatch(setPageLoader(false));
+        };
     }, [isLoading, dispatch]);
 
     useEffect(() => {

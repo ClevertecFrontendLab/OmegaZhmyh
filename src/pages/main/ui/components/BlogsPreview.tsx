@@ -19,10 +19,13 @@ export const BlogsPreview = () => {
         data: blogs,
         isError,
         isLoading,
-    } = useGetAllBloggersQuery({
-        limit: '',
-        currentUserId: currentUserId as string,
-    });
+    } = useGetAllBloggersQuery(
+        {
+            limit: '',
+            currentUserId: currentUserId as string,
+        },
+        { skip: !currentUserId },
+    );
 
     const allBlogs = [...(blogs?.favorites || []), ...(blogs?.others || [])];
     const previewBlogs = allBlogs.slice(0, PREVIEW_BLOGS_LIMIT);

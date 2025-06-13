@@ -9,8 +9,8 @@ import { BsPersonCheck, BsPersonPlusFill } from '~/shared/ui/icon';
 import { SupscriptionRequest, useGetSupscriptionMutation } from '../api/supscriptionApi';
 
 const TOOLTIP_TEXT = {
-    subscribe: 'Нажмите, если хотите подписаться',
-    unsubscribe: 'Нажмите, если хотите отписаться',
+    SUBSCRIBE: 'Нажмите, если хотите подписаться',
+    UNSUBSCRIBE: 'Нажмите, если хотите отписаться',
 };
 
 type SubscribeButtonProps = SupscriptionRequest & {
@@ -48,7 +48,7 @@ export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeB
                 />
             )}
             <Tooltip
-                label={TOOLTIP_TEXT[isSubscribed ? 'unsubscribe' : 'subscribe']}
+                label={isSubscribed ? TOOLTIP_TEXT.UNSUBSCRIBE : TOOLTIP_TEXT.SUBSCRIBE}
                 w='150px'
                 fontSize='sm'
                 bgColor='blackAlpha.900'

@@ -42,6 +42,10 @@ export const OtherBlogs = ({ blogers, setShowMore, isShowMore, ...boxProps }: Ot
                     return (
                         <CookingBlog
                             key={bloger._id}
+                            bookmarksCount={bloger.bookmarksCount}
+                            newRecipesCount={bloger.newRecipesCount}
+                            subscribersCount={bloger.subscribersCount}
+                            notes={bloger.notes}
                             user={
                                 <UserCard
                                     firstName={firstName ?? 'Имя'}
@@ -59,7 +63,6 @@ export const OtherBlogs = ({ blogers, setShowMore, isShowMore, ...boxProps }: Ot
                                     />
                                 )
                             }
-                            {...bloger}
                         />
                     );
                 })}

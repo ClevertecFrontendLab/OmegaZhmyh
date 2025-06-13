@@ -4,7 +4,7 @@ import { useLocation, useParams } from 'react-router';
 
 import { selectUserId } from '~/features/auth';
 import { SubscribeButton } from '~/features/supscription';
-import { BLOG_NOTES_ANCHOR } from '~/shared/config';
+import { BLOG_NOTES_ANCHOR, BLOG_NOTES_LIMIT } from '~/shared/config';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 
@@ -46,6 +46,9 @@ export const BloggerProfilePage = () => {
 
     useEffect(() => {
         dispatch(setPageLoader(isLoading));
+        return () => {
+            dispatch(setPageLoader(false));
+        };
     }, [isLoading, dispatch]);
 
     useEffect(() => {
@@ -80,7 +83,7 @@ export const BloggerProfilePage = () => {
                 handleShowMoreRecipes={handleShowMoreRecipes}
                 isFetchingRecipes={isFetchingRecipes}
             />
-            <BlogNotesBox limit={3} notes={notes} />
+            <BlogNotesBox limit={BLOG_NOTES_LIMIT} notes={notes} />
             <OtherBlogsGrid otherBlogs={otherBlogs} currentUserId={currentUserId as string} />
         </Box>
     );
