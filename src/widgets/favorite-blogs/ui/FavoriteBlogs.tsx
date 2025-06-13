@@ -21,6 +21,7 @@ export const FavoriteBlogs = ({ blogers, ...boxProps }: FavoriteBlogsProps) => (
         <Text fontSize={{ base: '2xl', lg: '4xl' }}>Избранные блоги</Text>
         <Grid
             templateColumns={{ base: 'auto', md: '1fr 1fr' }}
+            autoRows='1fr'
             gap={4}
             mt={{ base: '12px', lg: '16px' }}
             data-test-id='blogs-favorites-grid'

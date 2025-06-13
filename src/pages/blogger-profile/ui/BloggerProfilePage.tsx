@@ -1,9 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { useEffect } from 'react';
+import { useLocation, useParams } from 'react-router';
 
 import { selectUserId } from '~/features/auth';
 import { SubscribeButton } from '~/features/supscription';
-import { useAppSelector } from '~/shared/store/hooks';
+import { BLOG_NOTES_ANCHOR } from '~/shared/config';
+import { setPageLoader } from '~/shared/store/app-slice';
+import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 
 import { useBloggerData } from '../model/useBloggerData';
 import { useOtherBlogs } from '../model/useOtherBlogs';
@@ -15,11 +18,18 @@ import { RecipeCardBox } from './components/RecipeCardBox';
 
 export const BloggerProfilePage = () => {
     const { bloggerId } = useParams();
+    const location = useLocation();
+    const dispatch = useAppDispatch();
     const currentUserId = useAppSelector(selectUserId);
 
-    const { paginatedRecipes, isFetchingRecipes, handleShowMoreRecipes, showMoreRecipes } =
-        useRecipeData(bloggerId as string);
-    const { otherBlogs } = useOtherBlogs(currentUserId as string);
+    const {
+        paginatedRecipes,
+        isFetchingRecipes,
+        handleShowMoreRecipes,
+        showMoreRecipes,
+        isLoadingRecipes,
+    } = useRecipeData(bloggerId as string);
+    const { otherBlogs, isLoadingBlogs } = useOtherBlogs(currentUserId as string);
     const {
         isSuccessBloggerById,
         userName,
@@ -29,7 +39,23 @@ export const BloggerProfilePage = () => {
         notes,
         isFavorite,
         toUserId,
+        isLoadingBloggerById,
     } = useBloggerData(bloggerId as string, currentUserId as string);
+
+    const isLoading = isLoadingBloggerById || isLoadingBlogs || isLoadingRecipes;
+
+    useEffect(() => {
+        dispatch(setPageLoader(isLoading));
+    }, [isLoading, dispatch]);
+
+    useEffect(() => {
+        if (location.hash === `#${BLOG_NOTES_ANCHOR}`) {
+            const notesElement = document.getElementById(BLOG_NOTES_ANCHOR);
+            if (notesElement) {
+                notesElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [location.hash]);
 
     return (
         <Box py='16px'>

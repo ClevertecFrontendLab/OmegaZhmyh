@@ -1,3 +1,4 @@
+import { useBreakpointValue } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -5,23 +6,31 @@ import { useGetAllBloggersQuery } from '~/entities/cooking-blog';
 import { selectUserId } from '~/features/auth';
 import { isErrorResponse } from '~/features/auth/';
 import { BLOG_LIMIT, HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
-import { useAppSelector } from '~/shared/store/hooks';
+import { setPageLoader } from '~/shared/store/app-slice';
+import { useAppDispatch, useAppSelector } from '~/shared/store/hooks';
 import { useErrorAlert } from '~/shared/ui/alert';
 
 export const useBlogsPage = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const currentUserId = useAppSelector(selectUserId);
 
     const [isShowMoreOtherBlogs, setIsShowMoreOtherBlogs] = useState(false);
 
-    const { data, error } = useGetAllBloggersQuery({
+    const limit = useBreakpointValue({ base: BLOG_LIMIT.DEFAULT, xl: BLOG_LIMIT.XL });
+
+    const { data, error, isLoading } = useGetAllBloggersQuery({
         currentUserId: currentUserId ?? '',
-        limit: isShowMoreOtherBlogs ? 'all' : BLOG_LIMIT,
+        limit: isShowMoreOtherBlogs ? 'all' : limit,
     });
     const { handleError } = useErrorAlert();
 
     const favoriteBlogs = data?.favorites || [];
     const otherBlogs = data?.others || [];
+
+    useEffect(() => {
+        dispatch(setPageLoader(isLoading));
+    }, [isLoading, dispatch]);
 
     useEffect(() => {
         if (error && isErrorResponse(error)) {

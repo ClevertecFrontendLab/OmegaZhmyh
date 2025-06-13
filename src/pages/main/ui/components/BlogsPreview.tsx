@@ -48,7 +48,11 @@ export const BlogsPreview = () => {
             data-test-id='main-page-blogs-box'
         >
             <Flex justifyContent='space-between'>
-                <Text fontSize={{ base: '2xl' }} fontWeight='medium' lineHeight='32px'>
+                <Text
+                    fontSize={{ base: '2xl', lg: '3xl', xl: '4xl' }}
+                    fontWeight={{ base: 'medium', xl: 'normal' }}
+                    lineHeight='32px'
+                >
                     Кулинарные блоги
                 </Text>
                 {isDesktop && (
@@ -68,14 +72,14 @@ export const BlogsPreview = () => {
             </Flex>
             <Grid
                 gap={{ base: '12px', lg: '16px' }}
-                marginTop={{ base: '12px', lg: '24px' }}
+                marginTop={{ base: '12px', lg: '16px', xl: '24px' }}
                 templateColumns={{ base: '1fr', md: '1fr 1fr 1fr' }}
                 data-test-id='main-page-blogs-grid'
             >
                 {previewBlogs.map((blog) => (
                     <CookingBlogPreview
                         key={blog._id}
-                        text={blog.notes?.[0]?.text ?? 'Текст не найден'}
+                        text={blog.notes?.[0]?.text ?? ''}
                         user={
                             <UserCard
                                 firstName={blog.firstName ?? 'Имя'}

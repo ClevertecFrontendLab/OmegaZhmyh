@@ -65,6 +65,7 @@ export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeB
                         bgColor='whiteAlpha.100'
                         borderColor='blackAlpha.600'
                         color='black'
+                        isDisabled={isLoading}
                         onClick={handleSubscribe}
                         data-test-id='blog-toggle-unsubscribe'
                     >
@@ -77,6 +78,7 @@ export const SubscribeButton = ({ fromUserId, toUserId, isFavorite }: SubscribeB
                         variant='solid'
                         bgColor='black'
                         color='white'
+                        isDisabled={isLoading}
                         onClick={handleSubscribe}
                         data-test-id='blog-toggle-subscribe'
                     >

@@ -1,6 +1,7 @@
 import { Box, Button, HStack, StackProps, Tag, Text, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
+import { BLOG_NOTES_ANCHOR } from '~/shared/config';
 import { BookmarkBtn, LikeBtn } from '~/shared/ui/mini-buttons';
 
 import { Bloger } from '../model/blog.types';
@@ -96,7 +97,7 @@ export const CookingBlog = ({
                     {action && action}
                     <Button
                         as={Link}
-                        to={`/blogs/${_id}#notes`}
+                        to={`/blogs/${_id}#${BLOG_NOTES_ANCHOR}`}
                         size='xs'
                         variant='outline'
                         color='lime.600'

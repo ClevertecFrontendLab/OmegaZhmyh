@@ -33,6 +33,7 @@ export const OtherBlogs = ({ blogers, setShowMore, isShowMore, ...boxProps }: Ot
         >
             <Grid
                 templateColumns={{ base: '1fr', md: '1fr 1fr', xl: '1fr 1fr 1fr' }}
+                autoRows='1fr'
                 gap={4}
                 data-test-id='blogs-others-grid'
             >

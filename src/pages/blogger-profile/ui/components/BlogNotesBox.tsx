@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { Note } from '~/entities/cooking-blog';
 import { Note as NoteType } from '~/entities/cooking-blog/model/blog.types';
+import { BLOG_NOTES_ANCHOR } from '~/shared/config';
 
 type BlogNotesBoxProps = {
     limit: number;
@@ -20,12 +21,15 @@ export const BlogNotesBox = ({ notes }: BlogNotesBoxProps) => {
 
     return notes.length ? (
         <VStack
-            id='notes'
+            id={BLOG_NOTES_ANCHOR}
             gap='16px'
             padding='16px'
             mt='24px'
             bgColor='blackAlpha.50'
             borderRadius='16px'
+            sx={{
+                scrollMarginTop: 'var(--header-height)',
+            }}
             data-test-id='blog-notes-box'
         >
             <Text alignSelf='start' fontSize={{ base: 'xl', lg: '4xl' }}>

@@ -1,1 +1,4 @@
-export const BLOG_LIMIT = 9;
+export const BLOG_LIMIT = {
+    DEFAULT: 8,
+    XL: 9,
+};

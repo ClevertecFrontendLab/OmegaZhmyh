@@ -9,9 +9,7 @@ import {
 } from '~/features/recipe-filters';
 import { SearchInput } from '~/features/recipe-filters';
 import { AppSpiner } from '~/shared/ui/app-spiner';
-import { AppDrawer } from '~/widgets/drawer';
-
-import { DrawerToggle } from './AppDrawerToggle';
+import { AppDrawer, DrawerToggle } from '~/widgets/drawer';
 
 type SearchPanelProps = {
     title?: string;

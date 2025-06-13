@@ -1,7 +1,7 @@
 import { useGetAllBloggersQuery } from '~/entities/cooking-blog';
 
 export const useOtherBlogs = (currentUserId: string) => {
-    const { data: blogs } = useGetAllBloggersQuery(
+    const { data: blogs, isLoading: isLoadingBlogs } = useGetAllBloggersQuery(
         {
             currentUserId: currentUserId as string,
             limit: '',
@@ -9,5 +9,5 @@ export const useOtherBlogs = (currentUserId: string) => {
         { skip: !currentUserId },
     );
 
-    return { otherBlogs: blogs?.others ?? [] };
+    return { otherBlogs: blogs?.others ?? [], isLoadingBlogs };
 };

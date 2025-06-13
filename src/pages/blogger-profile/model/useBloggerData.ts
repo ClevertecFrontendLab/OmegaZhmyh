@@ -14,6 +14,7 @@ export const useBloggerData = (bloggerId: string, currentUserId: string) => {
         data: bloggerData,
         error: bloggerByIdError,
         isSuccess: isSuccessBloggerById,
+        isLoading: isLoadingBloggerById,
     } = useGetBloggerByIdQuery(
         {
             bloggerId: bloggerId as string,
@@ -53,5 +54,6 @@ export const useBloggerData = (bloggerId: string, currentUserId: string) => {
         isFavorite,
         toUserId,
         isSuccessBloggerById,
+        isLoadingBloggerById,
     };
 };

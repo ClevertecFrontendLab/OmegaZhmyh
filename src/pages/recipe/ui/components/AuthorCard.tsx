@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react'
 
 import { BloggerByIdResponse } from '~/entities/cooking-blog/model/blog.types';
 import { formatAccountLogin } from '~/entities/user/lib/formatAccountLogin';
-import SergeyImg from '~/shared/assets/avatar_img/@serge25.png';
+import { formatFullName } from '~/entities/user/lib/formatFullName';
 import { BsPeople } from '~/shared/ui/icon';
 
 type AuthorBlogProps = {
@@ -22,7 +22,7 @@ export const AuthorBlog = ({ blog, action }: AuthorBlogProps) => {
             bgColor='lime.300'
             marginTop={{ base: '24px', lg: '40px' }}
         >
-            <Avatar src={SergeyImg} boxSize='96px' />
+            <Avatar name={formatFullName(firstName ?? '', lastName ?? '')} boxSize='96px' />
             <Flex direction='column' justifyContent='end' flexGrow={1}>
                 <Text
                     position='absolute'

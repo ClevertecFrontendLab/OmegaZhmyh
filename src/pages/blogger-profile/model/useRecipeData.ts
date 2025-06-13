@@ -14,6 +14,7 @@ export const useRecipeData = (bloggerId: string) => {
         data: recipesByBlogger,
         error: recipesByBloggerError,
         isFetching: isFetchingRecipes,
+        isLoading: isLoadingRecipes,
     } = useGetRecipeByUserIdQuery(bloggerId as string, { skip: !bloggerId });
 
     const [showMoreRecipes, setShowMoreRecipes] = useState(false);
@@ -38,5 +39,11 @@ export const useRecipeData = (bloggerId: string) => {
         }
     }, [handleError, navigate, recipesByBloggerError]);
 
-    return { paginatedRecipes, isFetchingRecipes, handleShowMoreRecipes, showMoreRecipes };
+    return {
+        paginatedRecipes,
+        isFetchingRecipes,
+        handleShowMoreRecipes,
+        showMoreRecipes,
+        isLoadingRecipes,
+    };
 };
