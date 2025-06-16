@@ -11,6 +11,7 @@ export { BsEyeSlashFill } from './ui/BsEyeSlashFill';
 export { BsFillImageFill } from './ui/BsFillImageFill';
 export { BsFillXCircleFill } from './ui/BsFillXCircleFill';
 export { BsFilter } from './ui/BsFilter';
+export { BsGearFill } from './ui/BsGearFill';
 export { BsHouse } from './ui/BsHouse';
 export { BsPencil } from './ui/BsPencil';
 export { BsPeople } from './ui/BsPeople';

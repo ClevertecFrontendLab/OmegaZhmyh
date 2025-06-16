@@ -23,6 +23,15 @@ export const API_URLS = {
     },
     BLOGGERS: '/bloggers',
     CATEGORIES: '/category',
+    USERS: {
+        BASE: '/users',
+        MY: '/users/me',
+        ALL: '/users/all',
+        NOTE: '/users/note',
+        UPDATE_INFO: '/users/update-info',
+        UPDATE_PASSWORD: '/users/update-password',
+        DOWNLOAD_PHOTO: '/users/photo',
+    },
 } as const;
 
 export const TOKEN_KEY = 'token';

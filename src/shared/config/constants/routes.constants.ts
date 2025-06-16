@@ -14,4 +14,5 @@ export const ROUTES = {
     NOT_FOUND: '/not-found',
     BLOGS: '/blogs',
     BLOGGER_PROFILE: '/blogs/:bloggerId',
+    USER_PROFILE: '/profile',
 } as const;
