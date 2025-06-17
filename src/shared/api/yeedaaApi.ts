@@ -6,6 +6,7 @@ import { ImageUploadResponse, MeasureUnit } from './types';
 
 export const TAG_TYPES = {
     RECIPE: 'Recipe',
+    RECIPE_DRAFT: 'RecipeDraft',
     RECIPE_LIST: 'RecipeList',
     BOOKMARK: 'Bookmark',
     LIKE: 'Like',

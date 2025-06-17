@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import { UserCard } from '~/entities/user';
 import Logo from '~/shared/assets/logo.svg';
 import MobileLogo from '~/shared/assets/mobile-logo.svg';
+import { ROUTES } from '~/shared/config';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/mini-buttons';
 
 import { selectIsBurgerOpen, toggleBurger } from '../model/slice';
@@ -35,11 +36,13 @@ export const Header = () => {
             </Link>
             <Breadcrumbs marginLeft={32} display={{ base: 'none', lg: 'block' }} />
             <Box pos='absolute' right='80px' display={{ base: 'none', lg: 'flex' }}>
-                <UserCard
-                    firstName='Екатерина'
-                    lastName='Константинопольская'
-                    login='bake_and_pie'
-                />
+                <Link to={ROUTES.USER_PROFILE}>
+                    <UserCard
+                        firstName='Екатерина'
+                        lastName='Константинопольская'
+                        login='bake_and_pie'
+                    />
+                </Link>
             </Box>
             <Flex gap={{ base: 2, sm: 4 }} display={{ base: 'flex', lg: 'none' }}>
                 <Flex alignItems='center' justifyContent='space-between'>

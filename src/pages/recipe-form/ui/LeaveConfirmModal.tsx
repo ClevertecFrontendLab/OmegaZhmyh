@@ -1,7 +1,7 @@
 import { Button, Center, Text, VStack } from '@chakra-ui/react';
 import { RefObject } from 'react';
 
-import { CreateRecipe } from '~/entities/Recipe';
+import { CreateRecipe } from '~/entities/recipe';
 import breakfastImg from '~/shared/assets/breakfast.png';
 import { BiEditAlt } from '~/shared/ui/icon';
 import { ModalNotification } from '~/shared/ui/modal-notification';

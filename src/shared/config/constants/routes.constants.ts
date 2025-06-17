@@ -7,6 +7,7 @@ export const ROUTES = {
     RECIPE: '/:category/:subcategory/:id',
     NEW_RECIPE: '/new-recipe',
     EDIT_RECIPE: `/edit-recipe/:category/:subcategory/:id`,
+    EDIT_DRAFT: `/edit-draft/:draftId`,
     THE_JUICIEST: '/the-juiciest',
     SIGN_IN: '/sign-in',
     SIGN_UP: '/sign-up',

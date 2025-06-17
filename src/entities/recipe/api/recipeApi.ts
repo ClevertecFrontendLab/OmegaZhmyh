@@ -41,13 +41,6 @@ export const recipeApi = yeedaaApi.injectEndpoints({
             }),
             invalidatesTags: [TAG_TYPES.RECIPE_LIST],
         }),
-        createRecipeDraft: builder.mutation<Recipe, Partial<CreateRecipe>>({
-            query: (recipe) => ({
-                url: API_URLS.RECIPES.DRAFT,
-                method: HTTP_METHODS.POST,
-                body: recipe,
-            }),
-        }),
         updateRecipe: builder.mutation<void, { recipe: Partial<CreateRecipe>; id: string }>({
             query: ({ recipe, id }) => ({
                 url: `${API_URLS.RECIPES.BASE}/${id}`,
@@ -62,6 +55,29 @@ export const recipeApi = yeedaaApi.injectEndpoints({
                 method: HTTP_METHODS.DELETE,
             }),
             invalidatesTags: [TAG_TYPES.RECIPE_LIST],
+        }),
+        createRecipeDraft: builder.mutation<Recipe, Partial<CreateRecipe>>({
+            query: (recipe) => ({
+                url: API_URLS.RECIPES.DRAFT,
+                method: HTTP_METHODS.POST,
+                body: recipe,
+            }),
+            invalidatesTags: [TAG_TYPES.RECIPE_DRAFT],
+        }),
+        updateRecipeDraft: builder.mutation<void, { recipe: Partial<CreateRecipe>; id: string }>({
+            query: ({ recipe, id }) => ({
+                url: `${API_URLS.RECIPES.DRAFT}/${id}`,
+                method: HTTP_METHODS.PATCH,
+                body: recipe,
+            }),
+            invalidatesTags: [TAG_TYPES.RECIPE_DRAFT],
+        }),
+        deleteRecipeDraft: builder.mutation<void, string>({
+            query: (id) => ({
+                url: `${API_URLS.RECIPES.DRAFT}/${id}`,
+                method: HTTP_METHODS.DELETE,
+            }),
+            invalidatesTags: [TAG_TYPES.RECIPE_DRAFT],
         }),
         likeRecipe: builder.mutation<void, string>({
             query: (id) => ({
@@ -88,7 +104,9 @@ export const {
     useCreateRecipeMutation,
     useCreateRecipeDraftMutation,
     useUpdateRecipeMutation,
+    useUpdateRecipeDraftMutation,
     useDeleteRecipeMutation,
+    useDeleteRecipeDraftMutation,
     useLikeRecipeMutation,
     useBookmarkRecipeMutation,
 } = recipeApi;
