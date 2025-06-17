@@ -19,5 +19,6 @@ export type {
 } from './model/recipe.types';
 export { recipeReducer, recipeSlice } from './model/slice';
 export { setRecipes } from './model/slice';
+export { DraftCard } from './ui/DraftCard';
 export { RecipeCard } from './ui/RecipeCard';
 export { RecipeCardList } from './ui/RecipeCardList';

@@ -31,9 +31,8 @@ export type RecipeCardProps = {
     cardLinkId?: number;
 };
 
-export const RecipeCard = (props: RecipeCardProps) => {
+export const RecipeCard = ({ recipe, cardLinkId }: RecipeCardProps) => {
     const { searchQuery } = useSelector(selectSearch);
-    const { recipe, cardLinkId } = props;
     const { bookmarks, description, _id, image, likes, categoriesIds, title } = recipe;
     const subcategory = useSelector(selectRecipeSubCategories(categoriesIds));
     const category = useSelector(selectCategoryById(subcategory?.rootCategoryId));

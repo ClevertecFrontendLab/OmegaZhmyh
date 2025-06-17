@@ -5,10 +5,11 @@ export type AppState = typeof initialState;
 
 const initialState = {
     isLoading: false,
-    error: '' as string | null,
     relevantKitchenLoading: false,
     pageLoading: false,
     categoriesLoading: false,
+    recipesLoading: false,
+    blogsLoading: false,
     authLoading: false,
 };
 
@@ -17,6 +18,8 @@ const updateLoadingState = (state: AppState) => {
         state.authLoading ||
         state.categoriesLoading ||
         state.relevantKitchenLoading ||
+        state.recipesLoading ||
+        state.blogsLoading ||
         state.pageLoading;
 };
 
@@ -24,9 +27,6 @@ export const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        setAppError(state, { payload: error }: PayloadAction<string | null>) {
-            state.error = error;
-        },
         setRelevantKitchenLoader(state, { payload: isLoading }: PayloadAction<boolean>) {
             state.relevantKitchenLoading = isLoading;
             updateLoadingState(state);
@@ -43,16 +43,24 @@ export const appSlice = createSlice({
             state.authLoading = isLoading;
             updateLoadingState(state);
         },
+        setRecipesLoading(state, { payload: isLoading }: PayloadAction<boolean>) {
+            state.recipesLoading = isLoading;
+            updateLoadingState(state);
+        },
+        setBlogsLoading(state, { payload: isLoading }: PayloadAction<boolean>) {
+            state.blogsLoading = isLoading;
+            updateLoadingState(state);
+        },
     },
 });
 export const userLoadingSelector = (state: ApplicationState) => state.app.isLoading;
-export const userErrorSelector = (state: ApplicationState) => state.app.error;
 
 export const {
-    setAppError,
     setRelevantKitchenLoader,
     setPageLoader,
     setCategoriesLoading,
     setAuthLoading,
+    setRecipesLoading,
+    setBlogsLoading,
 } = appSlice.actions;
 export default appSlice.reducer;

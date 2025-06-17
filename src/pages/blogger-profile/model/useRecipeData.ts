@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 import { useGetRecipeByUserIdQuery } from '~/entities/recipe/api/recipeApi';
 import { isErrorResponse } from '~/features/auth/';
-import { BLOG_RECIPES_LIMIT, HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
+import { HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
+import { setRecipesLoading } from '~/shared/store/app-slice';
+import { useAppDispatch } from '~/shared/store/hooks';
 import { useErrorAlert } from '~/shared/ui/alert';
 
 export const useRecipeData = (bloggerId: string) => {
     const navigate = useNavigate();
     const { handleError } = useErrorAlert();
-
+    const dispatch = useAppDispatch();
     const {
         data: recipesByBlogger,
         error: recipesByBloggerError,
@@ -17,14 +19,9 @@ export const useRecipeData = (bloggerId: string) => {
         isLoading: isLoadingRecipes,
     } = useGetRecipeByUserIdQuery(bloggerId as string, { skip: !bloggerId });
 
-    const [showMoreRecipes, setShowMoreRecipes] = useState(false);
-
-    const handleShowMoreRecipes = () => {
-        setShowMoreRecipes(true);
-    };
-
-    const paginatedRecipes =
-        recipesByBlogger?.recipes?.slice(0, showMoreRecipes ? undefined : BLOG_RECIPES_LIMIT) ?? [];
+    useEffect(() => {
+        dispatch(setRecipesLoading(isLoadingRecipes));
+    }, [dispatch, isLoadingRecipes]);
 
     useEffect(() => {
         if (recipesByBloggerError && isErrorResponse(recipesByBloggerError)) {
@@ -40,10 +37,7 @@ export const useRecipeData = (bloggerId: string) => {
     }, [handleError, navigate, recipesByBloggerError]);
 
     return {
-        paginatedRecipes,
+        recipesByBlogger,
         isFetchingRecipes,
-        handleShowMoreRecipes,
-        showMoreRecipes,
-        isLoadingRecipes,
     };
 };
