@@ -7,22 +7,21 @@ import {
     DrawerHeader,
     DrawerOverlay,
     Textarea,
-    useDisclosure,
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 
 import { useAddNoteMutation } from '~/entities/user';
 
-export const NoteDrawer = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+type NoteDrawerProps = {
+    isOpen: boolean;
+    onClose: () => void;
+};
 
+export const NoteDrawer = ({ isOpen, onClose }: NoteDrawerProps) => {
     const [addNote] = useAddNoteMutation();
 
     return (
         <>
-            <Button colorScheme='teal' onClick={onOpen}>
-                Open
-            </Button>
             <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
                 <DrawerOverlay />
                 <DrawerContent>

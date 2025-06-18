@@ -15,20 +15,15 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/category';
 import { useGetBloggerByIdQuery } from '~/entities/cooking-blog';
-import {
-    useBookmarkRecipeMutation,
-    useDeleteRecipeMutation,
-    useGetRecipeByIdQuery,
-    useLikeRecipeMutation,
-} from '~/entities/recipe/';
+import { useGetRecipeByIdQuery, useRecipeDeleting, useRecipeLike } from '~/entities/recipe';
 import { selectUserId } from '~/features/auth';
-import { isErrorResponse } from '~/features/auth/';
+import { useRecipeBookmark } from '~/features/bookmark';
 import { SubscribeButton } from '~/features/supscription';
-import { EDIT_RECIPE, HTTP_STATUS, ROUTES, SERVER_ERROR_MESSAGES } from '~/shared/config';
+import { EDIT_RECIPE } from '~/shared/config';
 import { getImgUrlPath } from '~/shared/lib';
 import { setPageLoader } from '~/shared/store/app-slice';
 import { useAppSelector } from '~/shared/store/hooks';
@@ -45,7 +40,6 @@ import { NutrientBlock } from './components/NutrientBlock';
 import { RECIPE_ERROR_MESSAGES } from './recipe-messages.constants';
 
 export const RecipePage = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { id } = useParams();
     const userId = useAppSelector(selectUserId);
@@ -56,16 +50,14 @@ export const RecipePage = () => {
         { skip: !recipe?.authorId },
     );
 
-    const [deleteRecipe] = useDeleteRecipeMutation();
-
-    const [likeRecipe] = useLikeRecipeMutation();
-
-    const [bookmarkRecipe] = useBookmarkRecipeMutation();
-
     const mainCategories = useAppSelector(selectMainCategories);
     const subCategories = useAppSelector(selectSubCategories);
 
     const { handleError } = useErrorAlert();
+
+    const { handleDeleteRecipe } = useRecipeDeleting({ id: recipe?._id });
+    const { handleLikeRecipe } = useRecipeLike({ id: recipe?._id });
+    const { handleBookmarkRecipe } = useRecipeBookmark({ id: recipe?._id });
 
     useEffect(() => {
         dispatch(setPageLoader(isLoading));
@@ -102,62 +94,6 @@ export const RecipePage = () => {
 
     const subCategory = subCategories.find((sub) => sub._id === categoriesIds?.[0]);
     const mainCategory = mainCategories.find((cat) => cat._id === subCategory?.rootCategoryId);
-
-    const handleDeleteRecipe = async () => {
-        if (id) {
-            try {
-                await deleteRecipe(id).unwrap();
-                handleError({
-                    errorTitle: RECIPE_ERROR_MESSAGES.RECIPE_DELETE_SUCCESS,
-                    status: 'success',
-                });
-                navigate(ROUTES.HOME);
-            } catch (error) {
-                if (isErrorResponse(error)) {
-                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
-                        handleError({
-                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
-                            errorMessage: RECIPE_ERROR_MESSAGES.RECIPE_DELETE_ERROR,
-                        });
-                    }
-                }
-            }
-        }
-    };
-
-    const handleLikeRecipe = async () => {
-        if (id) {
-            try {
-                await likeRecipe(id).unwrap();
-            } catch (error) {
-                if (isErrorResponse(error)) {
-                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
-                        handleError({
-                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
-                            errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
-                        });
-                    }
-                }
-            }
-        }
-    };
-
-    const handleBookmarkRecipe = async () => {
-        if (id) {
-            try {
-                await bookmarkRecipe(id).unwrap();
-            } catch (error) {
-                if (isErrorResponse(error)) {
-                    if (error.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
-                        handleError({
-                            errorTitle: SERVER_ERROR_MESSAGES.SERVER_ERROR,
-                            errorMessage: SERVER_ERROR_MESSAGES.SERVER_ERROR_MESSAGE,
-                        });
-                    }
-                }
-            }
-        }
-    };
 
     return (
         <>

@@ -21,7 +21,7 @@ export const RecipeCardBox = ({ cards = [], isFetchingRecipes }: RecipeCardBoxPr
     return (
         <>
             <CardSimpleGrid>{paginatedCards}</CardSimpleGrid>
-            {!showMoreRecipes && (
+            {!showMoreRecipes && cards.length > BLOG_RECIPES_LIMIT && (
                 <LoadMoreButton
                     handleLoadMore={handleShowMoreRecipes}
                     isFetching={isFetchingRecipes}

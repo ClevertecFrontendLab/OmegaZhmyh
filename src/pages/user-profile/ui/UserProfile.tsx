@@ -1,6 +1,6 @@
 import { Box, HStack, Text } from '@chakra-ui/react';
 
-import { DraftCard, RecipeCard } from '~/entities/recipe';
+import { DraftCard, RecipeCard, RecipeCardEditButton } from '~/entities/recipe';
 import { useGetRecipeByUserIdQuery } from '~/entities/recipe/api/recipeApi';
 import { useGetUserQuery } from '~/entities/user';
 import { BLOG_NOTES_LIMIT } from '~/shared/config';
@@ -8,7 +8,6 @@ import { BlogNotesBox } from '~/widgets/note-card-box';
 import { RecipeCardBox } from '~/widgets/recipe-card-box';
 
 import { MyBookmarks } from './components/MyBookmarks';
-import { NoteDrawer } from './components/NoteDrawer';
 import { UserProfileHeader } from './components/UserProfileHeader';
 
 export const UserProfile = () => {
@@ -32,7 +31,16 @@ export const UserProfile = () => {
     const recipesCards =
         recipesData?.recipes?.map((recipe, i) => (
             <Box key={recipe._id} data-test-id={`food-card-${i}`}>
-                <RecipeCard recipe={recipe} cardLinkId={i} />
+                <RecipeCard
+                    recipe={recipe}
+                    cardLinkId={i.toString()}
+                    actions={
+                        <RecipeCardEditButton
+                            categoriesIds={recipe.categoriesIds}
+                            recipeId={recipe._id}
+                        />
+                    }
+                />
             </Box>
         )) || [];
 
@@ -54,7 +62,7 @@ export const UserProfile = () => {
                 isFetchingRecipes={isFetching}
             />
             <BlogNotesBox limit={BLOG_NOTES_LIMIT} canAddNotes notes={user?.notes || []} />
-            <NoteDrawer />
+
             <MyBookmarks recipes={recipesData?.myBookmarks || []} />
         </Box>
     );
