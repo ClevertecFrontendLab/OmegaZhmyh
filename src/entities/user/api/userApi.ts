@@ -1,7 +1,7 @@
 import { Note } from '~/entities/cooking-blog/model/blog.types';
 import { Recipe } from '~/entities/recipe/@x/cooking-blog';
-import { yeedaaApi } from '~/shared/api';
-import { API_URLS } from '~/shared/config';
+import { TAG_TYPES, yeedaaApi } from '~/shared/api';
+import { API_URLS, HTTP_METHODS } from '~/shared/config';
 
 type UserResponse = {
     _id: string;
@@ -20,8 +20,24 @@ export const userApi = yeedaaApi.injectEndpoints({
     endpoints: (builder) => ({
         getUser: builder.query<UserResponse, void>({
             query: () => `${API_URLS.USERS.MY}`,
+            providesTags: [TAG_TYPES.USER_INFO],
+        }),
+        addNote: builder.mutation<Note, { text: string }>({
+            query: ({ text }) => ({
+                url: API_URLS.USERS.NOTE,
+                method: HTTP_METHODS.POST,
+                body: { text },
+            }),
+            invalidatesTags: [TAG_TYPES.USER_INFO],
+        }),
+        deleteNote: builder.mutation<Note, { id: string }>({
+            query: ({ id }) => ({
+                url: `${API_URLS.USERS.NOTE}/${id}`,
+                method: HTTP_METHODS.DELETE,
+            }),
+            invalidatesTags: [TAG_TYPES.USER_INFO],
         }),
     }),
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetUserQuery, useAddNoteMutation, useDeleteNoteMutation } = userApi;

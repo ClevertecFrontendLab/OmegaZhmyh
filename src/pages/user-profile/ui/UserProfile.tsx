@@ -1,9 +1,14 @@
 import { Box, HStack, Text } from '@chakra-ui/react';
 
+import { DraftCard, RecipeCard } from '~/entities/recipe';
 import { useGetRecipeByUserIdQuery } from '~/entities/recipe/api/recipeApi';
 import { useGetUserQuery } from '~/entities/user';
+import { BLOG_NOTES_LIMIT } from '~/shared/config';
+import { BlogNotesBox } from '~/widgets/note-card-box';
 import { RecipeCardBox } from '~/widgets/recipe-card-box';
 
+import { MyBookmarks } from './components/MyBookmarks';
+import { NoteDrawer } from './components/NoteDrawer';
 import { UserProfileHeader } from './components/UserProfileHeader';
 
 export const UserProfile = () => {
@@ -11,6 +16,25 @@ export const UserProfile = () => {
     const { data: recipesData } = useGetRecipeByUserIdQuery(user?._id as string, {
         skip: !user?._id,
     });
+
+    const draftsCards =
+        user?.drafts?.map((draft) => (
+            <Box key={draft._id}>
+                <DraftCard
+                    title={draft.title}
+                    description={draft.description}
+                    image={draft.image}
+                    id={draft._id}
+                />
+            </Box>
+        )) || [];
+
+    const recipesCards =
+        recipesData?.recipes?.map((recipe, i) => (
+            <Box key={recipe._id} data-test-id={`food-card-${i}`}>
+                <RecipeCard recipe={recipe} cardLinkId={i} />
+            </Box>
+        )) || [];
 
     return (
         <Box pt={{ base: '16px', lg: '32px' }} pb={{ base: '16px', lg: '0' }}>
@@ -26,10 +50,12 @@ export const UserProfile = () => {
                 </Box>
             </HStack>
             <RecipeCardBox
-                recipes={recipesData}
-                drafts={user?.drafts}
+                cards={[...draftsCards, ...recipesCards]}
                 isFetchingRecipes={isFetching}
             />
+            <BlogNotesBox limit={BLOG_NOTES_LIMIT} canAddNotes notes={user?.notes || []} />
+            <NoteDrawer />
+            <MyBookmarks recipes={recipesData?.myBookmarks || []} />
         </Box>
     );
 };

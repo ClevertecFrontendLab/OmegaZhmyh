@@ -52,6 +52,7 @@ export type RecipeResponse = Partial<{
 
 export type RecipeResponseByUser = Partial<{
     recipes: Recipe[];
+    myBookmarks: Recipe[];
     totalBookmarks: number;
     totalSubscribers: number;
     userId: string;

@@ -62,7 +62,7 @@ export const recipeApi = yeedaaApi.injectEndpoints({
                 method: HTTP_METHODS.POST,
                 body: recipe,
             }),
-            invalidatesTags: [TAG_TYPES.RECIPE_DRAFT],
+            invalidatesTags: [TAG_TYPES.USER_INFO],
         }),
         updateRecipeDraft: builder.mutation<void, { recipe: Partial<CreateRecipe>; id: string }>({
             query: ({ recipe, id }) => ({
@@ -70,14 +70,14 @@ export const recipeApi = yeedaaApi.injectEndpoints({
                 method: HTTP_METHODS.PATCH,
                 body: recipe,
             }),
-            invalidatesTags: [TAG_TYPES.RECIPE_DRAFT],
+            invalidatesTags: [TAG_TYPES.USER_INFO],
         }),
         deleteRecipeDraft: builder.mutation<void, string>({
             query: (id) => ({
                 url: `${API_URLS.RECIPES.DRAFT}/${id}`,
                 method: HTTP_METHODS.DELETE,
             }),
-            invalidatesTags: [TAG_TYPES.RECIPE_DRAFT],
+            invalidatesTags: [TAG_TYPES.USER_INFO],
         }),
         likeRecipe: builder.mutation<void, string>({
             query: (id) => ({

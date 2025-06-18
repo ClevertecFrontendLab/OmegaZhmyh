@@ -6,12 +6,12 @@ import { ImageUploadResponse, MeasureUnit } from './types';
 
 export const TAG_TYPES = {
     RECIPE: 'Recipe',
-    RECIPE_DRAFT: 'RecipeDraft',
+    USER_INFO: 'UserInfo',
     RECIPE_LIST: 'RecipeList',
     BOOKMARK: 'Bookmark',
     LIKE: 'Like',
     SUBSCRIPTION: 'Subscription',
-};
+} as const;
 
 const baseQuery = fetchBaseQuery({
     baseUrl: API_BASE_URL,
@@ -49,7 +49,14 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 export const yeedaaApi = createApi({
     reducerPath: 'yeedaaApi',
     baseQuery: baseQueryWithReauth,
-    tagTypes: [TAG_TYPES.RECIPE, TAG_TYPES.BOOKMARK, TAG_TYPES.LIKE, TAG_TYPES.SUBSCRIPTION],
+    tagTypes: [
+        TAG_TYPES.RECIPE,
+        TAG_TYPES.BOOKMARK,
+        TAG_TYPES.LIKE,
+        TAG_TYPES.SUBSCRIPTION,
+        TAG_TYPES.USER_INFO,
+        TAG_TYPES.RECIPE_LIST,
+    ],
     endpoints: (builder) => ({
         getMeasureUnits: builder.query<MeasureUnit[], void>({
             query: () => API_URLS.MEASURE_UNITS,

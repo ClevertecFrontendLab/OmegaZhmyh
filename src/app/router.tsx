@@ -54,6 +54,10 @@ export const router = createBrowserRouter([
                     },
                     { path: ROUTES.EDIT_RECIPE, element: <RecipeFormPage isEdit /> },
                     {
+                        path: ROUTES.EDIT_DRAFT,
+                        element: <RecipeFormPage isEdit isDraft />,
+                    },
+                    {
                         path: ROUTES.THE_JUICIEST,
                         element: <JuiciestPage />,
                         handle: { title: 'Самое сочное', path: ROUTES.THE_JUICIEST },

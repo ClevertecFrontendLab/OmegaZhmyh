@@ -26,6 +26,7 @@ import { RecipeTags } from '~/shared/ui/recipe-tags';
 
 import { useBookmarkRecipeMutation } from '../api/recipeApi';
 import { Recipe } from '../model/recipe.types';
+import { BaseCard } from './BaseCard';
 export type RecipeCardProps = {
     recipe: Recipe;
     cardLinkId?: number;
@@ -56,6 +57,37 @@ export const RecipeCard = ({ recipe, cardLinkId }: RecipeCardProps) => {
             }
         }
     };
+
+    const _recipeCard = (
+        <BaseCard
+            description={description}
+            image={image}
+            title={title}
+            cardHeader={
+                <HStack spacing={8.5} justifyContent='space-between'>
+                    <RecipeTags
+                        categoriesIds={categoriesIds}
+                        bgColor='lime.50'
+                        display={{ lg: 'flex', base: 'none' }}
+                    />
+                    <HStack spacing={2}>
+                        <BookmarkBtn value={bookmarks} />
+                        <LikeBtn value={likes} />
+                    </HStack>
+                </HStack>
+            }
+            imageBox={
+                <RecipeTags
+                    categoriesIds={categoriesIds}
+                    bgColor='lime.50'
+                    position='absolute'
+                    left='8px'
+                    top='8px'
+                    display={{ lg: 'none', base: 'flex' }}
+                />
+            }
+        />
+    );
     return (
         <Card direction='row' variant='outline' overflow='hidden' borderRadius='8px'>
             <Box position='relative'>

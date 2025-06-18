@@ -1,12 +1,17 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, HStack, IconButton, Text } from '@chakra-ui/react';
+
+import { useDeleteNoteMutation } from '~/entities/user';
+import { BsTrash } from '~/shared/ui/icon';
 
 type NoteProps = {
+    id: string;
     date: string;
     text: string;
     isDisplayed: boolean;
+    idDeletable?: boolean;
 };
 
-export const Note = ({ date, text, isDisplayed }: NoteProps) => {
+export const Note = ({ id, date, text, isDisplayed, idDeletable = false }: NoteProps) => {
     const dateObj = new Date(date);
     const formattedDate = dateObj.toLocaleDateString('ru-RU', {
         day: '2-digit',
@@ -16,6 +21,12 @@ export const Note = ({ date, text, isDisplayed }: NoteProps) => {
         hour: '2-digit',
         minute: '2-digit',
     });
+    const [deleteNote] = useDeleteNoteMutation();
+
+    const handleDeleteNote = () => {
+        deleteNote({ id });
+    };
+
     return (
         <Box
             padding='24px'
@@ -25,9 +36,18 @@ export const Note = ({ date, text, isDisplayed }: NoteProps) => {
             bgColor='white'
             display={isDisplayed ? 'block' : 'none'}
         >
-            <Text fontSize='sm' color='lime.600' data-test-id='notes-card-date'>
-                {formattedDate} {formattedTime}
-            </Text>
+            <HStack>
+                <Text fontSize='sm' color='lime.600' data-test-id='notes-card-date'>
+                    {formattedDate} {formattedTime}
+                </Text>
+                {idDeletable && (
+                    <IconButton
+                        aria-label='delete note'
+                        icon={<BsTrash />}
+                        onClick={handleDeleteNote}
+                    />
+                )}
+            </HStack>
             <Text fontSize='sm' mt='16px' data-test-id='notes-card-text'>
                 {text}
             </Text>

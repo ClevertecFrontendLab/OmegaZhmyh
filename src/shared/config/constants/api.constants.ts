@@ -27,7 +27,7 @@ export const API_URLS = {
         BASE: '/users',
         MY: '/users/me',
         ALL: '/users/all',
-        NOTE: '/users/note',
+        NOTE: '/users/me/note',
         UPDATE_INFO: '/users/update-info',
         UPDATE_PASSWORD: '/users/update-password',
         DOWNLOAD_PHOTO: '/users/photo',

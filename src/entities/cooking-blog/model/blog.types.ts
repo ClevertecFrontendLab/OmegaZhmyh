@@ -1,9 +1,10 @@
 import { Recipe } from '~/entities/recipe/@x/cooking-blog';
 
-export type Note = Partial<{
+export type Note = {
+    _id: string;
     date: string;
     text: string;
-}>;
+};
 
 export type Bloger = Partial<{
     bookmarksCount: number;
