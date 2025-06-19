@@ -1,6 +1,8 @@
 import { Button, HStack, Tag } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
+import { BUTTON_VARIANT } from '~/shared/config';
+
 import { BaseCard } from './BaseCard';
 
 type DraftCardProps = {
@@ -24,9 +26,8 @@ export const DraftCard = ({ image, title, description, id }: DraftCardProps) => 
             <Button
                 as={Link}
                 to={`/edit-draft/${id}`}
-                variant='solid'
-                bgColor='black'
-                color='white'
+                variant={BUTTON_VARIANT.BLACK_SOLID}
+                size={{ base: 'xs', lg: 'sm' }}
             >
                 Редактировать
             </Button>

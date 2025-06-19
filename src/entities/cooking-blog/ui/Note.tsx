@@ -36,7 +36,7 @@ export const Note = ({ id, date, text, isDisplayed, idDeletable = false }: NoteP
             bgColor='white'
             display={isDisplayed ? 'block' : 'none'}
         >
-            <HStack>
+            <HStack justifyContent='space-between'>
                 <Text fontSize='sm' color='lime.600' data-test-id='notes-card-date'>
                     {formattedDate} {formattedTime}
                 </Text>
@@ -44,6 +44,7 @@ export const Note = ({ id, date, text, isDisplayed, idDeletable = false }: NoteP
                     <IconButton
                         aria-label='delete note'
                         icon={<BsTrash />}
+                        variant='ghost'
                         onClick={handleDeleteNote}
                     />
                 )}

@@ -13,6 +13,7 @@ export { BsFillXCircleFill } from './ui/BsFillXCircleFill';
 export { BsFilter } from './ui/BsFilter';
 export { BsGearFill } from './ui/BsGearFill';
 export { BsHouse } from './ui/BsHouse';
+export { BsPen } from './ui/BsPen';
 export { BsPencil } from './ui/BsPencil';
 export { BsPeople } from './ui/BsPeople';
 export { BsPeopleFill } from './ui/BsPeopleFill';

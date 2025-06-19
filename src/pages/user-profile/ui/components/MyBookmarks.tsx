@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, HStack, Text } from '@chakra-ui/react';
 
 import { Recipe, RecipeCard } from '~/entities/recipe';
 import { ToggleBookmarkButton } from '~/features/bookmark';
@@ -14,10 +14,17 @@ export const MyBookmarks = ({ recipes }: { recipes: Recipe[] }) => {
     ));
     return (
         <Box>
-            <Text alignSelf='start' fontSize={{ base: 'xl', lg: '4xl' }}>
-                Мои закладки <span data-test-id='blogger-user-notes-count'>({recipes.length})</span>
-            </Text>
-            <RecipeCardBox cards={recipesCards} isFetchingRecipes={false} />
+            <HStack
+                fontSize={{ base: 'lg', lg: 'xl' }}
+                alignSelf='start'
+                mt={{ base: '32px', lg: '40px' }}
+            >
+                <Text fontWeight='bold'>Мои закладки</Text>
+                <Text color='blackAlpha.600' data-test-id='blogger-user-notes-count'>
+                    ({recipes.length})
+                </Text>
+            </HStack>
+            <RecipeCardBox cards={recipesCards} isFetchingRecipes={false} mt='16px' />
         </Box>
     );
 };

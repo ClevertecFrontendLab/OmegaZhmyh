@@ -5,3 +5,7 @@ export const LINK_VARIANT = 'subCategoryTab';
 export const FORM_FIELD = 'formField';
 export const AUTH_LINK_VARIANT = 'authLink';
 export const AUTH_MODAL_VARIANT = 'authModal';
+export const BUTTON_VARIANT = {
+    BLACK_SOLID: 'blackSolid',
+    WHITE_OUTLINE: 'whiteOutline',
+};

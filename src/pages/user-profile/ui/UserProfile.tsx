@@ -1,4 +1,4 @@
-import { Box, HStack, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 import { DraftCard, RecipeCard, RecipeCardEditButton } from '~/entities/recipe';
 import { useGetRecipeByUserIdQuery } from '~/entities/recipe/api/recipeApi';
@@ -45,18 +45,17 @@ export const UserProfile = () => {
         )) || [];
 
     return (
-        <Box pt={{ base: '16px', lg: '32px' }} pb={{ base: '16px', lg: '0' }}>
-            <UserProfileHeader />
-            <HStack>
-                <Box>
-                    <Text>Мои рецепты</Text>
-                    <Text>(10)</Text>
-                </Box>
-                <Box>
-                    <Text>Черновики</Text>
-                    <Text>(10)</Text>
-                </Box>
-            </HStack>
+        <Box pt='16px' pb={{ base: 'calc(16px + var(--mobile-footer-height))', lg: '0' }}>
+            <UserProfileHeader
+                firstName={user?.firstName || ''}
+                lastName={user?.lastName || ''}
+                login={user?.login || ''}
+                totalBookmarks={recipesData?.totalBookmarks || 0}
+                totalSubscribers={recipesData?.totalSubscribers || 0}
+                totalRecipes={recipesData?.recipes?.length || 0}
+                totalDrafts={user?.drafts?.length || 0}
+            />
+            <Box mt={{ base: '12px', lg: '16px' }} />
             <RecipeCardBox
                 cards={[...draftsCards, ...recipesCards]}
                 isFetchingRecipes={isFetching}

@@ -10,6 +10,7 @@ import { ErrorPage } from '~/pages/not-found';
 import { RecipePage } from '~/pages/recipe';
 import { RecipeFormPage } from '~/pages/recipe-form';
 import { UserProfile } from '~/pages/user-profile';
+import { UserSettings } from '~/pages/user-settings';
 import { ROUTES } from '~/shared/config';
 import { Layout } from '~/widgets/layout';
 
@@ -78,6 +79,11 @@ export const router = createBrowserRouter([
                     {
                         path: ROUTES.USER_PROFILE,
                         element: <UserProfile />,
+                        handle: { title: 'Мой профиль', path: ROUTES.USER_PROFILE },
+                    },
+                    {
+                        path: ROUTES.USER_SETTINGS,
+                        element: <UserSettings />,
                         handle: { title: 'Мой профиль', path: ROUTES.USER_PROFILE },
                     },
                 ],

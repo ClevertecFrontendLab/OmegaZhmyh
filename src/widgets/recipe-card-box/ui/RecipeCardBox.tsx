@@ -7,9 +7,10 @@ import { LoadMoreButton } from '~/shared/ui/load-more-button';
 type RecipeCardBoxProps = {
     isFetchingRecipes: boolean;
     cards: React.ReactNode[];
+    mt?: string | { base: string; md: string; lg: string; xl: string };
 };
 
-export const RecipeCardBox = ({ cards = [], isFetchingRecipes }: RecipeCardBoxProps) => {
+export const RecipeCardBox = ({ cards = [], isFetchingRecipes, mt }: RecipeCardBoxProps) => {
     const [showMoreRecipes, setShowMoreRecipes] = useState(false);
 
     const handleShowMoreRecipes = () => {
@@ -20,7 +21,7 @@ export const RecipeCardBox = ({ cards = [], isFetchingRecipes }: RecipeCardBoxPr
 
     return (
         <>
-            <CardSimpleGrid>{paginatedCards}</CardSimpleGrid>
+            <CardSimpleGrid mt={mt}>{paginatedCards}</CardSimpleGrid>
             {!showMoreRecipes && cards.length > BLOG_RECIPES_LIMIT && (
                 <LoadMoreButton
                     handleLoadMore={handleShowMoreRecipes}

@@ -1,6 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
 import { accordionTheme } from './components/accordion';
+import { buttonTheme } from './components/button';
 import { checkboxTheme } from './components/checkbox';
 import { drawerTheme } from './components/drawer';
 import { formControlTheme } from './components/formControl';
@@ -25,6 +26,7 @@ const theme = extendTheme({
         Input: inputTheme,
         Form: formControlTheme,
         FormLabel: formLabelTheme,
+        Button: buttonTheme,
     },
     colors: {
         lime: {

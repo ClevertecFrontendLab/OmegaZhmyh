@@ -16,4 +16,5 @@ export const ROUTES = {
     BLOGS: '/blogs',
     BLOGGER_PROFILE: '/blogs/:bloggerId',
     USER_PROFILE: '/profile',
+    USER_SETTINGS: '/profile/settings',
 } as const;

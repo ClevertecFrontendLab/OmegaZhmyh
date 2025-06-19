@@ -2,7 +2,7 @@ import { Button } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
 import { selectMainCategories, selectSubCategories } from '~/entities/category';
-import { EDIT_RECIPE } from '~/shared/config';
+import { BUTTON_VARIANT, EDIT_RECIPE } from '~/shared/config';
 import { useAppSelector } from '~/shared/store';
 
 type RecipeCardEditButtonProps = {
@@ -20,9 +20,8 @@ export const RecipeCardEditButton = ({ categoriesIds, recipeId }: RecipeCardEdit
         <Button
             as={Link}
             to={`${EDIT_RECIPE}/${mainCategory?.category}/${subCategory?.category}/${recipeId}`}
-            size={{ base: 'xs', lg: 'sm', xl: 'lg' }}
-            variant='outline'
-            colorScheme='black'
+            size={{ base: 'xs', lg: 'sm' }}
+            variant={BUTTON_VARIANT.WHITE_OUTLINE}
         >
             Редактировать
         </Button>
