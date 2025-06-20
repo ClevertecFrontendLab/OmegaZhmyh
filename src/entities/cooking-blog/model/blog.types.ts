@@ -29,6 +29,7 @@ export type BloggerInfo = Partial<{
     subscriptions: string[];
     subscribers: string[];
     notes: Note[];
+    photoLink: string;
 }>;
 
 export type AllBlogersRequest = {

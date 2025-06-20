@@ -1,4 +1,6 @@
-import { Avatar, Box, Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
+
+import { AvatarSetting } from '~/features/change-avatar';
 
 // eslint-disable-next-line arrow-body-style
 export const UserSettings = () => {
@@ -10,7 +12,7 @@ export const UserSettings = () => {
             <Text fontSize={{ base: 'lg', lg: 'xl' }} fontWeight='bold'>
                 Авторизация и персонализация
             </Text>
-            <Avatar size={{ base: 'xl', lg: '2xl' }} mt='16px' />
+            <AvatarSetting />
         </Box>
     );
 };

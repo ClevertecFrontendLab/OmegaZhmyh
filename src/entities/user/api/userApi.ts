@@ -37,7 +37,19 @@ export const userApi = yeedaaApi.injectEndpoints({
             }),
             invalidatesTags: [TAG_TYPES.USER_INFO],
         }),
+        uploadAvatar: builder.mutation<{ photoLink: string }, FormData>({
+            query: (formData) => ({
+                url: API_URLS.USERS.AVATAR,
+                method: HTTP_METHODS.POST,
+                body: formData,
+            }),
+        }),
     }),
 });
 
-export const { useGetUserQuery, useAddNoteMutation, useDeleteNoteMutation } = userApi;
+export const {
+    useGetUserQuery,
+    useAddNoteMutation,
+    useDeleteNoteMutation,
+    useUploadAvatarMutation,
+} = userApi;

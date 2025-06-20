@@ -3,14 +3,14 @@ import { Box, Flex, IconButton, Image } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import { UserCard } from '~/entities/user';
 import Logo from '~/shared/assets/logo.svg';
 import MobileLogo from '~/shared/assets/mobile-logo.svg';
 import { ROUTES } from '~/shared/config';
 import { BookmarkBtn, LikeBtn, RepostBtn } from '~/shared/ui/mini-buttons';
 
-import { selectIsBurgerOpen, toggleBurger } from '../model/slice';
-import { Breadcrumbs } from './Breadcrumb';
+import { selectIsBurgerOpen, toggleBurger } from '../../model/slice';
+import { Breadcrumbs } from '../Breadcrumb';
+import { UserProfileCard } from './UserProfileCard';
 
 export const Header = () => {
     const dispatch = useDispatch();
@@ -37,11 +37,7 @@ export const Header = () => {
             <Breadcrumbs marginLeft={32} display={{ base: 'none', lg: 'block' }} />
             <Box pos='absolute' right='80px' display={{ base: 'none', lg: 'flex' }}>
                 <Link to={ROUTES.USER_PROFILE}>
-                    <UserCard
-                        firstName='Екатерина'
-                        lastName='Константинопольская'
-                        login='bake_and_pie'
-                    />
+                    <UserProfileCard />
                 </Link>
             </Box>
             <Flex gap={{ base: 2, sm: 4 }} display={{ base: 'flex', lg: 'none' }}>

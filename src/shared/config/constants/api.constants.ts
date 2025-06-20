@@ -26,6 +26,7 @@ export const API_URLS = {
     USERS: {
         BASE: '/users',
         MY: '/users/me',
+        AVATAR: '/users/me/photo',
         ALL: '/users/all',
         NOTE: '/users/me/note',
         UPDATE_INFO: '/users/update-info',

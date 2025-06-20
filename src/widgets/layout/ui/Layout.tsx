@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import { useGetCategoriesQuery } from '~/entities/category';
 
 import { BurgerMenu } from './BurgerMenu';
-import { Header } from './Header';
+import { Header } from './header/Header';
 import { MobileFooter } from './MobileFooter';
 import { NavBar } from './NavBar';
 import { Sidebar } from './Sidebar';
